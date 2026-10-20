@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://miguel201009.github.io/cuentas-claras-mx/sitemap.xml

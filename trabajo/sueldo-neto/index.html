@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de sueldo neto e ISR 2026 | Cuentas Claras MX</title>
+<meta name="description" content="Calcula tu sueldo neto 2026 en México: ISR con la tarifa del artículo 96, subsidio para el empleo y cuotas del IMSS. Gratis, sin registro y con el cálculo explicado.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › Trabajo › Sueldo neto</span></div>
+
+  <header>
+    <span class="tag">Trabajo</span>
+    <h1>Calculadora de sueldo neto e ISR 2026</h1>
+    <p class="lede">Escribe tu sueldo bruto y te decimos cuánto te queda después del ISR y del IMSS, con el subsidio para el empleo incluido.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="sal">Sueldo mensual bruto (antes de descuentos)
+        <input id="sal" type="number" min="0" max="100000000" step="any" inputmode="decimal" value="10000"></label>
+      <label for="zona">¿Dónde trabajas?
+        <select id="zona"><option value="general" selected>Resto del país</option><option value="frontera">Frontera norte (zona libre)</option></select></label>
+      <label class="check"><input id="min" type="checkbox"> Gano exactamente el salario mínimo de mi zona</label>
+      <label for="per">Ver el resultado
+        <select id="per"><option value="mensual" selected>Al mes</option><option value="quincenal">Por quincena</option></select></label>
+      <p class="nota">Si te pagan por quincena, escribe aquí lo que ganas en un mes completo (dos quincenas). Marca la casilla si ganas el salario mínimo, aunque tu mes haya tenido 31 días.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota" id="tit">Tu sueldo neto al mes</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span>Sueldo bruto</span><b id="bru"></b></div>
+      <div class="row"><span>ISR según la tarifa <small class="nota">Art. 96 LISR</small></span><b id="isr"></b></div>
+      <div class="row"><span>Menos subsidio para el empleo</span><b id="sub"></b></div>
+      <div class="row" id="filaMin" hidden><span>Sin retención por ganar el salario mínimo</span><b id="exm"></b></div>
+      <div class="row"><span><strong>ISR que te retienen</strong></span><b id="ret"></b></div>
+      <div class="row"><span><strong>Cuotas del IMSS</strong> <small class="nota">LSS</small></span><b id="ims"></b></div>
+      <div id="ramos" style="display:grid;gap:6px"></div>
+      <div class="row"><span>Total de descuentos</span><b id="des"></b></div>
+      <div class="row"><span>Tasa efectiva (ISR + IMSS)</span><b id="tasa"></b></div>
+      <div class="row"><span>Salario base de cotización estimado</span><b id="sbc"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Estimación para un sueldo fijo, sin horas extra, bonos ni otras prestaciones. Tu recibo real puede variar.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Cómo se calcula tu sueldo neto</h2>
+    <p>Tu sueldo neto es lo que te queda después de dos descuentos que marca la ley: el <strong>ISR</strong> (impuesto sobre la renta) y tus <strong>cuotas del IMSS</strong>. Para un sueldo fijo los pasos son:</p>
+    <ol>
+      <li>Tu base para el ISR es tu sueldo mensual bruto. Las cuotas del IMSS no la reducen.</li>
+      <li>Buscas en la tarifa del artículo 96 de la Ley del ISR el renglón donde cae tu sueldo.</li>
+      <li>A tu sueldo le restas el límite inferior del renglón, al resultado le aplicas el porcentaje y le sumas la cuota fija. Eso es el ISR según la tarifa.</li>
+      <li>Si tu sueldo no pasa de <strong>$11,492.66</strong> al mes, le restas el subsidio para el empleo (<strong>$535.65</strong>). Si el resultado sale negativo, te retienen $0.</li>
+      <li>Calculas tus cuotas del IMSS con tu salario base de cotización (SBC): tu salario diario (sueldo mensual ÷ 30) más la parte proporcional de tu aguinaldo y tu prima vacacional.</li>
+      <li>Sueldo neto = sueldo bruto − ISR que te retienen − cuotas del IMSS.</li>
+    </ol>
+
+    <h2>Ejemplo con $10,000 al mes</h2>
+    <p>Son los datos que vienen cargados en la calculadora.</p>
+    <ul>
+      <li><strong>Renglón de la tarifa:</strong> $10,000 cae en el tercero (límite inferior $7,168.52, cuota fija $420.95 y 10.88%).</li>
+      <li><strong>Excedente:</strong> 10,000 − 7,168.52 = 2,831.48. Por 10.88% da $308.07.</li>
+      <li><strong>ISR según la tarifa:</strong> 308.07 + 420.95 = $729.02.</li>
+      <li><strong>Subsidio:</strong> como $10,000 no pasa de $11,492.66, se restan $535.65. El ISR que te retienen es $193.37.</li>
+      <li><strong>IMSS:</strong> tu salario diario es 10,000 ÷ 30 = $333.33 y tu SBC estimado es 333.33 × 1.0493 = $349.77. Como no pasa de 3 UMA ($351.93), pagas 2.375%: 349.77 × 2.375% × 30.4 días = $252.53.</li>
+      <li><strong>Sueldo neto:</strong> 10,000 − 193.37 − 252.53 = <strong>$9,554.10</strong> al mes.</li>
+    </ul>
+    <p><strong>Ojo con el tope del subsidio:</strong> con un sueldo de $11,492.66 te retienen $355.77 de ISR. Con un centavo más, $11,492.67, ya no hay subsidio y te retienen $891.42. El subsidio no baja poco a poco: se pierde completo al pasar el tope.</p>
+    <p><strong>Ojo con el salario mínimo:</strong> si tu sueldo no pasa de 30 días de salario mínimo ($9,451.20 al mes en el resto del país o $13,226.10 en la frontera norte), no te retienen ISR ni te descuentan IMSS. Con un centavo más ya pagas los dos: con $9,451.21 te retienen $133.66 de ISR y $238.68 de IMSS. Si ganas exactamente el salario mínimo por día y tu mes tuvo 31 días ($9,766.24), o escribes la cifra mensual que publica la CONASAMI ($9,582.47), marca la casilla "Gano exactamente el salario mínimo": tampoco te deben retener ISR ni descontar IMSS.</p>
+
+    <h2>Tarifa mensual del ISR 2026 (artículo 96)</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Límite inferior</th><th>Límite superior</th><th>Cuota fija</th><th>% sobre excedente</th></tr></thead>
+      <tbody>
+        <tr><td class="n">0.01</td><td class="n">844.59</td><td class="n">0.00</td><td class="n">1.92</td></tr>
+        <tr><td class="n">844.60</td><td class="n">7,168.51</td><td class="n">16.22</td><td class="n">6.40</td></tr>
+        <tr><td class="n">7,168.52</td><td class="n">12,598.02</td><td class="n">420.95</td><td class="n">10.88</td></tr>
+        <tr><td class="n">12,598.03</td><td class="n">14,644.64</td><td class="n">1,011.68</td><td class="n">16.00</td></tr>
+        <tr><td class="n">14,644.65</td><td class="n">17,533.64</td><td class="n">1,339.14</td><td class="n">17.92</td></tr>
+        <tr><td class="n">17,533.65</td><td class="n">35,362.83</td><td class="n">1,856.84</td><td class="n">21.36</td></tr>
+        <tr><td class="n">35,362.84</td><td class="n">55,736.68</td><td class="n">5,665.16</td><td class="n">23.52</td></tr>
+        <tr><td class="n">55,736.69</td><td class="n">106,410.50</td><td class="n">10,457.09</td><td class="n">30.00</td></tr>
+        <tr><td class="n">106,410.51</td><td class="n">141,880.66</td><td class="n">25,659.23</td><td class="n">32.00</td></tr>
+        <tr><td class="n">141,880.67</td><td class="n">425,641.99</td><td class="n">37,009.69</td><td class="n">34.00</td></tr>
+        <tr><td class="n">425,642.00</td><td class="n">En adelante</td><td class="n">133,488.54</td><td class="n">35.00</td></tr>
+      </tbody>
+    </table></div>
+    <p class="nota">Cantidades en pesos al mes. Las tomamos del Anexo 8 de la Resolución Miscelánea Fiscal para 2026 (Diario Oficial de la Federación, 28 de diciembre de 2025), que rige desde el 1 de enero de 2026; no encontramos cambios posteriores a esta tarifa. Varias fuentes coinciden en estas cifras, pero todavía no las comparamos línea por línea con el documento oficial: revisa el <a href="https://www.sat.gob.mx/minisitio/NormatividadRMFyRGCE/documentos2026/rmf/anexos/Anexo-8-RMF-2026_DOF-28122025.pdf" rel="noopener">documento del SAT</a> antes de usarlas para algo formal.</p>
+
+    <h2>¿Qué es el subsidio para el empleo?</h2>
+    <p>Es un apoyo para quienes ganan menos. No te lo dan en efectivo: se resta del ISR que te retienen. De febrero a diciembre de 2026 es de <strong>$535.65 al mes</strong> (en enero fue de $536.21) y te toca si tu base para el ISR no pasa de <strong>$11,492.66</strong> al mes.</p>
+    <p>Si tu ISR es menor que el subsidio, te retienen $0, pero lo que sobra no se te paga ni se guarda para otros meses. Así lo dice el decreto del subsidio para el empleo publicado en el Diario Oficial el 1 de mayo de 2024 (modificado por última vez, hasta donde sabemos, el 31 de diciembre de 2025).</p>
+    <p class="nota">Las cifras del subsidio salen de resúmenes del decreto que coinciden entre sí; todavía no las comparamos con el texto publicado en el Diario Oficial.</p>
+    <p>Además, la Ley del ISR (artículo 96) dice que no se retiene ISR a quien gana solo el salario mínimo de su zona.</p>
+
+    <h2>Cuotas del IMSS que pagas tú</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Ramo</th><th>Tu cuota</th><th>Sobre qué se cobra</th></tr></thead>
+      <tbody>
+        <tr><td>Enfermedad y maternidad, excedente (art. 106 y transitorio)</td><td class="n">0.40%</td><td>Lo que tu SBC pase de 3 UMA ($351.93 diarios)</td></tr>
+        <tr><td>Enfermedad y maternidad, prestaciones en dinero (art. 107)</td><td class="n">0.25%</td><td>Tu SBC</td></tr>
+        <tr><td>Gastos médicos de pensionados (art. 25)</td><td class="n">0.375%</td><td>Tu SBC</td></tr>
+        <tr><td>Invalidez y vida (art. 147)</td><td class="n">0.625%</td><td>Tu SBC</td></tr>
+        <tr><td>Cesantía en edad avanzada y vejez (art. 168)</td><td class="n">1.125%</td><td>Tu SBC</td></tr>
+      </tbody>
+    </table></div>
+    <p>Riesgos de trabajo, guarderías, retiro, Infonavit y la cuota fija de enfermedad y maternidad los paga solo tu patrón. Tu SBC tiene un tope de 25 UMA ($2,932.75 diarios desde febrero de 2026). La UMA de 2026 es de $117.31 diarios (INEGI).</p>
+    <p class="nota">Sobre el excedente: el artículo 106 de la Ley del Seguro Social dice 2% para el trabajador, pero un artículo transitorio de esa ley la fue bajando cada año hasta dejarla en 0.40% desde 2007. Por eso verás 2% si abres la ley.</p>
+    <p>Si ganas el salario mínimo, tu parte del IMSS la paga tu patrón (artículo 36 de la Ley del Seguro Social) y no te deben retener ISR, aunque tu mes tenga 31 días. En la frontera norte aplicamos el mismo criterio con el salario mínimo de esa zona ($440.87 diarios); la ley no lo aclara, así que tómalo como una estimación.</p>
+
+    <h2>¿Por qué mi recibo puede ser distinto?</h2>
+    <ul>
+      <li><strong>Salario base de cotización:</strong> lo estimamos con el factor de integración de tu primer año, 1.0493 (15 días de aguinaldo, 12 días de vacaciones y 25% de prima vacacional, lo mínimo que da la ley). Con más antigüedad te tocan más días de vacaciones y tu SBC sube un poco, aunque tu empresa solo dé lo que marca la ley (en tu segundo año el factor es 1.0507). Si tu empresa da más prestaciones, tu SBC y tus cuotas también son mayores.</li>
+      <li><strong>Días del mes:</strong> tu salario diario es tu sueldo mensual ÷ 30 (artículo 89 de la Ley Federal del Trabajo), igual que en nuestras otras calculadoras. Para pasar las cuotas del IMSS a un mes usamos 30.4 días en promedio: el IMSS cobra por los días reales de cada mes (de 28 a 31) y descuenta faltas e incapacidades en algunos ramos.</li>
+      <li><strong>Otros conceptos:</strong> horas extra, bonos, comisiones, vales de despensa, fondo de ahorro, crédito Infonavit, crédito Fonacot, pensión alimenticia o cuota sindical cambian tu recibo.</li>
+      <li><strong>Pago por quincena:</strong> mostramos la mitad del cálculo mensual. Tu empresa puede calcular cada quincena por separado y ajustar al final del mes.</li>
+      <li><strong>Aguinaldo y prima vacacional:</strong> tienen una parte libre de ISR y cambian el impuesto del mes en que te los pagan.</li>
+    </ul>
+    <h2>Palabras que usamos</h2>
+    <ul>
+      <li><strong>LISR, LSS y LFT:</strong> Ley del Impuesto sobre la Renta, Ley del Seguro Social y Ley Federal del Trabajo.</li>
+      <li><strong>Límite inferior, excedente y cuota fija:</strong> la tarifa del ISR está dividida en renglones. El límite inferior es donde empieza tu renglón; el excedente es lo que tu sueldo pasa de ese límite; la cuota fija es una cantidad que siempre se suma en ese renglón.</li>
+      <li><strong>UMA (Unidad de Medida y Actualización):</strong> un valor que publica el INEGI cada año y que se usa en lugar del salario mínimo para calcular topes, multas y algunas cuotas. En 2026 es de $117.31 diarios.</li>
+      <li><strong>SBC (salario base de cotización):</strong> tu salario diario más la parte proporcional de tu aguinaldo y tu prima vacacional. Con él se calculan tus cuotas del IMSS.</li>
+      <li><strong>Factor de integración:</strong> el número por el que se multiplica tu salario diario para sacar tu SBC.</li>
+      <li><strong>Ramo:</strong> cada seguro del IMSS (enfermedad y maternidad, invalidez y vida, retiro y vejez, entre otros). Cada uno tiene su propia cuota.</li>
+      <li><strong>Tasa efectiva:</strong> qué porcentaje de tu sueldo bruto se va en ISR e IMSS.</li>
+    </ul>
+    <p>También te puede servir: <a href="../aguinaldo/">calculadora de aguinaldo</a>, <a href="../finiquito/">calculadora de finiquito y liquidación</a> y <a href="../prima-de-antiguedad/">calculadora de prima de antigüedad</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno. Los cálculos son orientativos y no sustituyen la asesoría de un contador. Consulta la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LISR.pdf" rel="noopener">Ley del ISR</a> y la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LSS.pdf" rel="noopener">Ley del Seguro Social</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const quincena = $("per").value === "quincenal";
+  const k = quincena ? 0.5 : 1;
+  const p = n => Calc.redondear(n * k);
+  const sal = leerNumero($("sal"));
+  const r = Calc.sueldoNeto({ salarioMensual: sal.valor, zona: $("zona").value, ganaMinimo: $("min").checked });
+  const neto = p(r.bruto) - p(r.isrRetenido) - p(r.imssObrero);
+  $("tit").textContent = quincena ? "Tu sueldo neto por quincena" : "Tu sueldo neto al mes";
+  $("total").textContent = mxn(neto);
+  $("bru").textContent = mxn(p(r.bruto));
+  $("isr").textContent = mxn(p(r.isrTarifa));
+  $("sub").textContent = "−" + mxn(p(r.subsidioAplicado));
+  $("filaMin").hidden = !(r.exentoMinimo > 0);
+  $("exm").textContent = "−" + mxn(p(r.exentoMinimo));
+  $("ret").textContent = mxn(p(r.isrRetenido));
+  $("ims").textContent = mxn(p(r.imssObrero));
+  $("ramos").innerHTML = r.patronPagaImss ? "" : r.imss.ramos
+    .filter(x => x.mensual > 0)
+    .map(x => `<div class="row sub"><span>${x.nombre}</span><b>${mxn(p(x.mensual))}</b></div>`)
+    .join("");
+  $("des").textContent = mxn(p(r.isrRetenido) + p(r.imssObrero));
+  $("tasa").textContent = (r.tasaEfectiva * 100).toFixed(1) + "%";
+  $("sbc").textContent = mxn(r.sbc) + " al día";
+  const msg = [];
+  if (sal.acotado) msg.push(`Revisa el sueldo: calculamos con un máximo de ${mxn(sal.valor)} al mes.`);
+  if (r.soloMinimo && r.bruto > 0) {
+    msg.push(r.minimoDeclarado
+      ? "Marcaste que ganas exactamente el salario mínimo: no te retienen ISR (art. 96 LISR) y tu parte del IMSS la paga tu patrón (art. 36 LSS)."
+      : `Tu sueldo no pasa de 30 días de salario mínimo de tu zona (${mxn(r.limiteMinimo)} al mes): no te retienen ISR (art. 96 LISR) y tu parte del IMSS la paga tu patrón (art. 36 LSS).`);
+    if (r.debajoMinimo) msg.push(`Tu sueldo es menor al salario mínimo de tu zona (${mxn(r.salarioMinimo)} diarios). Si trabajas jornada completa, tu patrón debe pagarte al menos el mínimo. Si trabajas medio tiempo, el ISR y el IMSS pueden calcularse distinto: pide asesoría.`);
+  } else if (r.sinSubsidioPorTope) {
+    msg.push(`Tu sueldo pasa de ${mxn(Calc.DATOS.subsidioEmpleo.tope)} al mes, así que no te toca el subsidio para el empleo.`);
+  } else if (r.subsidio > 0) {
+    msg.push(`Te toca el subsidio para el empleo de ${mxn(r.subsidio)} al mes porque tu sueldo no pasa de ${mxn(Calc.DATOS.subsidioEmpleo.tope)}.`);
+  }
+  if (!r.soloMinimo && r.bruto > 0 && r.bruto <= r.limiteMinimo31 && !$("min").checked) msg.push('Si ganas exactamente el salario mínimo (por ejemplo, en un mes de 31 días), marca la casilla "Gano exactamente el salario mínimo": no te deben retener ISR ni descontar IMSS.');
+  if (r.ganaMinimoNoAplica) msg.push(`Marcaste que ganas el salario mínimo, pero tu sueldo pasa de 31 días de salario mínimo (${mxn(r.limiteMinimo31)}), así que lo calculamos como un sueldo normal.`);
+  if (r.bruto > 0 && r.subsidio > r.subsidioAplicado) msg.push("El subsidio es mayor que tu ISR; lo que sobra no se entrega en efectivo.");
+  if (r.imss.topado && !r.patronPagaImss) msg.push(`Tu salario base de cotización llegó al tope de 25 UMA (${mxn(r.imss.tope)} diarios).`);
+  if (quincena) msg.push("Mostramos la mitad del cálculo mensual; tu recibo de cada quincena puede variar unos pesos.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

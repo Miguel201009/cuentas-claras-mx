@@ -7,6 +7,7 @@
 <meta name="description" content="Calcula tu aguinaldo 2026 en México, completo o proporcional, con la Ley Federal del Trabajo. Gratis, sin registro y con la parte exenta de ISR.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
 <link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
 </head>
 <body>
 <div class="wrap">
@@ -16,12 +17,13 @@
     <span class="tag">Trabajo</span>
     <h1>Calculadora de aguinaldo 2026</h1>
     <p class="lede">Escribe tu sueldo y la fecha en que entraste. Te decimos cuánto te toca este diciembre, aunque no hayas trabajado el año completo.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno.</p>
   </header>
 
   <section class="tool">
     <form id="f" onsubmit="return false">
       <label for="sal">Sueldo mensual bruto (antes de descuentos)
-        <input id="sal" type="number" min="0" step="100" value="12000"></label>
+        <input id="sal" type="number" min="0" max="100000000" step="100" value="12000"></label>
       <label for="ing">Fecha en que entraste a trabajar
         <input id="ing" type="date" value="2026-03-01"></label>
       <label for="dias">Días de aguinaldo que da tu empresa
@@ -36,6 +38,7 @@
       <div class="row"><span>Días de aguinaldo que te tocan</span><b id="dp"></b></div>
       <div class="row"><span>Parte libre de ISR (30 UMA)</span><b id="ex"></b></div>
       <div class="row"><span>Parte que paga ISR</span><b id="gr"></b></div>
+      <p class="nota" id="msg"></p>
       <p class="nota">Monto bruto. Si tu aguinaldo pasa de la parte libre, tu empresa retiene ISR solo sobre el excedente.</p>
     </div>
   </section>
@@ -52,7 +55,7 @@
     <p>El aguinaldo está libre de ISR hasta 30 veces la UMA (artículo 93, fracción XIV de la Ley del ISR). En 2026 eso da unos $3,519. Solo lo que pase de esa cantidad paga impuesto.</p>
     <h2>¿Y si no me lo pagan?</h2>
     <p>Puedes pedir asesoría gratuita en la Procuraduría Federal de la Defensa del Trabajo (PROFEDET). Tienes un año para reclamarlo.</p>
-    <p>También te puede servir: <a href="../finiquito/">calculadora de finiquito y liquidación</a> y <a href="../vacaciones/">calculadora de vacaciones</a>.</p>
+    <p>También te puede servir: <a href="../sueldo-neto/">calculadora de sueldo neto e ISR</a>, <a href="../finiquito/">calculadora de finiquito y liquidación</a> y <a href="../vacaciones/">calculadora de vacaciones</a>.</p>
   </section>
 
   <footer>
@@ -64,8 +67,10 @@
 <script>
 function calcular() {
   const ing = Calc.fecha(document.getElementById("ing").value) || new Date(2026, 0, 1);
+  const sal = leerNumero(document.getElementById("sal"));
+  document.getElementById("msg").textContent = sal.acotado ? `Revisa el sueldo: calculamos con un máximo de ${mxn(sal.valor)} al mes.` : "";
   const r = Calc.aguinaldo({
-    salarioMensual: Math.max(0, +document.getElementById("sal").value || 0),
+    salarioMensual: sal.valor,
     ingreso: ing,
     diasAguinaldo: +document.getElementById("dias").value
   });

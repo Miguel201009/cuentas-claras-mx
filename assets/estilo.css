@@ -1,7 +1,8 @@
 /* Cuentas Claras MX: verde institucional propio + flor de cempasúchil como acento */
 :root {
   --bg: #f6f7f4; --surface: #ffffff; --fg: #17231f; --muted: #5b6863;
-  --line: #dde3df; --brand: #0f5c4c; --flor: #b86a05; --flor-soft: #fdf0dc;
+  --line: #dde3df; --brand: #0f5c4c; --flor: #9a5804; --flor-soft: #fdf0dc;
+  --campo: #7d8a85; --error: #b3261e; /* borde de campos (3:1 o más) y campos con un valor fuera de rango */
   --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
   --body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
@@ -10,6 +11,7 @@
   :root {
     --bg: #0f1614; --surface: #17211e; --fg: #e8eeeb; --muted: #9aa8a2;
     --line: #2a3733; --brand: #3fb59a; --flor: #f3a33a; --flor-soft: #2e2414; color-scheme: dark;
+    --campo: #5f6e68; --error: #f2b8b5;
   }
 }
 * { box-sizing: border-box }
@@ -33,12 +35,15 @@ h3 { font: 600 1.1rem var(--display); margin: 0 }
 form { display: grid; gap: 14px; align-content: start }
 label { display: grid; gap: 4px; font-weight: 600; font-size: .95rem }
 label.check { display: flex; gap: 8px; align-items: flex-start; font-weight: 400 }
-input[type=number], input[type=date], select { font: 500 1rem var(--mono); padding: 10px 12px; border: 1.5px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--fg); width: 100% }
+input[type=number], input[type=date], select { font: 500 1rem var(--mono); padding: 10px 12px; border: 1.5px solid var(--campo); border-radius: 8px; background: var(--bg); color: var(--fg); width: 100% }
+select { font: 400 1rem var(--body) }
+input:invalid { border-color: var(--error) }
 :focus-visible { outline: 3px solid var(--flor); outline-offset: 2px }
 .result { background: var(--bg); border-radius: 12px; padding: 18px; display: grid; gap: 10px; align-content: start }
-.big { font: 800 2.3rem/1 var(--display); color: var(--brand); font-variant-numeric: tabular-nums }
+.big { font: 800 clamp(1.8rem, 9vw, 2.3rem)/1.05 var(--display); color: var(--brand); font-variant-numeric: tabular-nums; overflow-wrap: anywhere }
 .row { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dashed var(--line); padding-bottom: 6px; font-size: .95rem }
-.row b { font: 500 .95rem var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap }
+.row b { font: 500 .95rem var(--mono); font-variant-numeric: tabular-nums; flex-shrink: 0; max-width: 65%; overflow-wrap: anywhere; text-align: right }
+.row > span { min-width: 0 }
 .nota { font-size: .85rem; color: var(--muted); margin: 0 }
 .temas { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px }
 .tema { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 6px; align-content: start }
@@ -50,6 +55,13 @@ td.n { font-family: var(--mono); font-variant-numeric: tabular-nums }
 .tabla { overflow-x: auto }
 footer { font-size: .85rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 16px; display: grid; gap: 6px }
 @media (max-width: 720px) { .tool { grid-template-columns: 1fr } }
+@media (max-width: 480px) { th, td { padding: 6px 4px } table { font-size: .85rem } }
+@media (max-width: 380px) { th, td { padding: 5px 3px } table { font-size: .78rem } }
+.indep { margin-top: 6px }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important } }
 a.tema { color: inherit; text-decoration: none }
 a.tema:hover { border-color: var(--brand) }
+[hidden] { display: none !important }
+.row.sub { font-size: .85rem; color: var(--muted); padding-left: 12px }
+.row.sub b { font-size: .85rem }
+.wrap > * { min-width: 0 }

@@ -7,6 +7,7 @@
 <meta name="description" content="Cuántos días de vacaciones te tocan por ley en México según tus años de trabajo (reforma vacaciones dignas) y cuánto es tu prima vacacional.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
 <link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
 </head>
 <body>
 <div class="wrap">
@@ -16,12 +17,13 @@
     <span class="tag">Trabajo</span>
     <h1>Calculadora de vacaciones y prima vacacional</h1>
     <p class="lede">Descubre cuántos días de vacaciones te tocan por ley y cuánto dinero es tu prima vacacional.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno.</p>
   </header>
 
   <section class="tool">
     <form id="f" onsubmit="return false">
       <label for="sal">Sueldo mensual bruto
-        <input id="sal" type="number" min="0" step="100" value="12000"></label>
+        <input id="sal" type="number" min="0" max="100000000" step="100" value="12000"></label>
       <label for="ing">Fecha en que entraste a trabajar
         <input id="ing" type="date" value="2023-05-15"></label>
       <label for="pv">Prima vacacional de tu empresa
@@ -52,6 +54,7 @@
     <h2>¿Qué es la prima vacacional?</h2>
     <p>Es un pago extra de al menos el <strong>25%</strong> del salario de tus días de vacaciones (artículo 80). Por ejemplo, si ganas $400 al día y te tocan 12 días, la prima es 12 × $400 × 25% = $1,200.</p>
     <p>Las vacaciones no se pueden cambiar por dinero mientras sigas trabajando. Solo se pagan si terminas la relación laboral; para eso usa la <a href="../finiquito/">calculadora de finiquito</a>.</p>
+    <p>También te puede servir: <a href="../aguinaldo/">calculadora de aguinaldo</a> y <a href="../sueldo-neto/">calculadora de sueldo neto e ISR</a>.</p>
   </section>
 
   <footer>
@@ -64,16 +67,18 @@
 function calcular() {
   const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
   const ing = Calc.fecha(document.getElementById("ing").value) || hoy;
-  const sd = Math.max(0, +document.getElementById("sal").value || 0) / 30;
+  const sal = leerNumero(document.getElementById("sal"));
+  const sd = sal.valor / 30;
   const n = Calc.aniosCompletos(ing, hoy);
   const dias = Calc.diasVacaciones(n);
   document.getElementById("dv").textContent = dias ? dias + " días" : "Aún no";
   document.getElementById("an").textContent = n;
   document.getElementById("pago").textContent = mxn(sd * dias);
   document.getElementById("prima").textContent = mxn(sd * dias * +document.getElementById("pv").value);
-  document.getElementById("sig").textContent = n < 1
+  document.getElementById("sig").textContent = (n < 1
     ? "Al cumplir tu primer año tendrás 12 días."
-    : "Al cumplir " + (n + 1) + " años tendrás " + Calc.diasVacaciones(n + 1) + " días.";
+    : "Al cumplir " + (n + 1) + " años tendrás " + Calc.diasVacaciones(n + 1) + " días.") +
+    (sal.acotado ? ` Revisa el sueldo: calculamos con un máximo de ${mxn(sal.valor)} al mes.` : "");
 }
 document.getElementById("f").addEventListener("input", calcular);
 calcular();

@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de prima de antigüedad 2026 | Cuentas Claras MX</title>
+<meta name="description" content="Calcula tu prima de antigüedad en México: 12 días de salario por año trabajado, con el tope de dos salarios mínimos 2026. Cuándo te toca si renuncias o te despiden.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › Trabajo › Prima de antigüedad</span></div>
+
+  <header>
+    <span class="tag">Trabajo</span>
+    <h1>Calculadora de prima de antigüedad</h1>
+    <p class="lede">Al dejar tu trabajo puede tocarte un pago extra por los años que estuviste: 12 días de salario por cada año. Calcula cuánto es y si aplica en tu caso.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="mot">¿Cómo terminó tu trabajo?
+        <select id="mot">
+          <option value="renuncia" selected>Renuncia (retiro voluntario)</option>
+          <option value="despido">Despido injustificado</option>
+          <option value="justificado">Despido justificado (art. 47)</option>
+          <option value="rescision">Me fui por falta del patrón</option>
+          <option value="incapacidad">Incapacidad no laboral (art. 54)</option>
+          <option value="muerte">Fallecimiento</option>
+          <option value="cierre">Cierre o reajuste de personal</option>
+        </select></label>
+      <p class="nota" id="motNota"></p>
+      <label for="sal">Sueldo mensual bruto al terminar
+        <input id="sal" type="number" min="0" max="100000000" step="100" value="15000"></label>
+      <label for="ing">Fecha en que entraste
+        <input id="ing" type="date" min="1950-01-01" max="2030-12-31" value="2006-10-16"></label>
+      <label for="sali">Último día de trabajo
+        <input id="sali" type="date" min="1950-01-01" max="2030-12-31" value="2026-10-15"></label>
+      <label for="zona">¿Dónde trabajabas?
+        <select id="zona"><option value="general" selected>Resto del país</option><option value="frontera">Frontera norte (zona libre)</option></select></label>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Tu prima de antigüedad aproximada</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span>Antigüedad</span><b id="ant"></b></div>
+      <div class="row"><span>Salario diario</span><b id="sd"></b></div>
+      <div class="row"><span>Salario para la prima <small class="nota">Arts. 485 y 486 LFT</small></span><b id="base"></b></div>
+      <div class="row"><span>Días de prima (12 por año)</span><b id="dias"></b></div>
+      <div class="row"><span>Prima de antigüedad <small class="nota">Art. 162 LFT</small></span><b id="prima"></b></div>
+      <div class="row" id="filaMes" hidden><span>Un mes de salario <small class="nota">Art. 54 LFT</small></span><b id="mes"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Monto bruto. Una parte de este pago está libre de ISR (artículo 93, fracción XIII, de la Ley del ISR), así que el impuesto que te retengan puede ser bajo o cero. Si además te deben aguinaldo, vacaciones o indemnización, usa la <a href="../finiquito/">calculadora de finiquito</a>.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Qué es la prima de antigüedad</h2>
+    <p>Es un pago que la Ley Federal del Trabajo (LFT) da a los trabajadores de planta por el tiempo que trabajaron en una empresa (artículo 162). Son <strong>12 días de salario por cada año de servicio</strong>. Si el último año no está completo, te toca la parte proporcional.</p>
+    <p>Se paga además de cualquier otra prestación que te corresponda, como el finiquito o la indemnización.</p>
+
+    <h2>¿Cuándo te la deben pagar?</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Cómo terminó tu trabajo</th><th>¿Te toca?</th><th>Antigüedad mínima</th></tr></thead>
+      <tbody>
+        <tr><td>Renuncia voluntaria</td><td>Sí</td><td>15 años cumplidos</td></tr>
+        <tr><td>Despido sin causa justificada</td><td>Sí</td><td>Ninguna</td></tr>
+        <tr><td>Despido con causa justificada (art. 47)</td><td>Sí</td><td>Ninguna</td></tr>
+        <tr><td>Te fuiste por una falta del patrón (art. 51)</td><td>Sí</td><td>Ninguna</td></tr>
+        <tr><td>Fallecimiento</td><td>Sí, a los beneficiarios (art. 501)</td><td>Ninguna</td></tr>
+        <tr><td>Incapacidad física o mental que no viene del trabajo y te impide seguir trabajando (arts. 53 y 54)</td><td>Sí, más un mes de salario (o, si lo prefieres, otro puesto que sí puedas hacer)</td><td>Ninguna</td></tr>
+        <tr><td>Cierre de la empresa o reajuste (arts. 436 y 439)</td><td>Sí, además de la indemnización</td><td>Ninguna</td></tr>
+      </tbody>
+    </table></div>
+    <p>Si renuncias con 15 años o más, te pagan <strong>todos tus años</strong> desde que entraste, no solo los que pasan de 15. Con 14 años y 11 meses no te toca. La Suprema Corte confirmó que este requisito es válido (jurisprudencia 2a./J. 30/2015).</p>
+    <p>Si te despidieron, aunque haya sido con causa justificada, te toca sin importar cuántos años trabajaste. Si la incapacidad fue por un riesgo de trabajo, la ley no lo dice de forma expresa: pide asesoría.</p>
+    <p>Una incapacidad temporal, como una baja por enfermedad del IMSS, no termina tu trabajo: solo lo suspende mientras te recuperas (artículo 42). Por eso no da derecho a este pago.</p>
+
+    <h2>El salario tiene tope</h2>
+    <p>Para calcular la prima se usa tu salario diario (sueldo mensual ÷ 30) del día en que terminó tu trabajo, con dos límites: no puede ser menor al salario mínimo (artículo 485) ni mayor al doble del salario mínimo del lugar donde trabajabas (artículo 486). Se usa el salario mínimo vigente el día en que terminó tu trabajo, aunque te paguen después (Suprema Corte, contradicción de tesis 353/2010). En 2026:</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Zona</th><th>Salario mínimo diario</th><th>Tope (2 salarios mínimos)</th></tr></thead>
+      <tbody>
+        <tr><td>Resto del país</td><td class="n">$315.04</td><td class="n">$630.08</td></tr>
+        <tr><td>Zona libre de la frontera norte</td><td class="n">$440.87</td><td class="n">$881.74</td></tr>
+      </tbody>
+    </table></div>
+    <p class="nota">Salarios mínimos vigentes desde el 1 de enero de 2026 (resolución de la CONASAMI, Diario Oficial del 9 de diciembre de 2025). La calculadora usa estos valores; si tu trabajo terminó antes de 2026, el mínimo y el tope eran menores y te avisamos.</p>
+    <p>Si trabajabas en las dos zonas, el tope es el doble del promedio de ambos salarios mínimos ($755.91). Si tu oficio tiene salario mínimo profesional, el tope puede ser mayor; esta calculadora usa el salario mínimo general.</p>
+    <p>El tope se calcula con el salario mínimo y no con la UMA: así lo dice el artículo 486 y lo sostuvo un tribunal colegiado en 2024 (tesis aislada con registro digital 2028637). Algunas calculadoras usan la UMA y dan una prima menor.</p>
+
+    <h2>Ejemplo</h2>
+    <p>Renuncias después de 20 años exactos (entraste el 16 de octubre de 2006 y tu último día fue el 15 de octubre de 2026) con un sueldo de $15,000 al mes. Tu salario diario es 15,000 ÷ 30 = $500, que no pasa del tope de $630.08. Como tienes más de 15 años, sí te toca: 12 × 20 × $500 = <strong>$120,000</strong>. Son los datos que vienen cargados en la calculadora.</p>
+    <p>Si en cambio te despiden después de 10 años exactos (del 16 de octubre de 2016 al 15 de octubre de 2026) ganando $24,000 al mes ($800 diarios), se usa el tope: 12 × 10 × $630.08 = <strong>$75,609.60</strong>.</p>
+
+    <h2>Plazo para reclamar y a dónde ir</h2>
+    <p>Tienes <strong>un año</strong> para reclamar la prima de antigüedad, contado desde el día siguiente a que dejaste de trabajar (artículo 516). Si te despidieron, el plazo para reclamar el despido es de solo <strong>2 meses</strong> (artículo 518), así que acude cuanto antes.</p>
+    <p>Si te vas por una falta del patrón (artículo 51), tienes <strong>un mes</strong> desde que pasó la falta, o desde que te enteraste de ella, para separarte (artículos 52 y 517). Si esperas más, pierdes ese derecho y tu salida puede tomarse como renuncia: con menos de 15 años ya no te tocaría la prima.</p>
+    <p>Antes de una demanda hay que pasar por la conciliación: en el <a href="https://centrolaboral.gob.mx" rel="noopener">Centro Federal de Conciliación y Registro Laboral</a> si tu empresa es de competencia federal, o en el Centro de Conciliación Laboral de tu estado en los demás casos. Cuando pides la conciliación, el plazo para reclamar se detiene y vuelve a correr cuando te entregan la constancia de no conciliación (artículo 521).</p>
+    <p>Te asesoran gratis: la PROFEDET si tu empresa es de competencia federal, o la Procuraduría de la Defensa del Trabajo de tu estado en los demás casos.</p>
+    <p>La ley habla de trabajadores de planta. Si tu contrato era temporal o eventual, los tribunales no tienen un criterio único; pide asesoría.</p>
+    <p>También te puede servir: <a href="../finiquito/">calculadora de finiquito y liquidación</a> y <a href="../sueldo-neto/">calculadora de sueldo neto e ISR</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno. Los cálculos son orientativos y no sustituyen la asesoría de un abogado laboral. Consulta la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LFT.pdf" rel="noopener">Ley Federal del Trabajo</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const MOTIVOS = {
+  renuncia: "Renunciaste o te retiraste por decisión propia. Solo te toca con 15 años cumplidos o más.",
+  despido: "Te despidieron sin una causa justificada.",
+  justificado: "Te despidieron por una de las causas del artículo 47 (por ejemplo, faltas o actos de violencia). Aun así te toca la prima.",
+  rescision: "Te separaste porque el patrón cometió una falta del artículo 51 (por ejemplo, no pagarte o bajarte el sueldo). Tienes un mes desde la falta para separarte (artículos 52 y 517).",
+  incapacidad: "Una incapacidad física o mental que no viene del trabajo y te impide seguir trabajando (artículos 53 y 54). En lugar del pago puedes pedir otro puesto que sí puedas hacer. Una incapacidad temporal del IMSS no cuenta.",
+  muerte: "Fallecimiento del trabajador. La cobran sus beneficiarios (artículo 501).",
+  cierre: "Cierre de la empresa o reajuste de personal (artículos 436 y 439). Se paga además de la indemnización."
+};
+function limpiar(titulo, mensaje) {
+  $("total").textContent = titulo;
+  ["ant", "sd", "base", "dias", "prima"].forEach(id => $(id).textContent = "");
+  $("filaMes").hidden = true;
+  $("msg").textContent = mensaje;
+}
+function calcular() {
+  const motivo = $("mot").value;
+  $("motNota").textContent = MOTIVOS[motivo] || "";
+  const f = Calc.validarFechas($("ing").value, $("sali").value);
+  if (f.error) return limpiar("Revisa las fechas", f.error);
+  const { ingreso, salida } = f;
+  const sal = leerNumero($("sal"));
+  if (!sal.valor) return limpiar("$0", "Escribe tu sueldo mensual para calcular tu prima.");
+  const r = Calc.primaAntiguedad({
+    salarioMensual: sal.valor, ingreso, salida, motivo, zona: $("zona").value
+  });
+  $("total").textContent = mxn(r.total);
+  $("ant").textContent = r.antiguedad.toFixed(2) + " años";
+  $("sd").textContent = mxn(r.sd);
+  $("base").textContent = mxn(r.base);
+  $("dias").textContent = r.aplica ? r.dias.toFixed(2) : "0";
+  $("prima").textContent = mxn(r.prima);
+  $("filaMes").hidden = motivo !== "incapacidad";
+  $("mes").textContent = mxn(r.mesIncapacidad);
+  const msg = [];
+  if (sal.acotado) msg.push(`Revisa el sueldo: calculamos con un máximo de ${mxn(sal.valor)} al mes.`);
+  if (r.antiguedad > 60) msg.push("Revisa las fechas: son más de 60 años de trabajo.");
+  if (!r.aplica) {
+    msg.push(`Al renunciar, la prima solo se paga con 15 años cumplidos o más. Llevas ${r.anios} ${r.anios === 1 ? "año cumplido" : "años cumplidos"}.`);
+  } else {
+    if (r.topado) msg.push(`Tu salario diario pasa del tope de dos salarios mínimos (${mxn(r.tope)}), por eso se usa el tope.`);
+    if (r.conPiso) msg.push(`Tu salario diario es menor al salario mínimo, por eso se usa el mínimo (${mxn(r.salarioMinimo)}).`);
+    if (motivo === "muerte") msg.push("La cobran las personas beneficiarias que señala el artículo 501 de la ley.");
+    if (motivo === "despido" || motivo === "justificado") msg.push("Si te despidieron, tienes 2 meses para reclamar el despido y un año para reclamar la prima.");
+    if (motivo === "rescision") msg.push("Ojo: tienes un mes desde la falta del patrón para separarte (artículos 52 y 517). Si esperas más, tu salida puede tomarse como renuncia.");
+    const anio = salida.getFullYear(), anioDatos = Calc.DATOS.anio;
+    if ((r.topado || r.conPiso) && anio < anioDatos) msg.push(`Usamos los salarios mínimos de ${anioDatos}. Tu trabajo terminó en ${anio}: se usa el mínimo de ese año, que era menor, así que tu prima real es más baja.`);
+    if ((r.topado || r.conPiso) && anio > anioDatos) msg.push(`Usamos los salarios mínimos de ${anioDatos}. Si tu trabajo termina en ${anio}, se usará el mínimo de ese año, que todavía no conocemos.`);
+  }
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

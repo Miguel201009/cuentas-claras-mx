@@ -7,6 +7,7 @@
 <meta name="description" content="Calcula tu finiquito si renuncias o tu liquidación si te despiden en México. Desglose por concepto con la Ley Federal del Trabajo, gratis y sin registro.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
 <link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
 </head>
 <body>
 <div class="wrap">
@@ -16,28 +17,29 @@
     <span class="tag">Trabajo</span>
     <h1>Calculadora de finiquito y liquidación</h1>
     <p class="lede">¿Renunciaste o te despidieron? Calcula cuánto te deben pagar, concepto por concepto, para que nadie te dé menos de lo justo.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno.</p>
   </header>
 
   <section class="tool">
     <form id="f" onsubmit="return false">
       <label for="mot">¿Cómo terminó tu trabajo?
-        <select id="mot"><option value="renuncia" selected>Renuncié (finiquito)</option><option value="despido">Me despidieron sin causa justificada (liquidación)</option></select></label>
+        <select id="mot"><option value="renuncia" selected>Renuncia (finiquito)</option><option value="despido">Despido injustificado</option></select></label>
       <label for="sal">Sueldo mensual bruto
-        <input id="sal" type="number" min="0" step="100" value="12000"></label>
+        <input id="sal" type="number" min="0" max="100000000" step="100" value="12000"></label>
       <label for="ing">Fecha en que entraste
-        <input id="ing" type="date" value="2022-08-01"></label>
+        <input id="ing" type="date" min="1950-01-01" max="2030-12-31" value="2022-08-01"></label>
       <label for="sali">Último día de trabajo
-        <input id="sali" type="date" value="2026-10-31"></label>
+        <input id="sali" type="date" min="1950-01-01" max="2030-12-31" value="2026-10-31"></label>
       <label for="dsp">Días trabajados que aún no te pagan
-        <input id="dsp" type="number" min="0" step="1" value="0"></label>
+        <input id="dsp" type="number" min="0" max="1000" step="1" value="0"></label>
       <label for="vt">Días de vacaciones que ya tomaste este año de servicio
-        <input id="vt" type="number" min="0" step="1" value="0"></label>
+        <input id="vt" type="number" min="0" max="1000" step="1" value="0"></label>
       <label for="vp">Días de vacaciones de años anteriores que no tomaste
-        <input id="vp" type="number" min="0" step="1" value="0"></label>
+        <input id="vp" type="number" min="0" max="1000" step="1" value="0"></label>
       <label for="dias">Días de aguinaldo de tu empresa
         <select id="dias"><option value="15" selected>15 días (mínimo de ley)</option><option value="20">20 días</option><option value="30">30 días</option></select></label>
       <label for="zona">¿Dónde trabajabas?
-        <select id="zona"><option value="general" selected>Resto del país</option><option value="frontera">Zona libre de la frontera norte</option></select></label>
+        <select id="zona"><option value="general" selected>Resto del país</option><option value="frontera">Frontera norte (zona libre)</option></select></label>
       <label class="check" id="lv" hidden><input id="vd" type="checkbox"> Incluir 20 días por año (cuando el patrón se niega a reinstalarte, art. 49 y 50)</label>
     </form>
     <div class="result" aria-live="polite">
@@ -57,12 +59,12 @@
     <ul>
       <li><strong>Aguinaldo proporcional:</strong> 15 días de salario o más, según los días trabajados en el año (art. 87).</li>
       <li><strong>Vacaciones y prima vacacional:</strong> los días que te tocaban y no tomaste, más al menos 25% (arts. 76, 79 y 80).</li>
-      <li><strong>Prima de antigüedad:</strong> 12 días por año trabajado, con un salario máximo de dos salarios mínimos. Si renuncias, solo aplica con 15 años o más (art. 162).</li>
+      <li><strong>Prima de antigüedad:</strong> 12 días por año trabajado, con un salario de al menos un salario mínimo y como máximo dos. Si renuncias, solo aplica con 15 años o más (art. 162). Detalle en la <a href="../prima-de-antiguedad/">calculadora de prima de antigüedad</a>.</li>
       <li><strong>Indemnización:</strong> 3 meses de salario si te despiden injustificadamente (arts. 48 y 50).</li>
     </ul>
     <h2>Antes de firmar</h2>
     <p>No firmes tu renuncia ni tu finiquito si la cantidad no te parece correcta. Puedes pedir asesoría gratuita en la PROFEDET o acudir al Centro de Conciliación Laboral de tu estado.</p>
-    <p>También te puede servir: <a href="../aguinaldo/">calculadora de aguinaldo</a> y <a href="../vacaciones/">calculadora de vacaciones</a>.</p>
+    <p>También te puede servir: <a href="../prima-de-antiguedad/">calculadora de prima de antigüedad</a>, <a href="../aguinaldo/">calculadora de aguinaldo</a>, <a href="../vacaciones/">calculadora de vacaciones</a> y <a href="../sueldo-neto/">calculadora de sueldo neto e ISR</a>.</p>
   </section>
 
   <footer>
@@ -76,17 +78,27 @@ const $ = id => document.getElementById(id);
 function calcular() {
   const motivo = $("mot").value;
   $("lv").hidden = motivo !== "despido";
-  const ingreso = Calc.fecha($("ing").value), salida = Calc.fecha($("sali").value);
-  if (!ingreso || !salida || salida < ingreso) {
+  const fechas = Calc.validarFechas($("ing").value, $("sali").value);
+  if (fechas.error) {
     $("total").textContent = "Revisa las fechas";
     $("conceptos").innerHTML = "";
-    $("ant").textContent = "El último día de trabajo debe ser después de la fecha de entrada.";
+    $("ant").textContent = fechas.error;
     return;
   }
+  const { ingreso, salida } = fechas;
+  const sal = leerNumero($("sal"));
+  if (!sal.valor) {
+    $("total").textContent = "$0";
+    $("conceptos").innerHTML = "";
+    $("ant").textContent = "Escribe tu sueldo mensual para calcular.";
+    return;
+  }
+  const dia = id => leerNumero($(id), 1000);
+  const dsp = dia("dsp"), vt = dia("vt"), vp = dia("vp");
   const r = Calc.finiquito({
-    salarioMensual: Math.max(0, +$("sal").value || 0), ingreso, salida, motivo,
-    diasAguinaldo: +$("dias").value, diasSinPagar: +$("dsp").value || 0,
-    vacacionesTomadas: +$("vt").value || 0, vacacionesPendientes: +$("vp").value || 0,
+    salarioMensual: sal.valor, ingreso, salida, motivo,
+    diasAguinaldo: +$("dias").value, diasSinPagar: dsp.valor,
+    vacacionesTomadas: vt.valor, vacacionesPendientes: vp.valor,
     zona: $("zona").value, veinteDias: $("vd").checked
   });
   $("tit").textContent = motivo === "despido" ? "Tu liquidación aproximada" : "Tu finiquito aproximado";
@@ -95,7 +107,12 @@ function calcular() {
     .map(c => `<div class="row"><span>${c.nombre} <small class="nota">${c.ley}</small></span><b>${mxn(c.monto)}</b></div>`)
     .join("");
   $("ant").textContent = `Antigüedad: ${r.antiguedad.toFixed(2)} años. Vacaciones a pagar: ${r.diasVac.toFixed(2)} días.` +
-    (r.aplicaPrimaAnt ? "" : " La prima de antigüedad no aplica al renunciar con menos de 15 años.");
+    (r.aplicaPrimaAnt ? "" : " La prima de antigüedad no aplica al renunciar con menos de 15 años.") +
+    (sal.acotado ? ` Revisa el sueldo: calculamos con un máximo de ${mxn(sal.valor)} al mes.` : "") +
+    ([dsp, vt, vp].some(x => x.acotado) ? " Revisa los días: tomamos como máximo 1,000." : "") +
+    (r.antiguedad > 60 ? " Revisa las fechas: son más de 60 años de trabajo." : "") +
+    (r.aplicaPrimaAnt && (r.prima.topado || r.prima.conPiso) && salida.getFullYear() !== Calc.DATOS.anio
+      ? ` La prima de antigüedad usa los salarios mínimos de ${Calc.DATOS.anio}; con otro año el resultado cambia.` : "");
 }
 $("f").addEventListener("input", calcular);
 calcular();

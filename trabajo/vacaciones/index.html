@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de vacaciones y prima vacacional 2026 | Cuentas Claras MX</title>
+<meta name="description" content="Cuántos días de vacaciones te tocan por ley en México según tus años de trabajo (reforma vacaciones dignas) y cuánto es tu prima vacacional.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › Trabajo › Vacaciones</span></div>
+
+  <header>
+    <span class="tag">Trabajo</span>
+    <h1>Calculadora de vacaciones y prima vacacional</h1>
+    <p class="lede">Descubre cuántos días de vacaciones te tocan por ley y cuánto dinero es tu prima vacacional.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="sal">Sueldo mensual bruto
+        <input id="sal" type="number" min="0" step="100" value="12000"></label>
+      <label for="ing">Fecha en que entraste a trabajar
+        <input id="ing" type="date" value="2023-05-15"></label>
+      <label for="pv">Prima vacacional de tu empresa
+        <select id="pv"><option value="0.25" selected>25% (mínimo de ley)</option><option value="0.3">30%</option><option value="0.5">50%</option><option value="1">100%</option></select></label>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Días de vacaciones en tu año actual</span>
+      <div class="big" id="dv">0</div>
+      <div class="row"><span>Años cumplidos</span><b id="an"></b></div>
+      <div class="row"><span>Pago de tus días de vacaciones</span><b id="pago"></b></div>
+      <div class="row"><span>Prima vacacional</span><b id="prima"></b></div>
+      <p class="nota" id="sig"></p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Días de vacaciones por ley (desde 2023)</h2>
+    <p>Con la reforma conocida como "vacaciones dignas", el artículo 76 de la Ley Federal del Trabajo marca estos días mínimos al cumplir cada año:</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Años trabajados</th><th>Días de vacaciones</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td class="n">12</td></tr><tr><td>2</td><td class="n">14</td></tr><tr><td>3</td><td class="n">16</td></tr>
+        <tr><td>4</td><td class="n">18</td></tr><tr><td>5</td><td class="n">20</td></tr><tr><td>6 a 10</td><td class="n">22</td></tr>
+        <tr><td>11 a 15</td><td class="n">24</td></tr><tr><td>16 a 20</td><td class="n">26</td></tr><tr><td>21 a 25</td><td class="n">28</td></tr>
+        <tr><td>26 a 30</td><td class="n">30</td></tr>
+      </tbody>
+    </table></div>
+    <h2>¿Qué es la prima vacacional?</h2>
+    <p>Es un pago extra de al menos el <strong>25%</strong> del salario de tus días de vacaciones (artículo 80). Por ejemplo, si ganas $400 al día y te tocan 12 días, la prima es 12 × $400 × 25% = $1,200.</p>
+    <p>Las vacaciones no se pueden cambiar por dinero mientras sigas trabajando. Solo se pagan si terminas la relación laboral; para eso usa la <a href="../finiquito/">calculadora de finiquito</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno. Los cálculos son orientativos; consulta la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LFT.pdf" rel="noopener">Ley Federal del Trabajo</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script>
+function calcular() {
+  const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+  const ing = Calc.fecha(document.getElementById("ing").value) || hoy;
+  const sd = Math.max(0, +document.getElementById("sal").value || 0) / 30;
+  const n = Calc.aniosCompletos(ing, hoy);
+  const dias = Calc.diasVacaciones(n);
+  document.getElementById("dv").textContent = dias ? dias + " días" : "Aún no";
+  document.getElementById("an").textContent = n;
+  document.getElementById("pago").textContent = mxn(sd * dias);
+  document.getElementById("prima").textContent = mxn(sd * dias * +document.getElementById("pv").value);
+  document.getElementById("sig").textContent = n < 1
+    ? "Al cumplir tu primer año tendrás 12 días."
+    : "Al cumplir " + (n + 1) + " años tendrás " + Calc.diasVacaciones(n + 1) + " días.";
+}
+document.getElementById("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

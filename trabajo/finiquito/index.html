@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de finiquito y liquidación 2026 | Cuentas Claras MX</title>
+<meta name="description" content="Calcula tu finiquito si renuncias o tu liquidación si te despiden en México. Desglose por concepto con la Ley Federal del Trabajo, gratis y sin registro.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › Trabajo › Finiquito</span></div>
+
+  <header>
+    <span class="tag">Trabajo</span>
+    <h1>Calculadora de finiquito y liquidación</h1>
+    <p class="lede">¿Renunciaste o te despidieron? Calcula cuánto te deben pagar, concepto por concepto, para que nadie te dé menos de lo justo.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="mot">¿Cómo terminó tu trabajo?
+        <select id="mot"><option value="renuncia" selected>Renuncié (finiquito)</option><option value="despido">Me despidieron sin causa justificada (liquidación)</option></select></label>
+      <label for="sal">Sueldo mensual bruto
+        <input id="sal" type="number" min="0" step="100" value="12000"></label>
+      <label for="ing">Fecha en que entraste
+        <input id="ing" type="date" value="2022-08-01"></label>
+      <label for="sali">Último día de trabajo
+        <input id="sali" type="date" value="2026-10-31"></label>
+      <label for="dsp">Días trabajados que aún no te pagan
+        <input id="dsp" type="number" min="0" step="1" value="0"></label>
+      <label for="vt">Días de vacaciones que ya tomaste este año de servicio
+        <input id="vt" type="number" min="0" step="1" value="0"></label>
+      <label for="vp">Días de vacaciones de años anteriores que no tomaste
+        <input id="vp" type="number" min="0" step="1" value="0"></label>
+      <label for="dias">Días de aguinaldo de tu empresa
+        <select id="dias"><option value="15" selected>15 días (mínimo de ley)</option><option value="20">20 días</option><option value="30">30 días</option></select></label>
+      <label for="zona">¿Dónde trabajabas?
+        <select id="zona"><option value="general" selected>Resto del país</option><option value="frontera">Zona libre de la frontera norte</option></select></label>
+      <label class="check" id="lv" hidden><input id="vd" type="checkbox"> Incluir 20 días por año (cuando el patrón se niega a reinstalarte, art. 49 y 50)</label>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota" id="tit">Tu finiquito aproximado</span>
+      <div class="big" id="total">$0</div>
+      <div id="conceptos" style="display:grid;gap:10px"></div>
+      <p class="nota" id="ant"></p>
+      <p class="nota">Monto bruto antes de impuestos. La ley usa el salario integrado (con prestaciones) para la indemnización, así que lo real puede ser mayor.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Finiquito y liquidación no son lo mismo</h2>
+    <p>El <strong>finiquito</strong> te lo deben pagar siempre que termina tu trabajo, renuncies o no. Incluye lo que ya ganaste: días sin pagar, aguinaldo proporcional, vacaciones que no tomaste y su prima vacacional.</p>
+    <p>La <strong>liquidación</strong> se suma al finiquito cuando te despiden sin una causa justificada. Incluye una indemnización de 3 meses de salario y la prima de antigüedad.</p>
+    <h2>Qué incluye cada concepto</h2>
+    <ul>
+      <li><strong>Aguinaldo proporcional:</strong> 15 días de salario o más, según los días trabajados en el año (art. 87).</li>
+      <li><strong>Vacaciones y prima vacacional:</strong> los días que te tocaban y no tomaste, más al menos 25% (arts. 76, 79 y 80).</li>
+      <li><strong>Prima de antigüedad:</strong> 12 días por año trabajado, con un salario máximo de dos salarios mínimos. Si renuncias, solo aplica con 15 años o más (art. 162).</li>
+      <li><strong>Indemnización:</strong> 3 meses de salario si te despiden injustificadamente (arts. 48 y 50).</li>
+    </ul>
+    <h2>Antes de firmar</h2>
+    <p>No firmes tu renuncia ni tu finiquito si la cantidad no te parece correcta. Puedes pedir asesoría gratuita en la PROFEDET o acudir al Centro de Conciliación Laboral de tu estado.</p>
+    <p>También te puede servir: <a href="../aguinaldo/">calculadora de aguinaldo</a> y <a href="../vacaciones/">calculadora de vacaciones</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno. Los cálculos son orientativos y no sustituyen la asesoría de un abogado laboral. Consulta la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LFT.pdf" rel="noopener">Ley Federal del Trabajo</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const motivo = $("mot").value;
+  $("lv").hidden = motivo !== "despido";
+  const ingreso = Calc.fecha($("ing").value), salida = Calc.fecha($("sali").value);
+  if (!ingreso || !salida || salida < ingreso) {
+    $("total").textContent = "Revisa las fechas";
+    $("conceptos").innerHTML = "";
+    $("ant").textContent = "El último día de trabajo debe ser después de la fecha de entrada.";
+    return;
+  }
+  const r = Calc.finiquito({
+    salarioMensual: Math.max(0, +$("sal").value || 0), ingreso, salida, motivo,
+    diasAguinaldo: +$("dias").value, diasSinPagar: +$("dsp").value || 0,
+    vacacionesTomadas: +$("vt").value || 0, vacacionesPendientes: +$("vp").value || 0,
+    zona: $("zona").value, veinteDias: $("vd").checked
+  });
+  $("tit").textContent = motivo === "despido" ? "Tu liquidación aproximada" : "Tu finiquito aproximado";
+  $("total").textContent = mxn(r.total);
+  $("conceptos").innerHTML = r.conceptos
+    .map(c => `<div class="row"><span>${c.nombre} <small class="nota">${c.ley}</small></span><b>${mxn(c.monto)}</b></div>`)
+    .join("");
+  $("ant").textContent = `Antigüedad: ${r.antiguedad.toFixed(2)} años. Vacaciones a pagar: ${r.diasVac.toFixed(2)} días.` +
+    (r.aplicaPrimaAnt ? "" : " La prima de antigüedad no aplica al renunciar con menos de 15 años.");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+/* Cuentas Claras MX: verde institucional propio + flor de cempasúchil como acento */
+:root {
+  --bg: #f6f7f4; --surface: #ffffff; --fg: #17231f; --muted: #5b6863;
+  --line: #dde3df; --brand: #0f5c4c; --flor: #b86a05; --flor-soft: #fdf0dc;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1614; --surface: #17211e; --fg: #e8eeeb; --muted: #9aa8a2;
+    --line: #2a3733; --brand: #3fb59a; --flor: #f3a33a; --flor-soft: #2e2414; color-scheme: dark;
+  }
+}
+* { box-sizing: border-box }
+html { -webkit-text-size-adjust: 100% }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 17px/1.6 var(--body) }
+a { color: var(--brand) }
+.wrap { max-width: 980px; margin: 0 auto; padding: 24px 16px 56px; display: grid; gap: 32px }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap }
+.logo { font: 800 1.15rem var(--display); color: var(--brand); text-decoration: none }
+.logo span { color: var(--flor) }
+.migas { font-size: .9rem; color: var(--muted) }
+h1 { font: 800 clamp(1.9rem, 5vw, 2.9rem)/1.08 var(--display); margin: 0; text-wrap: balance }
+h2 { font: 600 1.4rem var(--display); margin: 0 0 12px }
+h3 { font: 600 1.1rem var(--display); margin: 0 }
+.lede { margin: 8px 0 0; color: var(--muted); max-width: 62ch }
+.prosa { max-width: 68ch }
+.prosa p, .prosa li { margin: 0 0 10px }
+.tag { display: inline-block; font: 500 .72rem var(--mono); background: var(--flor-soft); color: var(--flor); padding: 3px 8px; border-radius: 99px; letter-spacing: .05em; text-transform: uppercase }
+.tool { background: var(--surface); border: 1.5px solid var(--brand); border-radius: 16px; padding: 22px; display: grid; gap: 20px; grid-template-columns: 1fr 1fr }
+.tool > * { min-width: 0 }
+form { display: grid; gap: 14px; align-content: start }
+label { display: grid; gap: 4px; font-weight: 600; font-size: .95rem }
+label.check { display: flex; gap: 8px; align-items: flex-start; font-weight: 400 }
+input[type=number], input[type=date], select { font: 500 1rem var(--mono); padding: 10px 12px; border: 1.5px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--fg); width: 100% }
+:focus-visible { outline: 3px solid var(--flor); outline-offset: 2px }
+.result { background: var(--bg); border-radius: 12px; padding: 18px; display: grid; gap: 10px; align-content: start }
+.big { font: 800 2.3rem/1 var(--display); color: var(--brand); font-variant-numeric: tabular-nums }
+.row { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dashed var(--line); padding-bottom: 6px; font-size: .95rem }
+.row b { font: 500 .95rem var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap }
+.nota { font-size: .85rem; color: var(--muted); margin: 0 }
+.temas { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px }
+.tema { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 6px; align-content: start }
+.tema ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: .95rem }
+.pronto { font: 500 .72rem var(--mono); color: var(--muted) }
+table { border-collapse: collapse; width: 100%; font-size: .95rem }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line) }
+td.n { font-family: var(--mono); font-variant-numeric: tabular-nums }
+.tabla { overflow-x: auto }
+footer { font-size: .85rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 16px; display: grid; gap: 6px }
+@media (max-width: 720px) { .tool { grid-template-columns: 1fr } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important } }
+a.tema { color: inherit; text-decoration: none }
+a.tema:hover { border-color: var(--brand) }

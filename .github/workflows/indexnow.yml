@@ -1,0 +1,15 @@
+name: Avisar a buscadores (IndexNow)
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  indexnow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Enviar todas las páginas del sitemap a IndexNow (Bing y otros)
+        run: |
+          sleep 90
+          URLS=$(grep -o '<loc>[^<]*' sitemap.xml | sed 's/<loc>//' | python3 -c 'import sys,json;print(json.dumps([l.strip() for l in sys.stdin if l.strip()]))')
+          curl -sS -X POST https://api.indexnow.org/indexnow -H 'Content-Type: application/json; charset=utf-8'             -d "{\"host\":\"miguel201009.github.io\",\"key\":\"6831c5add0d442c9a6e4893c865bced1\",\"keyLocation\":\"https://miguel201009.github.io/cuentas-claras-mx/6831c5add0d442c9a6e4893c865bced1.txt\",\"urlList\":$URLS}" -w '\nHTTP %{http_code}\n'

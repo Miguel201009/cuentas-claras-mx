@@ -14,11 +14,12 @@ jobs:
           DOMINIOS: ${{ inputs.dominios }}
         run: |
           for d in $DOMINIOS; do
-            out=$(whois "$d" 2>&1)
-            if echo "$out" | grep -qiE "no match|not found|no data found|no entries found|object does not exist|status: *free|available"; then
+            out=$(whois "$d" 2>&1 || true)
+            if echo "$out" | grep -qiE "no match|not found|not_found|no data found|no entries found|object does not exist|status: *free|available"; then
               echo "RESULTADO $d LIBRE"
             else
               echo "RESULTADO $d OCUPADO"
-              echo "$out" | grep -iE "creation date|created|expir|registrar:|name server|status" | head -6 | sed "s/^/   $d | /"
+              echo "$out" | grep -iE "creation date|created|expir|registrar:|name server|status" | head -4 | sed "s/^/   $d | /" || true
+              echo "$out" | grep -v "^%" | grep -v "^ *$" | head -3 | sed "s/^/   $d raw | /"
             fi
           done

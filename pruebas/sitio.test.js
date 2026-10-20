@@ -1,0 +1,135 @@
+// Pruebas de todo el sitio: portada, buscador, enlaces internos, sitemap y robots. Correr: node pruebas/sitio.test.js
+const assert = require("assert");
+const fs = require("fs");
+const path = require("path");
+const B = require("../assets/buscador.js");
+
+const raiz = path.join(__dirname, "..");
+const BASE = "https://miguel201009.github.io/cuentas-claras-mx/";
+const SECCIONES = ["trabajo", "impuestos", "dinero", "retiro", "vivienda", "tramites", "auto", "casa", "familia", "negocio"];
+const leer = rel => fs.readFileSync(path.join(raiz, rel), "utf8");
+
+// Todas las páginas: cada carpeta con index.html, sin assets ni pruebas.
+function paginas(dir = "") {
+  const lista = fs.existsSync(path.join(raiz, dir, "index.html")) ? [dir ? dir + "/" : ""] : [];
+  for (const d of fs.readdirSync(path.join(raiz, dir), { withFileTypes: true })) {
+    if (!d.isDirectory() || d.name.startsWith(".") || ["assets", "pruebas", "node_modules"].includes(d.name)) continue;
+    lista.push(...paginas(dir ? dir + "/" + d.name : d.name));
+  }
+  return lista;
+}
+const todas = paginas().sort();
+const herramientas = todas.filter(p => p.split("/").length === 3); // seccion/herramienta/
+assert.ok(todas.includes("") && todas.includes("aviso-legal/"), "portada y aviso legal");
+for (const s of SECCIONES) assert.ok(todas.includes(s + "/"), `falta el índice de ${s}`);
+for (const p of ["trabajo/sueldo-neto/", "trabajo/prima-de-antiguedad/"]) assert.ok(todas.includes(p), `falta ${p}`);
+assert.strictEqual(herramientas.length, 35, "35 calculadoras y guías");
+
+// ---------- Reglas para cada página ----------
+const titulos = new Map();
+for (const p of todas) {
+  const rel = p + "index.html";
+  const html = leer(rel);
+  assert.ok(html.startsWith("<!doctype html>") && html.includes('<html lang="es-MX">'), `${rel}: doctype y lang`);
+  assert.ok(html.includes('name="viewport"'), `${rel}: viewport`);
+  const titulo = (html.match(/<title>([^<]+)<\/title>/) || [])[1];
+  assert.ok(titulo, `${rel}: título`);
+  assert.ok(!titulos.has(titulo), `${rel}: título repetido con ${titulos.get(titulo)}`);
+  titulos.set(titulo, rel);
+  if (p !== "aviso-legal/") {
+    assert.ok(/<meta name="description" content="[^"]{50,}">/.test(html), `${rel}: descripción`);
+    assert.ok(/sitio independiente/i.test(html), `${rel}: aviso de sitio independiente`);
+    assert.ok(/No guardamos tus datos/.test(html), `${rel}: no guardamos tus datos`);
+    assert.ok(html.includes("aviso-legal/"), `${rel}: enlace al aviso legal`);
+  }
+  assert.ok(!html.includes("—"), `${rel}: sin guiones largos`);
+  assert.ok(!/<input[^>]+(curp|rfc|password|contrase)/i.test(html), `${rel}: no pide datos personales`);
+  assert.ok(!/<form[^>]+action=/i.test(html), `${rel}: ningún formulario envía datos`);
+  assert.ok(!/(fetch\(|XMLHttpRequest|sendBeacon|localStorage|document\.cookie)/.test(html), `${rel}: nada sale del navegador`);
+  assert.ok(!/netlify\.app/.test(html), `${rel}: dominio viejo`);
+  // Scripts sin dependencias externas
+  for (const [, src] of html.matchAll(/<script[^>]+src="([^"]+)"/g)) {
+    assert.ok(!/^(https?:)?\/\//.test(src), `${rel}: script externo ${src}`);
+  }
+  // Enlaces y recursos internos: relativos y que existan
+  for (const [, url] of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
+    if (/^(https?:|data:|#|mailto:|tel:)/.test(url) || /['+$]/.test(url)) continue;
+    assert.ok(!url.startsWith("/"), `${rel}: ruta absoluta ${url}`);
+    const destino = path.join(raiz, p, url.split("#")[0].split("?")[0]);
+    const existe = url.endsWith("/") || url === "./" ? fs.existsSync(path.join(destino, "index.html")) : fs.existsSync(destino);
+    assert.ok(existe, `${rel}: no existe ${url}`);
+  }
+}
+
+// ---------- Portada ----------
+const portada = leer("index.html");
+assert.ok(!/pr[oó]ximamente/i.test(portada), "portada: ya no dice Próximamente");
+const enlacesPortada = new Set([...portada.matchAll(/href="([^"]+)"/g)].map(m => m[1]));
+for (const s of SECCIONES) assert.ok(enlacesPortada.has(s + "/"), `portada: falta el índice ${s}/`);
+for (const h of herramientas) assert.ok(enlacesPortada.has(h), `portada: falta ${h}`);
+assert.strictEqual((portada.match(/data-seccion="/g) || []).length, 10, "portada: 10 secciones");
+assert.strictEqual((portada.match(/<li data-k="/g) || []).length, herramientas.length, "portada: una entrada por herramienta");
+assert.ok(portada.includes('src="assets/buscador.js"'), "portada: carga el buscador");
+assert.ok(/<form class="buscar" id="buscador" role="search" hidden>/.test(portada), "portada: sin JavaScript el buscador no aparece");
+
+// ---------- Buscador ----------
+assert.strictEqual(B.normalizar("¿Cuánto me TOCA de Aguinaldo?"), "cuanto me toca de aguinaldo");
+assert.strictEqual(B.normalizar("e.firma"), "e firma");
+assert.deepStrictEqual(B.palabras("¿Cuánto me toca de aguinaldo 2026?"), ["toca", "aguinaldo"]);
+assert.deepStrictEqual(B.formas("pensiones"), ["pensiones", "pension", "pensione"]);
+const mini = ["Dinero y ahorro CETES vs. banco", "Trámites Credencial para votar del INE", "Familia Pensión alimenticia"];
+assert.deepStrictEqual(B.buscar(mini, "ine").indices, [1], "ine no encuentra dinero");
+assert.deepStrictEqual(B.buscar(mini, "pensiones").indices, [2], "plural");
+assert.deepStrictEqual(B.buscar(mini, "cet").indices, [0], "inicio de palabra");
+assert.strictEqual(B.buscar(mini, "").modo, "vacia");
+assert.strictEqual(B.buscar(mini, "  ¿de la?  ").modo, "vacia", "solo palabras vacías");
+assert.deepStrictEqual(B.buscar(mini, "credencial banco"), { modo: "alguna", indices: [0, 1], palabras: ["credencial", "banco"] });
+assert.strictEqual(B.buscar(mini, "zzzz").modo, "ninguna");
+
+// El buscador con las entradas reales de la portada: texto de la sección + texto visible + palabras extra.
+const entradas = [];
+for (const [, nombre, cuerpo] of portada.matchAll(/data-seccion="([^"]+)">([\s\S]*?)<\/ul>/g)) {
+  for (const [, k, li] of cuerpo.matchAll(/<li data-k="([^"]*)">([\s\S]*?)<\/li>/g)) {
+    entradas.push({ href: li.match(/href="([^"]+)"/)[1], texto: nombre + " " + li.replace(/<[^>]+>/g, " ") + " " + k });
+  }
+}
+assert.strictEqual(entradas.length, herramientas.length);
+const textos = entradas.map(e => e.texto);
+const hrefs = q => B.buscar(textos, q).indices.map(i => entradas[i].href);
+const casos = {
+  "aguinaldo": "trabajo/aguinaldo/",
+  "cuánto me toca de aguinaldo": "trabajo/aguinaldo/",
+  "liquidación": "trabajo/finiquito/",
+  "RFC": "impuestos/rfc/",
+  "saldo a favor": "impuestos/declaracion-anual/",
+  "resico": "impuestos/resico/",
+  "cetes": "dinero/cetes-vs-bancos/",
+  "afore": "retiro/afore/",
+  "infonavit": "vivienda/credito-infonavit/",
+  "INE": "tramites/ine/",
+  "pasaporte": "tramites/pasaporte/",
+  "hoy no circula": "auto/verificacion/",
+  "recibo de luz": "casa/recibo-de-luz/",
+  "gas": "casa/gas-lp/",
+  "becas": "familia/becas/",
+  "pensión alimenticia": "familia/pension-alimenticia/",
+  "punto de equilibrio": "negocio/punto-de-equilibrio/"
+};
+for (const [q, esperado] of Object.entries(casos)) assert.ok(hrefs(q).includes(esperado), `buscar "${q}" debe dar ${esperado}: ${hrefs(q)}`);
+assert.ok(!hrefs("ine").some(h => h.startsWith("dinero/")), "ine no muestra la sección dinero");
+assert.deepStrictEqual(hrefs("trabajo").filter(h => h.startsWith("trabajo/")).length, 7, "el nombre de la sección encuentra todas sus herramientas");
+assert.strictEqual(B.buscar(textos, "qwertyuiop").modo, "ninguna");
+
+// ---------- Sitemap y robots ----------
+const sitemap = leer("sitemap.xml");
+assert.ok(sitemap.startsWith('<?xml version="1.0" encoding="UTF-8"?>'), "sitemap: encabezado XML");
+assert.ok(sitemap.includes('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'), "sitemap: urlset");
+const locs = [...sitemap.matchAll(/<url><loc>([^<]+)<\/loc><lastmod>2026-10-20<\/lastmod><\/url>/g)].map(m => m[1]);
+assert.strictEqual(locs.length, (sitemap.match(/<url>/g) || []).length, "sitemap: cada url con lastmod 2026-10-20");
+assert.deepStrictEqual([...locs].sort(), todas.map(p => BASE + p).sort(), "sitemap: todas las páginas y solo ellas");
+assert.strictEqual(new Set(locs).size, locs.length, "sitemap: sin repetidos");
+const robots = leer("robots.txt");
+assert.ok(robots.includes("Sitemap: " + BASE + "sitemap.xml"), "robots: sitemap");
+assert.ok(!/Disallow: \/\s*$/m.test(robots), "robots: no bloquea el sitio");
+
+console.log(`sitio.test.js: todas las pruebas pasaron (${todas.length} páginas revisadas)`);

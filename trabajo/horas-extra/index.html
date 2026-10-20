@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de horas extra 2026: pago doble y triple | Cuentas Claras MX</title>
+<meta name="description" content="Calcula cuánto te deben pagar por horas extra en México: dobles y triples con la reforma de 2026 y el calendario rumbo a la jornada de 40 horas.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Trabajo</a> › Horas extra</span></div>
+
+  <header>
+    <span class="tag">Trabajo</span>
+    <h1>Calculadora de horas extra 2026</h1>
+    <p class="lede">¿Te quedaste más tiempo en el trabajo? Escribe tu sueldo y tus horas extra de la semana. Te decimos cuáles se pagan al doble, cuáles al triple y cuánto te toca.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="sal">Sueldo mensual bruto (antes de descuentos)
+        <input id="sal" type="number" min="0" max="100000000" step="any" inputmode="decimal" value="12000"></label>
+      <label for="jor">Horas de tu jornada normal en un día
+        <input id="jor" type="number" min="1" max="24" step="any" inputmode="decimal" value="8"></label>
+      <p class="nota">Por ley, la jornada de día es de 8 horas como máximo, la de noche de 7 y la mixta de 7 y media.</p>
+      <label for="hx">Horas extra que trabajaste en la semana
+        <input id="hx" type="number" min="0" max="168" step="any" inputmode="decimal" value="12"></label>
+      <label for="anio">Año
+        <select id="anio">
+          <option value="2026" selected>2026 (vigente)</option>
+          <option value="2027">2027</option>
+          <option value="2028">2028</option>
+          <option value="2029">2029</option>
+          <option value="2030">2030</option>
+        </select></label>
+      <p class="nota">Los límites de horas extra cambian cada año hasta 2030 por la reforma de la jornada de 40 horas. Los de 2027 en adelante salen de resúmenes de la reforma y están pendientes de confirmar con el Diario Oficial.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Te deben pagar por esta semana</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span>Valor de tu hora normal</span><b id="vh"></b></div>
+      <div class="row"><span id="ld">Horas al doble</span><b id="pd"></b></div>
+      <div class="row"><span id="lt">Horas al triple</span><b id="pt"></b></div>
+      <div class="row"><span>Si se repite 4 semanas</span><b id="mes"></b></div>
+      <div class="row"><span>Límite de horas extra en ese año</span><b id="lim"></b></div>
+      <div class="row"><span>Jornada máxima en ese año</span><b id="js"></b></div>
+      <div class="row"><span>Parte libre de ISR</span><b id="ex"></b></div>
+      <div class="row"><span>Parte que paga ISR</span><b id="gr"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Monto bruto, además de tu sueldo normal. La parte libre de ISR sigue el criterio del SAT (UMA); lee la pregunta sobre ISR más abajo.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Cómo se pagan las horas extra en 2026</h2>
+    <p>Las horas extra son el tiempo que trabajas después de tu jornada normal. La Ley Federal del Trabajo dice cómo se pagan:</p>
+    <ul>
+      <li><strong>Al doble</strong> (tu hora normal más 100%): las primeras <strong>9 horas extra de la semana</strong> (artículos 66 y 67).</li>
+      <li><strong>Al triple</strong> (tu hora normal más 200%): las horas que pasan de 9 en la semana (artículo 68).</li>
+    </ul>
+    <p>En 2026 el pago es igual con la regla de antes de la reforma y con la nueva. Lo que cambia es cuánto tiempo extra se permite. Según los resúmenes de la reforma, en 2026 el máximo serían 13 horas extra a la semana: 9 al doble y hasta 4 al triple. El límite es por semana, no por mes.</p>
+    <p>Para saber cuánto vale tu hora normal, divide tu salario diario (sueldo mensual ÷ 30) entre las horas de tu jornada de un día.</p>
+
+    <h2>Ejemplo</h2>
+    <p>Ganas $12,000 al mes, así que tu salario diario es $400. Tu jornada es de 8 horas, entonces tu hora vale 400 ÷ 8 = <strong>$50</strong>. Una hora doble vale $100 y una triple $150.</p>
+    <p>Esta semana trabajaste 12 horas extra:</p>
+    <ul>
+      <li>9 horas al doble: 9 × $100 = $900.</li>
+      <li>3 horas al triple: 3 × $150 = $450.</li>
+    </ul>
+    <p>Te deben pagar <strong>$1,350</strong> además de tu sueldo de la semana. Como ganas más que el salario mínimo, la mitad del pago de tus horas dobles no paga ISR: $450. Los otros $900 sí pagan ISR. Son los datos que vienen cargados en la calculadora.</p>
+
+    <h2>La reforma de la jornada de 40 horas</h2>
+    <p class="nota"><strong>Aviso:</strong> las cifras de esta sección salen de resúmenes de despachos y especialistas. Todavía no las comparamos con el texto publicado en el Diario Oficial de la Federación. Antes de reclamar con base en ellas, revisa el decreto o pide asesoría gratis en la PROFEDET.</p>
+    <p>La jornada máxima va a bajar de 48 a 40 horas a la semana, pero <strong>poco a poco</strong>. Según esos resúmenes, primero se reformó la Constitución (Diario Oficial del 3 de marzo de 2026) y después la Ley Federal del Trabajo (Diario Oficial del 1 de mayo de 2026).</p>
+    <p>En 2026 la jornada máxima <strong>sigue siendo de 48 horas</strong>. La primera baja llegaría el 1 de enero de 2027. Este es el calendario que publican los especialistas:</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Año</th><th>Jornada máxima a la semana</th><th>Horas extra al doble</th><th>Horas extra al triple (máximo)</th></tr></thead>
+      <tbody>
+        <tr><td>2026</td><td class="n">48</td><td class="n">9</td><td class="n">4</td></tr>
+        <tr><td>2027</td><td class="n">46</td><td class="n">9</td><td class="n">4</td></tr>
+        <tr><td>2028</td><td class="n">44</td><td class="n">10</td><td class="n">4</td></tr>
+        <tr><td>2029</td><td class="n">42</td><td class="n">11</td><td class="n">4</td></tr>
+        <tr><td>2030</td><td class="n">40</td><td class="n">12</td><td class="n">4</td></tr>
+      </tbody>
+    </table></div>
+    <p class="nota">Según los resúmenes, la jornada viene en el transitorio segundo del decreto del 1 de mayo de 2026, y las horas extra en los artículos 66 y 68 de la ley y en el transitorio cuarto. Pendiente de confirmar con el texto del Diario Oficial.</p>
+    <p>Lo que, según especialistas, prevé la reforma:</p>
+    <ul>
+      <li>Tu sueldo y tus prestaciones <strong>no pueden bajar</strong> porque se reduzca la jornada.</li>
+      <li>No da dos días de descanso. Sigues teniendo al menos un día de descanso por cada seis días de trabajo (artículo 69).</li>
+      <li>Las horas extra se podrían repartir en hasta 4 horas al día, en no más de 4 días de la semana.</li>
+      <li>Las empresas tendrían que llevar un registro electrónico de la hora en que entras y sales, a partir de 2027.</li>
+    </ul>
+    <p>Antes de la reforma, la ley decía que las horas extra no podían pasar de 3 al día ni de 3 veces por semana (artículo 66). Los resúmenes mencionan un periodo para que las empresas se ajusten hasta el 31 de diciembre de 2026, y algunos despachos opinan que mientras tanto sigue la regla de 3 horas y 3 veces. Si tu caso depende de eso, pide asesoría.</p>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Me pueden obligar a trabajar horas extra?</h3>
+    <p>Dentro del límite de la ley y por causas extraordinarias, sí te pueden pedir que te quedes más tiempo (artículo 66). Más allá del límite no estás obligado (artículo 68). Si aun así te hacen trabajar más, ese tiempo te lo deben pagar al triple, y la empresa se expone a una multa.</p>
+    <p>En una emergencia en que peligre la vida de alguien o la existencia de la empresa, como un incendio, también te pueden pedir quedarte el tiempo indispensable. Esas horas se pagan como horas normales, no al doble (artículos 65 y 67).</p>
+    <h3>¿Y si trabajo de noche?</h3>
+    <p>La jornada de noche es de 7 horas como máximo. Escribe 7 en las horas de tu jornada y tu hora valdrá más: con $400 diarios, 400 ÷ 7 = $57.14.</p>
+    <h3>¿Los menores de edad pueden hacer horas extra?</h3>
+    <p>No. Está prohibido que las personas menores de 18 años trabajen horas extra. Si aun así las trabajan, se les pagan al triple desde la primera hora (artículo 178).</p>
+    <h3>¿Trabajar mi día de descanso cuenta como hora extra?</h3>
+    <p>No, se paga distinto. Si trabajas tu día de descanso o un día de descanso obligatorio (como el 1 de mayo o el 25 de diciembre), te pagan tu día normal más un salario doble por el día trabajado (artículos 73 y 75).</p>
+    <h3>¿Las horas extra pagan ISR?</h3>
+    <p>Depende de cuánto ganas y de qué horas son (artículo 93, fracción I de la Ley del ISR). Solo las horas dentro del límite de la ley, que son las que se pagan al doble, tienen una parte libre de ISR:</p>
+    <ul>
+      <li><strong>Si ganas el salario mínimo:</strong> tus horas dobles no pagan ISR.</li>
+      <li><strong>Si ganas más:</strong> la mitad del pago de tus horas dobles no paga ISR, con un máximo por semana.</li>
+      <li><strong>Las horas al triple</strong> pasan del límite de la ley y pagan ISR completo.</li>
+    </ul>
+    <p>La ley pone como máximo 5 veces el salario mínimo por semana. El SAT aplica la UMA, y así lo calcula esta página: 5 × $117.31 = <strong>$586.55</strong> por semana, con la UMA vigente del 1 de febrero de 2026 al 31 de enero de 2027. Con el salario mínimo general de $315.04 serían $1,575.20. Hay quien opina que debe usarse el salario mínimo, como la PRODECON en el caso del reparto de utilidades. Si crees que te retuvieron de más, puedes pedir asesoría gratuita en la Procuraduría de la Defensa del Contribuyente (PRODECON).</p>
+    <p class="nota">La calculadora compara tu sueldo con el salario mínimo general ($315.04 diarios). Si ganas el salario mínimo de la zona libre de la frontera norte ($440.87 diarios), tus horas dobles tampoco pagan ISR.</p>
+    <h3>¿Y si no me las pagan?</h3>
+    <p>Guarda pruebas de tu horario: registros del checador, mensajes o fotos. Tienes un año para reclamar (artículo 516). Pide asesoría gratuita en la Procuraduría Federal de la Defensa del Trabajo (PROFEDET) o en la procuraduría de tu estado.</p>
+
+    <h2>Fuente oficial</h2>
+    <p>El pago al doble y al triple está en los artículos 65 a 68 de la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LFT.pdf" rel="noopener">Ley Federal del Trabajo</a> vigente. El decreto de la reforma de 2026 es la fuente principal de los límites por año: búscalo en la <a href="https://www.diputados.gob.mx/LeyesBiblio/ref/lft.htm" rel="noopener">lista de reformas de la Ley Federal del Trabajo</a> de la Cámara de Diputados o en el <a href="https://www.dof.gob.mx/index.php?year=2026&amp;month=05&amp;day=01" rel="noopener">Diario Oficial de la Federación del 1 de mayo de 2026</a>. La jornada máxima está en el artículo 123 de la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/CPEUM.pdf" rel="noopener">Constitución</a>, y la parte libre de ISR en el artículo 93 de la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LISR.pdf" rel="noopener">Ley del ISR</a>.</p>
+    <p>También te puede servir: <a href="../sueldo-neto/">calculadora de sueldo neto e ISR</a>, <a href="../vacaciones/">calculadora de vacaciones</a>, <a href="../ptu/">calculadora de reparto de utilidades</a> y <a href="../aguinaldo/">calculadora de aguinaldo</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno. Los cálculos son orientativos y no sustituyen la asesoría de un abogado laboral. Consulta la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LFT.pdf" rel="noopener">Ley Federal del Trabajo</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/trabajo.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const horas = n => (Math.round(n * 100) / 100).toLocaleString("es-MX") + (n === 1 ? " hora" : " horas");
+function calcular() {
+  const r = Trabajo.horasExtra({
+    salarioMensual: $("sal").value, horasJornada: $("jor").value, horas: $("hx").value, anio: +$("anio").value
+  });
+  $("total").textContent = mxn(r.total);
+  $("vh").textContent = mxn(r.valorHora);
+  const cadaUna = n => n === 1 ? "la hora" : "cada una";
+  $("ld").textContent = `${horas(r.dobles)} al doble (${mxn(r.horaDoble)} ${cadaUna(r.dobles)})`;
+  $("pd").textContent = mxn(r.pagoDobles);
+  $("lt").textContent = `${horas(r.triples)} al triple (${mxn(r.horaTriple)} ${cadaUna(r.triples)})`;
+  $("pt").textContent = mxn(r.pagoTriples);
+  $("mes").textContent = mxn(r.total * 4);
+  $("lim").textContent = `${r.limite} al doble + ${r.maximo - r.limite} al triple`;
+  $("js").textContent = r.jornadaSemanal + " horas";
+  $("ex").textContent = mxn(r.exento);
+  $("gr").textContent = mxn(r.gravado);
+  const msg = [];
+  if (r.recortado) msg.push("Escribiste un sueldo demasiado grande. Usamos como máximo $100,000,000 al mes.");
+  if (r.sinJornada) msg.push("Escribe cuántas horas dura tu jornada normal para calcular el valor de tu hora.");
+  if (r.jornadaAcotada) msg.push(r.jornada === 1
+    ? "Revisa las horas de tu jornada: calculamos con 1 hora como mínimo."
+    : "Revisa las horas de tu jornada: un día tiene 24 horas, así que calculamos con 24.");
+  if (r.excede) msg.push(`Pasas de las ${r.maximo} horas extra a la semana que, según la reforma, permite la ley. Aun así, todo ese tiempo te lo deben pagar; aquí lo contamos al triple.`);
+  if (+$("anio").value > 2026) msg.push("Los límites de ese año salen de resúmenes de la reforma y están pendientes de confirmar con el Diario Oficial.");
+  if (r.horas >= 168) msg.push("Una semana tiene 168 horas: revisa el dato de horas extra.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

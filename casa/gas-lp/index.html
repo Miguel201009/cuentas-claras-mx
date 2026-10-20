@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de gas LP 2026: gasto y cuánto dura | Cuentas Claras MX</title>
+<meta name="description" content="Calcula cuánto gastas en gas LP, cuánto te dura el cilindro o el tanque y pasa de litros a kilos. Precio editable y dónde ver el precio máximo oficial.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Casa y servicios</a> › Gas LP</span></div>
+
+  <header>
+    <span class="tag">Casa y servicios</span>
+    <h1>Calculadora de gas LP: cuánto gastas y cuánto te dura</h1>
+    <p class="lede">Escribe cómo compras el gas, el precio y cuánto usas la estufa y la regadera. Te decimos cuánto te dura el cilindro o el tanque y cuánto gastas al mes.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="tipo">¿Cómo compras el gas?
+        <select id="tipo"><option value="cilindro" selected>Cilindro</option><option value="tanque">Tanque estacionario (pipa)</option></select></label>
+      <label for="cil" id="lcil">Tamaño del cilindro
+        <select id="cil"><option value="10">10 kg</option><option value="20">20 kg</option><option value="30" selected>30 kg</option><option value="45">45 kg</option></select></label>
+      <div class="grupo" id="gtan" hidden>
+        <label for="cap">Capacidad del tanque, en litros (viene en su placa)
+          <input id="cap" type="number" min="0" max="100000" step="1" value="300"></label>
+        <label for="act">Porcentaje que marca el medidor del tanque antes de cargar
+          <input id="act" type="number" min="0" max="100" step="1" value="10"></label>
+        <label for="lle">Porcentaje hasta donde lo van a llenar (ejemplo)
+          <input id="lle" type="number" min="0" max="100" step="1" value="85"></label>
+      </div>
+      <label for="uni">¿Cómo te cobran?
+        <select id="uni"><option value="kilo" selected>Por kilo</option><option value="litro">Por litro</option></select></label>
+      <label for="pre"><span id="tpre">Precio por kilo (ejemplo)</span>
+        <input id="pre" type="number" min="0" max="1000" step="0.01" value="20.00"></label>
+      <label for="den">Densidad del gas, en kilos por litro (referencia)
+        <input id="den" type="number" min="0.4" max="0.7" step="0.01" value="0.54"></label>
+      <label for="modo">¿Cómo calculamos cuánto te dura?
+        <select id="modo"><option value="uso" selected>Con mi uso de estufa y regadera</option><option value="dias">Ya sé cuántos días me dura</option></select></label>
+      <div class="grupo" id="guso">
+        <label for="hes">Horas al día con la estufa prendida (sumando quemadores)
+          <input id="hes" type="number" min="0" max="24" step="any" value="1.5"></label>
+        <label for="kgh">Gas de un quemador por hora, en kilos (ejemplo)
+          <input id="kgh" type="number" min="0" max="2" step="any" value="0.2"></label>
+        <label for="min">Minutos de regadera al día en toda la casa
+          <input id="min" type="number" min="0" max="1440" step="1" value="30"></label>
+        <label for="kgm">Gas del calentador por minuto de regadera, en kilos (ejemplo)
+          <input id="kgm" type="number" min="0" max="0.5" step="any" value="0.025"></label>
+      </div>
+      <label for="dd" id="ldd" hidden>¿Cuántos días te dura una compra?
+        <input id="dd" type="number" min="0" max="3650" step="1" value="30"></label>
+      <p class="nota">El precio de $20.00 por kilo es solo un ejemplo: escribe el de tu ticket. Consulta el precio máximo de tu región más abajo. Los consumos de la estufa y del calentador son ejemplos aproximados.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Gastas en gas al mes aproximadamente</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span id="tdura">Tu cilindro te dura</span><b id="dura"></b></div>
+      <div class="row"><span>Gas que usas al día</span><b id="kgd"></b></div>
+      <div class="row"><span>Gasto al día</span><b id="gd"></b></div>
+      <div class="row"><span id="tcos">Costo del cilindro</span><b id="cos"></b></div>
+      <div class="row"><span>Gas que compras</span><b id="kil"></b></div>
+      <div class="row"><span>Precio por kilo</span><b id="pk"></b></div>
+      <div class="row"><span>Precio por litro</span><b id="pl"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Es una estimación. El gasto al mes cuenta 30 días. Tu consumo real depende de tu estufa, tu calentador y tus hábitos.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Cómo se calcula</h2>
+    <ul>
+      <li><strong>Kilos y litros:</strong> kilos = litros × densidad. Con la densidad de referencia de 0.54, un litro de gas pesa 0.54 kilos y un kilo son unos 1.85 litros.</li>
+      <li><strong>Precio por litro:</strong> precio por kilo × 0.54. Por ejemplo, $20 por kilo equivale a $10.80 por litro.</li>
+      <li><strong>Gas al día:</strong> horas de estufa × gas por hora, más minutos de regadera × gas por minuto.</li>
+      <li><strong>Cuánto te dura:</strong> kilos que compraste ÷ kilos que usas al día.</li>
+      <li><strong>Gasto al mes:</strong> kilos al día × precio por kilo × 30 días.</li>
+    </ul>
+
+    <h2>Ejemplo</h2>
+    <p>Son los datos que vienen cargados. Una casa compra un cilindro de 30 kg a $20 por kilo (precio de ejemplo): paga <strong>$600</strong>.</p>
+    <ul>
+      <li>Estufa: 1.5 horas × 0.2 kg = 0.30 kg al día.</li>
+      <li>Regadera: 30 minutos × 0.025 kg = 0.75 kg al día.</li>
+      <li>En total usa <strong>1.05 kg al día</strong>, así que el cilindro le dura 30 ÷ 1.05 = <strong>28.6 días</strong>, unas 4 semanas.</li>
+      <li>Gasta 1.05 × $20 = $21 al día, o <strong>$630 al mes</strong>.</li>
+    </ul>
+    <p>Los 30 kg son unos 55.6 litros (30 ÷ 0.54), y el precio equivale a $10.80 por litro.</p>
+    <p>Con tanque estacionario: si tu tanque es de 300 litros, el medidor marca 10% y lo llenan hasta 85%, te cargan 300 × 75% = 225 litros, que pesan 121.5 kg. A $10.80 por litro pagas $2,430.</p>
+
+    <h2>Precio máximo del gas LP</h2>
+    <p>Desde 2021 el gobierno federal ha fijado <strong>precios máximos</strong> de gas LP para cada región del país, por kilo y por litro, y los ha actualizado cada semana. En 2026 los publica la Comisión Nacional de Energía (CNE). Revisa si siguen vigentes esta semana y si aplican a tu forma de compra.</p>
+    <ul>
+      <li>Busca la lista de la semana en la página de la CNE: <a href="https://www.gob.mx/cne/documentos/precios-maximos-aplicables-de-gas-lp-399897" rel="noopener">precios máximos aplicables de gas LP</a>. Fíjate en las fechas de vigencia y en tu región o municipio.</li>
+      <li>Según notas de prensa de 2026, el tope sigue para el gas que te llevan a tu casa en cilindro o en pipa. En las estaciones de gas y en las bodegas donde vas a comprar tu cilindro podría ya no aplicar. Confírmalo en la lista oficial.</li>
+      <li>Si te cobran más que el precio máximo vigente, pide tu ticket y presenta una queja en la <a href="https://www.gob.mx/profeco" rel="noopener">Procuraduría Federal del Consumidor (Profeco)</a>.</li>
+      <li>Escribe ese precio en la calculadora para saber cuánto deberías pagar como máximo.</li>
+    </ul>
+    <p class="nota">Pendiente de verificar con fuente oficial: en octubre de 2026 no pudimos abrir el DOF ni la página de la CNE desde nuestra red. Lo de arriba lo confirmamos con fuentes secundarias (despachos legales y prensa nacional). Las reglas han cambiado varias veces, así que revisa el portal oficial antes de reclamar.</p>
+
+    <h2>Cilindro o tanque estacionario</h2>
+    <ul>
+      <li><strong>Cilindro:</strong> se vende por kilo. Los tamaños comunes son de 10, 20, 30 y 45 kg. Cambias el vacío por uno lleno y pagas los kilos que trae.</li>
+      <li><strong>Tanque estacionario:</strong> se carga con una pipa que mide en litros con su propio medidor. La capacidad de tu tanque viene en su placa, en litros.</li>
+      <li>Un tanque estacionario <strong>nunca se llena al 100%</strong>: se deja espacio para que el gas se expanda con el calor. Fíjate en el medidor de tu tanque hasta qué porcentaje lo llenan. El 85% de la calculadora es un ejemplo.</li>
+    </ul>
+
+    <h2>Que te den lo justo</h2>
+    <h3>Si compras cilindro</h3>
+    <ol>
+      <li>El cilindro trae grabado su peso vacío (la tara). Lleno debe pesar la tara más los kilos que pagaste.</li>
+      <li>Si tienes báscula, pésalo. Si no, pide que lo pesen frente a ti.</li>
+      <li>Revisa que traiga su sello o capuchón y que no huela a gas.</li>
+    </ol>
+    <h3>Si compras con pipa</h3>
+    <ol>
+      <li>Anota el porcentaje que marca tu tanque antes de cargar.</li>
+      <li>Revisa que el medidor de la pipa empiece en ceros.</li>
+      <li>Al terminar, revisa otra vez tu medidor y pide tu ticket con los litros y el precio.</li>
+    </ol>
+
+    <h2>Seguridad</h2>
+    <ul>
+      <li>Busca fugas con agua y jabón en las conexiones: si salen burbujas, hay fuga. <strong>Nunca uses cerillos ni encendedor.</strong></li>
+      <li>Si huele a gas: no prendas ni apagues luces ni aparatos, abre puertas y ventanas, cierra la llave del cilindro o del tanque y sal de la casa. Llama al 911 o a tu distribuidor.</li>
+      <li>El calentador y la estufa necesitan ventilación. No instales el calentador dentro del baño ni en un lugar cerrado.</li>
+    </ul>
+
+    <h2>Para gastar menos gas</h2>
+    <ol>
+      <li>Tapa las ollas y usa una flama del tamaño de la olla.</li>
+      <li>Usa olla exprés para frijoles, carnes y caldos.</li>
+      <li>Báñate en menos tiempo y usa una regadera ahorradora.</li>
+      <li>Si tu calentador es de depósito (boiler), apaga el piloto cuando salgas de viaje. Uno de paso gasta casi solo mientras usas agua caliente; si tiene piloto, también gasta un poco todo el día.</li>
+      <li>Revisa que no haya fugas: una fuga pequeña también vacía tu tanque.</li>
+    </ol>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Por qué el cilindro se vende por kilo y la pipa por litro?</h3>
+    <p>El cilindro se llena por peso. La pipa mide el gas que pasa por su medidor, en litros. Para comparar, convierte con la densidad: la calculadora lo hace por ti.</p>
+    <h3>¿Qué densidad uso?</h3>
+    <p>El gas LP es una mezcla de propano y butano. El propano líquido pesa cerca de 0.51 kilos por litro y el butano cerca de 0.58, así que la mezcla queda en medio. Usamos 0.54 como referencia: en las listas de precios máximos de 2026 que reporta la prensa, el precio por litro es unas 0.54 veces el precio por kilo. Si tu ticket trae kilos y litros, divide los kilos entre los litros y tendrás la densidad de tu compra.</p>
+    <h3>¿Cómo sé cuánto gas gasto de verdad?</h3>
+    <p>Anota el día que compras y el día que se acaba. Luego elige “Ya sé cuántos días me dura” en la calculadora. Es más exacto que estimar con la estufa y la regadera.</p>
+    <h3>¿Por qué los consumos de la estufa y del calentador son ejemplos?</h3>
+    <p>Cada estufa y cada calentador gasta distinto, y depende de qué tan alta pones la flama y de cuánta agua caliente usas. Los valores de la calculadora son aproximados para una estufa casera y un calentador de paso. Un calentador de depósito gasta además para mantener el agua caliente.</p>
+
+    <h2>Fuentes</h2>
+    <ul>
+      <li><a href="https://www.gob.mx/cne/documentos/precios-maximos-aplicables-de-gas-lp-399897" rel="noopener">Precios máximos aplicables de gas LP</a>: lista semanal de la Comisión Nacional de Energía (CNE), por región.</li>
+      <li>Directriz de emergencia para el bienestar del consumidor de gas licuado de petróleo, de la Secretaría de Energía (<a href="https://www.dof.gob.mx/nota_detalle.php?codigo=5625053&amp;fecha=28/07/2021" rel="noopener">DOF, 28 de julio de 2021</a>). Con ella empezaron los precios máximos.</li>
+      <li>Metodología de la CNE para fijar los precios máximos del gas LP (DOF, 21 de enero de 2026). La conocemos por despachos legales y prensa; pendiente de verificar en el DOF.</li>
+      <li><a href="https://www.gob.mx/profeco" rel="noopener">Profeco</a>: quejas y consejos para comprar gas.</li>
+    </ul>
+    <p class="nota">Revisado en octubre de 2026. Esta calculadora no usa precios oficiales: el precio lo escribes tú. La densidad de 0.54 y los consumos de la estufa y del calentador son valores de referencia, no cifras oficiales.</p>
+
+    <p>También te puede servir: <a href="../recibo-de-luz/">cómo leer tu recibo de luz</a>, <a href="../consumo-de-aparatos/">consumo de luz de tus aparatos</a> y <a href="../../auto/gasolina-por-viaje/">calculadora de gasolina por viaje</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno. Los cálculos son orientativos.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/casa.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const numero = (n, d = 1) => n.toLocaleString("es-MX", { maximumFractionDigits: d });
+let unidadAnterior = $("uni").value;
+// Precio tal como lo escribiste y en qué unidad. Al cambiar de kilo a litro (o al revés) convertimos siempre desde
+// este valor y calculamos con él: así ir y volver no cambia el precio por redondeo.
+let precioOriginal = { texto: $("pre").value, unidad: unidadAnterior };
+$("pre").addEventListener("input", () => { precioOriginal = { texto: $("pre").value, unidad: $("uni").value }; });
+function calcular() {
+  const tipo = $("tipo").value, modo = $("modo").value, unidad = $("uni").value;
+  const d = Casa.densidadGas($("den").value).valor;
+  const pOrig = +precioOriginal.texto;
+  const convertido = unidad !== precioOriginal.unidad && precioOriginal.texto !== "" && Number.isFinite(pOrig) && pOrig > 0;
+  if (unidad === precioOriginal.unidad) {
+    if (unidad !== unidadAnterior) $("pre").value = precioOriginal.texto;
+  } else if (convertido) {
+    $("pre").value = Casa.redondear(unidad === "litro" ? pOrig * d : pOrig / d).toFixed(2);
+  }
+  unidadAnterior = unidad;
+  const tanque = tipo === "tanque";
+  $("lcil").hidden = tanque;
+  $("gtan").hidden = !tanque;
+  $("guso").hidden = modo !== "uso";
+  $("ldd").hidden = modo !== "dias";
+  $("tpre").textContent = unidad === "litro" ? "Precio por litro (ejemplo)" : "Precio por kilo (ejemplo)";
+
+  const r = Casa.gasLP({
+    tipo, cilindroKg: $("cil").value, capacidad: $("cap").value, actual: $("act").value, llenado: $("lle").value,
+    precio: convertido ? precioOriginal.texto : $("pre").value, unidad: convertido ? precioOriginal.unidad : unidad, densidad: $("den").value, modo,
+    horasEstufa: $("hes").value, kgHoraEstufa: $("kgh").value, minutosRegadera: $("min").value, kgMinutoCalentador: $("kgm").value,
+    diasDura: $("dd").value
+  });
+  $("total").textContent = mxn(r.gastoMes);
+  $("tdura").textContent = tanque ? "Tu carga te dura" : "Tu cilindro te dura";
+  $("dura").textContent = r.dias === 0 ? "Sin datos" : r.dias < 1 ? "Menos de 1 día" : r.dias > 730 ? "Más de 2 años" : numero(r.dias) === "1" ? "1 día" : numero(r.dias) + " días";
+  $("kgd").textContent = numero(r.kgDia, 2) + " kg";
+  $("gd").textContent = mxn(r.gastoDia);
+  $("tcos").textContent = tanque ? "Costo de la carga" : "Costo del cilindro";
+  $("cos").textContent = mxn(r.costo);
+  $("kil").textContent = `${numero(r.kilos)} kg = ${numero(r.litros)} litros`;
+  $("pk").textContent = mxn(r.precioKilo);
+  $("pl").textContent = mxn(r.precioLitro);
+  const msg = [];
+  if (r.sinPrecio) msg.push(`Escribe el precio por ${unidad} para ver cuánto gastas.`);
+  if (r.tanqueLleno) msg.push("Tu tanque ya está en el porcentaje de llenado o más: no hay gas que cargar.");
+  else if (r.kilos === 0) msg.push(tanque ? "Escribe la capacidad de tu tanque." : "Elige el tamaño del cilindro.");
+  if (r.sinUso && !r.tanqueLleno && r.kilos > 0) msg.push(modo === "dias" ? "Escribe cuántos días te dura una compra." : "Escribe cuánto usas la estufa o la regadera para saber cuánto te dura.");
+  if (r.densidadPorOmision) msg.push("Sin densidad usamos la de referencia, 0.54 kilos por litro.");
+  if (r.recortado) msg.push("Alguna cantidad está fuera de rango y la ajustamos: densidad de 0.4 a 0.7, porcentajes de 0 a 100, hasta $1,000 de precio, 100,000 litros, 24 horas de estufa y 0.5 kg por minuto.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+$("f").addEventListener("change", calcular);
+calcular();
+</script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de PTU 2026: reparto de utilidades | Cuentas Claras MX</title>
+<meta name="description" content="Calcula tu reparto de utilidades (PTU) en México: mitad por días y mitad por salario, con el tope de 3 meses. Quién no tiene derecho y fechas de pago.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<style>
+  .tool h3 { color: var(--brand); margin-top: 4px }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Trabajo</a> › Reparto de utilidades</span></div>
+
+  <header>
+    <span class="tag">Trabajo</span>
+    <h1>Calculadora de reparto de utilidades (PTU)</h1>
+    <p class="lede">Si la empresa donde trabajas tuvo ganancias, una parte es para ti. Escribe tus datos y los de la empresa, y te decimos cuánto te toca aproximadamente.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <h3>Tus datos</h3>
+      <label for="caso">¿Cuál es tu caso?
+        <select id="caso">
+          <option value="planta" selected>De planta</option>
+          <option value="confianza">De confianza</option>
+          <option value="eventual">Eventual (temporal)</option>
+          <option value="directivo">Director, administrador o gerente general</option>
+          <option value="hogar">Trabajo del hogar</option>
+        </select></label>
+      <label for="sal">Sueldo mensual bruto (sin bonos ni horas extra)
+        <input id="sal" type="number" min="0" max="100000000" step="any" inputmode="decimal" value="12000"></label>
+      <label for="maxp" id="lmaxp" hidden>Sueldo mensual del trabajador sindicalizado o de planta mejor pagado
+        <input id="maxp" type="number" min="0" max="100000000" step="any" inputmode="decimal" value="0"></label>
+      <p class="nota" id="nmaxp" hidden>Solo para personas de confianza. Si ganas más que ese trabajador, para el reparto se usa su sueldo más 20% (artículo 127, fracción II). Si no lo sabes, deja 0.</p>
+      <label for="dias">Días que trabajaste en el año del reparto
+        <input id="dias" type="number" min="0" max="366" step="1" value="365"></label>
+      <label for="prom">Promedio de PTU que recibiste en los últimos 3 años
+        <input id="prom" type="number" min="0" step="any" inputmode="decimal" value="0"></label>
+      <p class="nota">Si no lo sabes, deja 0. Solo sirve para el tope: si tu promedio es mayor que 3 meses de sueldo, se usa el promedio.</p>
+      <h3>Datos de la empresa</h3>
+      <label for="renta">Renta gravable para PTU de la empresa en el año
+        <input id="renta" type="number" min="0" step="any" inputmode="decimal" value="2000000"></label>
+      <label for="dtot">Días trabajados por todas las personas con derecho (suma)
+        <input id="dtot" type="number" min="0" step="1" value="7300"></label>
+      <label for="stot">Salarios de todas las personas con derecho en el año (suma)
+        <input id="stot" type="number" min="0" step="any" inputmode="decimal" value="3650000"></label>
+      <p class="nota">Los días y los salarios vienen en el proyecto de reparto que la comisión de la empresa debe pegar en un lugar visible. La renta gravable para PTU viene en la declaración anual de la empresa. Los valores cargados son un ejemplo.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Te toca aproximadamente</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span>Monto a repartir (10% de la renta gravable)</span><b id="rep"></b></div>
+      <div class="row"><span>Tu salario del año <small class="nota">Art. 124 LFT</small></span><b id="sa"></b></div>
+      <div class="row"><span>Parte por días trabajados</span><b id="pd"></b></div>
+      <div class="row"><span>Parte por salario</span><b id="ps"></b></div>
+      <div class="row"><span>Tu tope <small class="nota">Art. 127 fr. VIII LFT</small></span><b id="tope"></b></div>
+      <div class="row"><span>Parte libre de ISR (15 UMA)</span><b id="ex"></b></div>
+      <div class="row"><span>Parte que paga ISR</span><b id="gr"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Monto bruto y estimado. Lo que te paguen depende del cálculo que haga tu empresa con sus datos reales.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Qué es el reparto de utilidades</h2>
+    <p>Es tu derecho a recibir una parte de las ganancias de la empresa donde trabajas. Se conoce como <strong>PTU</strong> (participación de los trabajadores en las utilidades). Está en la Constitución y en los artículos 117 a 131 de la Ley Federal del Trabajo.</p>
+    <p>Las empresas reparten el <strong>10% de su renta gravable para PTU</strong>. La empresa la calcula en su declaración anual de impuestos, y debe dar copia de esa declaración a los trabajadores (artículo 121). No es la utilidad de sus estados financieros ni el resultado fiscal de la declaración: para la PTU no se restan la PTU que la empresa pagó en el año ni sus pérdidas de años anteriores (artículo 9 de la Ley del ISR). Ese porcentaje lo fijó la Comisión Nacional para la Participación de los Trabajadores en las Utilidades y lo confirmó en su última resolución, publicada en el Diario Oficial el 18 de septiembre de 2020.</p>
+
+    <h2>Cómo se calcula</h2>
+    <p>El 10% se divide en dos mitades iguales (artículo 123):</p>
+    <ul>
+      <li><strong>Primera mitad, por días:</strong> se reparte entre todas las personas con derecho según los días que trabajó cada una, sin importar cuánto gana.</li>
+      <li><strong>Segunda mitad, por salario:</strong> se reparte según el salario que ganó cada persona en el año.</li>
+    </ul>
+    <p>El salario que cuenta es tu salario por día en efectivo. No cuentan el aguinaldo, los bonos, las primas ni las horas extra (artículo 124).</p>
+    <p>La calculadora usa tu sueldo mensual ÷ 30 por cada día trabajado. Si tu sueldo cambió durante el año, escribe un promedio.</p>
+
+    <h2>Ejemplo</h2>
+    <p>Una empresa tuvo una renta gravable de $2,000,000. Reparte el 10%: $200,000. Cada mitad es de $100,000.</p>
+    <p>Tiene 20 personas con derecho que trabajaron todo el año: 20 × 365 = 7,300 días. Entre todas ganaron $3,650,000 de salario.</p>
+    <p>Tú ganas $12,000 al mes ($400 al día) y trabajaste 365 días, así que tu salario del año es 400 × 365 = $146,000.</p>
+    <ul>
+      <li>Parte por días: $100,000 ÷ 7,300 × 365 = <strong>$5,000</strong>.</li>
+      <li>Parte por salario: $100,000 ÷ 3,650,000 × 146,000 = <strong>$4,000</strong>.</li>
+    </ul>
+    <p>Te tocan <strong>$9,000</strong>. Tu tope es 3 meses de sueldo ($36,000), así que no se aplica. Son los datos que vienen cargados en la calculadora.</p>
+
+    <h2>El tope de 3 meses</h2>
+    <p>Desde la reforma de subcontratación (Diario Oficial del 23 de abril de 2021), la PTU de cada persona tiene un límite: <strong>3 meses de salario o el promedio de la PTU que recibió en los últimos 3 años</strong>. Se usa el que más te convenga (artículo 127, fracción VIII).</p>
+    <p>Por ejemplo, si ganas $12,000 al mes, tu tope es $36,000. Pero si en los últimos 3 años recibiste en promedio $50,000, tu tope es $50,000.</p>
+    <p>Si trabajas para alguien cuyos ingresos vienen solo de su propio trabajo, o te dedicas a cuidar bienes que dan rentas o a cobrar créditos, el límite es de un mes de salario (artículo 127, fracción III). Esta calculadora no aplica ese caso.</p>
+
+    <h2>Quién no tiene derecho</h2>
+    <ul>
+      <li>Directores, administradores y gerentes generales de la empresa (artículo 127, fracción I).</li>
+      <li>Personas trabajadoras del hogar (artículo 127, fracción VI).</li>
+      <li>Trabajadores eventuales que trabajaron menos de 60 días en el año (artículo 127, fracción VII). Con 60 días o más sí les toca.</li>
+      <li>Quienes no son empleados, como socios, accionistas o personas que cobran por honorarios sin ser trabajadores.</li>
+    </ul>
+    <p>Los trabajadores de confianza sí participan. Si ganan más que el trabajador sindicalizado con el salario más alto (o, si no hay sindicalizados, el de planta), para el reparto se usa ese salario más 20% (artículo 127, fracción II). En la calculadora, elige «De confianza» y escribe ese sueldo para aplicar el límite. Si lo dejas en 0, no se aplica y el resultado puede salir más alto de lo que te toca.</p>
+    <p>Tampoco reparten utilidades algunas empresas (artículo 126): las de nueva creación en su primer año, las que fabrican un producto nuevo en sus primeros 2 años, las nuevas de la industria extractiva (como las minas) mientras exploran, las instituciones de asistencia privada, el IMSS y algunas instituciones públicas, y los negocios que declaran al SAT ingresos de hasta $300,000 al año (resolución de la Secretaría del Trabajo del 19 de diciembre de 1996).</p>
+    <p>Si la empresa no tuvo renta gravable, no hay utilidades que repartir.</p>
+
+    <h2>Cuándo te la deben pagar</h2>
+    <p>La ley da 60 días después de la fecha límite de la declaración anual de la empresa (artículo 122). En la práctica:</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Si tu patrón es</th><th>Fecha límite de pago</th></tr></thead>
+      <tbody>
+        <tr><td>Una empresa (persona moral)</td><td>30 de mayo</td></tr>
+        <tr><td>Una persona física (por ejemplo, el dueño de un negocio)</td><td>29 de junio</td></tr>
+      </tbody>
+    </table></div>
+    <p class="nota">Fechas del Manual laboral y fiscal de reparto de utilidades 2026 del SAT y de la PROFEDET. La PTU que se pagó en 2026 corresponde a las utilidades de 2025; la de 2027 será por las utilidades de 2026.</p>
+
+    <h2>¿Paga impuestos?</h2>
+    <p>El SAT considera libre de ISR hasta 15 UMA (artículo 93, fracción XIV de la Ley del ISR). Con la UMA de $117.31, vigente del 1 de febrero de 2026 al 31 de enero de 2027, eso da <strong>$1,759.65</strong>. Solo lo que pase de esa cantidad paga impuesto. Así lo calcula esta página.</p>
+    <p>La ley no habla de la UMA, sino de 15 días de salario mínimo del área geográfica del trabajador. La Procuraduría de la Defensa del Contribuyente (PRODECON) ha opinado que debe usarse el salario mínimo. Con el salario mínimo general ($315.04 diarios) serían $4,725.60 libres de ISR. En la zona libre de la frontera norte ($440.87 diarios) serían $6,613.05. Si crees que te retuvieron de más, puedes pedir asesoría gratuita en la PRODECON.</p>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Me toca si ya no trabajo en esa empresa?</h3>
+    <p>Sí. Si trabajaste ahí durante el año del reparto, te toca la parte de los días que trabajaste. Si eras eventual, necesitas haber trabajado al menos 60 días. Pide tu pago en las mismas fechas.</p>
+    <h3>¿Cuentan los días de incapacidad?</h3>
+    <p>Sí, en dos casos: la incapacidad por maternidad (antes y después del parto) y la incapacidad temporal por un accidente o enfermedad de trabajo. Esos días cuentan como trabajados (artículo 127, fracción IV).</p>
+    <h3>¿Dónde veo los datos de la empresa?</h3>
+    <p>Una comisión con representantes de los trabajadores y de la empresa prepara un proyecto de reparto y lo pega en un lugar visible. Tienes 15 días para hacer observaciones (artículo 125). La empresa también debe darles copia de su declaración anual, y pueden objetarla ante el SAT (artículo 121).</p>
+    <h3>¿Y si no me pagaron o me pagaron menos?</h3>
+    <p>Tienes <strong>un año</strong> para reclamar, contado desde el día siguiente a la fecha límite de pago (artículo 516). Pide asesoría gratuita en la Procuraduría Federal de la Defensa del Trabajo (PROFEDET) o en la procuraduría de tu estado.</p>
+
+    <h2>Fuente oficial</h2>
+    <p>Consulta la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LFT.pdf" rel="noopener">Ley Federal del Trabajo</a> (artículos 117 a 131), el <a href="https://www.sat.gob.mx/minisitio/RepartodeUtilidades/documentos/manuallaboralfiscal2026.pdf" rel="noopener">Manual laboral y fiscal de reparto de utilidades 2026 del SAT</a> y la <a href="https://www.gob.mx/profedet/articulos/utilidades-2026-son-tu-derecho-conocelas-informate-y-exigelas" rel="noopener">guía de utilidades 2026 de la PROFEDET</a>.</p>
+    <p>También te puede servir: <a href="../aguinaldo/">calculadora de aguinaldo</a>, <a href="../sueldo-neto/">calculadora de sueldo neto e ISR</a>, <a href="../horas-extra/">calculadora de horas extra</a> y <a href="../finiquito/">calculadora de finiquito y liquidación</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno. Los cálculos son orientativos y no sustituyen la asesoría de un abogado laboral. Consulta la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LFT.pdf" rel="noopener">Ley Federal del Trabajo</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/trabajo.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const r = Trabajo.ptu({
+    caso: $("caso").value, salarioMensual: $("sal").value, salarioMaxPlanta: $("maxp").value,
+    dias: $("dias").value, promedio3: $("prom").value,
+    rentaGravable: $("renta").value, diasTotales: $("dtot").value, salariosTotales: $("stot").value
+  });
+  $("total").textContent = mxn(r.total);
+  $("rep").textContent = mxn(r.repartir);
+  $("sa").textContent = mxn(r.misSalarios);
+  $("pd").textContent = r.derecho ? mxn(r.parteDias) : "No aplica";
+  $("ps").textContent = r.derecho ? mxn(r.parteSalarios) : "No aplica";
+  $("tope").textContent = r.derecho ? mxn(r.tope) : "No aplica";
+  const conf = $("caso").value === "confianza";
+  $("lmaxp").hidden = !conf;
+  $("nmaxp").hidden = !conf;
+  $("ex").textContent = mxn(r.exentoAplicado);
+  $("gr").textContent = mxn(r.gravado);
+  const msg = [];
+  if (r.razon === "directivo") msg.push("Los directores, administradores y gerentes generales no participan en el reparto (artículo 127, fracción I).");
+  if (r.razon === "hogar") msg.push("Las personas trabajadoras del hogar no participan en el reparto (artículo 127, fracción VI).");
+  if (r.razon === "eventual") msg.push(`Si eres eventual, te toca solo si trabajaste 60 días o más en el año (artículo 127, fracción VII). Escribiste ${r.misDias} ${r.misDias === 1 ? "día" : "días"}.`);
+  if (r.recortado) msg.push("Alguna cantidad es demasiado grande. Usamos como máximo $100,000,000 de sueldo al mes y $1,000,000,000,000 en los datos de la empresa.");
+  if (r.derecho) {
+    if (r.renta === 0) msg.push("Si la empresa no tuvo renta gravable, no hay utilidades que repartir.");
+    if (r.sd === 0 && r.promedio === 0) msg.push("Escribe tu sueldo: sin él, tu tope de 3 meses queda en $0.");
+    if (r.topado) msg.push(`Sin tope te tocarían ${mxn(r.calculada)}, pero recibes tu tope: ${r.topeUsado === "promedio" ? "el promedio de tus últimos 3 años" : "3 meses de salario"}.`);
+    if (r.confianzaTopada) msg.push(`Como eres de confianza y ganas más que el sueldo de planta más alto, para el reparto usamos como máximo ${mxn(r.topeConfianzaMensual)} al mes: ese sueldo más 20% (artículo 127, fracción II).`);
+    if (r.confianzaSinDato) msg.push("Si eres de confianza y ganas más que el trabajador sindicalizado o de planta mejor pagado, tu salario para el reparto tiene un límite. Escribe su sueldo para aplicarlo.");
+    if (r.ajustado) msg.push("Revisa los datos de la empresa: los totales te incluyen a ti, así que no pueden ser menores que tus días o tu salario del año. Usamos tus datos como mínimo.");
+  }
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

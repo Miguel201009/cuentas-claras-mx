@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Semanas cotizadas IMSS 2026 | Cuentas Claras MX</title>
+<meta name="description" content="Cuántas semanas cotizadas pide el IMSS en 2026 (875 en Ley 97, 500 en Ley 73), tabla año por año y cómo sacar tu constancia gratis en línea.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Retiro e IMSS</a> › Semanas cotizadas</span></div>
+
+  <header>
+    <span class="tag">Retiro e IMSS</span>
+    <h1>Semanas cotizadas: cuántas pide el IMSS en 2026</h1>
+    <p class="lede">Para pensionarte necesitas un mínimo de semanas cotizadas. Calcula cuántas te faltan y aprende a sacar tu constancia gratis.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni del IMSS.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="reg">¿Cuándo empezaste a cotizar en el IMSS?
+        <select id="reg"><option value="ley97" selected>Desde julio de 1997 (Ley 97)</option><option value="ley73">Antes de julio de 1997 (Ley 73)</option></select></label>
+      <p class="nota">Si empezaste antes del 1 de julio de 1997 puedes elegir cualquiera de las dos leyes. Con esa opción calculamos con la Ley 73.</p>
+      <label for="sem">Semanas cotizadas que ya tienes
+        <input id="sem" type="number" min="0" max="5000" step="1" value="800"></label>
+      <label for="anio">Año en que piensas pedir tu pensión
+        <input id="anio" type="number" min="2026" max="2100" step="1" value="2029"></label>
+      <p class="nota">Tus semanas vienen en tu constancia de semanas cotizadas del IMSS. Abajo te decimos cómo sacarla.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota" id="tit">Te faltan</span>
+      <div class="big" id="total">0 semanas</div>
+      <div class="row"><span id="treq">Semanas que te pedirán</span><b id="req"></b></div>
+      <div class="row"><span>Semanas que ya tienes</span><b id="ten"></b></div>
+      <div class="row"><span>Tiempo que ya cotizaste</span><b id="aten"></b></div>
+      <div class="row"><span>Tiempo de trabajo con IMSS que te falta</span><b id="afal"></b></div>
+      <div class="row"><span id="tda">¿Te da tiempo?</span><b id="da"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Contamos 52 semanas por año de trabajo continuo, desde hoy hasta el 31 de diciembre del año que elijas.</p>
+      <p class="nota">Además de las semanas necesitas la edad: 60 años para cesantía o 65 para vejez, en las dos leyes. Para cesantía (60 a 64 años) además debes estar dado de baja, sin trabajo con IMSS.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Qué son las semanas cotizadas</h2>
+    <p>Cada semana que trabajas dado de alta en el IMSS y tu patrón paga tus cuotas, cuenta como una semana cotizada. Se suman las de todos tus trabajos, aunque hayas tenido varios patrones. 52 semanas son un año.</p>
+
+    <h2>Cuántas semanas pide cada ley</h2>
+    <p><strong>Ley 73</strong> (empezaste a cotizar antes del 1 de julio de 1997): <strong>500 semanas</strong>, siempre. Así lo marca la Ley del Seguro Social de 1973 (por ejemplo, su artículo 145 para cesantía) y lo repite la ficha del trámite de pensión del IMSS.</p>
+    <p><strong>Ley 97</strong> (empezaste a cotizar el 1 de julio de 1997 o después): antes de la reforma de 2020 se pedían 1,250 semanas. La reforma bajó el mínimo a 750 en 2021 y lo sube 25 semanas cada año hasta llegar a 1,000 en 2031. Cuenta el año en que pides tu pensión.</p>
+    <div class="tabla">
+      <table>
+        <thead><tr><th>Año en que pides tu pensión</th><th>Semanas Ley 97</th><th>En años</th></tr></thead>
+        <tbody>
+          <tr><td>2021</td><td class="n">750</td><td class="n">14.4</td></tr>
+          <tr><td>2022</td><td class="n">775</td><td class="n">14.9</td></tr>
+          <tr><td>2023</td><td class="n">800</td><td class="n">15.4</td></tr>
+          <tr><td>2024</td><td class="n">825</td><td class="n">15.9</td></tr>
+          <tr><td>2025</td><td class="n">850</td><td class="n">16.3</td></tr>
+          <tr><td><strong>2026</strong></td><td class="n"><strong>875</strong></td><td class="n">16.8</td></tr>
+          <tr><td>2027</td><td class="n">900</td><td class="n">17.3</td></tr>
+          <tr><td>2028</td><td class="n">925</td><td class="n">17.8</td></tr>
+          <tr><td>2029</td><td class="n">950</td><td class="n">18.3</td></tr>
+          <tr><td>2030</td><td class="n">975</td><td class="n">18.8</td></tr>
+          <tr><td>2031 en adelante</td><td class="n">1,000</td><td class="n">19.2</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="nota">Fuente: artículos 154 y 162 de la Ley del Seguro Social y artículo cuarto transitorio del decreto de reforma publicado en el DOF el 16 de diciembre de 2020. Los años son semanas entre 52.</p>
+
+    <h2>Ejemplo</h2>
+    <p>Si eres de la Ley 97, tienes 800 semanas y piensas pedir tu pensión en 2029, te pedirán 950 semanas. Te faltan 150 semanas: unos 2.9 años de trabajo con IMSS sin interrupciones. Sí te da tiempo, porque de aquí al final de 2029 quedan más de 3 años. Las 800 que ya tienes equivalen a 15.4 años.</p>
+    <p>Ahora un caso en el que <strong>no da tiempo</strong>: tienes 600 semanas y eliges 2030. Ese año piden 975, así que te faltarían 375. Pero de hoy (octubre de 2026) al final de 2030 solo caben unas 218 semanas. Con trabajo continuo las juntarías hacia 2034, y para entonces la Ley 97 ya pide 1,000. En realidad te faltan 400 semanas: unos 7.7 años. La calculadora te avisa cuando pasa esto.</p>
+    <p>Si fueras de la Ley 73, con 800 o con 600 semanas ya pasarías el mínimo de 500.</p>
+    <p><strong>Ojo con la cesantía:</strong> para pensionarte de los 60 a los 64 años, además de la edad y las semanas, debes quedar sin trabajo con IMSS. La ley dice "quedar privado de trabajos remunerados" (artículo 154 de la Ley del Seguro Social vigente y artículo 143 de la de 1973).</p>
+
+    <h2>Cómo sacar tu constancia de semanas cotizadas</h2>
+    <p>Es gratis y se saca en línea en unos minutos. El IMSS la llama <strong>Constancia de semanas cotizadas</strong> (trámite IMSS-02-025-A).</p>
+    <h3>Lo que necesitas</h3>
+    <ul>
+      <li>Tu <strong>CURP</strong>.</li>
+      <li>Tu <strong>Número de Seguridad Social (NSS)</strong>, de 11 dígitos. Viene en tus recibos de nómina. Si no lo tienes, el IMSS te deja consultarlo en línea con tu CURP.</li>
+      <li>Un <strong>correo electrónico</strong> personal.</li>
+      <li>Ten a la mano tu <strong>celular</strong>. Es posible que el portal te lo pida para mandarte un código por mensaje (SMS). Lo reportó IDC Online en febrero de 2026; confírmalo en el portal del IMSS.</li>
+    </ul>
+    <h3>Paso a paso</h3>
+    <ol>
+      <li>Entra a la página de la constancia en el <a href="https://serviciosdigitales.imss.gob.mx/semanascotizadas-web/usuarios/IngresoAsegurado" rel="noopener">portal de servicios digitales del IMSS</a>. Revisa que la dirección termine en <strong>imss.gob.mx</strong>.</li>
+      <li>Escribe tu CURP y tu NSS, sin espacios ni guiones.</li>
+      <li>Escribe tu correo dos veces. Si el portal te pide tu celular, escríbelo y anota el código que te llegue por mensaje.</li>
+      <li>Escribe el código de la imagen (captcha) y envía la solicitud.</li>
+      <li>Abre tu correo. Si no ves el mensaje del IMSS, busca en la carpeta de spam o correo no deseado.</li>
+      <li>Descarga tu constancia en PDF. Ahí vienen tus patrones, las fechas de alta y baja, tu salario y el total de semanas que te reconoce el IMSS.</li>
+    </ol>
+    <p>También puedes sacarla en la app <strong>IMSS Digital</strong> o en persona en tu Subdelegación del IMSS, de lunes a viernes de 8:00 a 15:30, con una identificación oficial.</p>
+
+    <div class="result">
+      <span class="nota">Resumen del trámite</span>
+      <div class="row"><span>Costo</span><b>$0</b></div>
+      <div class="row"><span>Dónde</span><b>Portal del IMSS, app o Subdelegación</b></div>
+      <div class="row"><span>Tiempo</span><b>Unos minutos</b></div>
+      <div class="row"><span>Te dan</span><b>Constancia en PDF</b></div>
+      <p class="nota">Información revisada en octubre de 2026. Las pantallas y los requisitos del IMSS cambian: confirma el trámite en el portal oficial antes de empezar.</p>
+    </div>
+
+    <h2>Si te faltan semanas o ves un error</h2>
+    <ul>
+      <li><strong>Falta un trabajo o un periodo:</strong> junta pruebas, como recibos de nómina, contratos o tu alta en el IMSS. Pide la aclaración de semanas cotizadas en tu Subdelegación.</li>
+      <li><strong>Tu patrón no te dio de alta:</strong> esas semanas no cuentan. Puedes pedir asesoría gratuita en la PROFEDET.</li>
+      <li><strong>Dejaste de cotizar:</strong> conservas tus derechos por un tiempo igual a la cuarta parte de lo que cotizaste, y nunca menos de 12 meses. Si vuelves a cotizar, hay reglas para recuperar tus semanas: pregunta en el IMSS.</li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Qué pasa si llego a la edad y no tengo las semanas?</h3>
+    <p>En la Ley 97 puedes seguir trabajando hasta juntarlas, o retirar en una sola exhibición el dinero de tu Afore. En la Ley 73 no hay pensión con menos de 500 semanas, pero puedes retirar lo que tengas en tu Afore.</p>
+    <h3>¿Cuentan las semanas del ISSSTE?</h3>
+    <p>No se suman solas: el IMSS y el ISSSTE llevan cuentas separadas. En algunos casos se pueden juntar con un trámite de portabilidad. Pregunta en el IMSS o el ISSSTE.</p>
+    <h3>¿Cuántos años son 875 semanas?</h3>
+    <p>Unos 16.8 años de trabajo con IMSS (875 entre 52).</p>
+    <h3>¿Es seguro sacar mi constancia aquí?</h3>
+    <p>Cuentas Claras MX <strong>no es el IMSS</strong> y no hace trámites. Nunca te vamos a pedir tu CURP, tu NSS ni tus contraseñas. Haz tus trámites solo en sitios que terminen en imss.gob.mx o gob.mx.</p>
+
+    <h2>Fuentes oficiales</h2>
+    <ul>
+      <li><a href="https://www.imss.gob.mx/tramites/imss02025a" rel="noopener">Constancia de semanas cotizadas en el IMSS</a> (ficha del trámite IMSS-02-025-A).</li>
+      <li><a href="https://www.imss.gob.mx/tramites/imss01002" rel="noopener">Solicitud de pensión de cesantía en edad avanzada o vejez</a> (ficha del trámite del IMSS, con los requisitos de cada ley).</li>
+      <li><a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LSS.pdf" rel="noopener">Ley del Seguro Social vigente</a>, artículos 150, 154 y 162 (Cámara de Diputados).</li>
+      <li><a href="https://www.diputados.gob.mx/LeyesBiblio/ref/lss/LSS_ref25_16dic20.pdf" rel="noopener">Decreto de reforma de pensiones, DOF 16 de diciembre de 2020</a>, artículo cuarto transitorio.</li>
+    </ul>
+    <p class="nota">No pudimos abrir los portales del IMSS, del DOF ni de la Cámara de Diputados desde nuestra red al revisar esta página: la tabla de semanas y los pasos se confirmaron con varias fuentes que coinciden entre sí. Lo del código por SMS solo lo encontramos en una nota de IDC Online (febrero de 2026), por eso lo damos como posible. Los requisitos cambian: verifica siempre en el portal oficial.</p>
+
+    <p>También te puede servir: <a href="../afore/">cuánto tendrás en tu Afore</a>, <a href="../ley-73-vs-ley-97/">pensión Ley 73 vs. Ley 97</a>, <a href="../../familia/maternidad-y-paternidad/">licencia de maternidad y paternidad</a>, que también pide semanas cotizadas, y <a href="../../trabajo/finiquito/">calculadora de finiquito y liquidación</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni del IMSS. Los cálculos son orientativos; consulta la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LSS.pdf" rel="noopener">Ley del Seguro Social</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/retiro.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const anios = n => {
+  const r = Math.round(n * 10) / 10;
+  return r.toLocaleString("es-MX", { maximumFractionDigits: 1 }) + (r === 1 ? " año" : " años");
+};
+const semanas = n => n.toLocaleString("es-MX") + (n === 1 ? " semana" : " semanas");
+// Hoy, según el reloj de tu celular o computadora: año y semanas que quedan hasta el 31 de diciembre.
+function hoy() {
+  const d = new Date();
+  const anioReloj = d.getFullYear();
+  const anio = Math.max(anioReloj, Calc.DATOS.anio);
+  if (anioReloj < anio) return { anio, restantes: 52 }; // reloj atrasado: contamos el año completo
+  const fin = new Date(anio, 11, 31);
+  return { anio, restantes: Math.max(0, Math.floor((fin - d) / 6048e5)) };
+}
+function calcular() {
+  const h = hoy();
+  const anioCampo = $("anio").value;
+  const anio = Math.min(Math.max(Math.floor(+anioCampo) || h.anio, h.anio), 2100);
+  const r = Retiro.semanasFaltantes({ regimen: $("reg").value, semanas: $("sem").value, anio, anioActual: h.anio, restantesAnio: h.restantes });
+  const ley97 = r.regimen === "ley97";
+  $("tit").textContent = r.cumple ? "Ya tienes las semanas que te piden"
+    : r.alcanza ? "Te faltan" : `No te da tiempo para ${r.anio}. Con trabajo continuo te faltan`;
+  $("total").textContent = r.cumple ? "Te sobran " + semanas(r.sobran) : semanas(r.faltanPosible);
+  $("treq").textContent = ley97 ? `Semanas que te pedirán en ${r.anioPosible}` : "Semanas que te pedirán";
+  $("req").textContent = semanas(r.requeridasPosible);
+  $("ten").textContent = semanas(r.tienes);
+  $("aten").textContent = anios(r.aniosTienes);
+  $("afal").textContent = r.cumple ? "Nada" : anios(r.aniosFaltanPosible);
+  $("tda").textContent = `¿Te da tiempo para ${r.anio}?`;
+  $("da").textContent = r.cumple ? "Sí, ya las tienes" : r.alcanza ? "Sí" : `No, hacia ${r.anioPosible}`;
+  const msg = [];
+  if (!anioCampo) msg.push(`Escribe el año en que piensas pedir tu pensión. Mientras, usamos ${h.anio}.`);
+  else if (+anioCampo < h.anio && ley97) msg.push(`Para años anteriores a ${h.anio} usamos el requisito de ${h.anio}.`);
+  else if (+anioCampo > 2100) msg.push("Revisa el año: tomamos como máximo 2100.");
+  if (!r.alcanza) {
+    const cuando = ley97 ? `, cuando se pedirán ${r.requeridasPosible.toLocaleString("es-MX")}` : "";
+    const caben = r.caben > 0 ? `solo caben unas ${semanas(r.caben)}` : "ya no caben más semanas";
+    msg.push(`No te alcanza el tiempo para juntar ${semanas(r.faltan)} en ${r.anio}: de hoy al 31 de diciembre de ${r.anio} ${caben}. Con trabajo continuo las juntarías hacia ${r.anioPosible}${cuando}.`);
+  }
+  if (ley97 && r.alcanza && r.anio >= 2031) msg.push("Desde 2031 la Ley 97 pide 1,000 semanas.");
+  if (r.acotado) msg.push("Revisa tus semanas: tomamos como máximo 5,000.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

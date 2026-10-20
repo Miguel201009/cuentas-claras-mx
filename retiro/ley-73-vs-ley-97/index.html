@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pensión Ley 73 vs. Ley 97 2026 | Cuentas Claras MX</title>
+<meta name="description" content="Cómo saber si te toca la Ley 73 o la Ley 97 del IMSS, sus diferencias y una calculadora estimada de pensión Ley 73 con la tabla del artículo 167.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Retiro e IMSS</a> › Ley 73 vs. Ley 97</span></div>
+
+  <header>
+    <span class="tag">Retiro e IMSS</span>
+    <h1>Pensión Ley 73 vs. Ley 97</h1>
+    <p class="lede">La fecha en que empezaste a cotizar en el IMSS decide qué ley te toca. Aquí ves las diferencias y estimas tu pensión si eres de la Ley 73.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni del IMSS.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <h2>Calculadora de pensión Ley 73</h2>
+      <label for="spd">Salario diario promedio de tus últimas 250 semanas cotizadas
+        <input id="spd" type="number" min="0" max="100000" step="0.01" value="600"></label>
+      <p class="nota">Es el promedio de tu salario base de cotización de los últimos 5 años cotizados, más o menos. En el reporte detallado de semanas cotizadas vienen tus salarios por periodo y patrón; con ellos se saca el promedio. También lo puedes pedir en tu Subdelegación del IMSS.</p>
+      <label for="sem">Semanas cotizadas
+        <input id="sem" type="number" min="0" max="5000" step="1" value="1300"></label>
+      <label for="edad">Edad al pensionarte
+        <select id="edad"><option value="60">60 años (cesantía)</option><option value="61">61 años (cesantía)</option><option value="62">62 años (cesantía)</option><option value="63">63 años (cesantía)</option><option value="64">64 años (cesantía)</option><option value="65" selected>65 años o más (vejez)</option></select></label>
+      <label for="par">¿Tienes esposa, esposo o pareja en concubinato?
+        <select id="par"><option value="si" selected>Sí</option><option value="no">No</option></select></label>
+      <label for="hij">Hijos menores de 16 años (o hasta 25 si estudian)
+        <input id="hij" type="number" min="0" max="10" step="1" value="0"></label>
+      <label for="pad">Si no tienes pareja ni hijos: padres que dependen de ti
+        <select id="pad"><option value="0" selected>Ninguno</option><option value="1">Uno</option><option value="2">Los dos</option></select></label>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota" id="tit">Tu pensión estimada al mes</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span>Tu salario en salarios mínimos</span><b id="veces"></b></div>
+      <div class="row"><span>Cuantía básica (art. 167)</span><b id="bas"></b></div>
+      <div class="row"><span id="tinc">Incrementos por semanas extra</span><b id="inc"></b></div>
+      <div class="row"><span>Porcentaje de tu salario promedio</span><b id="por"></b></div>
+      <div class="row"><span>Pensión base al día</span><b id="base"></b></div>
+      <div class="row"><span>Asignaciones familiares y ayudas</span><b id="asig"></b></div>
+      <div class="row"><span>Por tu edad (art. 171)</span><b id="fed"></b></div>
+      <div class="row"><span>Incremento de 11%</span><b>Incluido</b></div>
+      <div class="row"><span>Pensión mínima Ley 73 en 2026</span><b id="min"></b></div>
+      <div class="row"><span>Al año (12 mensualidades)</span><b id="anual"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Es un estimado. El IMSS calcula tu pensión real con tu historial completo y puede usar otros criterios. Usamos el salario mínimo de 2026; si te pensionas otro año, cambia.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>¿Cuál ley te toca?</h2>
+    <ul>
+      <li><strong>Empezaste a cotizar en el IMSS antes del 1 de julio de 1997:</strong> eres de la "generación de transición". Al pensionarte puedes <strong>elegir</strong> la Ley 73 o la Ley 97 (artículo tercero transitorio de la Ley del Seguro Social vigente).</li>
+      <li><strong>Empezaste a cotizar el 1 de julio de 1997 o después:</strong> te toca la <strong>Ley 97</strong>. Tu pensión sale de lo que juntes en tu Afore.</li>
+    </ul>
+    <p>Para saberlo, revisa la fecha de tu primera alta en tu <a href="../semanas-cotizadas/">constancia de semanas cotizadas</a>. Basta con haber estado inscrito y cotizando antes de julio de 1997, aunque después hayas dejado de trabajar con IMSS. Para pensionarte tendrías que conservar o recuperar tus derechos.</p>
+
+    <h2>Diferencias principales</h2>
+    <div class="tabla">
+      <table>
+        <thead><tr><th></th><th>Ley 73</th><th>Ley 97</th></tr></thead>
+        <tbody>
+          <tr><td>Edad</td><td>60 años (cesantía, con descuento) o 65 (vejez)</td><td>60 años (cesantía) o 65 (vejez)</td></tr>
+          <tr><td>Para cesantía (60 a 64 años)</td><td>Debes estar dado de baja, sin trabajo con IMSS (artículo 143 de la ley de 1973)</td><td>Debes estar dado de baja, sin trabajo con IMSS (artículo 154 de la ley vigente)</td></tr>
+          <tr><td>Semanas en 2026</td><td>500</td><td>875, y sube 25 cada año hasta 1,000 en 2031</td></tr>
+          <tr><td>Cómo se calcula</td><td>Con tu salario promedio de las últimas 250 semanas y tus semanas cotizadas</td><td>Con el dinero que juntaste en tu Afore</td></tr>
+          <tr><td>Quién te paga</td><td>El IMSS, de por vida</td><td>Una aseguradora (renta vitalicia) o tu Afore (retiro programado)</td></tr>
+          <tr><td>Si no alcanza</td><td>Pensión mínima: 1 salario mínimo al mes más 11%</td><td>Pensión garantizada, si juntas las semanas</td></tr>
+          <tr><td>Tu Afore</td><td>Te devuelven la parte de retiro, la vivienda que no usaste y tu ahorro voluntario. La parte de cesantía y vejez pasa al gobierno</td><td>Es la base de tu pensión</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Si tienes muchas semanas y un buen salario en tus últimos años, la Ley 73 suele dar una pensión más alta. Si cotizaste poco antes de 1997 y mucho después, con un ahorro grande, compara con la <a href="../afore/">calculadora de Afore</a>.</p>
+
+    <h2>Cómo estimamos tu pensión de la Ley 73</h2>
+    <ol>
+      <li>Tomamos tu salario diario promedio de las últimas 250 semanas cotizadas. Usamos un tope de 25 UMA ($2,932.75 al día en 2026), que es el salario base de cotización más alto que se registra en el IMSS (artículo 28 de la ley vigente). Ojo: sobre el tope de la Ley 73 hay juicios. En 2020 la Suprema Corte dijo que es de 10 salarios mínimos (jurisprudencia 2a./J. 164/2019) y el Consejo Técnico del IMSS acordó seguir usando 25. Solo importa si tu salario promedio es muy alto.</li>
+      <li>Lo dividimos entre el salario mínimo general de 2026 ($315.04 al día) y lo redondeamos a 2 decimales (por ejemplo, 4.7504 queda en 4.75). Así sale tu <strong>grupo de salario</strong>. Ese redondeo es nuestro criterio; el IMSS puede usar otro y, si quedas justo en el borde de un grupo, el resultado puede cambiar.</li>
+      <li>Buscamos tu grupo en la tabla del artículo 167. Te da una <strong>cuantía básica</strong> (un porcentaje de tu salario) y un <strong>incremento anual</strong>.</li>
+      <li>Contamos tus semanas después de las primeras 500. Cada 52 semanas te dan un incremento completo. Si sobran de 13 a 26 semanas, te dan medio; si sobran más de 26, uno completo.</li>
+      <li>Sumamos las asignaciones familiares (artículo 164): 15% por tu pareja y 10% por cada hijo. Si no tienes ni pareja ni hijos, 10% por cada padre que dependa de ti. Si no tienes a nadie, una ayuda de 15%; con un solo padre, una ayuda de 10% además de su asignación. Todo junto no puede pasar del 100% de tu salario promedio (artículo 169).</li>
+      <li>Si te pensionas antes de los 65, aplicamos el porcentaje por edad del artículo 171: 75% a los 60, 80% a los 61, 85% a los 62, 90% a los 63 y 95% a los 64.</li>
+      <li>Sumamos el incremento de 11% que tienen estas pensiones por decreto (DOF 20 de diciembre de 2001, reformado el 5 de enero de 2004).</li>
+      <li>Pasamos de día a mes: multiplicamos por 365 y dividimos entre 12. Si sale menos que la pensión mínima, te toca la mínima.</li>
+    </ol>
+
+    <h2>Ejemplo</h2>
+    <p>Tu salario diario promedio es $600 y tienes 1,300 semanas. $600 entre $315.04 da 1.90 salarios mínimos: grupo de 1.76 a 2.00. Te tocan 42.67% de cuantía básica y 1.615% por cada incremento.</p>
+    <p>Pasas las 500 semanas por 800. Son 15 años completos (780 semanas) y te sobran 20 semanas, que dan medio incremento: 15.5 incrementos × 1.615% = 25.03%. En total, 67.70% de tu salario: <strong>$406.22 al día</strong>.</p>
+    <p>Con tu pareja sumas 15%: $467.15 al día. Con el 11% extra: $518.53 al día. Por 365 y entre 12 da unos <strong>$15,772 al mes</strong> a los 65 años. Si te pensionaras a los 60, recibirías el 75%: unos $11,829 al mes.</p>
+
+    <h2>Tabla del artículo 167 de la Ley del Seguro Social de 1973</h2>
+    <div class="tabla">
+      <table>
+        <thead><tr><th>Grupo de salario (veces el salario mínimo)</th><th>Cuantía básica</th><th>Incremento anual</th></tr></thead>
+        <tbody>
+          <tr><td>Hasta 1.00</td><td class="n">80.00%</td><td class="n">0.563%</td></tr>
+          <tr><td>1.01 a 1.25</td><td class="n">77.11%</td><td class="n">0.814%</td></tr>
+          <tr><td>1.26 a 1.50</td><td class="n">58.18%</td><td class="n">1.178%</td></tr>
+          <tr><td>1.51 a 1.75</td><td class="n">49.23%</td><td class="n">1.430%</td></tr>
+          <tr><td>1.76 a 2.00</td><td class="n">42.67%</td><td class="n">1.615%</td></tr>
+          <tr><td>2.01 a 2.25</td><td class="n">37.65%</td><td class="n">1.756%</td></tr>
+          <tr><td>2.26 a 2.50</td><td class="n">33.68%</td><td class="n">1.868%</td></tr>
+          <tr><td>2.51 a 2.75</td><td class="n">30.48%</td><td class="n">1.958%</td></tr>
+          <tr><td>2.76 a 3.00</td><td class="n">27.83%</td><td class="n">2.033%</td></tr>
+          <tr><td>3.01 a 3.25</td><td class="n">25.60%</td><td class="n">2.096%</td></tr>
+          <tr><td>3.26 a 3.50</td><td class="n">23.70%</td><td class="n">2.149%</td></tr>
+          <tr><td>3.51 a 3.75</td><td class="n">22.07%</td><td class="n">2.195%</td></tr>
+          <tr><td>3.76 a 4.00</td><td class="n">20.65%</td><td class="n">2.235%</td></tr>
+          <tr><td>4.01 a 4.25</td><td class="n">19.39%</td><td class="n">2.271%</td></tr>
+          <tr><td>4.26 a 4.50</td><td class="n">18.29%</td><td class="n">2.302%</td></tr>
+          <tr><td>4.51 a 4.75</td><td class="n">17.30%</td><td class="n">2.330%</td></tr>
+          <tr><td>4.76 a 5.00</td><td class="n">16.41%</td><td class="n">2.355%</td></tr>
+          <tr><td>5.01 a 5.25</td><td class="n">15.61%</td><td class="n">2.377%</td></tr>
+          <tr><td>5.26 a 5.50</td><td class="n">14.88%</td><td class="n">2.398%</td></tr>
+          <tr><td>5.51 a 5.75</td><td class="n">14.22%</td><td class="n">2.416%</td></tr>
+          <tr><td>5.76 a 6.00</td><td class="n">13.62%</td><td class="n">2.433%</td></tr>
+          <tr><td>6.01 o más</td><td class="n">13.00%</td><td class="n">2.450%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="nota">Texto reformado del artículo 167 de la Ley del Seguro Social de 1973, que sigue aplicando a quienes eligen esa ley. Lo cotejamos con varias reproducciones que coinciden entre sí, entre ellas un documento de ejemplos del IMSS y un artículo académico; no pudimos abrir una copia oficial en línea.</p>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Puedo cambiar de ley después de pensionarme?</h3>
+    <p>No. La eliges al pedir tu pensión. Antes de firmar, pide que te expliquen cuánto recibirías y qué pasa con tu Afore.</p>
+    <h3>¿Cuál es la pensión mínima de la Ley 73?</h3>
+    <p>Es 1 salario mínimo al mes más 11%. Con el salario mínimo de 2026 da unos $10,636.54 al mes ($315.04 × 365 ÷ 12 × 1.11). Se actualiza cuando cambia el salario mínimo.</p>
+    <h3>¿Qué es la Modalidad 40?</h3>
+    <p>Es la continuación voluntaria en el IMSS: si ya no tienes patrón, puedes pagar tus cuotas por tu cuenta para seguir sumando semanas y, en la Ley 73, subir tu salario promedio. Tiene requisitos, plazos y un costo alto. Infórmate directo en el IMSS antes de pagarle a un gestor.</p>
+    <h3>¿Por qué el IMSS me puede dar otra cifra?</h3>
+    <p>El IMSS usa tu historial exacto de salarios, el salario mínimo del año en que te pensionas y sus propios criterios. Además, hay juicios sobre cuál es el tope de salario en la Ley 73. Toma esta calculadora como una guía.</p>
+    <h3>¿Y si soy de la Ley 97?</h3>
+    <p>Tu pensión depende de tu ahorro en la Afore. Usa la <a href="../afore/">calculadora de Afore</a> y revisa cuántas <a href="../semanas-cotizadas/">semanas cotizadas</a> te piden.</p>
+
+    <h2>Fuentes oficiales y simuladores</h2>
+    <ul>
+      <li><a href="https://www.imss.gob.mx/tramites/imss01002" rel="noopener">Solicitud de pensión de cesantía en edad avanzada o vejez</a> (ficha del trámite del IMSS, Ley 73 y Ley 97).</li>
+      <li><a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LSS.pdf" rel="noopener">Ley del Seguro Social vigente</a>, artículos transitorios de 1995 sobre la elección de ley (Cámara de Diputados).</li>
+      <li><a href="https://www.diputados.gob.mx/LeyesBiblio/ref/lss/LSS_ref03_20dic01.pdf" rel="noopener">Reforma a la Ley del Seguro Social del 20 de diciembre de 2001</a> y <a href="https://www.diputados.gob.mx/LeyesBiblio/ref/lss/LSS_ref04_05ene04.pdf" rel="noopener">del 5 de enero de 2004</a> (incremento de 11%).</li>
+      <li><a href="https://www.gob.mx/consar" rel="noopener">CONSAR</a>: calculadoras de ahorro y retiro para tu Afore.</li>
+      <li><a href="https://sjf2.scjn.gob.mx/busqueda-principal-tesis" rel="noopener">Semanario Judicial de la Federación</a> (Suprema Corte): busca la jurisprudencia 2a./J. 164/2019 sobre el tope de 10 salarios mínimos.</li>
+    </ul>
+    <p class="nota">Información revisada en octubre de 2026. No pudimos abrir los portales del IMSS, del DOF, de la CONSAR, de la Suprema Corte ni de la Cámara de Diputados desde nuestra red al revisar esta página: la tabla, las asignaciones, los porcentajes por edad, el 11%, la pensión mínima y lo del tope (jurisprudencia de enero de 2020 y acuerdo del IMSS del 6 de febrero de 2020) se confirmaron con varias fuentes especializadas que coinciden entre sí. Verifica siempre en el IMSS antes de tomar una decisión.</p>
+
+    <p>También te puede servir: <a href="../semanas-cotizadas/">semanas cotizadas y cómo consultarlas</a>, <a href="../afore/">cuánto tendrás en tu Afore</a> y <a href="../../trabajo/prima-de-antiguedad/">calculadora de prima de antigüedad</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni del IMSS. Los cálculos son estimados y orientativos; consulta la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LSS.pdf" rel="noopener">Ley del Seguro Social</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/retiro.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const p2 = n => n.toLocaleString("es-MX", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + "%";
+function calcular() {
+  const pareja = $("par").value === "si";
+  const hijosCampo = +$("hij").value;
+  $("pad").disabled = pareja || hijosCampo > 0;
+  const r = Retiro.pensionLey73({
+    salarioPromedio: $("spd").value, semanas: $("sem").value, edad: +$("edad").value,
+    pareja, hijos: hijosCampo, padres: $("pad").disabled ? 0 : +$("pad").value
+  });
+  $("total").textContent = r.derecho ? mxn(r.mensual) : "Sin pensión";
+  $("veces").textContent = r.vecesGrupo.toLocaleString("es-MX", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  $("bas").textContent = p2(r.basica);
+  $("tinc").textContent = `Incrementos: ${r.incrementos.total.toLocaleString("es-MX")} × ${r.incremento.toFixed(3)}%`;
+  $("inc").textContent = p2(r.incrementos.total * r.incremento);
+  $("por").textContent = p2(r.porcentaje);
+  $("base").textContent = mxn(r.cuantia);
+  $("asig").textContent = "+" + p2((r.asignacion + r.ayuda) * 100);
+  $("fed").textContent = p2(r.factorEdad * 100);
+  $("min").textContent = mxn(r.minima);
+  $("anual").textContent = mxn(r.anual);
+  const msg = [];
+  if (!r.spd) msg.push("Escribe tu salario diario promedio para calcular.");
+  if (r.faltanSemanas) msg.push(`Con ${r.semanas.toLocaleString("es-MX")} semanas no alcanzas las 500 que pide la Ley 73. Puedes retirar lo que tengas en tu Afore o seguir cotizando.`);
+  if (r.topado) msg.push(`Tu salario pasa del tope de 25 UMA: calculamos con ${mxn(r.topeSbc)} al día.`);
+  if (r.semanasAcotadas) msg.push("Revisa tus semanas: tomamos como máximo 5,000.");
+  if (r.topadoCien) msg.push("Con las asignaciones pasarías del 100% de tu salario promedio: aplicamos ese tope.");
+  if (r.usaMinima) msg.push(`Tu cálculo da ${mxn(r.calculada)} al mes, menos que la mínima: te tocaría la pensión mínima.`);
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

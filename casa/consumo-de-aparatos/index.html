@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Consumo de luz por aparato 2026: kWh y costo | Cuentas Claras MX</title>
+<meta name="description" content="Calcula cuántos kWh gasta cada aparato de tu casa y cuánto te cuesta al mes y en tu recibo bimestral de CFE. Watts y precio editables, gratis y sin registro.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<style>
+  .aparatos { grid-column: 1 / -1; display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)) }
+  .aparatos > h2, .aparatos > p { grid-column: 1 / -1; margin: 0 }
+  .ap { border: 1px solid var(--line); border-radius: 12px; padding: 12px; margin: 0; min-width: 0; display: grid; gap: 8px; align-content: start }
+  .ap legend { font-weight: 600; padding: 0 4px }
+  .ap .campos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px }
+  .ap label { font-size: .85rem; font-weight: 400 }
+  .ap .gasto { font: 500 .9rem var(--mono); color: var(--brand); margin: 0; overflow-wrap: anywhere }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Casa y servicios</a> › Consumo de aparatos</span></div>
+
+  <header>
+    <span class="tag">Casa y servicios</span>
+    <h1>¿Cuánta luz gasta cada aparato?</h1>
+    <p class="lede">Escribe los watts de tus aparatos y cuántas horas los usas. Te decimos cuántos kWh gastan al mes, cuánto te cuestan y cuál es el que más sube tu recibo.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni de CFE.</p>
+  </header>
+
+  <section class="tool" id="herr">
+    <form id="f" onsubmit="return false">
+      <label for="precio">Precio por kWh, con IVA (ejemplo)
+        <input id="precio" type="number" min="0" max="50" step="0.01" value="1.60"></label>
+      <p class="nota">$1.60 es solo un ejemplo. Para tu caso, divide el total de tu recibo de luz entre los kWh que consumiste. Por ejemplo, $485.46 ÷ 300 kWh = $1.62 por kWh.</p>
+      <p class="nota">Abajo vienen aparatos comunes con potencias típicas de ejemplo. Cambia los watts por los de la etiqueta de tus aparatos y pon 0 en la cantidad de los que no tienes.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Tus aparatos gastan al mes aproximadamente</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span>Consumo al mes</span><b id="kwh"></b></div>
+      <div class="row"><span>Consumo en un recibo bimestral</span><b id="kb"></b></div>
+      <div class="row"><span>Costo en un recibo bimestral</span><b id="cb"></b></div>
+      <div class="row"><span>El que más gasta</span><b id="may"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Es una estimación: el consumo real cambia con el modelo, la edad y el uso de cada aparato. Si tu recibo ya llega al excedente, cada kWh de más te cuesta el precio del excedente más IVA.</p>
+    </div>
+    <div class="aparatos" id="aparatos">
+      <h2>Tus aparatos</h2>
+      <noscript><p>Necesitas activar JavaScript para usar la calculadora.</p></noscript>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Cómo se calcula</h2>
+    <p>Un <strong>kWh</strong> (kilowatt hora) es la energía que gasta un aparato de 1,000 watts prendido una hora. Es lo que mide tu medidor y lo que cobra CFE.</p>
+    <p><strong>kWh al mes = cantidad × watts × horas al día × días al mes ÷ 1,000</strong></p>
+    <p><strong>Costo al mes = kWh al mes × precio por kWh</strong></p>
+    <p>Como el recibo de casi todos los hogares es cada dos meses, también te mostramos el consumo y el costo de un bimestre (el doble).</p>
+
+    <h2>Ejemplo</h2>
+    <p>Son los datos que vienen cargados, con potencias típicas de ejemplo:</p>
+    <div class="tabla">
+      <table>
+        <thead><tr><th>Aparato</th><th>Cálculo</th><th>kWh al mes</th></tr></thead>
+        <tbody>
+          <tr><td>Focos LED</td><td class="n">6 × 9 W × 5 h × 30 días</td><td class="n">8.1</td></tr>
+          <tr><td>Refrigerador</td><td class="n">1 × 150 W × 8 h × 30 días</td><td class="n">36</td></tr>
+          <tr><td>Televisión</td><td class="n">1 × 80 W × 5 h × 30 días</td><td class="n">12</td></tr>
+          <tr><td>Ventilador</td><td class="n">1 × 60 W × 8 h × 30 días</td><td class="n">14.4</td></tr>
+          <tr><td>Lavadora</td><td class="n">1 × 500 W × 1 h × 12 días</td><td class="n">6</td></tr>
+          <tr><td>Plancha</td><td class="n">1 × 1,000 W × 1 h × 8 días</td><td class="n">8</td></tr>
+          <tr><td>Horno de microondas</td><td class="n">1 × 1,200 W × 0.25 h × 30 días</td><td class="n">9</td></tr>
+          <tr><td>Computadora portátil</td><td class="n">1 × 60 W × 4 h × 30 días</td><td class="n">7.2</td></tr>
+          <tr><td>Módem de internet</td><td class="n">1 × 10 W × 24 h × 30 días</td><td class="n">7.2</td></tr>
+          <tr><td>Cargador de celular</td><td class="n">2 × 10 W × 2 h × 30 días</td><td class="n">1.2</td></tr>
+          <tr><td>Bomba de agua</td><td class="n">1 × 500 W × 0.5 h × 30 días</td><td class="n">7.5</td></tr>
+          <tr><td>Licuadora</td><td class="n">1 × 400 W × 0.1 h × 30 días</td><td class="n">1.2</td></tr>
+          <tr><td><strong>Total</strong></td><td></td><td class="n"><strong>117.8</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul>
+      <li>Al mes: 117.8 kWh × $1.60 = <strong>$188.48</strong>.</li>
+      <li>En un recibo bimestral: 235.6 kWh y <strong>$376.96</strong>.</li>
+      <li>El que más gasta es el refrigerador: 36 kWh, el 30.6% del total, porque está conectado todo el día.</li>
+    </ul>
+    <p>Ahora pon 1 en la cantidad del aire acondicionado. Un minisplit de 1,100 W prendido 8 horas diarias suma <strong>264 kWh al mes</strong>, más del doble de todo lo demás junto. Con él, este hogar llegaría a 381.8 kWh al mes. Si consumiera así todo el año, en la tarifa 1 su promedio pasaría del límite de la DAC (250 kWh al mes en promedio de 12 meses). CFE no se fija en un solo mes, sino en el promedio de los últimos 12. En las tarifas de clima cálido los límites son más altos: revísalos en la guía del <a href="../recibo-de-luz/">recibo de luz</a>.</p>
+
+    <h2>Dónde ver los watts de tu aparato</h2>
+    <ul>
+      <li>Busca la <strong>etiqueta o placa</strong>, casi siempre atrás o abajo. Dice W o watts. Si dice kW, multiplica por 1,000.</li>
+      <li>Si solo dice amperes (A), multiplica los amperes por los volts. En las casas de México la corriente es de unos 127 volts: un aparato de 2 A gasta unos 254 W.</li>
+      <li>Los refrigeradores, aires acondicionados y lavadoras suelen traer una <strong>etiqueta amarilla de eficiencia energética</strong> con su consumo estimado. Si dice kWh al año, divídelo entre 12 y tienes su consumo al mes.</li>
+      <li>Para el dato real, puedes usar un medidor de consumo que se conecta entre el contacto y el aparato.</li>
+    </ul>
+
+    <h2>Los que más suben tu recibo</h2>
+    <ul>
+      <li><strong>Los que enfrían o calientan:</strong> aire acondicionado, calentador eléctrico, secadora de ropa, plancha, horno eléctrico y secadora de pelo. Usan muchos watts.</li>
+      <li><strong>Los que están prendidos todo el día:</strong> refrigerador, congelador, módem y todo lo que se queda en espera. Usan pocos watts, pero muchas horas.</li>
+      <li><strong>Los viejos:</strong> un refrigerador o un aire acondicionado de hace muchos años puede gastar bastante más que uno nuevo y eficiente.</li>
+    </ul>
+    <h3>Para gastar menos</h3>
+    <ol>
+      <li>Cambia tus focos por LED.</li>
+      <li>Desconecta lo que no usas, o usa una barra con apagador para la tele y sus aparatos.</li>
+      <li>No pongas el aire acondicionado muy frío y limpia sus filtros.</li>
+      <li>Revisa que la puerta del refrigerador cierre bien y no lo abras de más.</li>
+      <li>Junta la ropa para planchar y lavar menos veces.</li>
+      <li>Si vas a comprar un aparato, compara la etiqueta de consumo de varios modelos.</li>
+    </ol>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Qué precio por kWh uso?</h3>
+    <p>Para una idea general, usa tu precio promedio: el total de tu recibo entre los kWh que consumiste. Pero si ya llegas al excedente, cada kWh extra que agregues cuesta el precio del excedente más IVA, que es varias veces más. Revisa tus escalones en la guía del <a href="../recibo-de-luz/">recibo de luz</a>.</p>
+    <h3>¿Por qué el refrigerador trae 8 horas y no 24?</h3>
+    <p>Está conectado todo el día, pero su motor se prende y se apaga solo. Las 8 horas son un ejemplo del tiempo que trabaja el motor. Si tu refrigerador trae etiqueta con kWh al año, divídelos entre 12: es un dato más exacto.</p>
+    <h3>¿Los aparatos apagados gastan luz?</h3>
+    <p>Muchos sí. La tele, el microondas con reloj, los cargadores y los decodificadores siguen gastando unos cuantos watts en espera. Uno solo gasta poco, pero todos juntos y las 24 horas sí se notan.</p>
+    <h3>¿Un aire acondicionado inverter gasta menos?</h3>
+    <p>Por lo general sí, cuando se usa muchas horas, porque baja su velocidad en lugar de apagarse y prenderse. Revisa su etiqueta y usa en la calculadora el consumo que indica.</p>
+
+    <h2>De dónde salen los datos</h2>
+    <ul>
+      <li>Las potencias de la calculadora son valores típicos de ejemplo, no cifras oficiales. La de tu aparato viene en su etiqueta o placa.</li>
+      <li>El precio por kWh depende de tu tarifa y de tus escalones de consumo. Consulta las <a href="https://app.cfe.mx/Aplicaciones/CCFE/Tarifas/TarifasCRECasa/Casa.aspx" rel="noopener">tarifas para el hogar de CFE</a>.</li>
+    </ul>
+    <p class="nota">Revisado en octubre de 2026. La fórmula es una multiplicación, sin datos de ninguna ley. El precio de $1.60 por kWh es un ejemplo y no es una tarifa oficial.</p>
+
+    <p>También te puede servir: <a href="../recibo-de-luz/">cómo leer tu recibo de luz y evitar la DAC</a>, <a href="../gas-lp/">calculadora de gas LP</a> y <a href="../../dinero/meses-sin-intereses/">¿conviene comprar a meses sin intereses?</a>, si vas a cambiar un aparato.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni de CFE. Los cálculos son orientativos; consulta las <a href="https://app.cfe.mx/Aplicaciones/CCFE/Tarifas/TarifasCRECasa/Casa.aspx" rel="noopener">tarifas oficiales de CFE</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/casa.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const numero = (n, d = 1) => n.toLocaleString("es-MX", { maximumFractionDigits: d });
+const lista = Casa.DATOS.aparatos;
+const M = Casa.DATOS.maximos;
+const campos = [
+  ["c", "Cantidad", "cantidad", 1, M.cantidad],
+  ["w", "Watts", "watts", 1, M.watts],
+  ["h", "Horas al día", "horas", "any", M.horas],
+  ["d", "Días al mes", "dias", 1, M.dias]
+];
+$("aparatos").insertAdjacentHTML("beforeend", lista.map(a =>
+  `<fieldset class="ap"><legend>${a.nombre}</legend><div class="campos">` +
+  campos.map(([k, txt, prop, step, max]) =>
+    `<label for="${a.id}-${k}">${txt}<input id="${a.id}-${k}" type="number" min="0" max="${max}" step="${step}" value="${a[prop]}"></label>`).join("") +
+  `</div><p class="gasto" id="${a.id}-o"></p>${a.nota ? `<p class="nota">${a.nota}</p>` : ""}</fieldset>`).join(""));
+
+function calcular() {
+  const datos = lista.map(a => ({
+    id: a.id, nombre: a.nombre,
+    cantidad: $(a.id + "-c").value, watts: $(a.id + "-w").value, horas: $(a.id + "-h").value, dias: $(a.id + "-d").value
+  }));
+  const r = Casa.consumoAparatos(datos, $("precio").value);
+  r.aparatos.forEach(a => { $(a.id + "-o").textContent = `${numero(a.kwhMes)} kWh al mes · ${mxn(a.costoMes)}`; });
+  $("total").textContent = mxn(r.costoMes);
+  $("kwh").textContent = numero(r.kwhMes) + " kWh";
+  $("kb").textContent = numero(r.kwhBimestre) + " kWh";
+  $("cb").textContent = mxn(r.costoBimestre);
+  $("may").textContent = r.mayor ? `${r.mayor.nombre} (${numero(r.mayor.porcentaje)}%)` : "Ninguno";
+  const msg = [];
+  if (!r.kwhMes) msg.push("Escribe la cantidad, los watts, las horas y los días de al menos un aparato.");
+  if (r.sinPrecio) msg.push("Escribe el precio por kWh para ver cuánto cuesta.");
+  if (r.recortado) msg.push(`Alguna cantidad está fuera de rango y la ajustamos: hasta ${numero(M.cantidad)} aparatos iguales, ${numero(M.watts)} watts, 24 horas al día, 31 días al mes y $${M.precioKwh} por kWh.`);
+  $("msg").textContent = msg.join(" ");
+}
+$("herr").addEventListener("input", calcular);
+$("herr").addEventListener("change", calcular);
+calcular();
+</script>
+</body>
+</html>

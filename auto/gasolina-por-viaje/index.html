@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de gasolina por viaje 2026 | Cuentas Claras MX</title>
+<meta name="description" content="Calcula cuánta gasolina gastas en un viaje y cuánto le toca a cada quien: kilómetros, rendimiento, precio por litro, ida y vuelta y casetas.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Auto</a> › Gasolina por viaje</span></div>
+
+  <header>
+    <span class="tag">Auto</span>
+    <h1>Calculadora de gasolina por viaje</h1>
+    <p class="lede">Escribe cuántos kilómetros vas a manejar, cuánto rinde tu auto y el precio del litro. Te decimos cuánto gastas en gasolina y cuánto le toca a cada quien.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="km">Distancia de ida, en kilómetros
+        <input id="km" type="number" min="0" max="50000" step="1" value="210"></label>
+      <label for="rend">Rendimiento de tu auto (kilómetros por litro)
+        <input id="rend" type="number" min="0" max="100" step="0.1" value="14"></label>
+      <label for="precio">Precio por litro (ejemplo: cámbialo por el de tu gasolinera)
+        <input id="precio" type="number" min="0" max="100" step="0.01" value="24.00"></label>
+      <label class="check"><input id="iyv" type="checkbox" checked> Es viaje de ida y vuelta</label>
+      <label for="per">¿Entre cuántas personas se divide?
+        <input id="per" type="number" min="1" max="100" step="1" value="3"></label>
+      <label for="cas">Casetas de todo el viaje, si hay (opcional)
+        <input id="cas" type="number" min="0" max="1000000" step="10" value="0"></label>
+      <p class="nota">El precio de $24.00 es solo un ejemplo: cada gasolinera pone el suyo y cambia seguido. Escribe el que ves en la bomba.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota" id="tit">A cada persona le toca</span>
+      <div class="big" id="pp">$0</div>
+      <div class="row"><span>Gasto total del viaje</span><b id="total"></b></div>
+      <div class="row"><span>Kilómetros en total</span><b id="kmt"></b></div>
+      <div class="row"><span>Litros de gasolina</span><b id="lit"></b></div>
+      <div class="row"><span>Gasolina</span><b id="gas"></b></div>
+      <div class="row"><span>Casetas</span><b id="cas2"></b></div>
+      <div class="row"><span>Gasolina por kilómetro</span><b id="pkm"></b></div>
+      <div class="row"><span>Costo total por kilómetro (con casetas)</span><b id="pkmt"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Solo cuenta gasolina y casetas. No incluye desgaste del auto, aceite, llantas ni estacionamiento.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Cómo se calcula</h2>
+    <ol>
+      <li><strong>Kilómetros en total:</strong> la distancia de ida, o el doble si regresas.</li>
+      <li><strong>Litros:</strong> kilómetros en total ÷ rendimiento de tu auto.</li>
+      <li><strong>Gasolina:</strong> litros × precio por litro.</li>
+      <li><strong>Por persona:</strong> (gasolina + casetas) ÷ número de personas.</li>
+      <li><strong>Por kilómetro:</strong> la gasolina por kilómetro es precio por litro ÷ rendimiento. El costo total por kilómetro es (gasolina + casetas) ÷ kilómetros en total. Los dos son del auto completo, no de cada persona.</li>
+    </ol>
+
+    <h2>Ejemplo</h2>
+    <p>Son los datos que vienen cargados. Tres amigos van a una ciudad a 210 km y regresan el mismo fin de semana. El auto rinde 14 km por litro y el litro cuesta $24.00 (precio de ejemplo).</p>
+    <ul>
+      <li>Kilómetros en total: 210 × 2 = <strong>420 km</strong>.</li>
+      <li>Litros: 420 ÷ 14 = <strong>30 litros</strong>.</li>
+      <li>Gasolina: 30 × $24 = <strong>$720</strong>.</li>
+      <li>Cada quien pone: $720 ÷ 3 = <strong>$240</strong>.</li>
+    </ul>
+    <p>La gasolina por kilómetro sale en $24 ÷ 14 = $1.71. Como no hay casetas, el costo total por kilómetro es igual: $720 ÷ 420 = $1.71. Si en el camino hay casetas, escríbelas en su campo: se reparten igual entre todos y suben el costo total por kilómetro.</p>
+
+    <h2>Cómo saber cuánto rinde tu auto</h2>
+    <p>El dato de la agencia casi siempre es mejor que lo que logras en la calle. Para saber el real, haz esta prueba:</p>
+    <ol>
+      <li>Llena el tanque hasta que la bomba se detenga sola.</li>
+      <li>Pon en ceros el contador de kilómetros de viaje (el "trip") o anota lo que marca el odómetro.</li>
+      <li>Maneja como siempre hasta que gastes más de la mitad del tanque.</li>
+      <li>Vuelve a llenar el tanque y anota los litros que entraron.</li>
+      <li>Divide los kilómetros que manejaste entre esos litros. Ese es tu rendimiento.</li>
+    </ol>
+    <p>En carretera, a velocidad constante, casi todos los autos rinden más que en la ciudad, con tráfico y semáforos. Si vas a viajar, usa tu rendimiento en carretera.</p>
+
+    <h2>Dónde ver el precio de la gasolina</h2>
+    <p>En México cada gasolinera fija su precio y puede cambiar de un día a otro. Por eso el precio de esta calculadora es un ejemplo y lo puedes editar. Fíjate en el que marca la bomba o en tu último ticket.</p>
+    <p>La Procuraduría Federal del Consumidor (<a href="https://www.gob.mx/profeco" rel="noopener">Profeco</a>) publica comparativos de precios de gasolina por estado y por gasolinera. Ahí también puedes poner una queja si crees que no te dieron litros completos.</p>
+
+    <h2>Casetas</h2>
+    <p>Si vas por autopista de cuota, calcula las casetas antes de salir con la herramienta <a href="https://app.sct.gob.mx/sibuac_internet/ControllerUI?action=cmdEscogeRuta" rel="noopener">Traza tu ruta</a> de la Secretaría de Infraestructura, Comunicaciones y Transportes (SICT). Te da la distancia y el costo de cada caseta. Si regresas por el mismo camino, súmalas dos veces.</p>
+
+    <h2>Para gastar menos gasolina</h2>
+    <ul>
+      <li>Revisa la presión de las llantas antes de salir. Con llantas bajas el auto gasta más.</li>
+      <li>Maneja a velocidad constante y sin acelerones. A más velocidad, más consumo.</li>
+      <li>No cargues peso que no necesitas y quita la canastilla del techo si no la usas.</li>
+      <li>Dale mantenimiento al auto: filtro de aire, bujías y aceite a tiempo.</li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Y si mi auto usa diésel o gasolina premium?</h3>
+    <p>La cuenta es la misma. Solo escribe el precio por litro del combustible que usas.</p>
+    <h3>¿Cuánto debo cobrar si llevo a alguien?</h3>
+    <p>Lo más común es dividir la gasolina y las casetas entre todos los que van, incluido quien maneja. Si quieren cubrir también el desgaste del auto, pueden ponerse de acuerdo en sumar algo extra.</p>
+    <h3>¿Por qué el resultado no es exacto?</h3>
+    <p>El rendimiento cambia con el tráfico, las subidas, el aire acondicionado y la carga. Toma el resultado como una buena estimación y lleva un poco de margen.</p>
+
+    <p class="nota">Revisado en octubre de 2026. Esta calculadora no usa precios oficiales: el precio por litro lo escribes tú. Las fórmulas son una división y una multiplicación, sin datos de ninguna ley.</p>
+    <p>También te puede servir: <a href="../verificacion/">verificación vehicular y Hoy No Circula</a>, <a href="../tenencia-y-refrendo/">tenencia y refrendo por estado</a> y <a href="../../dinero/prestamo/">calculadora de préstamo</a>, si vas a comprar auto a crédito.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno. Los cálculos son orientativos.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/auto.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const numero = (n, d = 1) => n.toLocaleString("es-MX", { maximumFractionDigits: d });
+function calcular() {
+  const r = Auto.gasolinaViaje({
+    km: $("km").value, rendimiento: $("rend").value, precio: $("precio").value,
+    idaYVuelta: $("iyv").checked, personas: $("per").value, casetas: $("cas").value
+  });
+  const solo = r.personas === 1;
+  $("tit").textContent = solo ? "El viaje te cuesta" : `A cada persona le toca (entre ${r.personas})`;
+  $("pp").textContent = mxn(solo ? r.total : r.porPersona);
+  $("total").textContent = mxn(r.total);
+  $("kmt").textContent = numero(r.kmTotal) + " km";
+  $("lit").textContent = numero(r.litros);
+  $("gas").textContent = mxn(r.costoGasolina);
+  $("cas2").textContent = mxn(r.casetas);
+  $("pkm").textContent = mxn(r.porKm);
+  $("pkmt").textContent = mxn(r.porKmTotal);
+  const msg = [];
+  if (r.faltaKm) msg.push("Escribe cuántos kilómetros vas a manejar.");
+  if (r.faltaRendimiento) msg.push("Escribe cuántos kilómetros por litro rinde tu auto.");
+  if (r.faltaPrecio) msg.push("Escribe el precio por litro.");
+  if (r.rendimientoBajo) msg.push("Un auto no rinde menos de 1 km por litro: calculamos con 1.");
+  if (r.recortado) msg.push("Alguna cantidad está fuera de rango y la ajustamos: hasta 50,000 km, 100 km por litro, $100 por litro, 100 personas y $1,000,000 de casetas.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+$("f").addEventListener("change", calcular);
+calcular();
+</script>
+</body>
+</html>

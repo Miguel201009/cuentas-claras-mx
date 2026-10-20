@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recibo de luz CFE 2026: tarifas, DAC y cómo leerlo | Cuentas Claras MX</title>
+<meta name="description" content="Cómo leer tu recibo de luz de CFE, tarifas 1 y 1A a 1F, consumo básico, intermedio y excedente, y cómo evitar la tarifa DAC. Con calculadora gratis.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<style>
+  .prosa .tabla { margin: 0 0 12px }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Casa y servicios</a> › Recibo de luz</span></div>
+
+  <header>
+    <span class="tag">Casa y servicios</span>
+    <h1>Recibo de luz de CFE: cómo leerlo y cuánto vas a pagar</h1>
+    <p class="lede">Entiende cada parte de tu recibo, cómo funcionan los escalones de consumo básico, intermedio y excedente, y qué tan cerca estás de la tarifa DAC, la más cara.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni de CFE.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="tar">Tu tarifa (viene en tu recibo)
+        <select id="tar">
+          <option value="1" selected>1</option>
+          <option value="1A">1A (25 °C)</option>
+          <option value="1B">1B (28 °C)</option>
+          <option value="1C">1C (30 °C)</option>
+          <option value="1D">1D (31 °C)</option>
+          <option value="1E">1E (32 °C)</option>
+          <option value="1F">1F (33 °C)</option>
+        </select></label>
+      <label for="tem" id="ltem" hidden>Temporada del periodo
+        <select id="tem"><option value="verano" selected>Verano (los 6 meses de más calor)</option><option value="fuera">Resto del año</option></select></label>
+      <label for="per">¿Cada cuánto te llega el recibo?
+        <select id="per"><option value="2" selected>Cada dos meses (bimestral)</option><option value="1">Cada mes (mensual)</option></select></label>
+      <label for="tiva">IVA que trae tu recibo
+        <select id="tiva"><option value="0.16" selected>16% (casi todo el país)</option><option value="0.08">8% (algunos recibos de la frontera)</option></select></label>
+      <label for="kwh">kWh que consumiste en el periodo
+        <input id="kwh" type="number" min="0" max="100000" step="1" value="300"></label>
+      <label for="pb">Precio del kWh básico (ejemplo)
+        <input id="pb" type="number" min="0" max="50" step="0.001" value="1.10"></label>
+      <label for="pi"><span id="tpi">Precio del kWh intermedio (ejemplo)</span>
+        <input id="pi" type="number" min="0" max="50" step="0.001" value="1.35"></label>
+      <label for="pa" id="lpa" hidden>Precio del kWh intermedio alto (ejemplo)
+        <input id="pa" type="number" min="0" max="50" step="0.001" value="1.70"></label>
+      <label for="pe">Precio del kWh excedente (ejemplo)
+        <input id="pe" type="number" min="0" max="50" step="0.001" value="3.90"></label>
+      <label for="anu">kWh de todo tu último año (opcional, para revisar la DAC)
+        <input id="anu" type="number" min="0" max="1200000" step="1" placeholder="Suma de tus últimos recibos"></label>
+      <p class="nota">Los precios son solo un ejemplo y no incluyen IVA. Cámbialos por los de tu recibo, en la tabla de consumo, columna “Precio”. Los grados de cada tarifa son la temperatura media mínima en verano de los lugares donde aplica.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Tu recibo saldría en aproximadamente</span>
+      <div class="big" id="total">$0</div>
+      <div id="bloques" style="display:grid;gap:10px"></div>
+      <div class="row"><span>Energía</span><b id="en"></b></div>
+      <div class="row"><span id="tiv">IVA (16%)</span><b id="iva"></b></div>
+      <p class="nota">Si vives en la región fronteriza norte o sur, tu recibo puede traer IVA de 8%. Usa la tasa que diga tu recibo.</p>
+      <div class="row"><span>Precio promedio por kWh, con IVA</span><b id="pp"></b></div>
+      <div class="row"><span>Tu promedio al mes</span><b id="pm"></b></div>
+      <div class="row"><span>Límite de la DAC en tu tarifa</span><b id="ld"></b></div>
+      <p class="nota" id="dac"></p>
+      <p class="nota" id="msg"></p>
+      <p class="nota">No incluye el alumbrado público (DAP) de tu municipio, adeudos ni otros cargos. Es una estimación: CFE ajusta los rangos según los días de cada periodo.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Cómo leer tu recibo de luz</h2>
+    <p>El diseño del recibo cambia de vez en cuando, pero casi siempre trae estos datos:</p>
+    <ol>
+      <li><strong>Número de servicio:</strong> es el número de tu contrato. Lo usas para pagar o para reportar una falla. No lo compartas con desconocidos.</li>
+      <li><strong>Tarifa:</strong> 1, 1A, 1B, 1C, 1D, 1E, 1F o DAC. De ella dependen tus rangos y tus precios.</li>
+      <li><strong>Periodo facturado:</strong> las fechas que cubre el recibo. Casi todos los hogares reciben recibo cada dos meses; algunos, cada mes.</li>
+      <li><strong>Lectura actual y lectura anterior:</strong> lo que marcaba tu medidor al final y al inicio del periodo. La resta son los kWh que consumiste.</li>
+      <li><strong>Tabla de consumo:</strong> reparte tus kWh en básico, intermedio y excedente, con el precio de cada uno y su subtotal.</li>
+      <li><strong>Energía, IVA y total:</strong> la suma de la tabla, el IVA y el total a pagar. En casi todo el país el IVA es de 16%. Si vives en la región fronteriza norte o sur, tu recibo puede traer IVA de 8%. Usa la tasa que diga tu recibo.</li>
+      <li><strong>DAP:</strong> el Derecho de Alumbrado Público. Lo cobra tu municipio por las luces de la calle y CFE lo recauda en tu recibo. No en todos los municipios aparece.</li>
+      <li><strong>Fecha límite de pago</strong> y la fecha a partir de la cual te pueden cortar el servicio si no pagas.</li>
+      <li><strong>Consumo histórico:</strong> una gráfica o tabla con tus periodos anteriores. Te sirve para revisar tu promedio y la DAC.</li>
+      <li><strong>Subsidio:</strong> muchos recibos dicen cuánto cuesta producir tu energía y cuánto pone el gobierno. Esa diferencia es el apoyo que recibes en las tarifas domésticas.</li>
+    </ol>
+
+    <h2>Tu tarifa depende del clima de tu localidad</h2>
+    <p>CFE asigna a cada localidad una tarifa doméstica según qué tan caluroso es su verano. Donde hace más calor, los rangos baratos son más grandes, porque se usa más el ventilador y el aire acondicionado. Tu tarifa no la eliges tú: viene en tu recibo.</p>
+    <div class="tabla">
+      <table id="tclima">
+        <thead><tr><th>Tarifa</th><th>Temperatura media mínima en verano</th><th>Límite DAC (kWh al mes)</th><th>Equivale por bimestre (promedio de 12 meses)</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Resto del país</td><td class="n">250</td><td class="n">500</td></tr>
+          <tr><td>1A</td><td>25 °C</td><td class="n">300</td><td class="n">600</td></tr>
+          <tr><td>1B</td><td>28 °C</td><td class="n">400</td><td class="n">800</td></tr>
+          <tr><td>1C</td><td>30 °C</td><td class="n">850</td><td class="n">1,700</td></tr>
+          <tr><td>1D</td><td>31 °C</td><td class="n">1,000</td><td class="n">2,000</td></tr>
+          <tr><td>1E</td><td>32 °C</td><td class="n">2,000</td><td class="n">4,000</td></tr>
+          <tr><td>1F</td><td>33 °C</td><td class="n">2,500</td><td class="n">5,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="nota">El límite de la DAC se compara con tu promedio mensual de los últimos 12 meses, no con un solo recibo.</p>
+
+    <h2>Consumo básico, intermedio y excedente</h2>
+    <p>La luz de tu casa se cobra en escalones. Los primeros kWh del mes son los más baratos (consumo básico). Los que siguen cuestan un poco más (intermedio). Todo lo que pasa de ahí es el excedente, y cada kWh de excedente cuesta varias veces más.</p>
+    <p>Estos son los rangos <strong>al mes</strong> de cada tarifa. Si tu recibo es bimestral, multiplícalos por 2. En las tarifas 1C a 1F el verano tiene dos escalones intermedios: bajo y alto.</p>
+    <div class="tabla">
+      <table id="trangos">
+        <thead><tr><th>Tarifa</th><th>Temporada</th><th>Básico</th><th>Intermedio</th><th>Excedente</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Todo el año</td><td class="n">1 a 75</td><td class="n">76 a 140</td><td class="n">más de 140</td></tr>
+          <tr><td>1A</td><td>Verano</td><td class="n">1 a 100</td><td class="n">101 a 150</td><td class="n">más de 150</td></tr>
+          <tr><td>1A</td><td>Resto del año</td><td class="n">1 a 75</td><td class="n">76 a 150</td><td class="n">más de 150</td></tr>
+          <tr><td>1B</td><td>Verano</td><td class="n">1 a 125</td><td class="n">126 a 225</td><td class="n">más de 225</td></tr>
+          <tr><td>1B</td><td>Resto del año</td><td class="n">1 a 75</td><td class="n">76 a 175</td><td class="n">más de 175</td></tr>
+          <tr><td>1C</td><td>Verano</td><td class="n">1 a 150</td><td class="n">151 a 300 (bajo) y 301 a 450 (alto)</td><td class="n">más de 450</td></tr>
+          <tr><td>1C</td><td>Resto del año</td><td class="n">1 a 75</td><td class="n">76 a 175</td><td class="n">más de 175</td></tr>
+          <tr><td>1D</td><td>Verano</td><td class="n">1 a 175</td><td class="n">176 a 400 (bajo) y 401 a 600 (alto)</td><td class="n">más de 600</td></tr>
+          <tr><td>1D</td><td>Resto del año</td><td class="n">1 a 75</td><td class="n">76 a 200</td><td class="n">más de 200</td></tr>
+          <tr><td>1E</td><td>Verano</td><td class="n">1 a 300</td><td class="n">301 a 750 (bajo) y 751 a 900 (alto)</td><td class="n">más de 900</td></tr>
+          <tr><td>1E</td><td>Resto del año</td><td class="n">1 a 75</td><td class="n">76 a 200</td><td class="n">más de 200</td></tr>
+          <tr><td>1F</td><td>Verano</td><td class="n">1 a 300</td><td class="n">301 a 1,200 (bajo) y 1,201 a 2,500 (alto)</td><td class="n">más de 2,500</td></tr>
+          <tr><td>1F</td><td>Resto del año</td><td class="n">1 a 75</td><td class="n">76 a 200</td><td class="n">más de 200</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="nota">Cifras en kWh al mes. Si tu recibo muestra otros rangos, confía en tu recibo.</p>
+    <p>Los precios de cada escalón los publica CFE y se actualizan con el tiempo. Por eso la calculadora trae precios de ejemplo que puedes cambiar: copia los de tu recibo o los de la <a href="https://app.cfe.mx/Aplicaciones/CCFE/Tarifas/TarifasCRECasa/Casa.aspx" rel="noopener">página de tarifas de CFE</a> para tu mes.</p>
+
+    <h2>Ejemplo</h2>
+    <p>Son los datos que vienen cargados: tarifa 1, recibo bimestral y 300 kWh en el periodo. En un recibo bimestral los rangos de la tarifa 1 se duplican: básico de 1 a 150 kWh, intermedio de 151 a 280 y excedente desde 281. Con los precios de ejemplo:</p>
+    <ul>
+      <li>Básico: 150 kWh × $1.10 = <strong>$165.00</strong>.</li>
+      <li>Intermedio: 130 kWh × $1.35 = <strong>$175.50</strong>.</li>
+      <li>Excedente: 20 kWh × $3.90 = <strong>$78.00</strong>.</li>
+      <li>Energía: $418.50. IVA de 16%: $66.96. Total: <strong>$485.46</strong>.</li>
+    </ul>
+    <p>Si tu recibo trae IVA de 8%, como pasa en algunos de la frontera: IVA de $33.48 y total de $451.98.</p>
+    <p>Cada kWh de excedente costó casi 3 veces lo que uno del intermedio. Por eso conviene no pasar al excedente.</p>
+    <p>En promedio son 150 kWh al mes (300 ÷ 2). El límite de la DAC en la tarifa 1 es de 250 kWh al mes, así que este hogar tiene 100 kWh al mes de margen.</p>
+
+    <h2>La tarifa DAC y cómo evitarla</h2>
+    <p>La DAC (Doméstica de Alto Consumo) es la tarifa para los hogares que consumen mucho. <strong>No tiene subsidio</strong>: cada kWh cuesta mucho más que en tu tarifa normal y además se cobra un cargo fijo cada mes.</p>
+    <h3>Cuándo te cambian a DAC</h3>
+    <p>CFE saca tu promedio mensual de los últimos 12 meses. Si ese promedio pasa del límite de tu tarifa (la tabla de arriba), te cambia a DAC.</p>
+    <h3>Cómo salir de la DAC</h3>
+    <p>Cuando tu promedio de los últimos 12 meses vuelve a quedar debajo del límite, CFE te regresa a tu tarifa normal. Como el promedio cuenta todo un año, bajar tu consumo un solo mes no basta: puede tardar varios meses.</p>
+    <h3>Cómo evitarla</h3>
+    <ol>
+      <li>Busca en tu recibo tu consumo de los periodos anteriores. Suma los kWh de los últimos 12 meses y divídelos entre 12. Ese es el número que revisa CFE. También puedes escribir la suma en la calculadora de arriba.</li>
+      <li>Si estás cerca del límite, encuentra qué aparato gasta más con la <a href="../consumo-de-aparatos/">calculadora de consumo de aparatos</a>. Casi siempre es el aire acondicionado, el refrigerador viejo, la bomba de agua o algo que calienta (plancha, secadora, calentador eléctrico).</li>
+      <li>Si usas aire acondicionado, no lo pongas muy frío, cierra puertas y ventanas y limpia sus filtros.</li>
+      <li>Cuida el refrigerador: no lo abras de más, revisa que el empaque de la puerta cierre bien y déjale espacio atrás para que respire.</li>
+      <li>Cambia tus focos por LED y desconecta lo que no usas: muchos aparatos gastan aunque estén apagados.</li>
+      <li>Si tu consumo es alto todo el año, pide cotizaciones de paneles solares. Con un contrato de interconexión con CFE, lo que generas se descuenta de lo que consumes. Pide que el instalador haga el trámite con CFE.</li>
+    </ol>
+
+    <h2>Si tu recibo llega muy alto</h2>
+    <ol>
+      <li>Compara la <strong>lectura actual</strong> de tu recibo con lo que marca tu medidor hoy. Si el medidor marca menos que esa lectura, puede haber un error de lectura.</li>
+      <li>Revisa si hay una fuga: apaga y desconecta todo y mira si el medidor sigue avanzando. Si avanza, llama a un electricista.</li>
+      <li>Revisa si cambió tu tarifa (por ejemplo, a DAC) o si el periodo tuvo más días de lo normal.</li>
+      <li>Pide una aclaración a CFE por sus canales oficiales: el teléfono 071, su página o app oficial, o un centro de atención.</li>
+      <li>Si no te resuelven, puedes presentar una queja en la Procuraduría Federal del Consumidor (Profeco).</li>
+    </ol>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Por qué la tarifa dice “al mes” si mi recibo es cada dos meses?</h3>
+    <p>Los rangos se fijan por mes. En un recibo bimestral se multiplican por 2, y CFE los ajusta según los días que tenga el periodo.</p>
+    <h3>¿Cuándo es “verano” para mi tarifa?</h3>
+    <p>Son los seis meses seguidos más calurosos del año. CFE los fija para cada localidad con datos de temperatura, así que las fechas varían según dónde vives: revisa tu recibo. Si tu periodo cruza el cambio de temporada, tu recibo puede combinar las dos.</p>
+    <h3>¿Puedo pedir otra tarifa?</h3>
+    <p>No se escoge: depende del clima de tu localidad. Si crees que a tu localidad le toca otra, pregunta en CFE.</p>
+    <h3>¿Cada cuánto cambian los precios?</h3>
+    <p>CFE publica los precios de cada mes en su página de tarifas. Por eso esta calculadora no fija precios: escribe los de tu recibo.</p>
+    <h3>¿Cuentas Claras MX necesita mi número de servicio?</h3>
+    <p>No. Esta página no te pide ningún dato de tu recibo que te identifique. Todo se calcula en tu celular o computadora.</p>
+
+    <h2>Fuentes oficiales</h2>
+    <ul>
+      <li><a href="https://app.cfe.mx/Aplicaciones/CCFE/Tarifas/TarifasCRECasa/Casa.aspx" rel="noopener">Tarifas para el hogar de CFE</a>: rangos, límites de la DAC y precios de cada mes.</li>
+      <li><a href="https://www.cfe.mx/" rel="noopener">Comisión Federal de Electricidad</a>: pago, aclaraciones y atención.</li>
+      <li>Ley del Impuesto al Valor Agregado, artículo 1, tasa de 16% (<a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LIVA.pdf" rel="noopener">texto vigente en la Cámara de Diputados</a>).</li>
+      <li>IVA de 8% en la frontera: no es una tasa de la ley, es un estímulo fiscal de los decretos de la región fronteriza norte (DOF, 31 de diciembre de 2018) y sur (DOF, 30 de diciembre de 2020). Se prorrogaron hasta el 31 de diciembre de 2026 (DOF, 31 de diciembre de 2025). Información del <a href="https://www.sat.gob.mx/minisitio/EstimulosFiscalesFronteraNorteSur/documentos/GuiaPresentarAvisoSolicitarEstimuloRegionesFronterizas.pdf" rel="noopener">SAT sobre los estímulos de las regiones fronterizas</a>.</li>
+    </ul>
+    <p class="nota">Revisado en octubre de 2026. Los rangos y límites de esta página vienen de las tarifas domésticas que publica CFE; al revisarla no pudimos abrir el sitio de CFE, así que compáralos con tu recibo antes de tomar decisiones. Los precios de la calculadora son de ejemplo, no son tarifas oficiales. Lo del IVA de 8% en la frontera está pendiente de verificar con el DOF o el SAT: lo tomamos de fuentes secundarias y de la prensa local, porque esas páginas oficiales no abrieron desde nuestra red.</p>
+
+    <p>También te puede servir: <a href="../consumo-de-aparatos/">calculadora de consumo de aparatos</a>, <a href="../gas-lp/">calculadora de gas LP</a> y <a href="../../dinero/meses-sin-intereses/">¿conviene comprar a meses sin intereses?</a>, si vas a cambiar un aparato.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni de CFE. Los cálculos son orientativos; consulta las <a href="https://app.cfe.mx/Aplicaciones/CCFE/Tarifas/TarifasCRECasa/Casa.aspx" rel="noopener">tarifas oficiales de CFE</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/casa.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const numero = (n, d = 0) => n.toLocaleString("es-MX", { maximumFractionDigits: d });
+function calcular() {
+  const tarifa = $("tar").value;
+  const info = Casa.DATOS.tarifas[tarifa];
+  $("ltem").hidden = !!info.todoElAnio;
+  const r = Casa.reciboLuz({
+    tarifa, temporada: $("tem").value, meses: +$("per").value, kwh: $("kwh").value, kwhAnual: $("anu").value, tasaIva: $("tiva").value,
+    precios: { basico: $("pb").value, intermedio: $("pi").value, intermedioAlto: $("pa").value, excedente: $("pe").value }
+  });
+  const cuatro = r.filas.length === 4;
+  $("lpa").hidden = !cuatro;
+  $("tpi").textContent = cuatro ? "Precio del kWh intermedio bajo (ejemplo)" : "Precio del kWh intermedio (ejemplo)";
+
+  $("total").textContent = mxn(r.total);
+  $("bloques").innerHTML = r.filas.map(f => {
+    const rango = f.hasta === null ? `más de ${numero(f.desde - 1)} kWh` : `${numero(f.desde)} a ${numero(f.hasta)} kWh`;
+    return `<div class="row"><span>${f.nombre} <small class="nota">(${rango}): ${numero(f.kwh, 2)} kWh × ${mxn(f.precio)}</small></span><b>${mxn(f.subtotal)}</b></div>`;
+  }).join("");
+  $("en").textContent = mxn(r.energia);
+  $("tiv").textContent = `IVA (${Math.round(r.tasaIva * 100)}%)`;
+  $("iva").textContent = mxn(r.iva);
+  $("pp").textContent = r.kwh ? mxn(r.precioPromedio) : "Sin datos";
+  $("pm").textContent = numero(r.promedioMensual, 1) + " kWh";
+  $("ld").textContent = numero(r.limiteDac) + " kWh";
+
+  const margen = numero(Math.abs(r.margenDac), 1);
+  let dac;
+  if (r.sinKwh && !r.usaAnual) dac = "Escribe los kWh de tu recibo para revisar la DAC.";
+  else if (r.estadoDac === "pasa") dac = `Tu promedio pasa del límite de la DAC por ${margen} kWh al mes. Si tu promedio de 12 meses queda así, CFE te puede cambiar a la tarifa DAC, que no tiene subsidio.`;
+  else if (r.estadoDac === "cerca") dac = r.margenDac === 0 ? "Estás justo en el límite de la DAC. Un poco más y te pueden cambiar de tarifa." : `Cuidado: estás cerca del límite de la DAC. Te quedan ${margen} kWh al mes de margen.`;
+  else dac = `Vas bien: tu promedio está ${margen} kWh al mes debajo del límite de la DAC.`;
+  if (!(r.sinKwh && !r.usaAnual)) {
+    dac += r.usaAnual ? " Calculado con el consumo de todo tu año." : " Calculado como si todo el año consumieras como en este recibo.";
+    if (!r.usaAnual && r.temporada === "verano") dac += " En verano se consume más: para saberlo mejor, escribe el consumo de tu año.";
+  }
+  $("dac").textContent = dac;
+
+  const msg = [];
+  if (r.sinKwh) msg.push("Escribe cuántos kWh consumiste: vienen en tu recibo.");
+  if (r.sinPrecio) msg.push("Falta el precio de algún escalón: cópialo de tu recibo.");
+  if (r.recortado) msg.push("Alguna cantidad está fuera de rango y la ajustamos: hasta 100,000 kWh por periodo, 1,200,000 kWh al año y $50 por kWh.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+$("f").addEventListener("change", calcular);
+calcular();
+</script>
+</body>
+</html>

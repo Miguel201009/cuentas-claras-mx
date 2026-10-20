@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>¿Conviene comprar a meses sin intereses? Calculadora 2026 | Cuentas Claras MX</title>
+<meta name="description" content="Compara pagar de contado o a meses sin intereses: cuánto ahorras si tu dinero sigue rindiendo, el efecto de la inflación y los riesgos del pago mínimo.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Dinero y ahorro</a> › Meses sin intereses</span></div>
+
+  <header>
+    <span class="tag">Dinero y ahorro</span>
+    <h1>¿Conviene comprar a meses sin intereses?</h1>
+    <p class="lede">Pagar a meses puede salirte más barato que pagar de contado, si tu dinero sigue ganando mientras pagas. Pero también puede salirte más caro. Haz la cuenta con tus números.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="pc">Precio si pagas de contado
+        <input id="pc" type="number" min="0" step="100" value="12000"></label>
+      <label for="pm">Precio total si pagas a meses
+        <input id="pm" type="number" min="0" step="100" value="12000"></label>
+      <p class="nota">Si pagando de contado te hacen descuento, escribe el precio con descuento arriba y el precio sin descuento aquí.</p>
+      <label for="n">Número de meses
+        <input id="n" type="number" min="1" max="480" step="1" value="12"></label>
+      <label for="rend">¿Cuánto rinde tu ahorro al año? (%), ejemplo
+        <input id="rend" type="number" min="0" max="100" step="0.1" value="5"></label>
+      <p class="nota">Usa lo que te queda después de impuestos, por ejemplo en CETES o en una cuenta que pague intereses. Si tu dinero está en efectivo o en una cuenta que no paga nada, escribe 0.</p>
+      <label for="inf">Inflación anual (%), ejemplo
+        <input id="inf" type="number" min="0" max="100" step="0.1" value="3.5"></label>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota" id="tit">Te conviene a meses: ahorras</span>
+      <div class="big" id="total">$0</div>
+      <span class="nota" id="sub">en pesos de hoy</span>
+      <div class="row"><span>Pago de cada mes</span><b id="pago"></b></div>
+      <div class="row"><span>Lo que valen hoy tus pagos a meses, si inviertes tu dinero</span><b id="vp"></b></div>
+      <div class="row"><span>Lo que te sobra al final si inviertes el dinero del contado y pagas de ahí</span><b id="fin"></b></div>
+      <div class="row"><span>Tus pagos en pesos de hoy, por la inflación</span><b id="vpi"></b></div>
+      <div class="row"><span>Diferencia de precio (a meses menos contado)</span><b id="dif"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Solo conviene si pagas cada mensualidad completa y a tiempo. Si te atrasas, te cobran intereses y comisiones.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Cómo funciona la cuenta</h2>
+    <p>Imagina que tienes el dinero para pagar de contado. Tienes dos caminos:</p>
+    <ul>
+      <li><strong>De contado:</strong> pagas todo hoy y tu dinero deja de ganar intereses.</li>
+      <li><strong>A meses:</strong> dejas el dinero invertido y de ahí sacas cada mensualidad. Mientras tanto, lo que queda sigue ganando.</li>
+    </ul>
+    <p>Para comparar, la calculadora pasa todas las mensualidades a <strong>pesos de hoy</strong>. Un peso que pagas en 12 meses vale menos que uno que pagas hoy, porque mientras tanto ese dinero puede ganar intereses. La fórmula es:</p>
+    <p><strong>Valor de hoy = mensualidad × (1 − (1 + i)<sup>−meses</sup>) ÷ i</strong>, donde <strong>i</strong> es lo que rinde tu ahorro al año ÷ 12.</p>
+    <p>Si ese valor es menor que el precio de contado, te conviene a meses. Si es mayor, te conviene de contado.</p>
+    <p><strong>¿Y la inflación?</strong> Si vas a pagar las mensualidades con tu sueldo de los próximos meses, la inflación hace que los últimos pagos "pesen" un poco menos: con los precios subiendo, $1,000 dentro de un año compran menos que hoy. Por eso mostramos cuánto valen tus pagos en pesos de hoy. Si ya tienes el dinero guardado, lo que cuenta es lo que rinde: si gana menos que la inflación, pierde valor mientras lo guardas.</p>
+
+    <h2>Ejemplo</h2>
+    <p>Una pantalla cuesta $12,000 de contado o $12,000 a 12 meses sin intereses. Pagas $1,000 al mes. Tu ahorro rinde 5% al año después de impuestos y la inflación es de 3.5% (son ejemplos).</p>
+    <ul>
+      <li>Con tu dinero ganando 5% al año, tus 12 pagos de $1,000 valen hoy <strong>$11,681.22</strong>. Pagar a meses te ahorra <strong>$318.78</strong> en pesos de hoy.</li>
+      <li>Dicho de otra forma: si apartas los $12,000, los inviertes y de ahí pagas cada mes, al final te sobran <strong>$335.09</strong>.</li>
+      <li>Por la inflación, tus 12 pagos equivalen hoy a $11,779.04 de poder de compra: unos $220.96 menos que el precio de contado.</li>
+    </ul>
+    <p>Son los datos que vienen cargados en la calculadora. Ahora imagina que de contado te dan 10% de descuento y la pantalla te cuesta $10,800. Ya no conviene a meses: tus pagos valen hoy $11,681.22, es decir, $881.22 más que el contado. Pruébalo cambiando el precio de contado a 10800.</p>
+
+    <h2>Cuidado: los meses sin intereses no son gratis si fallas</h2>
+    <ul>
+      <li><strong>La mensualidad se paga además del pago mínimo.</strong> Tu estado de cuenta muestra el pago mínimo y, aparte, el pago mínimo más tus compras a meses. Si solo pagas el mínimo, tu mensualidad queda sin cubrir.</li>
+      <li><strong>Si no pagas una mensualidad, el banco te cobra intereses.</strong> Te cobra intereses sobre esa mensualidad y una comisión por pago tardío. Según tu contrato, también puede cancelar los meses sin intereses y cobrarte intereses sobre todo lo que te falta pagar de la compra. Revisa tu contrato.</li>
+      <li><strong>El pago mínimo no te salva de intereses.</strong> Si pagas solo el mínimo, te cobran intereses sobre todo lo que no pagaste y tardas mucho más en salir de la deuda.</li>
+      <li><strong>Comprometes tu sueldo de los próximos meses.</strong> Varias compras a meses juntas se vuelven una deuda grande. Antes de comprar, suma todas tus mensualidades y revisa que te alcance con tus ingresos y tus otros gastos.</li>
+      <li><strong>Revisa el precio.</strong> Algunas tiendas dan descuento por pagar de contado o suben el precio a meses. Esa diferencia es un interés escondido.</li>
+    </ul>
+    <p>Para no pagar intereses, cada mes cubre el <strong>pago para no generar intereses</strong> que viene en tu estado de cuenta. Ese monto ya incluye la mensualidad de tus compras a meses.</p>
+
+    <h2>¿Cuándo sí conviene?</h2>
+    <ul>
+      <li>Cuando el precio a meses es igual al de contado.</li>
+      <li>Cuando tienes el dinero y lo dejas invertido, o cuando la compra es necesaria y no tienes todo hoy.</li>
+      <li>Cuando estás seguro de poder pagar cada mensualidad a tiempo hasta el final.</li>
+    </ul>
+    <p>No conviene si la compra no es necesaria, si ya tienes muchas mensualidades o si de contado te dan un buen descuento.</p>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Qué es el pago para no generar intereses?</h3>
+    <p>Es lo que debes pagar antes de la fecha límite para que el banco no te cobre intereses en el siguiente periodo. Incluye tus compras normales del mes y la mensualidad de tus compras a meses.</p>
+    <h3>¿Y si mi dinero no está invertido?</h3>
+    <p>Escribe 0 en el rendimiento. Si el precio es el mismo, en pesos te da igual pagar de contado o a meses, porque el dinero guardado no gana nada. La ventaja de pagar a meses sería tener el dinero a la mano por si surge una emergencia. Si te dan descuento de contado, conviene pagar de contado.</p>
+    <h3>¿Qué rendimiento escribo?</h3>
+    <p>Lo que gana tu ahorro al año después de impuestos. Por ejemplo, con CETES a 6% y la retención de 0.90%, te quedan cerca de 5.1% al año. Puedes calcularlo en la <a href="../cetes-vs-bancos/">calculadora de CETES vs. banco</a>.</p>
+    <h3>¿Cuál es la inflación?</h3>
+    <p>La meta del Banco de México es 3% al año, con un margen de un punto arriba o abajo. La cifra real la publica el INEGI cada quincena. Cambia el ejemplo por la más reciente.</p>
+
+    <h2>Fuente oficial</h2>
+    <p>Consulta las recomendaciones de la <a href="https://www.gob.mx/condusef/es/prensa/cuidado-con-los-meses-sin-intereses-en-este-buen-fin" rel="noopener">Condusef sobre los meses sin intereses</a>, sus <a href="https://www.gob.mx/condusef/acciones-y-programas/simuladores-y-calculadoras-23921" rel="noopener">simuladores y calculadoras</a> (incluye la de pagos mínimos), la <a href="https://www.banxico.org.mx/" rel="noopener">meta de inflación del Banco de México</a> y la <a href="https://www.inegi.org.mx/temas/inpc/" rel="noopener">inflación más reciente del INEGI</a>.</p>
+    <p class="nota">Información revisada en octubre de 2026.</p>
+    <p>También te puede servir: <a href="../cetes-vs-bancos/">CETES vs. banco</a>, <a href="../prestamo/">calculadora de préstamo</a> y <a href="../../casa/consumo-de-aparatos/">consumo de luz por aparato</a>, si vas a comprar un aparato nuevo.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni de ningún banco o tienda. Los cálculos son orientativos y no son asesoría financiera.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/dinero.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const r = Dinero.mesesSinIntereses({
+    precioContado: $("pc").value, precioMeses: $("pm").value, meses: $("n").value,
+    rendimiento: $("rend").value, inflacion: $("inf").value
+  });
+  const titulos = { meses: "Te conviene a meses: ahorras", contado: "Te conviene de contado: ahorras", igual: "Te da lo mismo: la diferencia es", faltan: "Faltan datos para comparar" };
+  $("tit").textContent = titulos[r.conviene];
+  $("total").textContent = mxn(Math.abs(r.ventajaHoy));
+  $("sub").hidden = r.conviene === "faltan";
+  $("pago").textContent = mxn(r.pago);
+  $("vp").textContent = mxn(r.vp);
+  $("fin").textContent = r.alFinal >= 0 ? mxn(r.alFinal) : "Te faltan " + mxn(-r.alFinal);
+  $("vpi").textContent = mxn(r.vpInflacion);
+  $("dif").textContent = mxn(r.sobreprecio);
+  const msg = [];
+  if (r.sinMeses) msg.push("Escribe en cuántos meses vas a pagar (1 o más).");
+  if (r.contado === 0 || r.aMeses === 0) msg.push("Escribe los dos precios: de contado y a meses.");
+  if (r.sobreprecio > 0.005) msg.push(`A meses pagas ${mxn(r.sobreprecio)} más que de contado: esa diferencia funciona como un interés.`);
+  if (r.contado > 0 && r.aMeses > 0 && r.sobreprecio < -0.005) msg.push("Revisa los precios: el precio a meses casi nunca es menor que el de contado.");
+  if (r.recortado) msg.push("Alguna cantidad es demasiado grande. Usamos como máximo $1,000,000,000, 480 meses y tasas de hasta 100%.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

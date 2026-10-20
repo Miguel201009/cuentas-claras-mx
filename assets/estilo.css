@@ -65,3 +65,24 @@ a.tema:hover { border-color: var(--brand) }
 .row.sub { font-size: .85rem; color: var(--muted); padding-left: 12px }
 .row.sub b { font-size: .85rem }
 .wrap > * { min-width: 0 }
+
+/* Reglas que antes repetía cada página en su propio <style> */
+.prosa h3 { margin: 14px 0 6px }
+.prosa .tema h3 { margin: 0 }
+.prosa .tabla { margin: 0 0 10px }
+.prosa td, .prosa th { vertical-align: top }
+.tema > .tag { justify-self: start }
+.grupo { display: grid; gap: 14px }
+.par { display: grid; grid-template-columns: 1fr 1fr; gap: 10px }
+.par > * { min-width: 0 }
+.par label { align-content: space-between }
+
+/* Portada: buscador y lista de secciones */
+input[type=search] { font: 400 1rem var(--body); padding: 10px 12px; border: 1.5px solid var(--campo); border-radius: 8px; background: var(--surface); color: var(--fg); width: 100%; -webkit-appearance: none; appearance: none }
+.buscar { display: grid; gap: 8px; max-width: 640px }
+.secciones { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr)); gap: 12px; align-items: start }
+.seccion h3 a { color: var(--brand); text-decoration: none }
+.seccion h3 a:hover { text-decoration: underline }
+.tema .herramientas { list-style: none; margin: 4px 0 0; padding: 0; color: var(--fg); font-size: 1rem; display: grid }
+.herramientas li { display: grid; gap: 2px; padding: 8px 0; border-top: 1px solid var(--line) }
+.herramientas a { font-weight: 600 }

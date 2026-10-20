@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Declaración anual 2026 de personas físicas: saldo a favor | Cuentas Claras MX</title>
+<meta name="description" content="Quién debe presentar la declaración anual, fechas, deducciones personales y su tope, paso a paso en el SAT y calculadora para saber si te toca saldo a favor.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Impuestos y SAT</a> › Declaración anual</span></div>
+
+  <header>
+    <span class="tag">Impuestos y SAT</span>
+    <h1>Declaración anual de personas físicas: ¿te toca saldo a favor?</h1>
+    <p class="lede">Quién la presenta, cuándo, qué deducciones puedes usar y cómo hacerla en el portal del SAT. Con la calculadora estimas si te van a devolver dinero o si te toca pagar.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni del SAT.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="grav">Lo que ganaste en 2026 y paga ISR (ingresos gravados)
+        <input id="grav" type="number" min="0" step="any" inputmode="decimal" value="300000"></label>
+      <label for="exe">Ingresos exentos del año (parte libre de ISR de tu aguinaldo, prima vacacional y otros)
+        <input id="exe" type="number" min="0" step="any" inputmode="decimal" value="5000"></label>
+      <label for="ret">ISR que te retuvieron o que ya pagaste en el año
+        <input id="ret" type="number" min="0" step="any" inputmode="decimal" value="41419.80"></label>
+      <label for="sub">Subsidio para el empleo que te aplicaron en el año
+        <input id="sub" type="number" min="0" step="any" inputmode="decimal" value="0"></label>
+      <label for="ded">Deducciones personales pagadas (médicos, dentista, hospital, seguro de gastos médicos, intereses reales de hipoteca, transporte escolar y gastos funerales)
+        <input id="ded" type="number" min="0" step="any" inputmode="decimal" value="20000"></label>
+      <p class="nota">No sumes aquí donativos ni aportaciones voluntarias al retiro: tienen su propio límite y esta calculadora no los incluye.</p>
+      <label for="col">Colegiaturas pagadas en el año (sin inscripción ni reinscripción)
+        <input id="col" type="number" min="0" step="any" inputmode="decimal" value="0"></label>
+      <label for="niv">Nivel escolar (límite al año por alumno)
+        <select id="niv"><option value="preescolar">Preescolar: $14,200</option><option value="primaria" selected>Primaria: $12,900</option><option value="secundaria">Secundaria: $19,900</option><option value="tecnico">Profesional técnico: $17,100</option><option value="bachillerato">Bachillerato: $24,500</option><option value="varios">Hijos en varios niveles</option></select></label>
+      <label for="alu">Número de alumnos
+        <input id="alu" type="number" min="1" max="20" step="1" inputmode="numeric" value="1"></label>
+      <p class="nota">Los ingresos, las retenciones y el subsidio vienen en tus recibos de nómina, en tu constancia de retenciones o en la declaración que el SAT ya te muestra prellenada.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota" id="tit">Saldo a favor estimado</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span>Tope de tus deducciones <small class="nota" id="r-topeq"></small></span><b id="r-tope"></b></div>
+      <div class="row"><span>Deducciones que sí cuentan</span><b id="r-ded"></b></div>
+      <div class="row"><span>Colegiaturas que sí cuentan</span><b id="r-col"></b></div>
+      <div class="row"><span>Base para el ISR del año</span><b id="r-base"></b></div>
+      <div class="row"><span>ISR según la tarifa anual <small class="nota">Art. 152 LISR</small></span><b id="r-isr"></b></div>
+      <div class="row"><span>Menos subsidio para el empleo</span><b id="r-sub"></b></div>
+      <div class="row"><span><strong>ISR de todo el año</strong></span><b id="r-imp"></b></div>
+      <div class="row"><span>ISR que ya te retuvieron o pagaste</span><b id="r-ret"></b></div>
+      <div class="row"><span>Lo que te ahorran tus deducciones</span><b id="r-aho"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Estimación del año 2026, que declaras en abril de 2027, con la tarifa anual 2026. Sirve para sueldos y otros ingresos que se suman en la declaración anual; no incluye lo que cobras en RESICO.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>¿Quién tiene que presentar la declaración anual?</h2>
+    <p>Si solo recibes sueldo, tienes que presentarla si te pasa cualquiera de estas cosas:</p>
+    <ul>
+      <li>Tu sueldo del año pasó de <strong>$400,000</strong>.</li>
+      <li>Trabajaste con <strong>dos o más patrones al mismo tiempo</strong>.</li>
+      <li><strong>Dejaste de trabajar</strong> con tu patrón antes del 31 de diciembre.</li>
+      <li>Tu sueldo vino del extranjero o de alguien que no está obligado a retenerte ISR, como un organismo internacional.</li>
+      <li>Además del sueldo, recibiste una <strong>indemnización o una jubilación</strong>.</li>
+      <li>Además del sueldo, tuviste <strong>otros ingresos</strong>: honorarios, negocio, rentas, dividendos, venta de bienes o <strong>intereses reales de más de $100,000</strong> en el año.</li>
+      <li>Le avisaste <strong>por escrito a tu patrón</strong> que tú presentarías tu declaración anual.</li>
+    </ul>
+    <p>También la presentan quienes tienen negocio, honorarios o rentas en el régimen general. Si solo tuviste sueldo de un patrón, no pasaste de $400,000 y no tuviste otros ingresos, no estás obligado. Tampoco te obligan los intereses reales de hasta $100,000 si te retuvieron el ISR y, sumados a tu sueldo, no pasas de $400,000 (artículos 98 y 150 de la Ley del ISR). Para la declaración del año 2025, una regla del SAT (regla 3.13.7 de la Resolución Miscelánea Fiscal) relevó de presentarla a quien solo tuvo ingresos en <a href="../resico/">RESICO</a>. Revisa si se repite en la Resolución Miscelánea de 2027.</p>
+    <p><strong>Aunque no estés obligado, te conviene presentarla si tienes deducciones personales.</strong> Es la forma de recuperar parte del ISR que te retuvieron.</p>
+
+    <h2>¿Cuándo se presenta?</h2>
+    <p>En <strong>abril del año siguiente</strong>. La del año 2026 se presenta del 1 al 30 de abril de 2027. La del año 2025 venció el 30 de abril de 2026. Si debías presentarla y no lo hiciste, preséntala cuanto antes: si te sale a pagar, se suman actualización y recargos, y te pueden multar.</p>
+
+    <h2>Deducciones personales que puedes usar</h2>
+    <p>Son gastos que la Ley del ISR (artículo 151) te deja restar de tus ingresos. Cuentan los tuyos y los de tu cónyuge o concubino, tus padres, abuelos, hijos y nietos, siempre que ellos no hayan ganado en el año una UMA anual o más.</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Gasto</th><th>Límite</th></tr></thead>
+      <tbody>
+        <tr><td>Honorarios de médicos, dentistas, psicólogos y nutriólogos; gastos de hospital, análisis clínicos y prótesis</td><td>Entran al tope general</td></tr>
+        <tr><td>Lentes ópticos graduados</td><td>Hasta $2,500 al año por persona</td></tr>
+        <tr><td>Primas de seguros de gastos médicos</td><td>Entran al tope general</td></tr>
+        <tr><td>Gastos funerales</td><td>Hasta una UMA anual; entran al tope general</td></tr>
+        <tr><td>Intereses reales de crédito hipotecario para tu casa</td><td>Créditos de hasta 750,000 UDIS; entran al tope general</td></tr>
+        <tr><td>Transporte escolar obligatorio</td><td>Entra al tope general</td></tr>
+        <tr><td>Colegiaturas de preescolar a bachillerato</td><td>Límite por alumno (tabla de abajo); fuera del tope general</td></tr>
+        <tr><td>Donativos a donatarias autorizadas</td><td>Hasta 7% de tus ingresos del año anterior; fuera del tope general</td></tr>
+        <tr><td>Aportaciones complementarias o voluntarias para tu retiro</td><td>Hasta 10% de tus ingresos y máximo 5 UMA anuales; fuera del tope general</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>Tope general:</strong> la suma de las deducciones que entran al tope no puede pasar de lo que sea menor entre el <strong>15% de tus ingresos totales</strong> (incluidos los exentos) y <strong>5 UMA anuales</strong>. Con la UMA de 2026 ($42,794.64 al año), 5 UMA son <strong>$213,973.20</strong>.</p>
+    <p><strong>Requisitos:</strong> factura (CFDI) a tu nombre y con tu RFC, gasto pagado en el mismo año que declaras y, en gastos médicos, pago con tarjeta, transferencia o cheque nominativo. Si pagaste en efectivo, no cuenta. Los gastos funerales sí se pueden pagar con cualquier medio.</p>
+
+    <h3>Límite anual de colegiaturas por alumno</h3>
+    <div class="tabla"><table>
+      <thead><tr><th>Nivel</th><th>Límite al año</th></tr></thead>
+      <tbody>
+        <tr><td>Preescolar</td><td class="n">$14,200</td></tr>
+        <tr><td>Primaria</td><td class="n">$12,900</td></tr>
+        <tr><td>Secundaria</td><td class="n">$19,900</td></tr>
+        <tr><td>Profesional técnico</td><td class="n">$17,100</td></tr>
+        <tr><td>Bachillerato o equivalente</td><td class="n">$24,500</td></tr>
+      </tbody>
+    </table></div>
+    <p class="nota">Solo escuelas particulares con validez oficial. No cuentan inscripciones ni reinscripciones. Fuente: decreto que compila beneficios fiscales, Diario Oficial del 26 de diciembre de 2013, y la página de deducciones personales del SAT.</p>
+
+    <h2>Cómo saber si te toca saldo a favor</h2>
+    <ol>
+      <li>Suma lo que ganaste en el año y paga ISR.</li>
+      <li>Réstale tus deducciones personales (sin pasar del tope) y tus colegiaturas. Eso es tu base.</li>
+      <li>Busca tu base en la tarifa anual del artículo 152 y calcula el ISR del año: (base − límite inferior) × porcentaje + cuota fija.</li>
+      <li>Si te aplicaron subsidio para el empleo, réstalo. Nunca puede dejar el ISR en menos de cero.</li>
+      <li>Compara con lo que ya te retuvieron o pagaste. Si te retuvieron más, tienes <strong>saldo a favor</strong>. Si te retuvieron menos, te toca <strong>pagar la diferencia</strong>.</li>
+    </ol>
+    <p>Si tuviste un solo patrón todo el año y no tienes deducciones, el resultado suele salir casi en ceros, porque tu patrón ya hizo el cálculo. Lo que más genera saldo a favor son las deducciones personales.</p>
+
+    <h2>Ejemplo con un sueldo de $25,000 al mes</h2>
+    <p>Son los datos que vienen cargados en la calculadora: $300,000 de sueldo en el año, $5,000 exentos, $41,419.80 de ISR retenido ($3,451.65 cada mes) y $20,000 de gastos médicos.</p>
+    <ul>
+      <li><strong>Tope:</strong> 15% de 305,000 es $45,750, menos que 5 UMA anuales. Tus $20,000 cuentan completos.</li>
+      <li><strong>Base:</strong> 300,000 − 20,000 = $280,000.</li>
+      <li><strong>ISR del año:</strong> cae en el renglón de $210,403.70 a $424,353.97. (280,000 − 210,403.70) × 21.36% = 14,865.77. Más la cuota fija de 22,282.14 da <strong>$37,147.91</strong>.</li>
+      <li><strong>Resultado:</strong> 41,419.80 − 37,147.91 = <strong>$4,271.89 de saldo a favor</strong>.</li>
+    </ul>
+    <p>Sin los gastos médicos, el ISR del año sería de $41,419.91: casi lo mismo que te retuvieron, con 11 centavos de diferencia. Las deducciones son las que te generan el saldo a favor.</p>
+
+    <h2>Paso a paso en el portal del SAT</h2>
+    <ol>
+      <li>Ten a la mano tu RFC y tu contraseña. Si tu saldo a favor es de más de $10,000, necesitas tu e.firma. Si no las tienes, <a href="../rfc/">aquí te decimos cómo sacarlas</a>.</li>
+      <li>Entra al <a href="https://www.sat.gob.mx" rel="noopener">portal del SAT</a>, ve a Declaraciones, luego a Anual, y elige la declaración anual de personas físicas del año que vas a declarar.</li>
+      <li>Revisa los datos prellenados. Tus ingresos, retenciones y deducciones salen de las facturas (CFDI) emitidas a tu RFC. Si algo falta o está mal, corrígelo.</li>
+      <li>Revisa tus deducciones personales. Si falta una, pide la factura a tu RFC y revisa que la hayas pagado con tarjeta o transferencia.</li>
+      <li>Revisa el cálculo. El sistema te dice si tienes saldo a favor o a cargo.</li>
+      <li>Si tienes saldo a favor, elige <strong>devolución</strong> y escribe tu CLABE de 18 dígitos. La cuenta debe estar a tu nombre.</li>
+      <li>Envía la declaración y descarga tu acuse.</li>
+      <li>Si te toca pagar, descarga la línea de captura y paga en tu banco o en línea antes de que venza. Si presentaste a tiempo, puedes pagar en una sola exhibición o hasta en seis parcialidades.</li>
+    </ol>
+
+    <h2>Cómo te devuelven el saldo a favor</h2>
+    <p>Para la declaración del año 2025, presentada en 2026, el SAT dio <strong>devolución automática</strong> con estas condiciones:</p>
+    <ul>
+      <li>Saldo a favor de hasta <strong>$150,000</strong>.</li>
+      <li>Con contraseña, si el saldo es de hasta $10,000. Con <strong>e.firma</strong>, si es de más de $10,000.</li>
+      <li>Declaración presentada a más tardar el 31 de julio de 2026, eligiendo devolución y con una CLABE a tu nombre.</li>
+      <li>No aplica si tuviste ingresos en copropiedad, sociedad conyugal o sucesión.</li>
+    </ul>
+    <p>Si tu saldo pasa de $150,000 o no entra en la devolución automática, la pides con el Formato Electrónico de Devoluciones y tu e.firma. Tienes hasta 5 años para pedirla. Las reglas para abril de 2027 saldrán en la Resolución Miscelánea Fiscal de 2027: revísalas antes de presentar.</p>
+
+    <h2>Tarifa anual del ISR 2026 (artículo 152)</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Límite inferior</th><th>Límite superior</th><th>Cuota fija</th><th>% sobre el excedente</th></tr></thead>
+      <tbody>
+        <tr><td class="n">0.01</td><td class="n">10,135.11</td><td class="n">0.00</td><td class="n">1.92</td></tr>
+        <tr><td class="n">10,135.12</td><td class="n">86,022.11</td><td class="n">194.59</td><td class="n">6.40</td></tr>
+        <tr><td class="n">86,022.12</td><td class="n">151,176.19</td><td class="n">5,051.37</td><td class="n">10.88</td></tr>
+        <tr><td class="n">151,176.20</td><td class="n">175,735.66</td><td class="n">12,140.13</td><td class="n">16.00</td></tr>
+        <tr><td class="n">175,735.67</td><td class="n">210,403.69</td><td class="n">16,069.64</td><td class="n">17.92</td></tr>
+        <tr><td class="n">210,403.70</td><td class="n">424,353.97</td><td class="n">22,282.14</td><td class="n">21.36</td></tr>
+        <tr><td class="n">424,353.98</td><td class="n">668,840.14</td><td class="n">67,981.92</td><td class="n">23.52</td></tr>
+        <tr><td class="n">668,840.15</td><td class="n">1,276,925.98</td><td class="n">125,485.07</td><td class="n">30.00</td></tr>
+        <tr><td class="n">1,276,925.99</td><td class="n">1,702,567.97</td><td class="n">307,910.81</td><td class="n">32.00</td></tr>
+        <tr><td class="n">1,702,567.98</td><td class="n">5,107,703.92</td><td class="n">444,116.23</td><td class="n">34.00</td></tr>
+        <tr><td class="n">5,107,703.93</td><td class="n">En adelante</td><td class="n">1,601,862.46</td><td class="n">35.00</td></tr>
+      </tbody>
+    </table></div>
+    <p class="nota">Cantidades en pesos al año. Fuente: Anexo 8 de la Resolución Miscelánea Fiscal para 2026, Diario Oficial del 28 de diciembre de 2025. Aplica al año 2026, que se declara en abril de 2027. La declaración del año 2025 usó la tarifa anterior. La tomamos de varias copias que coinciden entre sí; todavía no la cotejamos con el documento del SAT. Puedes compararla con el Anexo 8 de la Resolución Miscelánea Fiscal 2026 en el <a href="https://www.sat.gob.mx" rel="noopener">portal del SAT</a> (sección de normatividad); si ves una diferencia, avísanos.</p>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Por qué el SAT me da otro resultado?</h3>
+    <p>La declaración prellenada usa todas tus facturas y retenciones del año, con centavos y conceptos que esta calculadora no ve. Usa nuestro resultado como guía y revisa siempre lo que te muestra el SAT.</p>
+    <h3>¿Qué pasa si la declaración me sale a pagar?</h3>
+    <p>Pagas con la línea de captura antes de que venza. Si presentaste a tiempo, puedes pagar hasta en seis parcialidades. Es común cuando tuviste dos patrones o ingresos sin retención.</p>
+    <h3>¿Puedo usar deducciones si estoy en RESICO?</h3>
+    <p>No. Quien tributa en RESICO no puede aplicar deducciones personales.</p>
+    <h3>¿Qué es el subsidio para el empleo?</h3>
+    <p>Es un apoyo para sueldos bajos que reduce el ISR que te retienen. En la anual se resta de tu ISR del año, pero nunca genera saldo a favor. Lo explicamos en la <a href="../../trabajo/sueldo-neto/">calculadora de sueldo neto</a>.</p>
+
+    <h2>Fuentes oficiales</h2>
+    <ul>
+      <li>Ley del Impuesto sobre la Renta, artículos 98, 150, 151 y 152 (<a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LISR.pdf" rel="noopener">texto vigente en la Cámara de Diputados</a>).</li>
+      <li><a href="https://www.sat.gob.mx" rel="noopener">Portal del SAT</a>: busca “Declaración anual de personas físicas” (ahí dice quiénes la presentan) y “Deducciones personales”.</li>
+      <li><a href="https://www.gob.mx/sat" rel="noopener">Comunicados del SAT en gob.mx</a>: busca el de la declaración anual 2025 de personas físicas (marzo de 2026).</li>
+      <li>UMA 2026: INEGI, publicada en el Diario Oficial el 9 de enero de 2026, vigente desde el 1 de febrero de 2026.</li>
+    </ul>
+    <p class="nota">Revisado en octubre de 2026. Las reglas del SAT cambian cada año: confirma en el portal oficial antes de presentar tu declaración.</p>
+
+    <p>También te puede servir: <a href="../../trabajo/sueldo-neto/">calculadora de sueldo neto e ISR</a>, <a href="../../trabajo/aguinaldo/">calculadora de aguinaldo y su parte exenta</a>, <a href="../rfc/">cómo sacar tu RFC, contraseña y e.firma</a>, <a href="../resico/">RESICO para personas físicas</a> y <a href="../../retiro/afore/">cuánto tendrás en tu Afore</a>, si haces aportaciones voluntarias.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni del SAT. Los cálculos son orientativos y no sustituyen la asesoría de un contador. Consulta la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LISR.pdf" rel="noopener">Ley del ISR</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/impuestos.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const r = Impuestos.declaracionAnual({
+    ingresosGravados: $("grav").value, ingresosExentos: $("exe").value, isrPagado: $("ret").value,
+    subsidio: $("sub").value, deducciones: $("ded").value, colegiaturas: $("col").value,
+    nivelColegiatura: $("niv").value, alumnos: $("alu").value
+  });
+  const cd = r.colegiaturasDetalle;
+  const dev = Impuestos.devolucion(r.saldoFavor);
+  if (r.saldoFavor > 0) {
+    $("tit").textContent = "Saldo a favor estimado";
+    $("total").textContent = mxn(r.saldoFavor);
+  } else if (r.aCargo > 0) {
+    $("tit").textContent = "Te tocaría pagar";
+    $("total").textContent = mxn(r.aCargo);
+  } else {
+    $("tit").textContent = "Sin saldo a favor ni a cargo";
+    $("total").textContent = mxn(0);
+  }
+  $("r-tope").textContent = mxn(r.tope.tope);
+  $("r-topeq").textContent = r.tope.limitaUma ? "(5 UMA anuales)" : "(15% de tus ingresos)";
+  $("r-ded").textContent = mxn(r.deduccionAplicada);
+  $("r-col").textContent = mxn(r.colegiaturas);
+  $("r-base").textContent = mxn(r.base);
+  $("r-isr").textContent = mxn(r.isrTarifa);
+  $("r-sub").textContent = (r.subsidioAplicado > 0 ? "−" : "") + mxn(r.subsidioAplicado);
+  $("r-imp").textContent = mxn(r.impuesto);
+  $("r-ret").textContent = mxn(r.isrPagado);
+  $("r-aho").textContent = mxn(r.ahorroDeducciones);
+
+  const msg = [];
+  if (r.deduccionSinUsar > 0) msg.push(`Tus deducciones pasan del tope: ${mxn(r.deduccionSinUsar)} ya no cuentan.`);
+  if (r.subsidio > r.subsidioAplicado) msg.push("El subsidio es mayor que tu ISR del año; lo que sobra no se devuelve.");
+  if (cd.recortado > 0) msg.push(`Tus colegiaturas pasan del límite: solo cuentan ${mxn(cd.deducible)} (${mxn(cd.limitePorAlumno)} por alumno${cd.varios ? ", el límite más alto" : ""}). Lo demás no se deduce.`);
+  if (cd.varios && cd.pagado > 0) msg.push("Con hijos en varios niveles usamos el límite más alto. Revisa con la tabla de abajo que lo de cada uno no pase de su límite.");
+  if (r.saldoFavor > 0 && !dev.automatica) msg.push("Con más de $150,000 de saldo a favor no entras a la devolución automática: se pide con el Formato Electrónico de Devoluciones y tu e.firma.");
+  else if (dev.necesitaEfirma) msg.push("Con un saldo a favor de más de $10,000 necesitas tu e.firma para pedir la devolución.");
+  if (r.pagadoMayorQueIngresos) msg.push("Revisa tus datos: el ISR que te retuvieron no puede ser mayor que tus ingresos.");
+  if (r.aCargo > 0 && r.aCargo < 1) msg.push("La diferencia es de centavos: normalmente sale así cuando tu patrón ya hizo tu cálculo anual.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

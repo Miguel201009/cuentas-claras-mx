@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Licencia de maternidad y paternidad 2026 | Cuentas Claras MX</title>
+<meta name="description" content="Cuántos días te tocan de licencia de maternidad y paternidad, cuánto te paga el IMSS por tu incapacidad y qué semanas necesitas. Calculadora gratis.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Familia y becas</a> › Maternidad y paternidad</span></div>
+
+  <header>
+    <span class="tag">Familia y becas</span>
+    <h1>Licencia de maternidad y paternidad 2026</h1>
+    <p class="lede">Cuántos días te tocan por ley, quién te los paga y cuánto recibes. Si vas a tener un bebé, calcula aquí el pago del IMSS por tu incapacidad de maternidad.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni del IMSS.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="modo">¿Qué licencia quieres calcular?
+        <select id="modo"><option value="maternidad" selected>Maternidad (la mamá, con IMSS)</option><option value="paternidad">Paternidad (el papá)</option></select></label>
+      <div class="grupo" id="g-mat">
+        <label for="dato">¿Qué dato tienes?
+          <select id="dato"><option value="sueldo" selected>Mi sueldo mensual bruto</option><option value="sbc">Mi salario base de cotización (SBC) diario</option></select></label>
+        <label for="monto"><span id="l-monto">Sueldo mensual bruto (antes de descuentos)</span>
+          <input id="monto" type="number" min="0" max="100000000" step="100" value="15000"></label>
+        <label for="semanas">Semanas cotizadas en los últimos 12 meses
+          <input id="semanas" type="number" min="0" max="53" step="1" inputmode="numeric" value="52"></label>
+        <label for="antes">Días de descanso antes del parto
+          <select id="antes"><option value="42" selected>42 días (6 semanas, lo normal)</option><option value="35">35 días (pasas 1 semana para después)</option><option value="28">28 días (pasas 2 semanas)</option><option value="21">21 días (pasas 3 semanas)</option><option value="14">14 días (pasas 4 semanas, lo máximo)</option></select></label>
+        <label for="zona">¿Dónde trabajas?
+          <select id="zona"><option value="general" selected>Resto del país</option><option value="frontera">Frontera norte (zona libre)</option></select></label>
+        <p class="nota">El SBC viene en tu recibo de nómina. Si no lo sabes, escribe tu sueldo y lo estimamos con las prestaciones mínimas de ley. Para pasar semanas para después del parto necesitas la autorización escrita de tu médico.</p>
+      </div>
+      <div class="grupo" id="g-pat" hidden>
+        <label for="sueldo-p">Sueldo mensual bruto
+          <input id="sueldo-p" type="number" min="0" max="100000000" step="100" value="15000"></label>
+        <label for="dias-p">Días laborables de permiso que te da tu empresa
+          <input id="dias-p" type="number" min="0" max="365" step="1" inputmode="numeric" value="5"></label>
+        <label for="semana-p">¿Cuántos días trabajas a la semana?
+          <select id="semana-p"><option value="5" selected>5 días (lunes a viernes)</option><option value="6">6 días (lunes a sábado)</option></select></label>
+        <p class="nota">La ley marca al menos 5 días laborables con goce de sueldo. Tu empresa puede darte más, nunca menos.</p>
+      </div>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota" id="tit">Te paga el IMSS por tu licencia</span>
+      <div class="big" id="total">$0.00</div>
+      <div id="filas" style="display:grid;gap:10px"></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota" id="pie">Estimado con el salario de cotización. El IMSS calcula con el último SBC que registró tu patrón.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Cuántos días te tocan</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Licencia</th><th>Días</th><th>Quién paga</th></tr></thead>
+      <tbody>
+        <tr><td>Maternidad</td><td>84 días: 42 antes del parto y 42 después</td><td>El IMSS, si tienes 30 semanas cotizadas en el último año. Si no, tu patrón.</td></tr>
+        <tr><td>Bebé con discapacidad o que necesita hospital</td><td>Hasta 8 semanas después del parto, con certificado médico</td><td>Con goce de sueldo</td></tr>
+        <tr><td>Paternidad</td><td>5 días laborables</td><td>Tu patrón: sigues cobrando tu sueldo</td></tr>
+        <tr><td>Adopción (mamá)</td><td>6 semanas después de recibir al niño</td><td>Con goce de sueldo. Pregunta en tu empresa y en el IMSS quién lo paga.</td></tr>
+        <tr><td>Adopción (papá)</td><td>5 días laborables</td><td>Tu patrón</td></tr>
+        <tr><td>Lactancia</td><td>Dos descansos de 30 minutos al día, o una hora menos de jornada, hasta por 6 meses</td><td>Con goce de sueldo</td></tr>
+      </tbody>
+    </table></div>
+    <p class="nota">Fuentes: Ley Federal del Trabajo (LFT), artículo 170 (maternidad, adopción y lactancia) y artículo 132, fracción XXVII Bis (paternidad); Ley del Seguro Social (LSS), artículos 101, 102 y 103 (subsidio del IMSS). Son los días mínimos: tu contrato puede darte más.</p>
+    <p>Si trabajas para el gobierno y tu seguridad social es el ISSSTE, tus días los marca otra ley y tus condiciones de trabajo. Pregunta en tu área de recursos humanos.</p>
+
+    <h2>Cómo te paga el IMSS la incapacidad por maternidad</h2>
+    <p>Durante tu licencia no trabajas y tu patrón no te paga sueldo. En su lugar, el IMSS te paga un <strong>subsidio igual al 100% de tu último salario diario de cotización</strong> (SBC) por los 84 días (artículo 101 LSS).</p>
+    <p><strong>Pago del IMSS = SBC diario × 84 días</strong></p>
+    <p>Para que te lo pague, la ley pide (artículo 102 LSS):</p>
+    <ul>
+      <li>Tener al menos <strong>30 semanas cotizadas en los 12 meses</strong> antes de que empiece tu incapacidad.</li>
+      <li>Que el IMSS certifique tu embarazo y la fecha probable del parto.</li>
+      <li>No trabajar a cambio de un pago durante tu incapacidad.</li>
+    </ul>
+    <p>Si no juntas las 30 semanas, <strong>tu patrón debe pagarte tu salario completo</strong> esos días (artículo 103 LSS y artículo 170, fracción V, LFT).</p>
+    <p>El SBC tiene un tope de 25 UMA: <strong>$2,932.75 diarios</strong> desde febrero de 2026 (UMA de $117.31, INEGI). Tampoco puede ser menor al salario mínimo de tu zona (artículo 28 LSS): <strong>$315.04 diarios</strong> en 2026, o <strong>$440.87</strong> en la Zona Libre de la Frontera Norte (CONASAMI, vigentes desde el 1 de enero de 2026). Si trabajas en la frontera norte, elígela en la calculadora.</p>
+
+    <h2>Ejemplo</h2>
+    <p>Son los datos que vienen cargados en la calculadora. Una trabajadora gana $15,000 al mes y tiene 52 semanas cotizadas en el último año.</p>
+    <ul>
+      <li>Su salario diario es $15,000 ÷ 30 = $500.</li>
+      <li>Con las prestaciones mínimas de ley (15 días de aguinaldo y 25% de prima vacacional), su SBC estimado es $500 × 1.0493 = <strong>$524.65</strong> diarios.</li>
+      <li>El IMSS le paga $524.65 × 84 = <strong>$44,070.60</strong>: $22,035.30 por los 42 días antes del parto y $22,035.30 por los 42 días después.</li>
+      <li>Si pasa 4 semanas para después, descansa 14 días antes ($7,345.10) y 70 después ($36,725.50). El total es el mismo.</li>
+      <li>Si solo tuviera 20 semanas cotizadas, su patrón le pagaría su salario completo: $500 × 84 = $42,000.</li>
+    </ul>
+    <p>Si el papá gana también $15,000 al mes, su sueldo de una semana es $15,000 ÷ 30 × 7 = $3,500 (el sueldo del mes cubre 30 días, con descansos). Si trabaja de lunes a viernes, sus 5 días laborables de permiso son una semana completa: unos <strong>$3,500</strong>. Si trabaja de lunes a sábado, 5 días son 5 de sus 6 días: unos $3,500 × 5 ÷ 6 = <strong>$2,916.67</strong>. No es un pago extra: sigue cobrando su sueldo normal esos días.</p>
+
+    <h2>Paso a paso: licencia de maternidad</h2>
+    <ol>
+      <li>Ve a tu <strong>Unidad de Medicina Familiar</strong> del IMSS para que certifiquen tu embarazo y la fecha probable del parto.</li>
+      <li>Revisa tus <a href="../../retiro/semanas-cotizadas/">semanas cotizadas</a> para saber si juntas 30 en el último año.</li>
+      <li>Cerca de la semana 34 de embarazo, tu médico familiar te da el <strong>certificado de incapacidad por maternidad</strong>. Normalmente es un solo certificado por los 84 días; pregunta si te lo dan así o en partes. Si quieres pasar semanas para después del parto, pídelo con su autorización por escrito.</li>
+      <li>Avisa a tu empresa y entrégale una copia del certificado.</li>
+      <li>El IMSS te paga el subsidio. Pregunta en tu clínica cómo lo recibes; normalmente es por depósito a una cuenta bancaria a tu nombre.</li>
+      <li>Si te dieron el certificado en partes, o si tu bebé nace después de la fecha probable, regresa a tu clínica después del parto para que te den el certificado de los días que falten.</li>
+      <li>Al regresar tienes derecho a tu mismo puesto, si no ha pasado más de un año desde el parto, y a tus descansos de lactancia.</li>
+    </ol>
+    <h3>Paso a paso: permiso de paternidad</h3>
+    <ol>
+      <li>Avisa a tu empresa en cuanto sepas la fecha aproximada del nacimiento o de la adopción.</li>
+      <li>Entrega el comprobante del nacimiento (certificado o acta de nacimiento) o de la adopción.</li>
+      <li>Toma tus 5 días laborables. Tu empresa te los paga como días normales.</li>
+    </ol>
+    <ul>
+      <li><strong>Costo:</strong> $0. Los trámites en el IMSS son gratis.</li>
+      <li><strong>Tiempo:</strong> el certificado lo da tu médico en tu cita. Pregunta en tu clínica cuánto tarda el depósito.</li>
+    </ul>
+
+    <h2>¿Hubo reformas en 2026?</h2>
+    <p>En el Congreso ha habido varias propuestas para alargar la licencia de paternidad y la de maternidad. Al revisar esta guía, en octubre de 2026, no pudimos abrir el Diario Oficial ni el texto vigente de las leyes desde nuestra red, así que <strong>no pudimos confirmar si alguna reforma ya está vigente</strong>. Los días de esta página son los del texto de la LFT y de la LSS en los artículos citados.</p>
+    <p>Antes de pedir tu licencia, revisa los artículos 132 y 170 de la LFT en el <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LFT.pdf" rel="noopener">texto vigente de la Cámara de Diputados</a>, o pregunta en tu clínica del IMSS.</p>
+
+    <h2>Tus derechos si estás embarazada</h2>
+    <ul>
+      <li>No te pueden despedir ni presionar para que renuncies por estar embarazada o por cuidar a tus hijos (artículo 133, fracción XV, LFT).</li>
+      <li>No te pueden pedir un certificado de no embarazo para contratarte o para que sigas en tu trabajo (artículo 133, fracción XIV, LFT).</li>
+      <li>Tus días de licencia cuentan para tu antigüedad (artículo 170, LFT).</li>
+      <li>Si te despiden o no te pagan, pide asesoría gratis en la Procuraduría Federal de la Defensa del Trabajo (PROFEDET).</li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Y si mi bebé nace después de la fecha probable?</h3>
+    <p>El IMSS te paga siempre los 42 días después del parto. Los días de más que pasaste antes del parto se pagan como incapacidad por enfermedad (artículo 101 LSS). Si nace antes, pregunta en tu clínica cómo se ajustan tus días.</p>
+    <h3>¿Y si no tengo IMSS?</h3>
+    <p>Si trabajas para un patrón, la LFT dice que durante tu licencia recibes tu salario íntegro (artículo 170, fracción V). Si tu patrón no te inscribió al IMSS, él tiene que pagarte. Si trabajas por tu cuenta, pregunta en el IMSS qué cubre tu tipo de aseguramiento.</p>
+    <h3>¿Puedo trabajar desde casa durante la incapacidad?</h3>
+    <p>No, si quieres cobrar el subsidio. La ley pide que no trabajes a cambio de un pago durante la incapacidad.</p>
+    <h3>¿Y si mi hija o hijo tiene cáncer?</h3>
+    <p>La Ley del Seguro Social (artículo 140 Bis) prevé una licencia pagada por el IMSS para mamás y papás de hijas e hijos de hasta 16 años con cáncer. Pregunta los requisitos en tu clínica.</p>
+
+    <h2>Fuentes oficiales</h2>
+    <ul>
+      <li>Ley Federal del Trabajo, artículos 132, 133 y 170 (<a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LFT.pdf" rel="noopener">texto vigente en la Cámara de Diputados</a>).</li>
+      <li>Ley del Seguro Social, artículos 28, 101, 102, 103 y 140 Bis (<a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LSS.pdf" rel="noopener">texto vigente en la Cámara de Diputados</a>).</li>
+      <li><a href="https://www.imss.gob.mx/" rel="noopener">Instituto Mexicano del Seguro Social</a>: incapacidades y subsidios.</li>
+      <li>UMA 2026 (INEGI) y salario mínimo 2026 (CONASAMI), los mismos que usan las <a href="../../trabajo/">calculadoras de trabajo</a>.</li>
+    </ul>
+    <p class="nota">Revisado en octubre de 2026. No pudimos abrir los portales del IMSS, del DOF ni de la Cámara de Diputados desde nuestra red al revisar esta página: los días y porcentajes vienen del texto de la LFT y de la LSS en los artículos citados. Verifica siempre en el texto vigente o en el IMSS.</p>
+
+    <p>También te puede servir: <a href="../../retiro/semanas-cotizadas/">semanas cotizadas en el IMSS</a>, <a href="../../trabajo/sueldo-neto/">calculadora de sueldo neto e ISR</a>, <a href="../becas/">becas y programas sociales</a> y <a href="../pension-alimenticia/">pensión alimenticia</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni del IMSS. Los cálculos son orientativos; consulta la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LSS.pdf" rel="noopener">Ley del Seguro Social</a> y la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LFT.pdf" rel="noopener">Ley Federal del Trabajo</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/familia.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const fila = (t, v, sub) => `<div class="row${sub ? " sub" : ""}"><span>${t}</span><b>${v}</b></div>`;
+function limpiar(texto, msg) {
+  $("total").textContent = texto;
+  $("filas").innerHTML = "";
+  $("msg").textContent = msg;
+}
+function calcular() {
+  const pat = $("modo").value === "paternidad";
+  $("g-mat").hidden = pat;
+  $("g-pat").hidden = !pat;
+  if (pat) {
+    $("pie").textContent = "Tu sueldo de una semana es tu sueldo mensual entre 30, por 7 días. Si trabajas 5 días a la semana, 5 días laborables son una semana completa de sueldo. No es un pago extra: tu empresa te sigue pagando tu sueldo normal esos días.";
+    const r = Familia.paternidad({ sueldoMensual: $("sueldo-p").value, dias: $("dias-p").value, diasSemana: $("semana-p").value });
+    $("tit").textContent = "Sueldo de tus días de permiso (aprox.)";
+    if (!r.ok) return limpiar(mxn(0), r.error);
+    $("total").textContent = mxn(r.pago);
+    const semanas = r.semanas.toLocaleString("es-MX", { maximumFractionDigits: 2 });
+    $("filas").innerHTML = fila("Tu sueldo de una semana", mxn(r.semanal)) + fila("Sueldo por día que trabajas", mxn(r.porDia), true) +
+      fila("Días laborables de permiso", r.dias) + fila("Equivale a", semanas + (r.semanas === 1 ? " semana de sueldo" : " semanas de sueldo"), true) +
+      fila("Quién paga", "Tu patrón");
+    $("msg").textContent = r.avisos.join(" ");
+    return;
+  }
+  const sbc = $("dato").value === "sbc";
+  $("l-monto").textContent = sbc ? "Salario base de cotización (SBC) diario, como viene en tu recibo" : "Sueldo mensual bruto (antes de descuentos)";
+  $("pie").textContent = "Estimado con el salario de cotización. El IMSS calcula con el último SBC que registró tu patrón.";
+  const r = Familia.maternidad({ dato: $("dato").value, monto: $("monto").value, semanas: $("semanas").value, diasAntes: $("antes").value, zona: $("zona").value });
+  if (!r.ok) {
+    $("tit").textContent = "Te paga el IMSS por tu licencia";
+    return limpiar(mxn(0), r.error);
+  }
+  const patron = r.quienPaga === "patron";
+  $("tit").textContent = patron ? "Te debe pagar tu patrón (no juntas 30 semanas)" : "Te paga el IMSS por tu licencia";
+  $("total").textContent = mxn(r.recibes);
+  let html = fila(sbc ? "SBC que usamos" : "SBC estimado", mxn(r.sbc));
+  if (patron) {
+    html += fila("Días de licencia", r.dias) + fila("Tu salario diario", mxn(r.salarioDiario)) +
+      fila("Quién paga", "Tu patrón, salario completo");
+  } else {
+    html += fila("Pago por día (100% del SBC)", mxn(r.pagoDiario)) +
+      fila(`${r.diasAntes} días antes del parto`, mxn(r.antes), true) + fila(`${r.diasDespues} días después del parto`, mxn(r.despues), true) +
+      fila("¿Juntas 30 semanas?", r.cumple === null ? "Escribe tus semanas" : "Sí");
+  }
+  $("filas").innerHTML = html;
+  $("msg").textContent = (r.cumple === null ? "Si no juntas 30 semanas en el último año, te paga tu patrón y no el IMSS. " : "") + r.avisos.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

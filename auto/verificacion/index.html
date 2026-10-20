@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verificación vehicular 2026: calendario y hologramas | Cuentas Claras MX</title>
+<meta name="description" content="Cuándo te toca verificar según tu placa, qué significan los hologramas 00, 0, 1 y 2, qué días no circulas y cuánto es la multa por verificar tarde.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Auto</a> › Verificación</span></div>
+
+  <header>
+    <span class="tag">Auto</span>
+    <h1>Verificación vehicular: cuándo te toca y qué días no circulas</h1>
+    <p class="lede">Escoge el último número de tu placa y tu holograma. Te decimos tu color de engomado, en qué meses verificas y qué días no puedes circular en la Ciudad de México y su zona conurbada.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="dig">Último número de tu placa
+        <select id="dig">
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+          <option value="4" selected>4</option><option value="5">5</option><option value="6">6</option>
+          <option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="0">0</option>
+        </select></label>
+      <label for="holo">Tu holograma
+        <select id="holo">
+          <option value="00">00 (doble cero)</option>
+          <option value="0">0 (cero)</option>
+          <option value="1" selected>1 (uno)</option>
+          <option value="2">2 (dos)</option>
+        </select></label>
+      <p class="nota">Si tu placa termina en letra, usa el último número que aparezca en ella.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Tu engomado es</span>
+      <div class="big" id="color">Rojo</div>
+      <div class="row"><span>Verificas en</span><b id="per"></b></div>
+      <div class="row"><span>Tu periodo actual o el siguiente</span><b id="turno"></b></div>
+      <div class="row"><span>Día entre semana que no circulas</span><b id="dia"></b></div>
+      <div class="row"><span>Sábados que no circulas</span><b id="sab"></b></div>
+      <div class="row sub"><span id="mesnom">Este mes</span><b id="sabmes"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">El Hoy No Circula aplica de 5:00 a 22:00 h en la Ciudad de México y los municipios conurbados del Estado de México. En una contingencia ambiental hay más restricciones, incluso para los hologramas 0 y 00, según el color de su engomado.</p>
+      <p class="nota">Calendario del programa de verificación de la Ciudad de México para el segundo semestre de 2026 (Gaceta Oficial de la CDMX del 1 de julio de 2026). Si tu auto es de otro estado, confírmalo en el portal de medio ambiente de tu estado.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>¿Qué es la verificación vehicular?</h2>
+    <p>Es una prueba que se hace en un <strong>verificentro autorizado</strong> para medir los gases contaminantes que suelta tu auto. Si pasas, te dan un certificado y un holograma que se pega en el parabrisas. El número del holograma dice qué días puedes circular.</p>
+    <p>En la Ciudad de México, el Estado de México, Hidalgo, Morelos, Puebla y Tlaxcala se verifica <strong>dos veces al año</strong>, en los meses que marca el último número de tu placa. Los límites de contaminación y la forma de medirlos vienen en la norma oficial mexicana <strong>NOM-167-SEMARNAT-2017</strong>, que aplica en esas seis entidades. Esas seis, junto con Querétaro, forman la Comisión Ambiental de la Megalópolis (CAMe), donde acuerdan reglas parecidas. Aun así, cada estado publica su propio programa y sus costos.</p>
+
+    <h2>Qué significa cada holograma</h2>
+    <div class="tabla">
+      <table>
+        <thead><tr><th>Holograma</th><th>A qué autos se da</th><th>Cuándo no circulas</th></tr></thead>
+        <tbody>
+          <tr><td>00</td><td>Autos nuevos o muy recientes con emisiones muy bajas. Te libera de verificar durante sus primeros años; el plazo exacto lo fija el programa vigente.</td><td>Circulas todos los días.</td></tr>
+          <tr><td>0</td><td>Autos que cumplen los límites más estrictos y tienen su sistema de diagnóstico a bordo (OBD) funcionando bien.</td><td>Circulas todos los días.</td></tr>
+          <tr><td>1</td><td>Autos que cumplen los límites, pero contaminan más que uno con holograma 0.</td><td>Un día entre semana, según tu engomado, y dos sábados al mes.</td></tr>
+          <tr><td>2</td><td>Autos con las emisiones más altas que todavía se permiten, casi siempre los más viejos.</td><td>Un día entre semana, según tu engomado, y todos los sábados.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Con holograma 1, si tu placa termina en número <strong>impar</strong> no circulas el 1er y 3er sábado del mes. Si termina en número <strong>par</strong>, el 2º y 4º sábado. Esto es fuera de contingencia ambiental.</p>
+
+    <h2>Calendario por terminación de placa</h2>
+    <div class="tabla">
+      <table>
+        <thead><tr><th>Engomado</th><th>Placa termina en</th><th>Verificas en</th><th>No circulas (hologramas 1 y 2)</th></tr></thead>
+        <tbody>
+          <tr><td>Amarillo</td><td class="n">5 y 6</td><td>enero y febrero; julio y agosto</td><td>lunes</td></tr>
+          <tr><td>Rosa</td><td class="n">7 y 8</td><td>febrero y marzo; agosto y septiembre</td><td>martes</td></tr>
+          <tr><td>Rojo</td><td class="n">3 y 4</td><td>marzo y abril; septiembre y octubre</td><td>miércoles</td></tr>
+          <tr><td>Verde</td><td class="n">1 y 2</td><td>abril y mayo; octubre y noviembre</td><td>jueves</td></tr>
+          <tr><td>Azul</td><td class="n">9 y 0</td><td>mayo y junio; noviembre y diciembre</td><td>viernes</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="nota">Fuente del calendario: Programa de Verificación Vehicular Obligatoria para el segundo semestre de 2026, Gaceta Oficial de la Ciudad de México núm. 1892 del 1 de julio de 2026, vigente del 1 de julio al 31 de diciembre de 2026 (<a href="https://proyectos.sedema.cdmx.gob.mx/datos/storage/app/media/gacetas/GOCDMX_26-07-01_DGCA.pdf" rel="noopener">PDF en el portal de la SEDEMA</a>). Los días sin circular y el horario del Hoy No Circula coinciden con lo publicado en 2026 por Expansión, Uno TV y Xataka. No pudimos abrir el texto oficial del Hoy No Circula, así que esa parte queda pendiente de cotejar con él.</p>
+
+    <h2>Ejemplo</h2>
+    <p>Son los datos que vienen cargados. Tu placa termina en <strong>4</strong> y tienes holograma <strong>1</strong>:</p>
+    <ul>
+      <li>Tu engomado es <strong>rojo</strong>.</li>
+      <li>Verificas en <strong>marzo y abril</strong> y otra vez en <strong>septiembre y octubre</strong>.</li>
+      <li>No circulas los <strong>miércoles</strong>.</li>
+      <li>Como 4 es par, tampoco circulas el <strong>2º y 4º sábado</strong> de cada mes. En octubre de 2026 son el 10 y el 24.</li>
+    </ul>
+    <p>Si tuvieras holograma 2, no circularías ningún sábado. Con holograma 0 o 00 circularías todos los días.</p>
+
+    <h2>Cómo verificar, paso a paso</h2>
+    <ol>
+      <li>Revisa en el calendario en qué meses te toca.</li>
+      <li>Busca un verificentro autorizado en el portal de medio ambiente de tu estado. Muchos dan cita en línea. No esperes al final del periodo: es cuando más se llenan.</li>
+      <li>Lleva tu tarjeta de circulación y tu último certificado de verificación. Algunos estados también piden estar al corriente en tenencia, refrendo o multas.</li>
+      <li>Paga la verificación. El costo lo fija cada estado y cambia cada año: pregúntalo en el verificentro o revísalo en el portal oficial.</li>
+      <li>Si tu auto pasa, te pegan el holograma y te dan el certificado. Guárdalo: te lo van a pedir la próxima vez.</li>
+      <li>Si no pasa, te dan una constancia de rechazo. Lleva el auto a revisar y vuelve a verificar dentro de tu periodo.</li>
+    </ol>
+
+    <h2>¿Qué pasa si verificas tarde?</h2>
+    <p>Tienes que pagar una multa antes de poder verificar. En la Ciudad de México es de <strong>20 veces la UMA</strong>. Con la UMA de 2026, de $117.31 (INEGI, Diario Oficial de la Federación del 9 de enero de 2026, vigente del 1 de febrero de 2026 al 31 de enero de 2027), son <strong id="multa">$2,346.20</strong>. En enero de 2026 todavía regía la UMA anterior, de $113.14, y la multa era de $2,262.80.</p>
+    <p>El monto de $2,346.20 lo publicaron en 2026 Uno TV y Expansión con datos de la Secretaría de Administración y Finanzas de la CDMX. Revísalo en el portal oficial antes de pagar. En otros estados la multa puede ser distinta.</p>
+
+    <h2>¿Qué estados exigen verificación?</h2>
+    <ul>
+      <li><strong>Ciudad de México, Estado de México, Hidalgo, Morelos, Puebla y Tlaxcala:</strong> dos veces al año, con la norma NOM-167-SEMARNAT-2017.</li>
+      <li><strong>Querétaro:</strong> forma parte de la CAMe y también verifica dos veces al año con el mismo calendario por color de engomado, pero con su propio programa estatal.</li>
+      <li><strong>Otros estados con programa propio:</strong> por ejemplo Jalisco y Guanajuato. Sus calendarios y costos pueden ser distintos.</li>
+      <li><strong>En el resto del país</strong> puede no haber verificación obligatoria o estar en preparación. Pregunta en la secretaría de medio ambiente de tu estado.</li>
+    </ul>
+    <p class="nota">Fuentes: NOM-167-SEMARNAT-2017 (Diario Oficial de la Federación del 5 de septiembre de 2017), que aplica en las seis entidades de la primera línea; Informe 2020 de la CAMe y acuerdo de la CAMe de 2017 que sumó a Querétaro; notas de prensa de 2026 (adn40, TV Azteca y Uno TV) para los programas de Querétaro, Jalisco y Guanajuato. No pudimos abrir los portales oficiales para confirmar esta lista. Los programas cambian: verifica en el portal de tu estado.</p>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Dónde aplica el Hoy No Circula?</h3>
+    <p>En la Ciudad de México y en los municipios del Estado de México que forman la zona conurbada. Fuera de esa zona, el holograma no limita los días en que circulas, pero tienes que verificar igual si tu estado lo exige.</p>
+    <h3>¿Qué pasa si hay contingencia ambiental?</h3>
+    <p>Las restricciones aumentan (Doble Hoy No Circula) y alcanzan también a los hologramas 0 y 00, según el color de su engomado. Los avisos los da la CAMe y se publican en el portal de calidad del aire de la Ciudad de México.</p>
+    <h3>¿Los autos eléctricos o híbridos verifican?</h3>
+    <p>En la Ciudad de México, los autos 100% eléctricos y algunos híbridos que están en la lista oficial de la SEDEMA pueden tramitar el holograma Exento y circular todos los días. En 2026 las reglas cambiaron: según notas de prensa de enero y febrero de 2026 (Expansión y adn40), los híbridos ligeros, llamados mild hybrid, ya no reciben el Exento. Antes de tramitar, revisa en el portal de la SEDEMA si tu modelo está en la lista y qué requisitos piden.</p>
+    <h3>Tengo placas de otro estado, ¿puedo circular en la CDMX?</h3>
+    <p>Sí, pero en el Hoy No Circula hay reglas especiales para autos con placas de otro estado o del extranjero. Para visitas, la SEDEMA ofrece un Pase Turístico gratuito que se tramita en línea, según notas de prensa de 2026 (Uno TV y Motorpasión). Revisa en su portal cuántos días cubre y sus condiciones antes de viajar.</p>
+    <h3>¿Me pueden pedir dinero por "pasar" la verificación?</h3>
+    <p>No. Pagar o recibir dinero para aprobar un auto es ilegal. Si te lo piden, denúncialo ante la secretaría de medio ambiente de tu estado.</p>
+
+    <h2>Enlaces oficiales</h2>
+    <ul>
+      <li>Secretaría del Medio Ambiente de la Ciudad de México (SEDEMA): <a href="https://sedema.cdmx.gob.mx/programas/programa/verificacion-vehicular" rel="noopener">verificación vehicular</a> y <a href="https://sedema.cdmx.gob.mx/programas/programa/hoy-no-circula" rel="noopener">Hoy No Circula</a>, con el holograma Exento y el Pase Turístico.</li>
+      <li><a href="https://www.aire.cdmx.gob.mx/" rel="noopener">Calidad del aire de la Ciudad de México</a>: contingencias ambientales del día.</li>
+      <li><a href="https://www.gob.mx/comisionambiental" rel="noopener">Comisión Ambiental de la Megalópolis (CAMe)</a>.</li>
+      <li>Portales de los gobiernos estatales (busca “verificación vehicular”): <a href="https://www.edomex.gob.mx/" rel="noopener">Estado de México</a>, <a href="https://www.hidalgo.gob.mx/" rel="noopener">Hidalgo</a>, <a href="https://morelos.gob.mx/" rel="noopener">Morelos</a>, <a href="https://www.puebla.gob.mx/" rel="noopener">Puebla</a>, <a href="https://www.tlaxcala.gob.mx/" rel="noopener">Tlaxcala</a>, <a href="https://www.queretaro.gob.mx/" rel="noopener">Querétaro</a>, <a href="https://www.jalisco.gob.mx/" rel="noopener">Jalisco</a> y <a href="https://www.guanajuato.gob.mx/" rel="noopener">Guanajuato</a>.</li>
+      <li><a href="https://www.dof.gob.mx/" rel="noopener">Diario Oficial de la Federación</a>: busca la NOM-167-SEMARNAT-2017.</li>
+    </ul>
+    <p class="nota">Información revisada el 20 de octubre de 2026. El calendario sale del programa oficial del segundo semestre de 2026. Las demás reglas (Hoy No Circula, multa, holograma Exento, Pase Turístico y lista de estados) las confirmamos con al menos dos fuentes, casi siempre notas de prensa de 2026, porque desde nuestra red no pudimos abrir los portales oficiales: quedan pendientes de verificar ahí. Los programas cambian cada semestre: verifica siempre en el portal oficial de tu estado.</p>
+
+    <p>También te puede servir: <a href="../tenencia-y-refrendo/">tenencia y refrendo por estado</a> y <a href="../gasolina-por-viaje/">calculadora de gasolina por viaje</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni de ningún verificentro. La información es orientativa; la oficial es la del programa de verificación de tu estado.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/auto.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const digito = $("dig").value, holograma = $("holo").value;
+  const e = Auto.engomado(digito);
+  const r = Auto.hoyNoCircula(digito, holograma);
+  if (!e || !r) return;
+  const hoy = new Date();
+  const t = Auto.turnoVerificacion(digito, hoy);
+  $("color").textContent = e.color.charAt(0).toUpperCase() + e.color.slice(1);
+  $("per").textContent = e.textoPeriodos.join("; ");
+  $("turno").textContent = t.texto + (t.enPeriodo
+    ? ` (es ahora: ${t.diasRestantes === 1 ? "queda 1 día" : `quedan ${t.diasRestantes} días`})`
+    : ` (empieza en ${t.diasParaEmpezar === 1 ? "1 día" : t.diasParaEmpezar + " días"})`);
+  $("dia").textContent = r.circulaDiario ? "Ninguno" : r.dia;
+  $("sab").textContent = r.circulaDiario ? "Ninguno" : r.textoSabados;
+  const mes = hoy.getMonth() + 1;
+  const dias = Auto.sabadosSinCircular(digito, holograma, hoy.getFullYear(), mes);
+  $("mesnom").textContent = "En " + Auto.MESES[mes - 1] + " de " + hoy.getFullYear();
+  $("sabmes").textContent = dias.length ? Auto.listaDias(dias) : "Ninguno";
+  $("msg").textContent = holograma === "00"
+    ? "Con holograma 00 no verificas mientras dure tu exención. Revisa en tu holograma o en tu certificado hasta cuándo es. Después te tocan estos meses."
+    : "";
+}
+$("multa").textContent = mxn(Auto.multaExtemporaneaCdmx());
+$("f").addEventListener("input", calcular);
+$("f").addEventListener("change", calcular);
+calcular();
+</script>
+</body>
+</html>

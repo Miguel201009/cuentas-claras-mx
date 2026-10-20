@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CETES vs. banco 2026: cuánto rinde tu dinero | Cuentas Claras MX</title>
+<meta name="description" content="Compara cuánto te dejan los CETES y el banco en 2026: intereses, retención de ISR de 0.90%, inflación, qué es la GAT y el seguro del IPAB.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<style>
+  .result h3 { color: var(--brand); margin-top: 6px }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Dinero y ahorro</a> › CETES vs. banco</span></div>
+
+  <header>
+    <span class="tag">Dinero y ahorro</span>
+    <h1>CETES vs. banco: ¿dónde rinde más tu dinero?</h1>
+    <p class="lede">Escribe cuánto quieres invertir, el plazo y las tasas. Te decimos cuánto ganas en cada opción después de la retención de ISR de 2026 y si le ganas a la inflación.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="monto">¿Cuánto quieres invertir?
+        <input id="monto" type="number" min="0" step="1000" value="50000"></label>
+      <label for="plazo">Plazo
+        <select id="plazo">
+          <option value="28" selected>28 días (1 mes)</option>
+          <option value="91">91 días (3 meses)</option>
+          <option value="182">182 días (6 meses)</option>
+          <option value="364">364 días (1 año)</option>
+        </select></label>
+      <label for="tc">Tasa anual de CETES (%), ejemplo
+        <input id="tc" type="number" min="0" max="100" step="0.01" value="6"></label>
+      <label for="tb">Tasa anual que te da el banco (%), ejemplo
+        <input id="tb" type="number" min="0" max="100" step="0.01" value="4"></label>
+      <label class="check" for="exento"><input id="exento" type="checkbox"> <span>El dinero del banco está en una cuenta de ahorro, de nómina o de cheques (no en un pagaré ni en un plazo fijo), o en una Sofipo o cooperativa autorizada</span></label>
+      <p class="nota">Si marcas la casilla y el saldo promedio no pasa de 5 UMA al año ($214,090.75 en 2026), tus intereses no pagan ISR y no te retienen (artículo 93, fracción XX de la Ley del ISR).</p>
+      <label for="inf">Inflación anual (%), ejemplo
+        <input id="inf" type="number" min="0" max="100" step="0.1" value="3.5"></label>
+      <p class="nota">Las tasas y la inflación cargadas son un ejemplo. Cambia la de CETES por la del día en cetesdirecto y la del banco por la que te ofrecen. Escribe la tasa de interés anual, no la GAT.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota" id="tit">Con CETES te quedan de más</span>
+      <div class="big" id="total">$0</div>
+      <h3>CETES</h3>
+      <div class="row"><span>Intereses (antes de impuestos)</span><b id="cb"></b></div>
+      <div class="row"><span>Retención de ISR</span><b id="ci"></b></div>
+      <div class="row"><span>Ganancia que te queda</span><b id="cn"></b></div>
+      <div class="row"><span>Total al terminar el plazo</span><b id="cf"></b></div>
+      <div class="row"><span>Ganancia después de inflación</span><b id="cr"></b></div>
+      <h3>Banco</h3>
+      <div class="row"><span>Intereses (antes de impuestos)</span><b id="bb"></b></div>
+      <div class="row"><span>Retención de ISR</span><b id="bi"></b></div>
+      <div class="row"><span>Ganancia que te queda</span><b id="bn"></b></div>
+      <div class="row"><span>Total al terminar el plazo</span><b id="bf"></b></div>
+      <div class="row"><span>Ganancia después de inflación</span><b id="br"></b></div>
+      <div class="row"><span>Lo que la inflación le quita a tu dinero en ese plazo</span><b id="pi"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Cálculo orientativo con tasa fija durante el plazo. La retención de ISR de 2026 es 0.90% anual sobre lo que inviertes. En cuentas de ahorro, nómina o cheques con saldo menor a $214,090.75 no hay retención.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Cómo se calcula</h2>
+    <p>Los CETES y casi todas las inversiones a plazo pagan una <strong>tasa anual</strong>. Si inviertes menos de un año, ganas solo la parte que corresponde a los días. La cuenta es:</p>
+    <p><strong>Intereses = monto × tasa anual × días ÷ 360</strong></p>
+    <p>Los CETES usan años de 360 días. Para el banco usamos lo mismo; si tu banco usa 365 días, la diferencia es pequeña.</p>
+    <p>Después se resta la <strong>retención de ISR</strong>. En 2026 es de <strong>0.90% al año</strong>, pero ojo: se cobra sobre el dinero que inviertes, no sobre lo que ganas. Por eso también se calcula por días:</p>
+    <p><strong>Retención = monto × 0.90% × días ÷ 365</strong></p>
+    <p>Hay una excepción: en cuentas de ahorro, de nómina o de cheques con saldo chico no hay retención. Te explicamos abajo cuándo aplica.</p>
+    <p>Al final comparamos tu ganancia con la inflación. Si tu dinero gana menos que lo que suben los precios, en realidad pierde valor aunque veas más pesos en tu cuenta.</p>
+
+    <h2>Ejemplo</h2>
+    <p>Inviertes $50,000 a 28 días. Los CETES pagan 6% al año y el banco 4% (son ejemplos).</p>
+    <ul>
+      <li>CETES: 50,000 × 6% × 28 ÷ 360 = <strong>$233.33</strong> de intereses.</li>
+      <li>Banco: 50,000 × 4% × 28 ÷ 360 = <strong>$155.56</strong> de intereses.</li>
+      <li>Retención en los dos: 50,000 × 0.90% × 28 ÷ 365 = <strong>$34.52</strong>.</li>
+    </ul>
+    <p>Te quedan $198.81 con CETES y $121.04 con el banco: <strong>$77.78 más con CETES</strong>.</p>
+    <p>Con una inflación de 3.5% al año, en 28 días tus $50,000 pierden unos $132.12 de valor. Con CETES todavía ganas $66.69 por arriba de la inflación. Con el banco pierdes $11.09. Son los datos que vienen cargados en la calculadora.</p>
+    <p>Ahora, si el dinero del banco está en una <strong>cuenta de ahorro</strong> (no en un pagaré), con $50,000 no pasas del límite exento. No te retienen nada y te quedan los $155.56 completos. CETES te sigue dando más, pero la diferencia baja a <strong>$43.26</strong>, y el banco le gana a la inflación por $23.43. Pruébalo marcando la casilla.</p>
+
+    <h2>La retención de ISR en 2026</h2>
+    <p>Los bancos, las casas de bolsa, las Sofipos y cetesdirecto te retienen ISR sobre tus intereses, salvo en los casos exentos que explicamos abajo. La tasa la fija cada año la Ley de Ingresos de la Federación:</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Año</th><th>Retención anual sobre tu capital</th></tr></thead>
+      <tbody>
+        <tr><td>2025</td><td class="n">0.50%</td></tr>
+        <tr><td>2026</td><td class="n">0.90%</td></tr>
+      </tbody>
+    </table></div>
+    <p class="nota">Fuente: Ley de Ingresos de la Federación para 2026, publicada en el Diario Oficial el 7 de noviembre de 2025. Vigente del 1 de enero al 31 de diciembre de 2026. Para 2027, Hacienda propuso bajarla a 0.68% en la iniciativa del 8 de septiembre de 2026; todavía no es ley.</p>
+    <p>Esta retención es un <strong>pago a cuenta</strong>, no el impuesto final (artículos 54 y 135 de la Ley del ISR). En la declaración anual el impuesto se calcula sobre el interés real, que es lo que ganaste por arriba de la inflación. Si te retuvieron de más, puede salirte saldo a favor.</p>
+    <p>Por cobrarse sobre tu capital, la retención pesa más cuando la tasa es baja. Si una cuenta te paga menos de 0.90% al año, la retención se puede comer casi todo lo que ganas. En esta calculadora no dejamos que la retención pase de tus intereses.</p>
+
+    <h3>Cuándo no te retienen</h3>
+    <p>Algunos intereses no pagan ISR, y por eso no te retienen. Pasa cuando el <strong>saldo promedio diario</strong> no es mayor a <strong>5 UMA elevadas al año</strong> (artículo 93, fracción XX de la Ley del ISR). En 2026 eso es 5 × $117.31 × 365 = <strong>$214,090.75</strong>. Aplica a:</p>
+    <ul>
+      <li>Cuentas de ahorro, de nómina, de pensión y de cheques en un banco. No incluye pagarés ni depósitos a plazo fijo.</li>
+      <li>Inversiones en Sofipos y en cooperativas de ahorro y préstamo autorizadas.</li>
+    </ul>
+    <p>Si tienes varias cuentas en el mismo banco, o en la misma Sofipo o cooperativa, se suman sus saldos para ver si pasas del límite (artículo 96 del Reglamento de la Ley del ISR).</p>
+    <p>Los CETES no entran en esta excepción: en cetesdirecto sí te retienen. Si tu saldo pasa del límite, te pueden retener ISR; pregunta a tu banco cómo lo calcula.</p>
+    <p class="nota">La UMA de $117.31 la publicó el INEGI en el Diario Oficial del 9 de enero de 2026 y está vigente del 1 de febrero de 2026 al 31 de enero de 2027. En enero de 2026 regía la de $113.14, así que el límite del año puede variar un poco. La ley habla de salarios mínimos, pero desde 2016 esas referencias se cuentan en UMA.</p>
+
+    <h2>Qué son los CETES</h2>
+    <p>Los CETES (Certificados de la Tesorería de la Federación) son <strong>préstamos que le haces al Gobierno Federal</strong>. Cada título vale $10 al vencer y lo compras con descuento, por ejemplo en $9.95. La diferencia es tu ganancia.</p>
+    <ul>
+      <li>Puedes comprarlos sin intermediarios en <strong>cetesdirecto</strong>, la plataforma del gobierno que opera Nacional Financiera (Nafin).</li>
+      <li>Puedes empezar con <strong>$100</strong>.</li>
+      <li>Los plazos más comunes son 28, 91, 182 y 364 días. A mayor plazo, la tasa suele ser un poco más alta, pero tu dinero queda apartado más tiempo.</li>
+      <li>La tasa cambia cada semana, en la subasta que hace el Banco de México. Entre julio y octubre de 2026, los CETES a 28 días pagaron alrededor de 6% al año (<a href="https://www.banxico.org.mx/tipcamb/llenarTasasInteresAction.do?idioma=sp" rel="noopener">resultados de la subasta del Banco de México</a>). Revisa la tasa del día antes de invertir.</li>
+    </ul>
+    <p>Como compras títulos completos de $10 con descuento, puede sobrarte un poco de dinero sin invertir. Por eso tu ganancia real puede ser unos centavos menor que la de la calculadora.</p>
+
+    <h2>Qué es la GAT</h2>
+    <p>La <strong>GAT (Ganancia Anual Total)</strong> es el número que los bancos deben mostrar para que compares cuentas e inversiones. La define el Banco de México e incluye los intereses menos las comisiones que te cobren por la cuenta.</p>
+    <ul>
+      <li><strong>GAT nominal:</strong> lo que ganas al año, en porcentaje, antes de impuestos.</li>
+      <li><strong>GAT real:</strong> lo que ganas después de descontar la inflación esperada. Si es negativa, tu dinero pierde valor.</li>
+    </ul>
+    <p>La GAT siempre se anuncia "antes de impuestos", así que no incluye la retención de ISR. Compara la GAT entre bancos, pero en esta calculadora escribe la <strong>tasa de interés anual</strong>; en plazos cortos casi no cambia el resultado.</p>
+
+    <h2>¿Está protegido mi dinero?</h2>
+    <p><strong>En un banco:</strong> el IPAB (Instituto para la Protección al Ahorro Bancario) protege tus depósitos hasta <strong>400 mil UDIS por persona y por banco</strong> (artículo 11 de la Ley de Protección al Ahorro Bancario). Con la UDI de 2026, de alrededor de $8.8, eso es cerca de <strong>3.5 millones de pesos</strong>. Es automático y gratis.</p>
+    <ul>
+      <li>Cubre cuentas de ahorro, de cheques, de nómina, tarjetas de débito, pagarés con rendimiento al vencimiento y certificados de depósito.</li>
+      <li>Si tienes varias cuentas en el mismo banco, se suman y el límite es uno solo. En bancos distintos, cada banco tiene su propio límite.</li>
+      <li>No cubre fondos de inversión, casas de bolsa ni aseguradoras, aunque los ofrezcan en la sucursal del banco.</li>
+      <li>Las Sofipos y las cajas de ahorro (cooperativas) no tienen el seguro del IPAB. Solo las que están autorizadas por la CNBV tienen su propio fondo de protección, con un límite mucho menor: hasta 25 mil UDIS por persona, unos 220 mil pesos. Si la caja no está autorizada, tu dinero no tiene ninguna protección. Antes de invertir, revisa que aparezca en el <a href="https://www.cnbv.gob.mx/Paginas/PADR%C3%93N-DE-ENTIDADES-SUPERVISADAS.aspx" rel="noopener">padrón de entidades supervisadas de la CNBV</a> o en el <a href="https://webapps.condusef.gob.mx/SIPRES/jsp/pub/index.jsp" rel="noopener">registro de instituciones de la Condusef (SIPRES)</a>.</li>
+    </ul>
+    <p><strong>En CETES:</strong> no aplica el IPAB porque no son un depósito bancario. Tu dinero es un préstamo al Gobierno Federal, que es quien te lo paga.</p>
+    <p class="nota">La UDI cambia cada día. Consulta su valor en el Banco de México para saber el monto exacto en pesos.</p>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Por qué me retienen ISR si gané muy poco?</h3>
+    <p>Porque la retención se calcula sobre el dinero que inviertes, no sobre tu ganancia. Con $50,000 a 28 días te retienen $34.52, aunque la tasa sea baja.</p>
+    <p>Pero si tu dinero está en una cuenta de ahorro, de nómina o de cheques en un banco, o en una Sofipo o cooperativa autorizada, y el saldo promedio no pasa de 5 UMA al año ($214,090.75 en 2026), tus intereses están exentos y no te deben retener (artículo 93, fracción XX de la Ley del ISR). Si ves una retención en ese caso, pregúntale a tu banco.</p>
+    <h3>¿Tengo que presentar declaración anual?</h3>
+    <p>Depende de todos tus ingresos del año. Tu banco o cetesdirecto te da una constancia con tus intereses y lo que te retuvieron. Si presentas declaración, esa retención se resta de tu impuesto.</p>
+    <h3>¿Qué tasa escribo para el banco?</h3>
+    <p>La tasa de interés anual que te ofrecen por ese plazo. Viene en el contrato, en la app o en la página del banco, junto a la GAT. Si una cuenta paga una tasa alta solo hasta cierto monto, escribe la tasa que aplica a tu monto.</p>
+    <h3>¿Puedo perder dinero en CETES?</h3>
+    <p>Si los dejas hasta que vencen, recibes los $10 de cada título más lo que ya sabías que ibas a ganar. Lo que sí puede pasar es que la inflación suba más que tu tasa y tu dinero pierda valor.</p>
+
+    <h2>Fuente oficial</h2>
+    <p>Consulta la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LIF_2026.pdf" rel="noopener">Ley de Ingresos de la Federación 2026</a> (tasa de retención sobre intereses), la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LISR.pdf" rel="noopener">Ley del ISR</a> (artículos 54, 93 fracción XX y 135), <a href="https://www.cetesdirecto.com" rel="noopener">cetesdirecto</a>, los <a href="https://www.banxico.org.mx/tipcamb/llenarTasasInteresAction.do?idioma=sp" rel="noopener">resultados de la subasta de CETES del Banco de México</a>, la <a href="https://www.banxico.org.mx/waGAT/" rel="noopener">calculadora de la GAT del Banco de México</a>, el <a href="https://www.gob.mx/ipab" rel="noopener">IPAB</a> y el <a href="https://www.banxico.org.mx/SieInternet/consultarDirectorioInternetAction.do?sector=8&amp;accion=consultarCuadro&amp;idCuadro=CP150&amp;locale=es" rel="noopener">valor de la UDI</a>.</p>
+    <p class="nota">Información revisada en octubre de 2026.</p>
+    <p>También te puede servir: <a href="../meses-sin-intereses/">¿conviene comprar a meses sin intereses?</a>, <a href="../prestamo/">calculadora de préstamo</a>, <a href="../../retiro/afore/">cuánto tendrás en tu Afore</a>, para tu ahorro de largo plazo, y <a href="../../trabajo/aguinaldo/">calculadora de aguinaldo</a>, por si lo quieres invertir.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni de ningún banco. Los cálculos son orientativos y no son una recomendación de inversión.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/dinero.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const r = Dinero.compararAhorro({
+    monto: $("monto").value, dias: $("plazo").value, tasaCetes: $("tc").value,
+    tasaBanco: $("tb").value, inflacion: $("inf").value, bancoExento: $("exento").checked
+  });
+  const titulos = { cetes: "Con CETES te quedan de más", banco: "Con el banco te quedan de más", igual: "Con los dos te queda lo mismo" };
+  $("tit").textContent = titulos[r.mejor];
+  $("total").textContent = mxn(Math.abs(r.diferencia));
+  $("cb").textContent = mxn(r.cetes.bruto);
+  $("ci").textContent = "−" + mxn(r.cetes.isr);
+  $("cn").textContent = mxn(r.cetes.neto);
+  $("cf").textContent = mxn(r.cetes.final);
+  $("cr").textContent = mxn(r.realCetes);
+  $("bb").textContent = mxn(r.banco.bruto);
+  $("bi").textContent = r.bancoExento ? "$0.00 (exento)" : "−" + mxn(r.banco.isr);
+  $("bn").textContent = mxn(r.banco.neto);
+  $("bf").textContent = mxn(r.banco.final);
+  $("br").textContent = mxn(r.realBanco);
+  $("pi").textContent = mxn(r.perdidaInflacion);
+  const msg = [];
+  if (r.cetes.monto === 0) msg.push("Escribe cuánto quieres invertir.");
+  if (r.bajoMinimoCetes) msg.push("En cetesdirecto el mínimo para invertir es de $100.");
+  if (r.cetes.monto > 0 && r.realCetes < 0) msg.push("Con esa tasa, en CETES tu dinero gana menos que la inflación.");
+  if (r.cetes.monto > 0 && r.realBanco < 0) msg.push(r.bancoExento ? "Con esa tasa, en el banco tu dinero gana menos que la inflación: pierde valor." : "Con esa tasa y la retención de ISR, en el banco tu dinero gana menos que la inflación: pierde valor.");
+  if (r.cetes.monto > 0 && !$("exento").checked && r.cetes.monto <= r.limiteExento) msg.push(`¿El dinero del banco está en una cuenta de ahorro, de nómina o de cheques? Marca la casilla: con un saldo de hasta ${mxn(r.limiteExento)} no te retienen ISR.`);
+  if (r.pasaLimiteExento) msg.push(`Tu monto pasa del límite exento de ${mxn(r.limiteExento)} (5 UMA al año): te pueden retener ISR. Calculamos con la retención completa; pregunta a tu banco cuánto te retiene.`);
+  if (r.cetes.retencionTopada || r.banco.retencionTopada) msg.push("Con una tasa menor a 0.90% al año, la retención se come lo que ganas. Aquí la limitamos a tus intereses.");
+  if (r.recortado) msg.push("Alguna cantidad es demasiado grande. Usamos como máximo $1,000,000,000 y tasas de hasta 100%.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+$("f").addEventListener("change", calcular);
+calcular();
+</script>
+</body>
+</html>

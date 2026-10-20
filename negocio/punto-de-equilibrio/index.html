@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de punto de equilibrio 2026 | Cuentas Claras MX</title>
+<meta name="description" content="Cuánto tienes que vender al mes para no perder: punto de equilibrio en unidades y en pesos, ventas por día y ventas para la ganancia que quieres.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Negocio propio</a> › Punto de equilibrio</span></div>
+
+  <header>
+    <span class="tag">Negocio propio</span>
+    <h1>Calculadora de punto de equilibrio</h1>
+    <p class="lede">¿Cuánto tienes que vender al mes para no perder dinero? Escribe tus gastos fijos, tu precio y lo que te cuesta cada venta. Te decimos cuántas ventas necesitas, en unidades, en pesos y por día.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <span class="nota"><strong>Gastos fijos del mes</strong>: los pagas aunque no vendas nada.</span>
+      <label for="renta">Renta del local
+        <input id="renta" type="number" min="0" max="1000000000" step="any" inputmode="decimal" value="5000"></label>
+      <label for="sueldos">Sueldos, incluido el tuyo
+        <input id="sueldos" type="number" min="0" max="1000000000" step="any" inputmode="decimal" value="10000"></label>
+      <label for="serv">Luz, agua, gas, internet y teléfono
+        <input id="serv" type="number" min="0" max="1000000000" step="any" inputmode="decimal" value="1500"></label>
+      <label for="otros">Otros gastos fijos (contador, publicidad, apps, cuotas)
+        <input id="otros" type="number" min="0" max="1000000000" step="any" inputmode="decimal" value="1500"></label>
+      <span class="nota"><strong>Cada venta</strong>: escribe los montos sin IVA.</span>
+      <label for="precio">Precio de venta de cada unidad, sin IVA
+        <input id="precio" type="number" min="0" max="1000000000" step="any" inputmode="decimal" value="45"></label>
+      <label for="cv">Lo que te cuesta cada unidad (material, empaque, comisión)
+        <input id="cv" type="number" min="0" max="1000000000" step="any" inputmode="decimal" value="20"></label>
+      <label for="dias">Días que abres al mes
+        <input id="dias" type="number" min="0" max="31" step="1" inputmode="numeric" value="26"></label>
+      <label for="meta">Ganancia que quieres al mes
+        <input id="meta" type="number" min="0" max="1000000000" step="any" inputmode="decimal" value="5000"></label>
+      <label for="ventas">¿Cuántas unidades vendes hoy al mes? (si no sabes, pon 0)
+        <input id="ventas" type="number" min="0" max="100000000" step="1" inputmode="numeric" value="900"></label>
+      <p class="nota">Una unidad puede ser una pieza, un platillo, un corte de pelo o una hora de servicio.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota" id="tit">Para no perder, vende al mes</span>
+      <div class="big" id="total">0 unidades</div>
+      <div class="row"><span>En pesos, sin IVA</span><b id="r-pesos"></b></div>
+      <div class="row"><span id="l-dia">Al día</span><b id="r-dia"></b></div>
+      <div class="row"><span>Gastos fijos del mes</span><b id="r-gf"></b></div>
+      <div class="row"><span>Te deja cada unidad (precio − costo)</span><b id="r-con"></b></div>
+      <div class="row"><span id="l-meta">Para ganar lo que quieres</span><b id="r-meta"></b></div>
+      <div class="row"><span id="l-hoy">Con lo que vendes hoy</span><b id="r-hoy"></b></div>
+      <div class="row"><span>Margen de seguridad</span><b id="r-seg"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Cálculo antes de impuestos. Redondeamos las unidades hacia arriba, porque no se vende media pieza.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>¿Qué es el punto de equilibrio?</h2>
+    <p>Es lo que necesitas vender en el mes para pagar todos tus gastos, sin ganar ni perder. Si vendes menos, pierdes. Cada venta arriba de ese punto ya es ganancia.</p>
+
+    <h2>Cómo se calcula</h2>
+    <ol>
+      <li>Suma tus <strong>gastos fijos</strong> del mes: renta, sueldos, servicios, contador, publicidad. Son los que pagas aunque no vendas nada.</li>
+      <li>Calcula cuánto te deja cada venta: <strong>precio sin IVA − costo variable</strong>. El costo variable es lo que gastas solo cuando vendes: material, empaque, envío y comisión de la terminal.</li>
+      <li>Divide: <strong>unidades = gastos fijos ÷ lo que te deja cada unidad</strong>.</li>
+      <li>Para saberlo en pesos: <strong>unidades × precio</strong>.</li>
+    </ol>
+    <p>Para la ganancia que quieres, suma esa ganancia a tus gastos fijos y divide igual.</p>
+
+    <h2>Ejemplo con una cafetería</h2>
+    <p>Son los datos que vienen cargados en la calculadora: renta de $5,000, sueldos de $10,000, servicios de $1,500 y otros gastos de $1,500. Cada café se vende en $45 sin IVA y cuesta $20 hacerlo.</p>
+    <ul>
+      <li><strong>Gastos fijos:</strong> 5,000 + 10,000 + 1,500 + 1,500 = $18,000 al mes.</li>
+      <li><strong>Cada café deja:</strong> 45 − 20 = $25, que es el 55.56% del precio.</li>
+      <li><strong>Punto de equilibrio:</strong> 18,000 ÷ 25 = <strong>720 cafés al mes</strong>, o sea 720 × 45 = <strong>$32,400</strong> en ventas sin IVA.</li>
+      <li><strong>Por día:</strong> abriendo 26 días son 27.69, unos 28 cafés diarios.</li>
+      <li><strong>Para ganar $5,000:</strong> (18,000 + 5,000) ÷ 25 = 920 cafés, que son $41,400.</li>
+      <li><strong>Hoy:</strong> si vendes 900 cafés al mes, ganas 900 × 25 − 18,000 = <strong>$4,500</strong>. Tu margen de seguridad es (900 − 720) ÷ 900 = 20%: tus ventas pueden bajar hasta 20% antes de perder.</li>
+    </ul>
+
+    <h2>Cómo bajar tu punto de equilibrio</h2>
+    <ul>
+      <li><strong>Subir un poco el precio.</strong> En el ejemplo, con $50 cada café deja $30 y necesitas solo 600 al mes.</li>
+      <li><strong>Bajar el costo de cada venta.</strong> Si el café te cuesta $18, deja $27 y necesitas 667.</li>
+      <li><strong>Bajar gastos fijos.</strong> Con $15,000 de gastos fijos y $25 por café, necesitas 600.</li>
+    </ul>
+    <p>Para fijar tu precio con IVA y comisión de terminal, usa la <a href="../precio-de-venta/">calculadora de precio de venta y margen</a>.</p>
+
+    <h2>No te olvides de tu sueldo</h2>
+    <p>Mucha gente no se paga a sí misma y cree que el negocio gana. Pon en sueldos lo que necesitas para vivir: si no, tu punto de equilibrio sale engañosamente bajo.</p>
+    <p>Si contratas a alguien, por ley no le puedes pagar menos del salario mínimo: <strong id="smg">$315.04</strong> al día en <span id="sma">2026</span>, o <strong id="smf">$440.87</strong> en la Zona Libre de la Frontera Norte (CONASAMI, Diario Oficial del 9 de diciembre de 2025). Además tienes que darle de alta en el IMSS y pagar cuotas, que también son gasto fijo.</p>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Por qué sin IVA?</h3>
+    <p>Porque el IVA que cobras no es tuyo: lo declaras y pagas al SAT. Si usas precios con IVA, tu punto de equilibrio sale más bajo de lo real.</p>
+    <h3>¿Y el ISR?</h3>
+    <p>Este cálculo es antes de impuestos. Si estás en <a href="../../impuestos/resico/">RESICO</a>, el ISR se calcula sobre lo que cobras (de 1% a 2.5%), así que puedes sumarlo al costo de cada unidad. Por ejemplo, 1% de $45 son $0.45 por café.</p>
+    <h3>¿Qué hago si vendo muchos productos distintos?</h3>
+    <p>Usa un precio promedio y un costo promedio. Por ejemplo, si vendes 600 tacos de $25 y 300 refrescos de $20 al mes, tu precio promedio es (600 × 25 + 300 × 20) ÷ 900 = $23.33. Haz lo mismo con los costos.</p>
+    <h3>¿La calculadora dice que nunca alcanzo el equilibrio?</h3>
+    <p>Pasa cuando cada venta te deja $0 o menos: tu precio es igual o menor que tu costo. Mientras más vendas, más pierdes. Sube el precio o baja el costo antes de vender más.</p>
+
+    <h2>Fuentes y vigencia</h2>
+    <ul>
+      <li>La fórmula del punto de equilibrio es de contabilidad básica; no depende de ninguna ley.</li>
+      <li>Salario mínimo 2026: resolución de la CONASAMI publicada en el <a href="https://dof.gob.mx/nota_detalle.php?codigo=5775534&amp;fecha=09/12/2025" rel="noopener">Diario Oficial del 9 de diciembre de 2025</a>, vigente desde el 1 de enero de 2026 (<a href="https://www.gob.mx/conasami" rel="noopener">CONASAMI en gob.mx</a>).</li>
+    </ul>
+    <p class="nota">Revisado en octubre de 2026. Los montos del ejemplo son ilustrativos: cambia cada casilla por los de tu negocio.</p>
+
+    <p>También te puede servir: <a href="../precio-de-venta/">calculadora de precio de venta y margen</a>, <a href="../alta-en-el-sat/">cómo darte de alta en el SAT</a>, <a href="../../impuestos/resico/">calculadora de ISR en RESICO</a> y <a href="../../dinero/prestamo/">calculadora de préstamo</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno. Los cálculos son orientativos y no sustituyen la asesoría de un contador.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/negocio.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const uds = n => n.toLocaleString("es-MX", { maximumFractionDigits: 0 });
+const dec = n => n.toLocaleString("es-MX", { maximumFractionDigits: 2 });
+const pct = n => n.toLocaleString("es-MX", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + "%";
+const plural = n => uds(n) + (n === 1 ? " unidad" : " unidades");
+const FILAS = ["r-pesos", "r-dia", "r-con", "r-meta", "r-hoy", "r-seg"];
+// Salario mínimo vigente, leído de calc.js
+const sm = Negocio.salarioMinimo();
+$("smg").textContent = mxn(sm.general);
+$("smf").textContent = mxn(sm.frontera);
+$("sma").textContent = sm.anio;
+function calcular() {
+  const r = Negocio.puntoEquilibrio({
+    gastosFijos: ["renta", "sueldos", "serv", "otros"].map(id => $(id).value),
+    precio: $("precio").value, costoVariable: $("cv").value, dias: $("dias").value,
+    gananciaDeseada: $("meta").value, ventasActuales: $("ventas").value
+  });
+  const msg = [];
+  $("r-gf").textContent = mxn(r.gastosFijos);
+  $("l-dia").textContent = r.dias > 0 ? `Al día (abriendo ${r.dias} días)` : "Al día";
+  $("l-meta").textContent = `Para ganar ${mxn(r.gananciaDeseada)} al mes`;
+  $("l-hoy").textContent = `Con ${plural(r.ventasActuales)} al mes`;
+  if (!r.alcanzable) {
+    $("tit").textContent = r.sinPrecio ? "Falta tu precio" : "Así nunca llegas al equilibrio";
+    $("total").textContent = r.sinPrecio ? "Escribe tu precio" : "No alcanza";
+    FILAS.forEach(id => { $(id).textContent = "No aplica"; });
+    $("r-con").textContent = mxn(r.contribucion);
+    if (r.sinPrecio) msg.push("Escribe el precio de venta de cada unidad, sin IVA.");
+    else {
+      msg.push("Cada venta te deja $0 o menos: tu precio no es mayor que lo que te cuesta cada unidad. Sube el precio o baja el costo.");
+      if (r.ventasActuales > 0) {
+        $("r-hoy").textContent = "pierdes " + mxn(-r.resultadoActual);
+      }
+    }
+  } else {
+    $("tit").textContent = "Para no perder, vende al mes";
+    $("total").textContent = plural(r.unidadesRedondeadas);
+    $("r-pesos").textContent = mxn(r.pesos);
+    $("r-dia").textContent = r.dias > 0 ? `${plural(r.porDiaRedondeado)} (${dec(r.porDia)})` : "Escribe los días";
+    $("r-con").textContent = `${mxn(r.contribucion)} (${pct(r.razonContribucion)})`;
+    $("r-meta").textContent = `${plural(r.unidadesMetaRedondeadas)} (${mxn(r.pesosMeta)})`;
+    if (r.ventasActuales > 0) {
+      const res = r.resultadoActual;
+      $("r-hoy").textContent = res >= 0 ? "ganas " + mxn(res) : "pierdes " + mxn(-res);
+      $("r-seg").textContent = r.debajoDelEquilibrio ? "Estás debajo del equilibrio" : pct(r.margenSeguridad);
+      if (res < 0) msg.push(`Hoy te faltan ${plural(Math.max(0, r.unidadesRedondeadas - r.ventasActuales))} al mes para no perder.`);
+      else if (r.margenSeguridad < 10) msg.push("Estás muy cerca del punto de equilibrio: una mala racha te puede poner en pérdida.");
+    } else {
+      $("r-hoy").textContent = "Escribe tus ventas";
+      $("r-seg").textContent = "No aplica";
+    }
+    if (r.gastosFijos === 0) msg.push("Sin gastos fijos, cualquier venta ya deja ganancia. Revisa que no falte la renta ni tu sueldo.");
+  }
+  if (r.acotado) msg.push("Revisa los montos: alguna casilla pasa del máximo que aceptamos y la recortamos.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>¿Rentar o comprar casa? Calculadora 2026 | Cuentas Claras MX</title>
+<meta name="description" content="Compara rentar contra comprar casa a varios años: renta y su aumento, enganche, hipoteca, plusvalía, mantenimiento y predial. Gratis y sin registro.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<style>
+  .tool .anios { grid-column: 1 / -1 }
+  .anios summary { cursor: pointer; font: 600 1.1rem var(--display); color: var(--brand); margin-bottom: 10px }
+  .anios td.n, .anios th.n { text-align: right; white-space: nowrap }
+  form h3 { color: var(--brand); margin-top: 6px }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Vivienda</a> › Rentar o comprar</span></div>
+
+  <header>
+    <span class="tag">Vivienda</span>
+    <h1>¿Rentar o comprar casa?</h1>
+    <p class="lede">Escribe lo que pagas de renta y los datos de la casa que quieres. Te decimos con cuál opción tendrías más dinero después de los años que elijas, gastando lo mismo cada mes.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni de ningún banco.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <h3>Si rentas</h3>
+      <label for="renta">Renta mensual
+        <input id="renta" type="number" min="0" max="10000000" step="500" value="10000"></label>
+      <label for="aum">Aumento de la renta cada año (%), ejemplo
+        <input id="aum" type="number" min="0" max="30" step="0.5" value="4"></label>
+      <h3>Si compras</h3>
+      <label for="precio">Precio de la casa
+        <input id="precio" type="number" min="0" max="1000000000" step="10000" value="2000000"></label>
+      <label for="eng">Enganche (% del precio)
+        <input id="eng" type="number" min="0" max="100" step="1" value="10"></label>
+      <label for="gas">Gastos de compra: escrituras, impuestos y avalúo (% del precio), ejemplo
+        <input id="gas" type="number" min="0" max="30" step="0.5" value="5"></label>
+      <label for="tasa">Tasa de interés anual del crédito (%), ejemplo
+        <input id="tasa" type="number" min="0" max="40" step="0.1" value="10"></label>
+      <label for="plazo">Plazo del crédito en años
+        <input id="plazo" type="number" min="1" max="30" step="1" value="20"></label>
+      <label for="plus">Plusvalía: cuánto sube el valor de la casa cada año (%), ejemplo
+        <input id="plus" type="number" min="-20" max="30" step="0.5" value="5"></label>
+      <label for="mant">Mantenimiento al año (% del valor de la casa), ejemplo
+        <input id="mant" type="number" min="0" max="10" step="0.1" value="1"></label>
+      <label for="pred">Predial al año (en pesos), ejemplo
+        <input id="pred" type="number" min="0" max="10000000" step="100" value="3000"></label>
+      <h3>Para comparar</h3>
+      <label for="anios">¿Cuántos años piensas vivir ahí?
+        <input id="anios" type="number" min="1" max="40" step="1" value="10"></label>
+      <label for="rend">Rendimiento anual de tu dinero si lo inviertes (%), ejemplo
+        <input id="rend" type="number" min="0" max="30" step="0.1" value="6"></label>
+      <p class="nota">Las tasas, la plusvalía, el mantenimiento y el predial cargados son ejemplos. Cambia cada uno por los de tu caso: la tasa que te ofrece tu banco o el Infonavit, el predial de tu boleta y lo que rinde tu ahorro.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota" id="tit">Después de 10 años, comprar te deja más</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span>Lo que tendrías si compras</span><b id="pc"></b></div>
+      <div class="row sub"><span>Valor de la casa al final</span><b id="vc"></b></div>
+      <div class="row sub"><span>Menos lo que aún debes</span><b id="sf"></b></div>
+      <div class="row sub"><span>Más lo que ahorraste aparte</span><b id="cc"></b></div>
+      <div class="row"><span>Lo que tendrías si rentas e inviertes</span><b id="pr"></b></div>
+      <div class="row"><span>Necesitas al inicio (enganche y gastos)</span><b id="ini"></b></div>
+      <div class="row"><span>Pago mensual del crédito</span><b id="pago"></b></div>
+      <div class="row"><span>Gasto del primer mes si compras</span><b id="gm"></b></div>
+      <div class="row"><span>Renta del primer mes</span><b id="rm"></b></div>
+      <div class="row"><span id="lint">Intereses que pagarías en 10 años</span><b id="int"></b></div>
+      <div class="row"><span id="lic">Intereses de todo el crédito (20 años)</span><b id="ic"></b></div>
+      <div class="row"><span id="lrt">Renta que pagarías en 10 años</span><b id="rt"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Cálculo orientativo con tasa fija. No incluye impuestos de tus inversiones, seguros del crédito ni lo que cuesta vender la casa.</p>
+    </div>
+    <details class="anios" open>
+      <summary>Año por año: lo que tendrías en cada caso</summary>
+      <div class="tabla">
+        <table>
+          <thead><tr><th>Año</th><th class="n">Si compras</th><th class="n">Si rentas</th><th class="n">Diferencia</th></tr></thead>
+          <tbody id="tabla"></tbody>
+        </table>
+      </div>
+    </details>
+  </section>
+
+  <section class="prosa">
+    <h2>Cómo funciona la comparación</h2>
+    <p>Comparar solo la renta contra la mensualidad del crédito engaña. Comprar tiene gastos que no ves en la mensualidad, y rentar te deja libre el dinero del enganche. Por eso esta calculadora compara <strong>cuánto dinero tendrías al final</strong> en cada caso, gastando lo mismo cada mes.</p>
+    <ul>
+      <li><strong>Si compras:</strong> pagas el enganche y los gastos de compra al inicio. Cada mes pagas el crédito, el mantenimiento y el predial. Al final tienes la casa, con su plusvalía, menos lo que todavía debes.</li>
+      <li><strong>Si rentas:</strong> el dinero del enganche y de los gastos no se va. Lo inviertes. Cada mes pagas la renta.</li>
+      <li><strong>Cada mes</strong>, quien gasta menos invierte la diferencia. Así la comparación es justa: los dos sacan lo mismo de su bolsillo.</li>
+    </ul>
+    <p>Suponemos que el mantenimiento y el predial suben al mismo ritmo que el valor de la casa, y que la renta sube una vez al año.</p>
+    <p>El pago del crédito es fijo: <strong>pago = crédito × i ÷ (1 − (1 + i)<sup>−n</sup>)</strong>, donde i es la tasa anual ÷ 12 y n el número de meses.</p>
+
+    <h2>Ejemplo</h2>
+    <p>Son los datos que vienen cargados. Una casa de $2,000,000 que podrías rentar en $10,000 al mes, con 10% de enganche, 5% de gastos de compra y un crédito al 10% a 20 años.</p>
+    <ul>
+      <li>Al inicio necesitas $200,000 de enganche y $100,000 de gastos: <strong>$300,000</strong>. Si rentas, esos $300,000 los inviertes al 6% al año.</li>
+      <li>El crédito es de $1,800,000 y su pago es de <strong>$17,370.39</strong> al mes. Con $1,666.67 de mantenimiento y $250 de predial, comprar te cuesta $19,287.06 el primer mes.</li>
+      <li>La renta es de $10,000. Quien renta invierte la diferencia, $9,287.06, ese mes.</li>
+      <li>A los 10 años, la casa vale $3,257,789.25 y todavía debes $1,314,437.59. Lo tuyo es <strong>$1,943,351.66</strong>.</li>
+      <li>Rentando e invirtiendo tendrías <strong>$1,848,245.71</strong>.</li>
+    </ul>
+    <p>Comprar te deja <strong>$95,105.95 más</strong>, pero solo a partir del año 8. En los primeros 7 años rentar va adelante, porque al principio casi todo el pago del crédito se va en intereses: en esos 10 años pagas $1,598,884.34 de intereses, más que los $1,440,732.85 de renta. Si te quedas con el crédito sus 20 años completos, los intereses suman $2,368,893.51.</p>
+
+    <h2>Lo que más cambia el resultado</h2>
+    <ul>
+      <li><strong>Cuántos años te quedas.</strong> Con el mismo ejemplo a 5 años, rentar te deja $75,136 más. A 20 años, comprar te deja $1,325,746 más. Si crees que te vas a mudar pronto, rentar suele convenir.</li>
+      <li><strong>La plusvalía.</strong> Si la casa sube 3% al año en lugar de 5%, rentar te deja $444,037 más a 10 años. No des por hecho que tu casa va a subir mucho: depende de la zona. Si la casa pierde 5% de valor cada año, a los 10 años valdría menos de lo que debes y lo que tendrías si compras sale en negativo: -$116,963.71.</li>
+      <li><strong>Lo que rinde tu dinero.</strong> Si tu inversión rinde 8% en lugar de 6%, rentar te deja $186,739 más. Esto solo pasa si de verdad inviertes la diferencia cada mes.</li>
+      <li><strong>El enganche.</strong> Con 20% de enganche, comprar te deja $193,569 más y conviene desde el año 7.</li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Pagar renta es tirar el dinero?</h3>
+    <p>No del todo. Con la renta pagas un lugar donde vivir. Con un crédito también pagas algo que no regresa: los intereses, el mantenimiento y el predial. En los primeros años del crédito, los intereses pueden ser más que una renta.</p>
+    <h3>¿Qué tasa escribo?</h3>
+    <p>La tasa de interés anual que te ofrece tu banco o el Infonavit, no el CAT. Compara ofertas de bancos con los simuladores de la Condusef. En el Infonavit, el crédito tradicional tiene tasa fija según tu salario; revisa la <a href="../credito-infonavit/">guía del crédito Infonavit</a>.</p>
+    <h3>¿Cuánto cuestan las escrituras?</h3>
+    <p>Depende del estado: incluye el impuesto por comprar la casa (que cobra cada estado o municipio), los honorarios del notario, el avalúo y los registros. Pide al notario un presupuesto en pesos antes de decidir y escríbelo como porcentaje del precio.</p>
+    <h3>¿Qué rendimiento escribo?</h3>
+    <p>Lo que de verdad te daría tu ahorro, por ejemplo en CETES o en una cuenta que pague intereses. Si no vas a invertir la diferencia, escribe 0. Compara opciones en <a href="../../dinero/cetes-vs-bancos/">CETES vs. banco</a>.</p>
+    <h3>¿Me pueden subir la renta lo que quieran?</h3>
+    <p>Depende de tu contrato y de tu estado. En la Ciudad de México, una reforma al Código Civil para el Distrito Federal (artículo 2448 D), publicada en la Gaceta Oficial de la CDMX en agosto de 2024, dice que el aumento anual de la renta de una vivienda no puede pasar de la inflación del año anterior que reporta el Banco de México. Lo confirmamos con notas de prensa y de despachos de abogados; no pudimos abrir la Gaceta Oficial, así que revisa el texto vigente. Lee tu contrato antes de firmar o renovar.</p>
+    <h3>¿Y si compro con Infonavit?</h3>
+    <p>Puedes usar esta misma calculadora. Escribe como enganche lo que pones de tu bolsillo más tu ahorro en la Subcuenta de Vivienda, y como tasa la que te dé tu precalificación.</p>
+
+    <h2>Fuentes</h2>
+    <p>Para comparar créditos usa los <a href="https://www.condusef.gob.mx/" rel="noopener">simuladores de la Condusef</a> (en su portal, sección de simuladores) y la <a href="https://www.banxico.org.mx/CAT/" rel="noopener">calculadora del CAT del Banco de México</a>. Para ver cómo cambian los precios de la vivienda, consulta el <a href="https://www.gob.mx/shf" rel="noopener">índice de precios de la vivienda de la Sociedad Hipotecaria Federal</a>. Para tu crédito Infonavit, entra a <a href="https://micuenta.infonavit.org.mx/" rel="noopener">Mi Cuenta Infonavit</a>.</p>
+    <p>Límite al aumento de la renta en la CDMX: Código Civil para el Distrito Federal, artículo 2448 D, reformado por decreto publicado en la Gaceta Oficial de la Ciudad de México en agosto de 2024. Lo revisamos en octubre de 2026 con notas de prensa y de despachos de abogados, porque la Gaceta Oficial no abrió desde nuestra red: pendiente de verificar con la fuente oficial. Puedes consultarla en el portal de la <a href="https://www.consejeria.cdmx.gob.mx/" rel="noopener">Consejería Jurídica de la CDMX</a>.</p>
+    <p class="nota">Información revisada en octubre de 2026. Los datos cargados son ejemplos, no cifras oficiales ni una oferta de crédito.</p>
+    <p>También te puede servir: <a href="../credito-infonavit/">crédito Infonavit: puntos y precalificación</a>, <a href="../predial/">predial: cómo se calcula y descuentos</a>, <a href="../../dinero/prestamo/">calculadora de préstamo</a> y <a href="../../dinero/cetes-vs-bancos/">CETES vs. banco</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni de ningún banco. Los cálculos son orientativos y no son una oferta de crédito ni asesoría financiera.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/vivienda.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const r = Vivienda.rentarOComprar({
+    anios: $("anios").value, renta: $("renta").value, aumentoRenta: $("aum").value,
+    precio: $("precio").value, enganche: $("eng").value, gastosCompra: $("gas").value,
+    tasa: $("tasa").value, plazo: $("plazo").value, plusvalia: $("plus").value,
+    mantenimiento: $("mant").value, predial: $("pred").value, rendimiento: $("rend").value
+  });
+  const msg = [];
+  const pesos = x => mxn(Math.abs(x) < 0.005 ? 0 : x);
+  if (r.conviene === "faltan") {
+    $("tit").textContent = "Faltan datos para comparar";
+    $("total").textContent = "$0";
+    if (r.sinPrecio) msg.push("Escribe el precio de la casa.");
+    if (r.sinAnios) msg.push("Escribe cuántos años piensas vivir ahí (1 o más).");
+    if (r.sinPlazo) msg.push("Escribe el plazo del crédito en años (1 o más).");
+  } else {
+    const n = r.entradas.anios;
+    const anios = n === 1 ? "1 año" : `${n} años`;
+    $("tit").textContent = r.conviene === "comprar" ? `Después de ${anios}, comprar te deja más`
+      : r.conviene === "rentar" ? `Después de ${anios}, rentar e invertir te deja más`
+      : `Después de ${anios}, sale casi igual`;
+    $("total").textContent = pesos(Math.abs(r.diferencia));
+    if (r.conviene === "comprar" && r.anioCruce > 1) msg.push(`Comprar empieza a convenir desde el año ${r.anioCruce}.`);
+    if (r.conviene === "rentar" && r.saldoFinal > 0) msg.push("Si te quedas más años, el resultado puede cambiar: prueba con más años.");
+    if (r.entradas.renta === 0) msg.push("Escribe la renta que pagarías por una casa parecida para que la comparación sea justa.");
+    if (r.entradas.enganche < 100 && r.credito > 0 && r.entradas.tasa === 0) msg.push("Con tasa de 0% solo regresas lo que te prestaron.");
+    if (r.saldoFinal > 0 && r.valorCasa < r.saldoFinal) msg.push("Al final debes más de lo que vale la casa: si la vendieras, no te alcanzaría para pagar el crédito." + (r.patrimonioCompra < 0 ? " Por eso lo que tendrías si compras sale en negativo." : ""));
+  }
+  const enAnios = k => k === 1 ? "1 año" : `${k.toLocaleString("es-MX")} años`;
+  const nA = r.entradas.anios, nP = r.entradas.plazo;
+  $("lint").textContent = nA ? `Intereses que pagarías en ${enAnios(nA)}` : "Intereses que pagarías en los años que elijas";
+  $("lrt").textContent = nA ? `Renta que pagarías en ${enAnios(nA)}` : "Renta que pagarías en los años que elijas";
+  $("lic").textContent = r.credito > 0 && nP ? `Intereses de todo el crédito (${enAnios(nP)})` : "Intereses de todo el crédito";
+  if (r.recortado) msg.push("Alguna cantidad está fuera de rango y la ajustamos: hasta 40 años, crédito hasta 30 años, tasas hasta 40%, rendimiento hasta 30%, plusvalía de -20% a 30% y precio hasta $1,000,000,000.");
+  $("pc").textContent = pesos(r.patrimonioCompra);
+  $("vc").textContent = pesos(r.valorCasa);
+  $("sf").textContent = pesos(r.saldoFinal);
+  $("cc").textContent = pesos(r.cuentaCompra);
+  $("pr").textContent = pesos(r.patrimonioRenta);
+  $("ini").textContent = pesos(r.inicial);
+  $("pago").textContent = pesos(r.pago);
+  $("gm").textContent = pesos(r.primerMes.compra);
+  $("rm").textContent = pesos(r.primerMes.renta);
+  $("int").textContent = pesos(r.totalIntereses);
+  $("ic").textContent = pesos(r.interesesCredito);
+  $("rt").textContent = pesos(r.totalRenta);
+  $("msg").textContent = msg.join(" ");
+  const n0 = x => Math.round(Math.abs(x) < 0.5 ? 0 : x).toLocaleString("es-MX");
+  $("tabla").innerHTML = r.porAnio.map(f =>
+    `<tr><td>${f.anio}</td><td class="n">${n0(f.compra)}</td><td class="n">${n0(f.renta)}</td><td class="n">${n0(f.compra - f.renta)}</td></tr>`
+  ).join("");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

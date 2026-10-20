@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Becas y programas sociales 2026 | Cuentas Claras MX</title>
+<meta name="description" content="Qué becas y pensiones del Bienestar hay en 2026, para quién son, cómo registrarte gratis y cómo evitar fraudes. Suma lo que recibe tu casa.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<style>
+  .apoyo { display: grid; gap: 8px; padding-bottom: 12px; border-bottom: 1px dashed var(--line) }
+  .apoyo > strong { font: 600 1rem var(--display) }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Familia y becas</a> › Becas y programas</span></div>
+
+  <header>
+    <span class="tag">Familia y becas</span>
+    <h1>Becas y programas sociales 2026</h1>
+    <p class="lede">Qué apoyos del gobierno federal existen, para quién son y cómo registrarte sin pagar a nadie. Abajo puedes sumar lo que recibe tu casa cada bimestre.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni de la Secretaría de Bienestar.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <p class="nota">Escribe cuántas personas de tu casa reciben cada apoyo. Los montos son ejemplos: cámbialos por el monto que te informe el programa.</p>
+      <div class="apoyo" role="group" aria-labelledby="g-adultos">
+        <strong id="g-adultos">Pensión para Adultos Mayores (65 años o más)</strong>
+        <div class="par">
+          <label for="p-adultos">Personas
+            <input id="p-adultos" type="number" min="0" max="20" step="1" inputmode="numeric" value="1"></label>
+          <label for="m-adultos">Por bimestre, ejemplo
+            <input id="m-adultos" type="number" min="0" max="100000" step="50" value="6400"></label>
+        </div>
+      </div>
+      <div class="apoyo" role="group" aria-labelledby="g-mujeres">
+        <strong id="g-mujeres">Pensión Mujeres Bienestar (60 a 64 años)</strong>
+        <div class="par">
+          <label for="p-mujeres">Personas
+            <input id="p-mujeres" type="number" min="0" max="20" step="1" inputmode="numeric" value="0"></label>
+          <label for="m-mujeres">Por bimestre, ejemplo
+            <input id="m-mujeres" type="number" min="0" max="100000" step="50" value="3100"></label>
+        </div>
+      </div>
+      <div class="apoyo" role="group" aria-labelledby="g-discapacidad">
+        <strong id="g-discapacidad">Pensión para Personas con Discapacidad</strong>
+        <div class="par">
+          <label for="p-discapacidad">Personas
+            <input id="p-discapacidad" type="number" min="0" max="20" step="1" inputmode="numeric" value="0"></label>
+          <label for="m-discapacidad">Por bimestre, ejemplo
+            <input id="m-discapacidad" type="number" min="0" max="100000" step="50" value="3300"></label>
+        </div>
+      </div>
+      <div class="apoyo" role="group" aria-labelledby="g-secundaria">
+        <strong id="g-secundaria">Beca Rita Cetina (secundaria pública)</strong>
+        <div class="par">
+          <label for="p-secundaria">Estudiantes
+            <input id="p-secundaria" type="number" min="0" max="20" step="1" inputmode="numeric" value="2"></label>
+          <label for="m-secundaria">Por familia, ejemplo
+            <input id="m-secundaria" type="number" min="0" max="100000" step="50" value="1900"></label>
+          <label for="m-secundariaAdicional">Extra por cada estudiante más, ejemplo
+            <input id="m-secundariaAdicional" type="number" min="0" max="100000" step="50" value="700"></label>
+        </div>
+      </div>
+      <div class="apoyo" role="group" aria-labelledby="g-bachillerato">
+        <strong id="g-bachillerato">Beca Benito Juárez (bachillerato público)</strong>
+        <div class="par">
+          <label for="p-bachillerato">Estudiantes
+            <input id="p-bachillerato" type="number" min="0" max="20" step="1" inputmode="numeric" value="1"></label>
+          <label for="m-bachillerato">Por bimestre, ejemplo
+            <input id="m-bachillerato" type="number" min="0" max="100000" step="50" value="1900"></label>
+        </div>
+      </div>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Tu casa recibiría por bimestre</span>
+      <div class="big" id="total">$0.00</div>
+      <div class="row"><span>Equivale al mes a</span><b id="r-mes"></b></div>
+      <div class="row"><span>Pensiones en un año (6 bimestres)</span><b id="r-anio"></b></div>
+      <div class="row"><span>Becas por bimestre del ciclo escolar</span><b id="r-becas"></b></div>
+      <div id="detalle" style="display:grid;gap:10px"></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Los montos cargados son ejemplos: no pudimos confirmarlos en los portales oficiales al revisar esta página. Las becas escolares se pagan durante el ciclo escolar, no todo el año.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Qué programas hay y para quién</h2>
+    <p>Estos son los principales programas federales que dan dinero directo a las personas. Casi todos se pagan cada dos meses (por bimestre) en la <strong>Tarjeta del Bienestar</strong>, del Banco del Bienestar.</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Programa</th><th>Para quién</th></tr></thead>
+      <tbody>
+        <tr><td>Pensión para el Bienestar de las Personas Adultas Mayores</td><td>Personas mexicanas de 65 años o más que viven en México (por nacimiento o por naturalización).</td></tr>
+        <tr><td>Pensión Mujeres Bienestar</td><td>Mujeres mexicanas de 60 a 64 años que viven en México (por nacimiento o por naturalización). El registro se ha abierto por etapas, según la edad.</td></tr>
+        <tr><td>Pensión para el Bienestar de las Personas con Discapacidad Permanente</td><td>Personas con una discapacidad permanente. La edad que cubre depende del estado y del municipio donde vives.</td></tr>
+        <tr><td>Beca Universal Rita Cetina</td><td>Estudiantes de secundaria pública. El gobierno anunció que también llegaría a primaria: revisa si ya aplica en tu escuela.</td></tr>
+        <tr><td>Beca Universal Benito Juárez</td><td>Estudiantes de bachillerato o preparatoria pública (educación media superior).</td></tr>
+        <tr><td>Beca Jóvenes Escribiendo el Futuro</td><td>Estudiantes de licenciatura en escuelas públicas que participan en el programa. No todas las escuelas ni todos los alumnos entran: revisa la convocatoria.</td></tr>
+        <tr><td>Jóvenes Construyendo el Futuro</td><td>Jóvenes de 18 a 29 años que no estudian ni trabajan. Se capacitan hasta 12 meses en un centro de trabajo y reciben un apoyo cada mes y seguro médico del IMSS.</td></tr>
+        <tr><td>Programa para el Bienestar de Niñas y Niños, Hijos de Madres Trabajadoras</td><td>Niñas y niños menores de 4 años (menores de 6 si tienen discapacidad) cuya mamá, papá solo o tutor trabaja, busca trabajo o estudia. Es lo que marcan las reglas de años recientes: confirma la edad en la convocatoria.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="nota">Las reglas de cada programa se publican cada año en el Diario Oficial de la Federación (reglas de operación). La Constitución, en su artículo 4, reconoce el derecho a la pensión para personas adultas mayores, al apoyo para personas con discapacidad permanente y a becas para estudiantes de escuelas públicas. Se agregó en la reforma del 8 de mayo de 2020 y se volvió a reformar el 2 de diciembre de 2024: revisa el texto vigente.</p>
+
+    <h2>¿Cuánto pagan en 2026?</h2>
+    <p>Los montos cambian cada año y los anuncia la Secretaría de Bienestar o la Coordinación de Becas. Al revisar esta página no pudimos abrir los portales oficiales desde nuestra red, así que <strong>no te damos los montos como dato seguro</strong>. En la calculadora vienen cargados montos de ejemplo que puedes cambiar.</p>
+    <p>En Jóvenes Construyendo el Futuro, las reglas del programa han fijado el apoyo mensual igual a un salario mínimo mensual. En 2026 el salario mínimo general es de $315.04 al día (CONASAMI), unos $9,582.47 al mes. Confirma el monto del apoyo en el portal del programa.</p>
+
+    <h2>Ejemplo</h2>
+    <p>Son los datos que vienen cargados en la calculadora, con montos de ejemplo. Una casa donde vive una abuela de 66 años, dos hijos en secundaria pública y una hija en bachillerato público:</p>
+    <ul>
+      <li>Pensión de la abuela: <strong>$6,400</strong> por bimestre.</li>
+      <li>Beca Rita Cetina: $1,900 por la familia más $700 por el segundo hijo, <strong>$2,600</strong> por bimestre.</li>
+      <li>Beca Benito Juárez: <strong>$1,900</strong> por bimestre.</li>
+    </ul>
+    <p>En total son <strong>$10,900</strong> por bimestre, que equivalen a <strong>$5,450</strong> al mes. La pensión se paga los 6 bimestres del año: <strong>$38,400</strong>. Las becas solo se pagan en los bimestres del ciclo escolar.</p>
+
+    <h2>Cómo registrarte paso a paso</h2>
+    <ol>
+      <li><strong>Revisa que cumples.</strong> Fíjate en la edad o en la escuela que pide cada programa (tabla de arriba).</li>
+      <li><strong>Busca la convocatoria vigente</strong> en el portal oficial del programa. Los registros se abren en fechas fijas y muchas veces por orden de apellido o por estado.</li>
+      <li><strong>Junta tus documentos.</strong> Para las pensiones suelen pedir identificación oficial, acta de nacimiento, CURP, comprobante de domicilio reciente y un teléfono. Para las becas, la CURP del estudiante y la de su mamá, papá o tutor.</li>
+      <li><strong>Regístrate</strong> en el Módulo de Bienestar que te toque o en el portal oficial, según lo que diga la convocatoria. Si una persona adulta mayor no puede ir, pregunta cómo nombrar a una persona auxiliar.</li>
+      <li><strong>Guarda tu comprobante</strong> o folio de registro.</li>
+      <li><strong>Recibe tu Tarjeta del Bienestar</strong> cuando te avisen y consulta tus pagos solo en los canales oficiales.</li>
+    </ol>
+    <ul>
+      <li><strong>Costo:</strong> $0. Registrarte en cualquier programa es gratis.</li>
+      <li><strong>Tiempo:</strong> depende de cada convocatoria. El primer pago puede tardar varias semanas después del registro.</li>
+    </ul>
+
+    <h2>Cuidado con los fraudes</h2>
+    <ul>
+      <li><strong>Nunca pagues por registrarte.</strong> Nadie te puede cobrar por inscribirte, por “apartarte” un lugar ni por acelerar tu pago.</li>
+      <li>Los portales oficiales terminan en <strong>gob.mx</strong>. Desconfía de páginas, grupos de Facebook o mensajes de WhatsApp que te piden dinero o datos.</li>
+      <li>No compartas el <strong>NIP</strong> de tu Tarjeta del Bienestar ni los códigos que te lleguen por mensaje. No prestes tu tarjeta.</li>
+      <li>Si alguien llega a tu casa diciendo que es del programa, pide que te muestre su identificación y no le entregues tu tarjeta ni dinero.</li>
+      <li>Cuentas Claras MX no registra a nadie ni consulta pagos. Nunca te vamos a pedir tu CURP ni tus datos.</li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Varias personas de mi casa pueden recibir apoyos?</h3>
+    <p>Sí. Cada programa es para la persona que cumple sus requisitos, así que en una misma casa puede haber una pensión y varias becas. Si una sola persona cumple con dos programas, revisa las reglas de operación: algunos no se pueden juntar.</p>
+    <h3>¿Cada cuándo pagan?</h3>
+    <p>Las pensiones y las becas se pagan por bimestre; Jóvenes Construyendo el Futuro paga cada mes. La Secretaría de Bienestar y la Coordinación de Becas publican el calendario de pagos en sus portales.</p>
+    <h3>¿Qué hago si no me llegó mi pago?</h3>
+    <p>Consulta tu estatus solo en el portal oficial del programa o en tu Módulo de Bienestar. No des tus datos a personas que te escriben ofreciendo “arreglar” tu pago.</p>
+    <h3>¿Tengo que volver a registrarme cada año?</h3>
+    <p>En las pensiones normalmente no. En las becas, revisa cada ciclo escolar si te piden actualizar datos, sobre todo si tu hija o hijo cambia de escuela o de nivel.</p>
+
+    <h2>Fuentes oficiales</h2>
+    <ul>
+      <li><a href="https://www.gob.mx/bienestar" rel="noopener">Secretaría de Bienestar</a> (gob.mx): pensiones y programas.</li>
+      <li><a href="https://programasparaelbienestar.gob.mx/" rel="noopener">Programas para el Bienestar</a>: registro y avisos.</li>
+      <li><a href="https://www.gob.mx/becasbenitojuarez" rel="noopener">Coordinación Nacional de Becas para el Bienestar Benito Juárez</a>: becas Rita Cetina, Benito Juárez y Jóvenes Escribiendo el Futuro.</li>
+      <li><a href="https://jovenesconstruyendoelfuturo.stps.gob.mx/" rel="noopener">Jóvenes Construyendo el Futuro</a> (Secretaría del Trabajo).</li>
+      <li><a href="https://subes.sep.gob.mx/" rel="noopener">SUBES</a>: sistema de becas de la SEP para educación superior.</li>
+      <li><a href="https://www.dof.gob.mx/" rel="noopener">Diario Oficial de la Federación</a>: reglas de operación de cada programa.</li>
+      <li>Constitución, artículo 4 (<a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/CPEUM.pdf" rel="noopener">texto vigente en la Cámara de Diputados</a>).</li>
+    </ul>
+    <p class="nota">Revisado en octubre de 2026. No pudimos abrir los portales oficiales ni el Diario Oficial desde nuestra red al revisar esta página: los montos son ejemplos sin confirmar. Los requisitos de edad y de nacionalidad de la tabla los cotejamos con varias notas de prensa sobre las reglas de operación de 2026; falta confirmarlos en el Diario Oficial. Las reglas, los montos y las fechas de registro cambian cada año: verifica siempre en el portal oficial.</p>
+
+    <p>También te puede servir: <a href="../maternidad-y-paternidad/">licencia de maternidad y paternidad</a>, <a href="../pension-alimenticia/">pensión alimenticia</a> y <a href="../../tramites/curp/">consultar e imprimir tu CURP</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni de la Secretaría de Bienestar. Los cálculos son orientativos; consulta los montos en <a href="https://www.gob.mx/bienestar" rel="noopener">gob.mx/bienestar</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/familia.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const CLAVES = ["adultos", "mujeres", "discapacidad", "secundaria", "bachillerato"];
+function calcular() {
+  const personas = {}, montos = {};
+  CLAVES.forEach(k => { personas[k] = $("p-" + k).value; montos[k] = $("m-" + k).value; });
+  montos.secundariaAdicional = $("m-secundariaAdicional").value;
+  const r = Familia.sumaApoyos({ personas, montos });
+  $("total").textContent = mxn(r.bimestre);
+  $("r-mes").textContent = mxn(r.mes);
+  $("r-anio").textContent = mxn(r.pensionesAnio);
+  $("r-becas").textContent = mxn(r.becas);
+  $("detalle").innerHTML = r.renglones.filter(x => x.personas > 0).map(x => {
+    const quien = x.tipo === "beca" ? (x.personas === 1 ? "estudiante" : "estudiantes") : (x.personas === 1 ? "persona" : "personas");
+    return `<div class="row sub"><span>${x.nombre}: ${x.personas} ${quien}</span><b>${mxn(x.monto)}</b></div>`;
+  }).join("");
+  $("msg").textContent = r.personas === 0 ? "Escribe cuántas personas de tu casa reciben cada apoyo." :
+    r.acotado ? "Revisa los datos: tomamos como máximo 20 personas y $100,000 por apoyo." : "";
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

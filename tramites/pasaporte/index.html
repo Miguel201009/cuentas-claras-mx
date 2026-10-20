@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Costo del pasaporte 2026 y requisitos | Cuentas Claras MX</title>
+<meta name="description" content="Cuánto cuesta el pasaporte mexicano en 2026 según su vigencia, quién paga la mitad, requisitos y cómo sacar cita en la SRE. Calculadora gratis.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Trámites</a> › Pasaporte</span></div>
+
+  <header>
+    <span class="tag">Trámites</span>
+    <h1>Pasaporte mexicano 2026: costo y requisitos</h1>
+    <p class="lede">Escribe la edad de quien lo va a sacar y elige los años de vigencia. Te decimos cuánto pagas en 2026 y si te toca el descuento de 50%.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni de la SRE.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="edad">Edad de quien saca el pasaporte (años cumplidos)
+        <input id="edad" type="number" min="0" max="120" step="1" inputmode="numeric" value="35"></label>
+      <label for="vig">Años de vigencia
+        <select id="vig"><option value="3">3 años</option><option value="6">6 años</option><option value="10" selected>10 años</option></select></label>
+      <label for="mot">¿Tienes otro motivo de descuento?
+        <select id="mot"><option value="ninguno" selected>No</option><option value="discapacidad">Tengo una discapacidad comprobada</option><option value="agricola">Soy trabajador agrícola temporal en Canadá</option></select></label>
+      <p class="nota">Con 60 años o más calculamos el descuento de 50%. Si tienes justo 60, confírmalo al sacar tu cita. Los descuentos no se suman: lo más que te descuentan es la mitad.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota" id="tit">Pagas en 2026</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span>Precio normal</span><b id="r-normal"></b></div>
+      <div class="row"><span>Descuento</span><b id="r-desc"></b></div>
+      <div class="row"><span>Vigencia</span><b id="r-vig"></b></div>
+      <div class="row"><span>Costo por cada año de vigencia</span><b id="r-anio"></b></div>
+      <div id="comparar" style="display:grid;gap:10px"></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Precios en oficinas de la SRE en México, vigentes del 1 de enero al 31 de diciembre de 2026. En el extranjero el costo cambia según el país y se paga en la moneda que indique la embajada o el consulado. Revísalo en el <a href="https://www.gob.mx/sre" rel="noopener">portal de la SRE</a>.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Cuánto cuesta el pasaporte en 2026</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Vigencia</th><th>Quién puede pedirlo</th><th>Precio</th><th>Con 50%</th></tr></thead>
+      <tbody>
+        <tr><td>1 año</td><td>Solo menores de 3 años</td><td class="n">$920</td><td class="n">$460</td></tr>
+        <tr><td>3 años</td><td>Cualquier edad</td><td class="n">$1,795</td><td class="n">$900</td></tr>
+        <tr><td>6 años</td><td>Desde los 3 años. Menores de 3: confirma con la SRE</td><td class="n">$2,440</td><td class="n">$1,220</td></tr>
+        <tr><td>10 años</td><td>Solo mayores de edad</td><td class="n">$4,280</td><td class="n">$2,140</td></tr>
+      </tbody>
+    </table></div>
+    <p class="nota">Fuente: artículo 20 de la Ley Federal de Derechos, con las cuotas que publica la Secretaría de Relaciones Exteriores (SRE) para 2026, vigentes desde el 1 de enero de 2026. Revisado en octubre de 2026 con notas de prensa que citan a la SRE. Confirma el precio en <a href="https://www.gob.mx/pasaporte/" rel="noopener">gob.mx/pasaporte</a> antes de pagar. Las cuotas se actualizan cada año, así que en 2027 pueden cambiar.</p>
+    <p>Hay dos reglas seguras: el de 1 año es solo para menores de 3 años y el de 10 años es solo para mayores de edad. Según el Reglamento de Pasaportes y del Documento de Identidad y Viaje y las páginas de los consulados de la SRE, a los menores de 3 años se les da de 1 o 3 años. De 3 a 17 años, de 3 o 6 años.</p>
+    <p class="nota">Pendiente de confirmar con la SRE: no pudimos abrir el texto oficial del reglamento y las versiones que encontramos no dicen lo mismo sobre los menores de 3 años. Si quieres el de 6 años para un bebé, pregúntalo al sacar la cita. La calculadora te avisa en ese caso.</p>
+
+    <h2>Ejemplo</h2>
+    <p>Son los datos que vienen cargados en la calculadora. Una persona de 35 años puede elegir 3, 6 o 10 años.</p>
+    <ul>
+      <li>El de <strong>10 años</strong> cuesta <strong>$4,280</strong>. Son $428 por cada año.</li>
+      <li>El de <strong>6 años</strong> cuesta $2,440. Son unos $406.67 por año: por año sale un poco más barato, aunque lo renuevas antes.</li>
+      <li>El de <strong>3 años</strong> cuesta $1,795. Son unos $598.33 por año.</li>
+    </ul>
+    <p>Si la misma persona tuviera 65 años, el de 10 años le costaría $2,140, la mitad.</p>
+
+    <h2>¿Quién paga la mitad?</h2>
+    <ul>
+      <li><strong>Personas adultas mayores.</strong> La ley dice “personas mayores de sesenta años”. Si tienes justo 60 años cumplidos, confirma al sacar tu cita si ya te toca. Lleva una identificación oficial que muestre tu edad.</li>
+      <li><strong>Personas con discapacidad.</strong> Debes comprobarla, por ejemplo con una constancia o certificado médico de una institución pública de salud o de seguridad social, o con la credencial del DIF.</li>
+      <li><strong>Trabajadores agrícolas temporales que van a Canadá</strong> con el programa de trabajo entre México y Canadá. Es para personas mayores de edad y solo en pasaportes de 3 o 6 años, no en el de 10. Lleva el documento que lo compruebe.</li>
+    </ul>
+    <p>Así lo dice el artículo 20 de la Ley Federal de Derechos. Pregunta qué documento exacto aceptan al sacar tu cita, porque lo revisan en la oficina.</p>
+
+    <h2>Lo que necesitas si eres mayor de edad</h2>
+    <ul>
+      <li>Tu <strong>cita</strong> confirmada. Sin cita no te atienden.</li>
+      <li>Un documento que pruebe que eres mexicano, casi siempre tu <strong>acta de nacimiento</strong>, en original.</li>
+      <li>Una <strong>identificación oficial vigente con foto</strong>, en original, por ejemplo tu credencial para votar.</li>
+      <li>El <strong>comprobante de pago</strong> de los derechos.</li>
+      <li>Tu <strong>CURP</strong> a la mano: te la piden al sacar la cita.</li>
+      <li>Si ya tuviste pasaporte, llévalo también.</li>
+    </ul>
+    <p>No necesitas llevar fotos: te las toman en la oficina, junto con tus huellas y tu firma.</p>
+
+    <h3>Si es para un menor de edad</h3>
+    <p>El menor debe ir en persona con su mamá y su papá, o con quien tenga la patria potestad o la tutela. Lleva el acta de nacimiento del menor, la identificación del menor si tiene, las identificaciones oficiales de los padres o tutores y el pago. Los padres o tutores dan su autorización en la oficina.</p>
+
+    <h2>Paso a paso</h2>
+    <ol>
+      <li><strong>Saca tu cita gratis</strong> en <a href="https://citas.sre.gob.mx/" rel="noopener">citas.sre.gob.mx</a> o por WhatsApp al <strong>55 8932 4827</strong>, la cuenta oficial de la SRE. Escoge la oficina que te quede mejor.</li>
+      <li><strong>Paga los derechos</strong> antes de tu cita, por la vigencia que elegiste. Al agendar te dicen cómo pagar. Guarda tu comprobante.</li>
+      <li><strong>Ve a la oficina</strong> a tu hora, con tus documentos originales.</li>
+      <li>Revisan tus papeles y te toman <strong>foto, huellas y firma</strong>. Revisa que tus datos estén bien.</li>
+      <li><strong>Recoge tu pasaporte.</strong> En muchas oficinas lo entregan el mismo día si todo está completo, pero el tiempo cambia según la oficina.</li>
+    </ol>
+
+    <h2>Cuidado con los fraudes</h2>
+    <ul>
+      <li>La cita es <strong>gratis</strong>. Si alguien te cobra por “apartarte” un lugar, es un engaño.</li>
+      <li>Hay páginas que se parecen a las del gobierno pero no terminan en <strong>gob.mx</strong>. Fíjate bien en la dirección.</li>
+      <li>En WhatsApp, usa solo el 55 8932 4827 y revisa que sea una cuenta verificada.</li>
+      <li>Cuentas Claras MX no saca citas ni hace trámites. Nunca te vamos a pedir tu CURP ni tus documentos.</li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Por qué el de 10 años sale más caro por año que el de 6?</h3>
+    <p>Así están las cuotas de la ley para 2026. Si te importa el precio por año, el de 6 años sale un poco más barato; si prefieres no renovar seguido, conviene el de 10.</p>
+    <h3>¿Y si lo saco en un consulado?</h3>
+    <p>En el extranjero el costo cambia según el país y se paga en la moneda que indique la embajada o el consulado. Los requisitos también pueden variar. Revisa la página de tu embajada o consulado, o el <a href="https://www.gob.mx/sre/acciones-y-programas/tramite-de-pasaporte-8014" rel="noopener">trámite de pasaporte desde el extranjero</a> en el portal de la SRE.</p>
+    <h3>¿Puedo pagar el de 1 año para un adulto?</h3>
+    <p>No. El de 1 año es solo para menores de 3 años.</p>
+    <h3>¿Cuánto costará en 2027?</h3>
+    <p>Las cuotas cambian el 1 de enero de cada año. Si tu cita es en 2027, revisa el precio nuevo en gob.mx/pasaporte antes de pagar.</p>
+
+    <h2>Fuentes oficiales</h2>
+    <ul>
+      <li><a href="https://www.gob.mx/pasaporte/" rel="noopener">Pasaporte mexicano</a>: costos, requisitos y oficinas (SRE, gob.mx).</li>
+      <li><a href="https://citas.sre.gob.mx/" rel="noopener">Citas de la SRE</a>.</li>
+      <li><a href="https://www.gob.mx/sre/acciones-y-programas/tramite-de-pasaporte-8014" rel="noopener">Trámite de pasaporte desde el extranjero</a>: costos y requisitos en embajadas y consulados (SRE, gob.mx).</li>
+      <li>Ley Federal de Derechos, artículo 20 (<a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LFD.pdf" rel="noopener">texto vigente en la Cámara de Diputados</a>).</li>
+      <li>Reglamento de Pasaportes y del Documento de Identidad y Viaje (<a href="https://dof.gob.mx/nota_detalle.php?codigo=5203727&amp;fecha=05/08/2011" rel="noopener">publicado en el Diario Oficial el 5 de agosto de 2011</a>, con reformas posteriores): vigencias según la edad.</li>
+    </ul>
+    <p class="nota">Revisado en octubre de 2026. Los requisitos y los costos cambian: verifica siempre en el portal oficial de la SRE antes de hacer tu trámite.</p>
+
+    <p>También te puede servir: <a href="../curp/">consultar e imprimir tu CURP</a>, <a href="../ine/">credencial para votar del INE</a> y <a href="../licencia-de-manejo/">licencia de manejo por estado</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni de la SRE. Los cálculos son orientativos; consulta los costos en <a href="https://www.gob.mx/pasaporte/" rel="noopener">gob.mx/pasaporte</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/tramites.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const anios = v => v + (v === 1 ? " año" : " años");
+function opciones(permitidas, actual) {
+  const sel = $("vig");
+  const ya = [...sel.options].map(o => +o.value).join();
+  if (ya !== permitidas.join()) {
+    sel.innerHTML = permitidas.map(v => `<option value="${v}">${anios(v)}</option>`).join("");
+  }
+  sel.value = String(actual);
+}
+function limpiar(texto) {
+  $("total").textContent = texto;
+  ["r-normal", "r-desc", "r-vig", "r-anio"].forEach(id => $(id).textContent = "");
+  $("comparar").innerHTML = "";
+}
+// La vigencia que la persona eligió. Si cambia la edad y esa vigencia no se permite, se muestra otra,
+// pero al volver a una edad que sí la permite se recupera la elegida.
+let preferida = +$("vig").value;
+function calcular() {
+  const r = Tramites.costoPasaporte({ edad: $("edad").value, vigencia: preferida, motivo: $("mot").value });
+  if (!r.ok) {
+    limpiar("Revisa la edad");
+    $("msg").textContent = r.error;
+    return;
+  }
+  opciones(r.permitidas, r.vigencia);
+  $("tit").textContent = r.descuento ? "Pagas en 2026, con 50% de descuento" : "Pagas en 2026";
+  $("total").textContent = mxn(r.aPagar);
+  $("r-normal").textContent = mxn(r.normal);
+  $("r-desc").textContent = r.descuento ? "−" + mxn(r.ahorro) + " (" + r.razon + ")" : "No aplica";
+  $("r-vig").textContent = anios(r.vigencia);
+  $("r-anio").textContent = mxn(r.porAnio);
+  $("comparar").innerHTML = r.comparar.length > 1
+    ? `<span class="nota">Compara las vigencias que puedes pedir:</span>` + r.comparar
+      .map(c => `<div class="row sub"><span>${anios(c.vigencia)}${c.vigencia === r.masBarata.vigencia ? " (más barato por año)" : ""}${c.porConfirmar ? " (confirma con la SRE)" : ""}</span><b>${mxn(c.costo)} · ${mxn(c.porAnio)} al año</b></div>`).join("")
+    : "";
+  $("msg").textContent = r.avisos.join(" ");
+}
+$("f").addEventListener("input", e => {
+  if (e.target.id === "vig") preferida = +e.target.value;
+  calcular();
+});
+calcular();
+</script>
+</body>
+</html>

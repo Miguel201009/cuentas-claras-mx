@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RESICO personas físicas 2026: calculadora de ISR mensual | Cuentas Claras MX</title>
+<meta name="description" content="Calcula tu ISR mensual en RESICO con la tabla de tasas vigente, de 1% a 2.5%. Quién puede entrar, tope de 3.5 millones, retención de 1.25% y obligaciones.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Impuestos y SAT</a> › RESICO</span></div>
+
+  <header>
+    <span class="tag">Impuestos y SAT</span>
+    <h1>RESICO para personas físicas: calculadora de ISR mensual 2026</h1>
+    <p class="lede">Escribe lo que cobraste en el mes y te decimos cuánto ISR pagas en el Régimen Simplificado de Confianza. Abajo te explicamos quién puede entrar y qué obligaciones tienes.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni del SAT.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="ing">Lo que cobraste este mes, sin IVA
+        <input id="ing" type="number" min="0" step="any" inputmode="decimal" value="30000"></label>
+      <label for="emp">De eso, ¿cuánto te pagaron empresas (personas morales)?
+        <input id="emp" type="number" min="0" step="any" inputmode="decimal" value="10000"></label>
+      <p class="nota">Escribe lo que te pagaron sin IVA y antes de que te retuvieran impuestos. Es el subtotal de tus facturas pagadas en el mes, no lo que llegó a tu cuenta. Si todos tus clientes son personas físicas, deja 0 en la segunda casilla.</p>
+      <p class="nota">Las empresas, asociaciones y otras personas morales te retienen 1.25% de lo que te pagan, y eso se resta de tu pago. Si alguna no te retuvo, no cuentes en la segunda casilla lo que te pagó.</p>
+      <p class="nota">Si te dedicas solo al campo, la ganadería, la silvicultura o la pesca, no pagas ISR por lo que cobres en el año hasta $900,000 (artículo 113-E de la Ley del ISR). Marca la casilla para aplicarlo.</p>
+      <label class="check" for="campo"><input id="campo" type="checkbox"> Me dedico solo al campo, la ganadería, la silvicultura o la pesca</label>
+      <label for="antes" id="antes-l" hidden>Lo que ya cobraste este año antes de este mes, sin IVA
+        <input id="antes" type="number" min="0" step="any" inputmode="decimal" value="0"></label>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota" id="tit">ISR a pagar este mes</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span>Ingresos cobrados</span><b id="r-ing"></b></div>
+      <div class="row"><span>Tasa que te toca <small class="nota">Art. 113-E LISR</small></span><b id="r-tasa"></b></div>
+      <div class="row"><span>ISR del mes</span><b id="r-isr"></b></div>
+      <div class="row"><span>Menos lo que te retuvieron empresas (1.25%) <small class="nota">Art. 113-J</small></span><b id="r-ret"></b></div>
+      <div class="row"><span><strong id="r-etq">ISR a pagar</strong></span><b id="r-pag"></b></div>
+      <div class="row"><span>Fecha límite (del mes siguiente)</span><b>Día 17</b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Solo ISR. El IVA se calcula y se paga aparte. Es una estimación: tu declaración se arma con tus facturas (CFDI) en el portal del SAT.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>¿Qué es el RESICO?</h2>
+    <p>Es el Régimen Simplificado de Confianza. Sirve para personas que tienen un negocio, cobran honorarios o rentan algo, y que cobran menos de <strong>3.5 millones de pesos al año</strong>. Pagas una tasa baja, de <strong>1% a 2.5%</strong>, sobre lo que cobras. A cambio, no puedes restar gastos.</p>
+
+    <h2>¿Quién puede entrar?</h2>
+    <ul>
+      <li>Personas con <strong>actividad empresarial</strong>: tiendas, comercio, oficios, venta en línea.</li>
+      <li>Personas que cobran por <strong>servicios profesionales</strong> (honorarios).</li>
+      <li>Personas que <strong>rentan</strong> una casa, un local u otro bien.</li>
+      <li>Personas con actividades <strong>agrícolas, ganaderas, silvícolas o pesqueras</strong>. Si te dedicas solo a esto, no pagas ISR por lo que cobres en el año hasta <strong>$900,000</strong>. Pagas solo por lo que pase de esa cantidad (artículo 113-E de la Ley del ISR).</li>
+    </ul>
+    <p>La condición es que lo que cobraste el año pasado no haya pasado de <strong>$3,500,000</strong>. Si apenas empiezas, puedes entrar si calculas que en el año no pasarás de esa cantidad. También puedes entrar si además tienes sueldo o intereses, siempre que todo junto no pase de $3,500,000.</p>
+
+    <h2>¿Quién no puede?</h2>
+    <ul>
+      <li>Socios o accionistas de una empresa (persona moral). Hay excepciones, por ejemplo algunas cooperativas de producción, cajas de ahorro y asociaciones sin fines de lucro.</li>
+      <li>Residentes en el extranjero con un establecimiento permanente en México.</li>
+      <li>Quienes tienen ingresos sujetos a regímenes fiscales preferentes (países donde casi no pagan impuestos).</li>
+      <li>Quienes reciben ciertos ingresos asimilados a salarios, como los honorarios por ser miembro de un consejo. Revisa el artículo 113-E de la Ley del ISR si es tu caso.</li>
+    </ul>
+
+    <h2>Tabla de tasas mensuales del RESICO</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Lo que cobras en el mes</th><th>Tasa sobre todo lo cobrado</th></tr></thead>
+      <tbody>
+        <tr><td class="n">Hasta $25,000.00</td><td class="n">1.00%</td></tr>
+        <tr><td class="n">$25,000.01 a $50,000.00</td><td class="n">1.10%</td></tr>
+        <tr><td class="n">$50,000.01 a $83,333.33</td><td class="n">1.50%</td></tr>
+        <tr><td class="n">$83,333.34 a $208,333.33</td><td class="n">2.00%</td></tr>
+        <tr><td class="n">$208,333.34 a $3,500,000.00</td><td class="n">2.50%</td></tr>
+      </tbody>
+    </table></div>
+    <p class="nota">Fuente: artículo 113-E de la Ley del Impuesto sobre la Renta. La tabla no ha cambiado desde que inició el régimen en 2022 y es la vigente en octubre de 2026. La tabla anual (artículo 113-F) usa las mismas tasas con estos límites: $300,000, $600,000, $1,000,000, $2,500,000 y $3,500,000.</p>
+
+    <h2>Cómo se calcula</h2>
+    <ol>
+      <li>Suma lo que cobraste en el mes, sin IVA y antes de retenciones. Lo que importa es lo que te pagaron, no lo que facturaste.</li>
+      <li>Busca en la tabla el renglón donde cae esa cantidad.</li>
+      <li>Multiplica <strong>todo</strong> lo que cobraste por la tasa de ese renglón. No es escalonado como el ISR de los sueldos.</li>
+      <li>Resta lo que te retuvieron las personas morales (1.25% de lo que te pagaron sin IVA). Viene en el comprobante de retenciones que te dan.</li>
+      <li>Lo que queda es tu pago del mes. Lo presentas y lo pagas a más tardar el <strong>día 17 del mes siguiente</strong>. Si ese día es inhábil, se recorre al siguiente día hábil.</li>
+    </ol>
+
+    <h2>Ejemplo con $30,000 en el mes</h2>
+    <p>Son los datos que vienen cargados en la calculadora.</p>
+    <ul>
+      <li><strong>Renglón:</strong> $30,000 cae en el segundo, de $25,000.01 a $50,000, con tasa de 1.10%.</li>
+      <li><strong>ISR del mes:</strong> 30,000 × 1.10% = $330.</li>
+      <li><strong>Retención:</strong> una empresa te pagó $10,000 y te retuvo 1.25%: 10,000 × 1.25% = $125.</li>
+      <li><strong>Pago del mes:</strong> 330 − 125 = <strong>$205</strong>.</li>
+    </ul>
+    <p><strong>Ojo con los saltos de tasa:</strong> como la tasa se aplica a todo, un peso más puede subir bastante tu pago. Con $50,000 en el mes pagas $550. Con $50,000.01 pagas $750, porque la tasa sube a 1.50% sobre todo.</p>
+    <p><strong>Saldo a favor:</strong> si cobras casi todo a empresas y estás en los dos primeros renglones (1% o 1.10%), la retención de 1.25% puede ser mayor que tu impuesto. Por ejemplo, con $40,000 cobrados a empresas tu ISR es $440 y te retienen $500. Esa diferencia es un saldo a favor que puedes pedir que te devuelvan en el portal del SAT. Conviene que te oriente un contador.</p>
+
+    <h2>Tus obligaciones en RESICO</h2>
+    <ul>
+      <li>Estar inscrito en el RFC con este régimen y tener activos tu <a href="../rfc/">e.firma</a> y tu buzón tributario.</li>
+      <li>Emitir factura (CFDI) por todo lo que cobras.</li>
+      <li>Presentar tu declaración cada mes, a más tardar el día 17 del mes siguiente.</li>
+      <li>Calcular y pagar el IVA aparte, si tu actividad lo causa.</li>
+      <li>La declaración anual: para la declaración del año 2025, una regla del SAT (regla 3.13.7 de la Resolución Miscelánea Fiscal) relevó de presentarla a quien solo tuvo ingresos de RESICO. Revisa si se repite en la Resolución Miscelánea de 2027 para la declaración del año 2026. Si además tienes otros ingresos, como sueldo de dos patrones o sueldo de más de $400,000 al año, sí la presentas por esos ingresos.</li>
+    </ul>
+    <p>En RESICO no restas gastos del negocio ni puedes aplicar deducciones personales como gastos médicos o colegiaturas.</p>
+
+    <h2>Cuándo sales del RESICO</h2>
+    <ul>
+      <li>Si en el año cobras más de $3,500,000. Desde ahí pagas en el régimen general: actividad empresarial y profesional, o arrendamiento.</li>
+      <li>Si en un año no presentas tres o más pagos mensuales, seguidos o no, o no presentas la declaración anual cuando te toca (artículo 113-I de la Ley del ISR).</li>
+    </ul>
+
+    <h2>¿Va a cambiar el tope en 2027?</h2>
+    <p>En octubre de 2026 se publicaron notas de prensa sobre una reforma a la Ley del ISR que subiría el tope del RESICO para personas físicas de 3.5 a 5 millones de pesos a partir de 2027. No lo hemos podido confirmar con una fuente oficial. Una reforma así solo cuenta cuando la aprueban las dos cámaras del Congreso y se publica en el Diario Oficial de la Federación. <strong>Mientras eso no pase, el tope sigue siendo de $3,500,000.</strong></p>
+    <p>Puedes revisar cómo va en la <a href="https://gaceta.diputados.gob.mx/" rel="noopener">Gaceta Parlamentaria de la Cámara de Diputados</a>, en el <a href="https://www.senado.gob.mx/" rel="noopener">Senado</a> y en el <a href="https://www.dof.gob.mx/" rel="noopener">Diario Oficial de la Federación</a>.</p>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Puedo tener sueldo y estar en RESICO?</h3>
+    <p>Sí, siempre que todos tus ingresos juntos no pasen de $3,500,000 al año. Tu sueldo sigue con su propio cálculo de ISR. Puedes verlo en la <a href="../../trabajo/sueldo-neto/">calculadora de sueldo neto</a>.</p>
+    <h3>¿Cómo me cambio a RESICO si ya estoy en otro régimen?</h3>
+    <p>Con un aviso de actualización de actividades en el RFC, en el portal del SAT. Para que cuente desde el 1 de enero, en años anteriores el plazo fue el 31 de enero. Revisa la fecha del año que te interesa.</p>
+    <h3>¿Tengo que pagar aunque no haya cobrado nada?</h3>
+    <p>Si no cobraste nada, tu ISR del mes es $0. Aun así, revisa en el portal del SAT si debes presentar la declaración del mes en ceros, para no acumular omisiones.</p>
+    <h3>¿Y el IVA?</h3>
+    <p>El RESICO solo cambia el ISR. El IVA se calcula aparte, según lo que vendes o cobras.</p>
+
+    <h2>Fuentes oficiales</h2>
+    <ul>
+      <li>Ley del Impuesto sobre la Renta, artículos 113-E a 113-J (<a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LISR.pdf" rel="noopener">texto vigente en la Cámara de Diputados</a>).</li>
+      <li><a href="https://www.sat.gob.mx" rel="noopener">Portal del SAT</a>: busca “Régimen Simplificado de Confianza” y “Declaración anual de personas físicas”.</li>
+      <li><a href="https://www.gob.mx/sat" rel="noopener">Comunicados del SAT en gob.mx</a>: busca los que hablan de requisitos y obligaciones para permanecer en el RESICO.</li>
+    </ul>
+    <p class="nota">Revisado en octubre de 2026. Las reglas del SAT cambian cada año: confirma en el portal oficial antes de presentar tu declaración.</p>
+
+    <p>También te puede servir: <a href="../../negocio/alta-en-el-sat/">cómo darte de alta en el SAT con tu negocio</a>, <a href="../rfc/">cómo sacar tu RFC, contraseña y e.firma</a>, <a href="../declaracion-anual/">declaración anual y saldo a favor</a>, <a href="../../negocio/precio-de-venta/">calculadora de precio de venta y margen</a> y <a href="../../trabajo/sueldo-neto/">calculadora de sueldo neto e ISR</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni del SAT. Los cálculos son orientativos y no sustituyen la asesoría de un contador. Consulta la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LISR.pdf" rel="noopener">Ley del ISR</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/impuestos.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const pct = n => n.toFixed(2) + "%";
+function calcular() {
+  const campo = $("campo").checked;
+  $("antes-l").hidden = !campo;
+  const r = Impuestos.resicoMensual({ ingresos: $("ing").value, cobradoAEmpresas: $("emp").value, soloCampo: campo, cobradoAntes: $("antes").value });
+  const msg = [];
+  $("r-ing").textContent = mxn(r.ingresos);
+  $("r-ret").textContent = (r.retencion > 0 ? "−" : "") + mxn(r.retencion);
+  if (r.fueraDeRegimen) {
+    $("tit").textContent = "Fuera del RESICO";
+    $("total").textContent = "No aplica";
+    $("r-tasa").textContent = "No aplica";
+    $("r-isr").textContent = "No aplica";
+    $("r-etq").textContent = "ISR a pagar";
+    $("r-pag").textContent = "No aplica";
+    msg.push("Cobraste más de $3,500,000 en el mes. Eso pasa del tope del RESICO: pagas en el régimen general. Consulta a un contador.");
+  } else if (r.campoPasaExencion) {
+    $("tit").textContent = "Pagas solo por lo que pase de $900,000";
+    $("total").textContent = "No calculado";
+    $("r-tasa").textContent = "Sobre el excedente";
+    $("r-isr").textContent = "No calculado";
+    $("r-etq").textContent = "ISR a pagar";
+    $("r-pag").textContent = "No calculado";
+    msg.push(`Con este mes llevas ${mxn(r.acumuladoAnio)} cobrados en el año y pasaste de los $900,000 libres. Pagas ISR solo por lo que pase de esa cantidad. Esta calculadora no hace ese cálculo: revísalo en el portal del SAT o con un contador.`);
+  } else {
+    const favor = r.saldoFavor > 0;
+    $("tit").textContent = favor ? "Saldo a favor este mes" : "ISR a pagar este mes";
+    $("total").textContent = mxn(favor ? r.saldoFavor : r.aPagar);
+    $("r-tasa").textContent = r.ingresos === 0 ? "Sin ingresos" : r.exentoCampo ? "Exento (campo)" : pct(r.tasa) + " (renglón " + r.renglon + ")";
+    $("r-isr").textContent = mxn(r.isr);
+    $("r-etq").textContent = favor ? "Saldo a favor" : "ISR a pagar";
+    $("r-pag").textContent = mxn(favor ? r.saldoFavor : r.aPagar);
+    if (r.ingresos === 0) msg.push("Sin ingresos cobrados en el mes, tu ISR es $0.");
+    if (r.exentoCampo && r.ingresos > 0) msg.push(`Como te dedicas solo al campo, no pagas ISR: en el año llevas ${mxn(r.acumuladoAnio)} y te quedan ${mxn(r.exentoRestante)} libres de los $900,000.`);
+    if (r.siguiente && r.ingresos > 0) {
+      msg.push(`Si cobras más de ${mxn(r.limiteSuperior)} en el mes, la tasa sube a ${pct(r.siguiente.tasa)} sobre todo: con ${mxn(r.siguiente.desde)} pagarías ${mxn(r.siguiente.isr)} antes de retenciones.`);
+    }
+    if (favor) msg.push("Lo que te retuvieron es mayor que tu impuesto. Puedes pedir la devolución de esa diferencia en el portal del SAT.");
+    if (r.pasaTopeAnual) msg.push(`Si cobras esto cada mes, en el año juntarías ${mxn(r.anualSiSeRepite)} y pasarías del tope de $3,500,000.`);
+  }
+  if (r.acumuladoPasaTope) msg.push("Lo que llevas cobrado en el año pasa de $3,500,000, el tope del RESICO. Consulta a un contador.");
+  if (r.empresasAjustado) msg.push("Lo que te pagaron empresas no puede ser mayor que el total cobrado; usamos el total.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

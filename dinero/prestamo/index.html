@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de préstamo 2026: pago mensual, intereses y CAT | Cuentas Claras MX</title>
+<meta name="description" content="Calcula el pago mensual de tu préstamo, la tabla de pagos, los intereses, el IVA y un CAT estimado. Aprende a comparar créditos con la Condusef.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<style>
+  .tool .pagos { grid-column: 1 / -1 }
+  .pagos summary { cursor: pointer; font: 600 1.1rem var(--display); color: var(--brand); margin-bottom: 10px }
+  .pagos td.n, .pagos th.n { text-align: right; white-space: nowrap }
+  @media (max-width: 480px) { .pagos .p { display: none } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Dinero y ahorro</a> › Préstamo</span></div>
+
+  <header>
+    <span class="tag">Dinero y ahorro</span>
+    <h1>Calculadora de préstamo</h1>
+    <p class="lede">Escribe cuánto te prestan, la tasa y el plazo. Te decimos cuánto pagas cada mes, cuánto se va en intereses e IVA, y un CAT estimado para comparar.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="monto">¿Cuánto te prestan?
+        <input id="monto" type="number" min="0" step="1000" value="50000"></label>
+      <label for="tasa">Tasa de interés anual sin IVA (%), ejemplo
+        <input id="tasa" type="number" min="0" max="1000" step="0.1" value="30"></label>
+      <label for="meses">Plazo en meses
+        <input id="meses" type="number" min="1" max="480" step="1" value="24"></label>
+      <label for="iva">¿Te cobran IVA sobre los intereses?
+        <select id="iva">
+          <option value="si" selected>Sí, 16% (lo normal en préstamos)</option>
+          <option value="no">No (por ejemplo, crédito hipotecario)</option>
+        </select></label>
+      <label for="com">Comisión por apertura (% del préstamo)
+        <input id="com" type="number" min="0" max="50" step="0.1" value="0"></label>
+      <p class="nota">La tasa cargada es un ejemplo. Usa la tasa de interés anual que viene en tu contrato o en la carátula del crédito, no el CAT.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Tu pago fijo cada mes</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span>Recibes en tu mano</span><b id="rec"></b></div>
+      <div class="row"><span>Intereses en total</span><b id="int"></b></div>
+      <div class="row"><span>IVA de los intereses (estimado)</span><b id="ivat"></b></div>
+      <div class="row"><span>Comisión por apertura</span><b id="comm"></b></div>
+      <div class="row sub"><span>IVA de la comisión (16%)</span><b id="comiva"></b></div>
+      <div class="row"><span>Total de tus pagos</span><b id="tot"></b></div>
+      <div class="row"><span>Lo que te cuesta el préstamo</span><b id="costo"></b></div>
+      <div class="row"><span>Tasa anual con IVA</span><b id="tiva"></b></div>
+      <div class="row"><span>CAT estimado (sin IVA)</span><b id="cat"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Cálculo orientativo con tasa fija. Suponemos que la comisión y su IVA se descuentan del préstamo. No incluye seguros ni otras comisiones; el CAT oficial de tu crédito puede ser mayor.</p>
+    </div>
+    <details class="pagos" open>
+      <summary>Tabla de pagos mes por mes</summary>
+      <div class="tabla"><table>
+        <thead><tr><th>Mes</th><th class="n p">Pago</th><th class="n">Capital</th><th class="n">Interés</th><th class="n">IVA</th><th class="n">Saldo</th></tr></thead>
+        <tbody id="tabla"></tbody>
+      </table></div>
+      <p class="nota">Cifras en pesos. Capital es lo que baja tu deuda. Al principio una buena parte del pago se va en intereses; al final, casi todo es capital. En pantallas angostas ocultamos la columna del pago, que es igual cada mes.</p>
+    </details>
+  </section>
+
+  <section class="prosa">
+    <h2>Cómo se calcula el pago</h2>
+    <p>Casi todos los préstamos personales y de nómina usan <strong>pagos fijos</strong>: pagas lo mismo cada mes. A esto se le llama amortización francesa. Cada pago tiene tres partes:</p>
+    <ul>
+      <li><strong>Interés:</strong> lo que te cobran por el dinero que todavía debes. Se calcula así: saldo × tasa anual ÷ 12.</li>
+      <li><strong>IVA:</strong> 16% de ese interés, si tu crédito lo cobra. Es una estimación alta; te explicamos por qué en las preguntas frecuentes.</li>
+      <li><strong>Capital:</strong> lo que sobra del pago y baja tu deuda.</li>
+    </ul>
+    <p>Como cada mes debes menos, cada mes pagas menos interés y más capital. Para que el pago quede fijo con todo e IVA, se calcula con la tasa mensual más su IVA:</p>
+    <p><strong>Pago = monto × j ÷ (1 − (1 + j)<sup>−meses</sup>)</strong>, donde <strong>j = tasa anual ÷ 12 × 1.16</strong>.</p>
+    <p class="nota">Algunas instituciones calculan el IVA aparte y el pago baja un poco cada mes. Revisa la tabla de amortización de tu contrato.</p>
+
+    <h2>Ejemplo</h2>
+    <p>Te prestan $50,000 a 24 meses con una tasa de 30% anual sin IVA (es un ejemplo).</p>
+    <ul>
+      <li>Tasa mensual: 30% ÷ 12 = 2.5%. Con IVA: 2.5% × 1.16 = 2.9%.</li>
+      <li>Pago fijo: 50,000 × 0.029 ÷ (1 − 1.029<sup>−24</sup>) = <strong>$2,920.66</strong> al mes.</li>
+      <li>Primer mes: $1,250 de interés (50,000 × 2.5%), $200 de IVA y $1,470.66 de capital.</li>
+      <li>En total pagas <strong>$70,095.80</strong>: $17,323.96 de intereses y $2,771.83 de IVA (estimado). El préstamo te cuesta $20,095.80.</li>
+      <li>CAT estimado sin IVA: <strong>34.49%</strong>.</li>
+    </ul>
+    <p>Son los datos que vienen cargados en la calculadora. Si además te cobran 2% de comisión por apertura, son $1,000 de comisión más $160 de IVA. Recibes $48,840 y el préstamo te cuesta $21,255.80. El CAT sube a 37.38% (se calcula sin el IVA).</p>
+
+    <h2>Qué es el CAT</h2>
+    <p>El <strong>CAT (Costo Anual Total)</strong> junta en un solo porcentaje la tasa de interés, las comisiones y otros gastos del crédito. Lo calcula cada institución con la fórmula del Banco de México (Circular 21/2009) y debe informarlo en su publicidad y en tu contrato.</p>
+    <ul>
+      <li>Siempre se muestra <strong>sin IVA</strong>, porque el IVA no se cobra en todos los créditos. Pero si tu crédito lo cobra, sí lo pagas.</li>
+      <li>Sale mayor que la tasa aunque no haya comisiones (34.49% contra 30% en el ejemplo). Es porque el CAT toma en cuenta que pagas intereses cada mes.</li>
+      <li>Sirve para <strong>comparar</strong>: entre dos créditos del mismo monto y plazo, el de menor CAT suele ser el más barato.</li>
+    </ul>
+    <p>La calculadora estima el CAT con la tasa y la comisión por apertura: es la tasa con la que lo que pagas cada mes (sin IVA) vale lo mismo que lo que recibes. El CAT oficial puede incluir seguros y otros cargos, así que puede salir más alto.</p>
+
+    <h2>Cómo comparar créditos</h2>
+    <ol>
+      <li>Pide el mismo monto y el mismo plazo en cada institución.</li>
+      <li>Compara el <strong>CAT</strong>, el <strong>pago de cada mes</strong> y el <strong>total que vas a pagar</strong>. La Condusef advierte que un CAT bajo no siempre significa el menor pago total.</li>
+      <li>Pregunta por todas las comisiones (apertura, pago tardío, pago anticipado) y por los seguros obligatorios.</li>
+      <li>Usa el simulador de crédito personal y de nómina de la Condusef: compara bancos con tu monto y plazo.</li>
+      <li>Revisa en el Buró de Entidades Financieras las quejas y la calificación de la institución.</li>
+      <li>Lee la carátula del contrato antes de firmar: ahí vienen la tasa, el CAT, las comisiones y la fecha de cada pago.</li>
+      <li>Revisa que tu pago no sea tan alto que te deje sin dinero para tus gastos básicos.</li>
+    </ol>
+    <p>Desconfía de quien te pide un depósito por adelantado para "liberar" un préstamo. Antes de contratar, revisa que la institución esté registrada en la Condusef.</p>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Por qué pago IVA en los intereses?</h3>
+    <p>Porque la Ley del IVA grava los intereses de la mayoría de los créditos al consumo, como los préstamos personales, de nómina y las tarjetas de crédito, con 16%. Los intereses de créditos hipotecarios para comprar, construir o arreglar tu casa no pagan IVA (artículo 15, fracción X de la Ley del IVA). Tu contrato dice si te lo cobran.</p>
+    <p>Ojo: en créditos de bancos y otras instituciones financieras, y en tarjetas de crédito, el artículo 18-A de la Ley del IVA dice que el IVA se calcula sobre el "valor real" de los intereses. Para sacarlo, a la tasa de cada periodo se le resta la inflación de ese periodo. Por eso el IVA de tu estado de cuenta puede salir menor. Esta calculadora usa el 16% de todo el interés, para no quedarse corta. Revisa tu estado de cuenta o la tabla de tu contrato.</p>
+    <p>La comisión por apertura es aparte: es un cobro por un servicio y se le suma 16% de IVA, aunque tu crédito no pague IVA en los intereses.</p>
+    <h3>¿Me conviene un plazo más largo?</h3>
+    <p>Tu pago de cada mes baja, pero pagas más intereses en total. Con el ejemplo a 48 meses en lugar de 24, el pago baja a $1,942.53, pero los intereses con IVA suben de $20,095.80 a $43,241.23: más del doble. Usa el plazo más corto que puedas pagar sin apretarte.</p>
+    <h3>¿Puedo pagar antes?</h3>
+    <p>Pregunta si puedes hacer pagos anticipados y si tienen comisión. Si abonas a capital, debes menos y pagas menos intereses.</p>
+    <h3>¿Qué tasa escribo?</h3>
+    <p>La tasa de interés anual ordinaria sin IVA que viene en tu contrato. No escribas el CAT: el CAT ya incluye comisiones y otros cargos.</p>
+
+    <h2>Fuente oficial</h2>
+    <p>Consulta la <a href="https://www.banxico.org.mx/CAT/" rel="noopener">calculadora del CAT del Banco de México</a>, los <a href="https://www.gob.mx/condusef/acciones-y-programas/simuladores-y-calculadoras-23921" rel="noopener">simuladores de la Condusef</a>, el <a href="https://www.buro.gob.mx/" rel="noopener">Buró de Entidades Financieras</a> y la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LIVA.pdf" rel="noopener">Ley del IVA</a> (artículos 1, 15 y 18-A).</p>
+    <p class="nota">Información revisada en octubre de 2026.</p>
+    <p>También te puede servir: <a href="../meses-sin-intereses/">¿conviene comprar a meses sin intereses?</a>, <a href="../cetes-vs-bancos/">CETES vs. banco</a>, <a href="../../vivienda/rentar-o-comprar/">¿rentar o comprar casa?</a> y <a href="../../trabajo/sueldo-neto/">calculadora de sueldo neto</a>, para saber cuánto te queda cada mes.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni de ningún banco. Los cálculos son orientativos y no son una oferta de crédito ni asesoría financiera.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/dinero.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const r = Dinero.prestamo({
+    monto: $("monto").value, tasaAnual: $("tasa").value, meses: $("meses").value,
+    conIva: $("iva").value === "si", comision: $("com").value
+  });
+  $("total").textContent = mxn(r.pago);
+  $("rec").textContent = mxn(r.recibes);
+  $("int").textContent = mxn(r.totalIntereses);
+  $("ivat").textContent = mxn(r.totalIva);
+  $("comm").textContent = mxn(r.comisionMonto);
+  $("comiva").textContent = mxn(r.ivaComision);
+  $("tot").textContent = mxn(r.totalPagado);
+  $("costo").textContent = mxn(r.costoTotal);
+  $("tiva").textContent = Dinero.porcentaje(r.tasaConIva);
+  $("cat").textContent = r.cat >= 1e4 ? "Más de 1,000,000%" : Dinero.porcentaje(r.cat);
+  const n2 = x => x.toLocaleString("es-MX", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  $("tabla").innerHTML = r.tabla.map(f =>
+    `<tr><td>${f.mes}</td><td class="n p">${n2(f.pago)}</td><td class="n">${n2(f.capital)}</td><td class="n">${n2(f.interes)}</td><td class="n">${n2(f.iva)}</td><td class="n">${n2(f.saldo)}</td></tr>`
+  ).join("");
+  const msg = [];
+  if (r.sinMonto) msg.push("Escribe cuánto te prestan.");
+  else if (r.sinMeses) msg.push("Escribe el plazo en meses (1 o más).");
+  else {
+    if (r.tasa === 0) msg.push("Con tasa de 0% solo regresas lo que te prestaron, más la comisión si la hay.");
+    if (r.cat > 1) msg.push("Ojo: un CAT de más de 100% al año es muy caro. Compara otras opciones antes de firmar.");
+  }
+  if (r.recortado) msg.push("Alguna cantidad es demasiado grande. Usamos como máximo $1,000,000,000, tasas de hasta 1,000%, 480 meses y comisiones de hasta 50%.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

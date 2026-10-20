@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cuánto tendrás en tu Afore 2026 | Cuentas Claras MX</title>
+<meta name="description" content="Estima cuánto juntarás en tu Afore con lo que ponen tú, tu patrón y el gobierno, el aumento de la reforma 2020, ahorro voluntario y comisión.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Retiro e IMSS</a> › Tu Afore</span></div>
+
+  <header>
+    <span class="tag">Retiro e IMSS</span>
+    <h1>Cuánto tendrás en tu Afore 2026</h1>
+    <p class="lede">Escribe tu edad, tu sueldo y lo que ya tienes ahorrado. Te mostramos cuánto entra a tu Afore cada mes y cuánto podrías juntar para tu retiro.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni de ninguna Afore.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="edad">Tu edad hoy
+        <input id="edad" type="number" min="15" max="100" step="1" value="35"></label>
+      <label for="ret">Edad a la que piensas retirarte
+        <input id="ret" type="number" min="15" max="100" step="1" value="65"></label>
+      <label for="sal">Sueldo mensual bruto (antes de descuentos)
+        <input id="sal" type="number" min="0" max="100000000" step="100" value="12000"></label>
+      <label for="saldo">Lo que ya tienes en tu Afore para el retiro
+        <input id="saldo" type="number" min="0" max="10000000000" step="1000" value="100000"></label>
+      <p class="nota">Viene en tu estado de cuenta o en la app AforeMóvil. Usa el saldo de retiro, sin la parte de vivienda.</p>
+      <label for="vol">Ahorro voluntario al mes
+        <input id="vol" type="number" min="0" max="1000000" step="50" value="0"></label>
+      <label for="rend">Rendimiento al año por encima de la inflación (%)
+        <input id="rend" type="number" min="0" max="10" step="0.1" value="4"></label>
+      <label for="com">Comisión de tu Afore al año (%)
+        <input id="com" type="number" min="0" max="3" step="0.01" value="0.54"></label>
+      <label for="aum">Aumento de tu sueldo al año por encima de la inflación (%)
+        <input id="aum" type="number" min="0" max="10" step="0.1" value="0"></label>
+      <label for="dens">Parte del tiempo que tendrás trabajo con IMSS (%)
+        <input id="dens" type="number" min="0" max="100" step="5" value="100"></label>
+      <label for="cobro">Años en que repartirías tu ahorro al retirarte
+        <input id="cobro" type="number" min="1" max="40" step="1" value="20"></label>
+      <p class="nota">El 4% de rendimiento y los 20 años son solo un ejemplo. Nadie sabe cuánto rendirá tu Afore: prueba con 2% y con 5% para ver la diferencia.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota" id="tit">Podrías juntar al retirarte (en pesos de hoy)</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span>Años que faltan para tu retiro</span><b id="anios"></b></div>
+      <div class="row"><span id="tmes">Entra a tu Afore este mes</span><b id="mes"></b></div>
+      <div class="row sub"><span>Tu patrón: retiro (2%)</span><b id="r1"></b></div>
+      <div class="row sub"><span id="t2">Tu patrón: cesantía y vejez</span><b id="r2"></b></div>
+      <div class="row sub"><span id="t3">Tú: cesantía y vejez (1.125%)</span><b id="r3"></b></div>
+      <div class="row sub"><span id="t4">Gobierno: cuota social</span><b id="r4"></b></div>
+      <div class="row"><span id="t30">Entrará al mes desde 2030 (sube la parte de tu patrón)</span><b id="m30"></b></div>
+      <div class="row"><span>Aportaciones obligatorias en total</span><b id="obl"></b></div>
+      <div class="row"><span>Tu ahorro voluntario en total</span><b id="vtot"></b></div>
+      <div class="row"><span id="tgan">Rendimientos que ganarías</span><b id="gan"></b></div>
+      <div class="row"><span>Lo que te quita la comisión</span><b id="ecom"></b></div>
+      <div class="row"><span id="tpen">Si lo repartes en 20 años, al mes</span><b id="pen"></b></div>
+      <div class="row"><span>Comparado con tu sueldo</span><b id="rep"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Es un estimado, no una promesa. Usa pesos de hoy: el rendimiento y el aumento de sueldo son lo que pasa de la inflación. La cuota social va con el monto base de la ley, que es un mínimo. Tu pensión real la calcula tu Afore o una aseguradora cuando te retires.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Quién pone dinero en tu Afore</h2>
+    <p>Si trabajas con patrón y estás dado de alta en el IMSS, cada mes entran a tu cuenta de la Afore cuatro aportaciones. Todas se calculan sobre tu <strong>salario base de cotización</strong>, que es tu sueldo diario más la parte de aguinaldo y prima vacacional.</p>
+    <ul>
+      <li><strong>Retiro:</strong> tu patrón pone el 2% (artículo 168, fracción I de la Ley del Seguro Social).</li>
+      <li><strong>Cesantía y vejez del patrón:</strong> va del 3.150% al 7.513% en 2026, según cuánto ganas. Sube cada año hasta 2030 por la reforma de pensiones de 2020.</li>
+      <li><strong>Cesantía y vejez tuya:</strong> tú pones el 1.125%. Te lo descuentan de tu sueldo. Esta parte no cambió con la reforma. Si ganas el salario mínimo, esta parte también la paga tu patrón (artículo 36 de la Ley del Seguro Social).</li>
+      <li><strong>Cuota social del gobierno:</strong> una cantidad por cada día que cotizas, solo si ganas hasta 4 UMA (unos $469 diarios de salario base de cotización en 2026). Sube cada trimestre con la inflación.</li>
+    </ul>
+    <p>Tu patrón también pone 5% para tu subcuenta de vivienda del Infonavit (artículo 29 de la Ley del Infonavit). Ese dinero se usa para tu crédito de vivienda, por eso esta calculadora no lo suma.</p>
+
+    <h2>El aumento de la reforma de 2020</h2>
+    <p>La reforma publicada en el Diario Oficial el 16 de diciembre de 2020 sube poco a poco la parte que paga tu patrón por cesantía y vejez. Empezó en 2023 y termina en 2030. Depende de cuántas UMA gana cada persona. La UMA vale $117.31 al día del 1 de febrero de 2026 al 31 de enero de 2027 (INEGI, DOF 9 de enero de 2026).</p>
+    <div class="tabla">
+      <table>
+        <thead><tr><th>Salario base de cotización</th><th>2026</th><th>2027</th><th>2028</th><th>2029</th><th>2030</th></tr></thead>
+        <tbody>
+          <tr><td>1 salario mínimo</td><td class="n">3.150%</td><td class="n">3.150%</td><td class="n">3.150%</td><td class="n">3.150%</td><td class="n">3.150%</td></tr>
+          <tr><td>1.01 SM a 1.50 UMA</td><td class="n">3.676%</td><td class="n">3.807%</td><td class="n">3.939%</td><td class="n">4.070%</td><td class="n">4.202%</td></tr>
+          <tr><td>1.51 a 2.00 UMA</td><td class="n">4.851%</td><td class="n">5.276%</td><td class="n">5.701%</td><td class="n">6.126%</td><td class="n">6.552%</td></tr>
+          <tr><td>2.01 a 2.50 UMA</td><td class="n">5.556%</td><td class="n">6.157%</td><td class="n">6.759%</td><td class="n">7.360%</td><td class="n">7.962%</td></tr>
+          <tr><td>2.51 a 3.00 UMA</td><td class="n">6.026%</td><td class="n">6.745%</td><td class="n">7.464%</td><td class="n">8.183%</td><td class="n">8.902%</td></tr>
+          <tr><td>3.01 a 3.50 UMA</td><td class="n">6.361%</td><td class="n">7.164%</td><td class="n">7.967%</td><td class="n">8.770%</td><td class="n">9.573%</td></tr>
+          <tr><td>3.51 a 4.00 UMA</td><td class="n">6.613%</td><td class="n">7.479%</td><td class="n">8.345%</td><td class="n">9.211%</td><td class="n">10.077%</td></tr>
+          <tr><td>4.01 UMA o más</td><td class="n">7.513%</td><td class="n">8.603%</td><td class="n">9.694%</td><td class="n">10.784%</td><td class="n">11.875%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="nota">Fuente: artículo 168, fracción II, inciso a) de la Ley del Seguro Social y artículo segundo transitorio del decreto del DOF del 16 de diciembre de 2020. SM es salario mínimo. Desde 2030 se queda la última columna.</p>
+    <p>En 2026 el salario mínimo ($315.04 diarios) ya equivale a 2.69 UMA. Por eso, en la práctica, quien gana un poco más del mínimo cae en la fila de 2.51 a 3.00 UMA. Las filas de 1.01 a 2.50 UMA casi no se usan.</p>
+
+    <h2>La cuota social del gobierno</h2>
+    <p>Desde 2023 el gobierno pone una cantidad por cada día que cotizas, solo si ganas hasta 4 UMA. Mientras menos ganas, más te toca. Estos son los montos base que fija la ley:</p>
+    <div class="tabla">
+      <table>
+        <thead><tr><th>Salario base de cotización</th><th>Pesos por día cotizado</th></tr></thead>
+        <tbody>
+          <tr><td>1 salario mínimo</td><td class="n">$10.75</td></tr>
+          <tr><td>1.01 SM a 1.50 UMA</td><td class="n">$10.00</td></tr>
+          <tr><td>1.51 a 2.00 UMA</td><td class="n">$9.25</td></tr>
+          <tr><td>2.01 a 2.50 UMA</td><td class="n">$8.50</td></tr>
+          <tr><td>2.51 a 3.00 UMA</td><td class="n">$7.75</td></tr>
+          <tr><td>3.01 a 3.50 UMA</td><td class="n">$7.00</td></tr>
+          <tr><td>3.51 a 4.00 UMA</td><td class="n">$6.25</td></tr>
+          <tr><td>Más de 4 UMA</td><td class="n">$0</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="nota">Fuente: artículo 168, fracción IV de la Ley del Seguro Social (reforma DOF 16 dic 2020). La misma ley ordena actualizar estos montos cada trimestre con la inflación (INPC), en marzo, junio, septiembre y diciembre. Por eso lo que llega en 2026 es <strong>mayor</strong> que la tabla. No encontramos una publicación oficial con el monto actualizado de 2026, así que la calculadora usa los montos de la tabla como un <strong>mínimo</strong>: en esa parte se queda corta. Si quieres el monto exacto, pregúntale a tu Afore.</p>
+
+    <h2>Ejemplo</h2>
+    <p>Con un sueldo de $12,000 al mes, tu salario diario es $400. Con aguinaldo y prima vacacional mínimos, tu salario base de cotización queda en $419.72 al día, que son 3.58 UMA. En un mes promedio de 30.4 días son $12,759.49.</p>
+    <p>En 2026 entran a tu Afore cada mes: $255.19 de retiro (2%), $843.78 de cesantía y vejez de tu patrón (6.613%), $143.54 tuyos (1.125%) y <strong>al menos</strong> $190.00 de cuota social ($6.25 × 30.4 días). Ese es el monto base de la ley; el monto real de 2026 es mayor porque se actualiza con la inflación. En total, <strong>al menos $1,432.52 al mes</strong>. En 2030 la parte de tu patrón llega a 10.077% y el total sube a al menos $1,874.51 al mes.</p>
+    <p>Si hoy (octubre de 2026) tienes 35 años y $100,000 en tu Afore, te retiras a los 65, tu Afore rinde 4% al año por encima de la inflación y cobra 0.54% de comisión, a los 65 tendrías unos <strong>$1,424,546 en pesos de hoy</strong>. La parte de tu patrón sube cada enero hasta 2030; la calculadora cuenta los meses desde el mes en que estás, así que si la usas otro mes la cifra cambia un poco. Sin comisión serían unos $155,685 más. Si repartes ese dinero en 20 años, son unos $5,936 al mes: cerca de la mitad (49%) de tu sueldo.</p>
+    <p>Si además ahorras $500 al mes de forma voluntaria, llegarías a unos $1,737,101, o unos $7,238 al mes durante 20 años.</p>
+
+    <h2>Antes de confiar en el resultado</h2>
+    <ul>
+      <li><strong>Es un estimado.</strong> El rendimiento cambia cada año y puede ser negativo en algunos periodos. El 4% del ejemplo es un supuesto, no una cifra oficial.</li>
+      <li><strong>Los meses sin empleo formal no suman.</strong> Si crees que pasarás tiempo sin IMSS, baja el porcentaje de tiempo con trabajo.</li>
+      <li><strong>La pensión real se calcula distinto.</strong> Al retirarte puedes contratar una renta vitalicia con una aseguradora o un retiro programado con tu Afore. Usan tablas de esperanza de vida, no una simple división.</li>
+      <li><strong>Necesitas semanas cotizadas.</strong> En 2026 la Ley 97 pide 875 semanas para pensionarte. Revisa la <a href="../semanas-cotizadas/">guía de semanas cotizadas</a>.</li>
+      <li><strong>Puede haber apoyos extra.</strong> Si juntas las semanas pero tu ahorro no alcanza, existe la pensión garantizada. También existe el Fondo de Pensiones para el Bienestar, que complementa algunas pensiones de la Ley 97 a partir de los 65 años. Ambos tienen reglas propias: confírmalas en el IMSS.</li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Cómo sé cuánto tengo en mi Afore?</h3>
+    <p>Revisa el estado de cuenta que te manda tu Afore o descarga la app AforeMóvil. Si no sabes en qué Afore estás, puedes consultarlo en el portal de la CONSAR o en la app.</p>
+    <h3>¿Vale la pena el ahorro voluntario?</h3>
+    <p>Sí, porque se suma desde ahora y gana rendimientos muchos años. Puedes hacerlo desde la app, por domiciliación o en tiendas. Pregunta a tu Afore las opciones y si puedes retirarlo antes.</p>
+    <h3>¿Qué pasa si cambio de Afore?</h3>
+    <p>Tu dinero se pasa completo a la nueva Afore. Compara rendimiento neto y comisión. Para 2026 la CONSAR autorizó 0.54% al año en nueve Afore y 0.52% en PensionISSSTE.</p>
+    <h3>Empecé a cotizar antes de julio de 1997, ¿esto me sirve?</h3>
+    <p>Puedes elegir pensionarte por la Ley 73. Ahí tu pensión no depende de tu Afore sino de tu salario promedio y tus semanas. Revisa la <a href="../ley-73-vs-ley-97/">comparación de Ley 73 y Ley 97</a>.</p>
+
+    <h2>Fuentes oficiales</h2>
+    <ul>
+      <li><a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LSS.pdf" rel="noopener">Ley del Seguro Social vigente</a>, artículos 28 y 168 (Cámara de Diputados).</li>
+      <li><a href="https://www.diputados.gob.mx/LeyesBiblio/ref/lss/LSS_ref25_16dic20.pdf" rel="noopener">Decreto de reforma de pensiones, DOF 16 de diciembre de 2020</a>, artículos transitorios.</li>
+      <li><a href="https://www.gob.mx/consar" rel="noopener">CONSAR</a>: comisiones, rendimientos y calculadoras de ahorro para el retiro.</li>
+    </ul>
+    <p class="nota">Información revisada en octubre de 2026. No pudimos abrir el DOF, la Cámara de Diputados ni la CONSAR desde nuestra red al revisar esta página: las tablas y la comisión de 2026 se confirmaron con varias fuentes especializadas que coinciden entre sí. Verifica siempre en las fuentes oficiales.</p>
+
+    <p>También te puede servir: <a href="../semanas-cotizadas/">semanas cotizadas y cómo consultarlas</a>, <a href="../ley-73-vs-ley-97/">pensión Ley 73 vs. Ley 97</a>, <a href="../../vivienda/credito-infonavit/">crédito Infonavit</a>, <a href="../../dinero/cetes-vs-bancos/">CETES vs. banco</a> y <a href="../../trabajo/sueldo-neto/">calculadora de sueldo neto e ISR</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno, del IMSS ni de ninguna Afore. Los cálculos son estimados y orientativos; consulta la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LSS.pdf" rel="noopener">Ley del Seguro Social</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/retiro.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const pct = n => (n * 100).toLocaleString("es-MX", { maximumFractionDigits: 0 }) + "%";
+const AVISOS = {
+  sueldo: "Revisa el sueldo: tomamos como máximo $100,000,000 al mes.",
+  saldo: "Revisa tu saldo: tomamos como máximo $10,000 millones.",
+  voluntaria: "Revisa el ahorro voluntario: tomamos como máximo $1,000,000 al mes.",
+  rendimiento: "Revisa el rendimiento: tomamos como máximo 10% al año por encima de la inflación.",
+  comision: "Revisa la comisión: tomamos como máximo 3% al año.",
+  aumento: "Revisa el aumento de sueldo: tomamos como máximo 10% al año.",
+  densidad: "El tiempo con trabajo no puede pasar de 100%.",
+  cobro: "Tomamos como máximo 40 años para repartir tu ahorro.",
+  cobroMin: "Escribe en cuántos años repartirías tu ahorro: al menos 1.",
+  anios: "Calculamos como máximo 70 años de ahorro."
+};
+const NO = "Sin calcular";
+// Mes de hoy según el reloj de tu celular o computadora (1 = enero). La parte de tu patrón sube cada enero.
+function mesHoy() {
+  const d = new Date();
+  if (d.getFullYear() === Calc.DATOS.anio) return d.getMonth() + 1;
+  return d.getFullYear() < Calc.DATOS.anio ? 1 : 12;
+}
+function calcular() {
+  const edadCampo = $("edad").value, retCampo = $("ret").value;
+  const edad = +edadCampo, ret = +retCampo;
+  const r = Retiro.proyeccionAfore({
+    edad, edadRetiro: ret, sueldoMensual: $("sal").value, saldo: $("saldo").value,
+    voluntaria: $("vol").value, rendimiento: $("rend").value, comision: $("com").value,
+    aumentoSueldo: $("aum").value, densidad: $("dens").value, aniosCobro: $("cobro").value, mesInicio: mesHoy()
+  });
+  const h = r.hoy;
+  const proyecta = r.edadValida && r.retiroValido;
+  const conCuota = h.cuotaSocial > 0;
+  $("total").textContent = proyecta ? mxn(r.saldoFinal) : NO;
+  $("anios").textContent = proyecta ? r.anios.toLocaleString("es-MX", { maximumFractionDigits: 1 }) : NO;
+  $("tmes").textContent = conCuota ? "Entra a tu Afore este mes, al menos" : "Entra a tu Afore este mes";
+  $("mes").textContent = mxn(h.total);
+  $("r1").textContent = mxn(h.retiro);
+  $("t2").textContent = `Tu patrón: cesantía y vejez (${h.tasaPatron.toFixed(3)}% en 2026)`;
+  $("r2").textContent = mxn(h.ceavPatron);
+  $("t3").textContent = h.patronPagaTuParte
+    ? "Tu patrón paga también tu parte de cesantía y vejez (1.125%), porque ganas el salario mínimo"
+    : "Tú: cesantía y vejez (1.125%)";
+  $("r3").textContent = mxn(h.ceavTrabajador);
+  $("t4").textContent = h.sbc && !conCuota ? "Gobierno: cuota social (no aplica, ganas más de 4 UMA)" : "Gobierno: cuota social (al menos: monto base de la ley)";
+  $("r4").textContent = mxn(h.cuotaSocial);
+  $("t30").textContent = "Entrará al mes desde 2030 (sube la parte de tu patrón)" + (r.en2030.cuotaSocial > 0 ? ", al menos" : "");
+  $("m30").textContent = mxn(r.en2030.total);
+  $("obl").textContent = proyecta ? mxn(r.obligatorio) : NO;
+  $("vtot").textContent = proyecta ? mxn(r.voluntario) : NO;
+  $("tgan").textContent = r.rendimientos < 0 ? "Rendimientos menos comisión" : "Rendimientos que ganarías";
+  $("gan").textContent = proyecta ? mxn(r.rendimientos) : NO;
+  $("ecom").textContent = proyecta ? mxn(r.efectoComision) : NO;
+  $("tpen").textContent = r.cobroValido
+    ? `Si lo repartes en ${r.aniosCobro.toLocaleString("es-MX", { maximumFractionDigits: 1 })} ${r.aniosCobro === 1 ? "año" : "años"}, al mes`
+    : "Si lo repartes en varios años, al mes";
+  const conPension = proyecta && r.cobroValido;
+  $("pen").textContent = conPension ? mxn(r.pensionMensual) : NO;
+  $("rep").textContent = !conPension ? NO : r.sueldoFinal > 0 ? pct(r.reemplazo) + " de tu sueldo" : "Sin sueldo";
+  const msg = [];
+  if (!r.edadValida) msg.push(edadCampo === "" ? "Escribe tu edad de hoy." : "Revisa tu edad de hoy: escribe una entre 15 y 100 años.");
+  if (!r.retiroValido) msg.push(retCampo === "" ? "Escribe la edad a la que piensas retirarte." : "Revisa la edad de retiro: escribe una entre 15 y 100 años.");
+  if (proyecta && ret <= edad) msg.push("Tu edad de retiro debe ser mayor que tu edad de hoy. Mostramos solo lo que ya tienes.");
+  if (!r.sueldo) msg.push("Sin sueldo no hay aportaciones obligatorias: solo cuentan tu saldo y tu ahorro voluntario.");
+  if (r.rendimiento < r.comision) msg.push("Con una comisión mayor que el rendimiento, tu dinero pierde valor cada año.");
+  r.avisos.forEach(a => AVISOS[a] && msg.push(AVISOS[a]));
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

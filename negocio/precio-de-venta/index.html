@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de precio de venta y margen 2026 | Cuentas Claras MX</title>
+<meta name="description" content="Calcula a cuánto vender con el margen que quieres, IVA de 16% u 8% y comisión de terminal. Diferencia entre margen y markup. Gratis y sin registro.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Negocio propio</a> › Precio de venta</span></div>
+
+  <header>
+    <span class="tag">Negocio propio</span>
+    <h1>Calculadora de precio de venta y margen</h1>
+    <p class="lede">Escribe lo que te cuesta tu producto y la ganancia que quieres. Te decimos a cuánto venderlo con IVA y con la comisión de tu terminal incluida, para que no pierdas dinero sin darte cuenta.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="costo">¿Cuánto te cuesta cada pieza o servicio? (sin IVA)
+        <input id="costo" type="number" min="0" max="1000000000" step="any" inputmode="decimal" value="120"></label>
+      <label for="margen">Margen de ganancia que quieres (%)
+        <input id="margen" type="number" min="0" max="99" step="any" inputmode="decimal" value="35"></label>
+      <label for="iva">IVA que cobras
+        <select id="iva">
+          <option value="general" selected>16% (tasa general)</option>
+          <option value="frontera">8% (región fronteriza con estímulo)</option>
+          <option value="cero">0% (por ejemplo, alimentos sin preparar y medicinas de patente)</option>
+          <option value="exento">Exento (no cobras IVA)</option>
+        </select></label>
+      <label for="com">Comisión de tu terminal o liga de pago, sin IVA (%)
+        <input id="com" type="number" min="0" max="50" step="any" inputmode="decimal" value="3.5"></label>
+      <p class="nota">El 3.5% es solo un ejemplo. Cada terminal cobra distinto: revisa tu contrato o tu app. Si solo cobras en efectivo o transferencia, pon 0.</p>
+      <p class="nota">Cuenta en el costo todo lo que gastas en cada pieza: material, empaque y envío. Si no recuperas el IVA de tus compras, pon el costo con IVA.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota" id="tit">Cobra al cliente, con IVA incluido</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span>Precio sin IVA</span><b id="r-sin"></b></div>
+      <div class="row"><span id="l-iva">IVA que cobras (16%)</span><b id="r-iva"></b></div>
+      <div class="row"><span id="l-com">Comisión de la terminal (sin su IVA)</span><b id="r-com"></b></div>
+      <div class="row"><span>Tu costo</span><b id="r-cos"></b></div>
+      <div class="row"><span><strong>Tu ganancia por pieza</strong></span><b id="r-gan"></b></div>
+      <div class="row"><span>Markup sobre tu costo y la comisión</span><b id="r-mk"></b></div>
+      <div class="row"><span id="l-red">Si lo redondeas</span><b id="r-red"></b></div>
+      <div class="row"><span>Si solo cobras en efectivo o transferencia</span><b id="r-efe"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota" id="nota-iva">El IVA no es tuyo: lo declaras cada mes al SAT, menos el IVA de tus compras y de la comisión. El ISR sale de tu ganancia.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Cómo calculamos tu precio</h2>
+    <ol>
+      <li><strong>El margen es sobre el precio sin IVA.</strong> Un margen de 35% quiere decir que de cada peso que cobras sin IVA, 35 centavos son tu ganancia.</li>
+      <li><strong>La terminal cobra sobre todo lo que paga el cliente</strong>, IVA incluido. Por eso su comisión se mete al precio, igual que tu costo.</li>
+      <li>La fórmula es: <strong>precio sin IVA = costo ÷ (1 − margen − comisión × (1 + IVA))</strong>.</li>
+      <li>Al final se suma el IVA: <strong>precio al cliente = precio sin IVA × (1 + IVA)</strong>.</li>
+    </ol>
+    <p>Si tu negocio cobra IVA, el IVA que la terminal te cobra sobre su comisión lo restas de tu IVA del mes (se llama acreditar), así que no es costo. Si estás exento, no lo puedes restar, y la calculadora lo suma a la comisión.</p>
+
+    <h2>Ejemplo con una playera de $120</h2>
+    <p>Son los datos que vienen cargados en la calculadora: costo de $120, margen de 35%, IVA de 16% y una terminal que cobra 3.5%.</p>
+    <ul>
+      <li><strong>Precio sin IVA:</strong> 120 ÷ (1 − 0.35 − 0.035 × 1.16) = 120 ÷ 0.6094 = <strong>$196.91</strong>.</li>
+      <li><strong>Precio al cliente:</strong> 196.91 × 1.16 = <strong>$228.42</strong>. De eso, $31.51 son IVA.</li>
+      <li><strong>Comisión:</strong> 3.5% de $228.42 = $7.99.</li>
+      <li><strong>Tu ganancia:</strong> 196.91 − 120 − 7.99 = <strong>$68.92</strong>, que es el 35% de $196.91.</li>
+      <li><strong>Redondeado:</strong> si cobras $229, ganas $69.40 por playera y tu margen queda en 35.15%.</li>
+      <li><strong>Sin terminal:</strong> si solo cobras en efectivo o transferencia, con $214.15 ya logras el mismo margen.</li>
+    </ul>
+    <p>Las partes suman lo que paga el cliente: 120 + 7.99 + 68.92 + 31.51 = $228.42.</p>
+
+    <h2>Margen y markup no son lo mismo</h2>
+    <p>El <strong>margen</strong> es tu ganancia dividida entre el precio de venta sin IVA. El <strong>markup</strong> (o sobreprecio) es tu ganancia dividida entre tu costo. Con los mismos pesos, el markup siempre sale más alto.</p>
+    <p>Ejemplo: compras algo en $100 y lo vendes en $150 sin IVA. Ganas $50. Tu markup es 50 ÷ 100 = <strong>50%</strong>, pero tu margen es 50 ÷ 150 = <strong>33.33%</strong>.</p>
+    <p><strong>El error más común:</strong> querer 35% de margen y sumarle 35% al costo. Con un costo de $100 vendes en $135 y ganas $35, que es solo 25.93% de margen.</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Si quieres este margen</th><th>Súmale a tu costo este markup</th></tr></thead>
+      <tbody>
+        <tr><td class="n">10%</td><td class="n">11.11%</td></tr>
+        <tr><td class="n">20%</td><td class="n">25.00%</td></tr>
+        <tr><td class="n">25%</td><td class="n">33.33%</td></tr>
+        <tr><td class="n">30%</td><td class="n">42.86%</td></tr>
+        <tr><td class="n">35%</td><td class="n">53.85%</td></tr>
+        <tr><td class="n">40%</td><td class="n">66.67%</td></tr>
+        <tr><td class="n">50%</td><td class="n">100.00%</td></tr>
+      </tbody>
+    </table></div>
+    <p class="nota">Fórmulas: markup = margen ÷ (1 − margen). Margen = markup ÷ (1 + markup). La tabla no incluye la comisión de la terminal: la calculadora sí.</p>
+
+    <h2>¿Qué IVA uso?</h2>
+    <ul>
+      <li><strong>16%:</strong> es la tasa general (artículo 1 de la Ley del IVA). Úsala si no estás seguro.</li>
+      <li><strong>8%:</strong> existe un estímulo fiscal para negocios de la región fronteriza norte y de algunos municipios de la frontera sur. Solo aplica si te inscribes en el padrón de ese estímulo ante el SAT y vendes o das el servicio en esa región. Está prorrogado hasta el 31 de diciembre de 2026 (Diario Oficial del 31 de diciembre de 2025). Para 2027, confirma en el portal del SAT si hay una nueva prórroga.</li>
+      <li><strong>0%:</strong> algunos productos, como alimentos sin preparar y medicinas de patente (artículo 2-A de la Ley del IVA). Los alimentos preparados pagan 16%, aunque sean para llevar o a domicilio (artículo 2-A, fracción I, último párrafo de la Ley del IVA). Por ejemplo, tacos, tortas o café preparado.</li>
+      <li><strong>Exento:</strong> algunas actividades no cobran IVA, como la renta de casa habitación o las colegiaturas de escuelas con validez oficial (artículos 15 y 20 de la Ley del IVA). Pero tampoco recuperas el IVA de tus compras.</li>
+    </ul>
+    <p>Estar en <a href="../../impuestos/resico/">RESICO</a> no te quita el IVA: ese régimen solo cambia el ISR.</p>
+    <p><strong>En tu letrero pon el precio con IVA incluido.</strong> La Ley Federal de Protección al Consumidor (artículo 7 Bis) pide mostrar el monto total que va a pagar el cliente.</p>
+
+    <h2>La comisión de la terminal</h2>
+    <p>Las terminales, ligas de pago y tiendas en línea suelen cobrar un porcentaje de cada venta más IVA. Algunas cobran además una cuota fija por cobro o más comisión si das meses sin intereses. Si tu terminal tiene cuota fija, súmala al costo de cada pieza.</p>
+    <p>Pide factura de las comisiones a tu proveedor: así puedes restar ese IVA en tu declaración del mes.</p>
+
+    <h2>Errores que te hacen perder dinero</h2>
+    <ul>
+      <li><strong>No contar tus gastos fijos.</strong> La ganancia de cada pieza tiene que pagar la renta, la luz y tu sueldo. Revisa si te alcanza con la <a href="../punto-de-equilibrio/">calculadora de punto de equilibrio</a>.</li>
+      <li><strong>Confundir margen con markup.</strong> Usa la tabla de arriba.</li>
+      <li><strong>Olvidar mermas, empaques y envíos.</strong> Todo lo que gastas por pieza va en el costo.</li>
+      <li><strong>Poner en el letrero el precio sin IVA.</strong> Si luego cobras el IVA aparte, el cliente se siente engañado; si no lo cobras, el IVA sale de tu ganancia.</li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Qué margen es bueno?</h3>
+    <p>No hay un número oficial: depende de tu giro y de cuánto vendes. Lo importante es que tu ganancia total del mes pague tus gastos fijos y te deje algo. Por eso conviene revisar también tu punto de equilibrio.</p>
+    <h3>¿El ISR ya va incluido?</h3>
+    <p>No. El ISR sale de tu ganancia. En <a href="../../impuestos/resico/">RESICO</a> pagas de 1% a 2.5% de lo que cobras sin IVA. Con el precio del ejemplo ($196.91 sin IVA) serían de $1.97 a $4.92 por playera.</p>
+    <h3>¿Y si vendo en una tienda en línea o en una app?</h3>
+    <p>Pon la comisión de la plataforma en la casilla de la terminal si es un porcentaje de lo que paga el cliente. Si cobra una cuota fija por venta o por envío, súmala al costo. Además, algunas plataformas te retienen impuestos: lo explicamos en la guía para <a href="../alta-en-el-sat/">darte de alta en el SAT</a>.</p>
+    <h3>¿Puedo cobrarle la comisión al cliente que paga con tarjeta?</h3>
+    <p>Lo más sencillo y claro es que tu precio ya la incluya, como hace esta calculadora. Así el precio del letrero es el que paga todo el mundo.</p>
+
+    <h2>Fuentes y vigencia</h2>
+    <ul>
+      <li>Ley del Impuesto al Valor Agregado, artículos 1, 2-A, 15 y 20 (<a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LIVA.pdf" rel="noopener">texto vigente en la Cámara de Diputados</a>).</li>
+      <li>Decretos de estímulos fiscales para la región fronteriza norte (Diario Oficial del 31 de diciembre de 2018) y para la región fronteriza sur (Diario Oficial del 30 de diciembre de 2020). Su última prórroga los deja vigentes hasta el 31 de diciembre de 2026 (<a href="https://www.dof.gob.mx/nota_detalle.php?codigo=5777697&amp;fecha=31/12/2025" rel="noopener">Diario Oficial del 31 de diciembre de 2025</a>). Requisitos y padrón en el <a href="https://www.sat.gob.mx" rel="noopener">portal del SAT</a> (busca “región fronteriza”).</li>
+      <li>Ley Federal de Protección al Consumidor, artículo 7 Bis (<a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LFPC.pdf" rel="noopener">texto vigente</a>).</li>
+    </ul>
+    <p class="nota">Revisado en octubre de 2026. La comisión de 3.5% es un ejemplo, no una cifra oficial. Las tasas de IVA y los estímulos fiscales pueden cambiar: confirma en el portal del SAT.</p>
+
+    <p>También te puede servir: <a href="../punto-de-equilibrio/">calculadora de punto de equilibrio</a>, <a href="../alta-en-el-sat/">cómo darte de alta en el SAT</a> y <a href="../../impuestos/resico/">calculadora de ISR en RESICO</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni del SAT. Los cálculos son orientativos y no sustituyen la asesoría de un contador. Consulta la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LIVA.pdf" rel="noopener">Ley del IVA</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/negocio.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const pct = n => n.toLocaleString("es-MX", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + "%";
+const ETIQUETA = { general: "IVA que cobras (16%)", frontera: "IVA que cobras (8%)", cero: "IVA (tasa 0%)", exento: "IVA (exento)" };
+const FILAS = ["r-sin", "r-iva", "r-com", "r-cos", "r-gan", "r-mk", "r-red", "r-efe"];
+const NOTA_IVA = {
+  exento: "Como estás exento, no cobras IVA ni restas el IVA de tus compras ni el de la comisión. El ISR sale de tu ganancia.",
+  cero: "Con tasa de 0% no cobras IVA, pero declaras cada mes y restas el IVA de tus compras y de la comisión. Te puede quedar saldo a favor. El ISR sale de tu ganancia.",
+  otra: "El IVA no es tuyo: lo declaras cada mes al SAT, menos el IVA de tus compras y de la comisión. El ISR sale de tu ganancia."
+};
+function calcular() {
+  const r = Negocio.precioVenta({ costo: $("costo").value, margen: $("margen").value, iva: $("iva").value, comision: $("com").value });
+  const msg = [];
+  $("l-iva").textContent = ETIQUETA[r.ivaClave];
+  $("l-com").textContent = r.ivaClave === "exento" ? "Comisión de la terminal (con su IVA)" : "Comisión de la terminal (sin su IVA)";
+  $("l-red").textContent = "Si lo redondeas";
+  $("nota-iva").textContent = NOTA_IVA[r.ivaClave] || NOTA_IVA.otra;
+  if (!r.posible) {
+    $("tit").textContent = "No hay precio que alcance";
+    $("total").textContent = "Revisa los datos";
+    FILAS.forEach(id => { $(id).textContent = "No aplica"; });
+    msg.push(`Tu margen de ${pct(r.margen)} más la comisión de ${pct(r.comisionEfectivaPct)} se comen todo el precio. Baja el margen o busca una comisión más baja.`);
+  } else {
+    $("tit").textContent = r.ivaClave === "general" || r.ivaClave === "frontera" ? "Cobra al cliente, con IVA incluido" : "Cobra al cliente";
+    $("total").textContent = mxn(r.precioFinal);
+    $("r-sin").textContent = mxn(r.sinIva);
+    $("r-iva").textContent = mxn(r.iva);
+    $("r-com").textContent = mxn(r.comision);
+    $("r-cos").textContent = mxn(r.costo);
+    $("r-gan").textContent = mxn(r.ganancia);
+    $("r-mk").textContent = pct(r.markup);
+    if (r.costo === 0) {
+      $("r-red").textContent = mxn(0);
+      $("r-efe").textContent = mxn(0);
+      msg.push("Escribe cuánto te cuesta cada pieza o servicio para calcular tu precio.");
+    } else {
+      $("l-red").textContent = `Si lo redondeas a ${mxn(r.redondeado)}, ganas`;
+      $("r-red").textContent = `${mxn(r.gananciaRedondeado)} (${pct(r.margenRedondeado)})`;
+      $("r-efe").textContent = mxn(r.sinTerminal);
+    }
+  }
+  if (r.acotado.costo) msg.push(`Revisa el costo: calculamos con un máximo de ${mxn(Negocio.DATOS.maximos.monto)}.`);
+  if (r.acotado.margen) msg.push("El margen no puede llegar a 100%: calculamos con 99%.");
+  if (r.acotado.comision) msg.push("Revisa la comisión: tomamos como máximo 50%.");
+  if (r.ivaClave === "exento") msg.push("Como estás exento, el IVA de la comisión cuenta como costo y tu costo debe llevar el IVA que pagaste.");
+  if (r.ivaClave === "frontera") msg.push("La tasa de 8% solo aplica si estás inscrito en el padrón del estímulo de la región fronteriza y vendes ahí.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

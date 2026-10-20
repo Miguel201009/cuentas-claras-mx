@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crédito Infonavit 2026: puntos y precalificación | Cuentas Claras MX</title>
+<meta name="description" content="Cuántos puntos pide el Infonavit, cómo precalificar gratis en Mi Cuenta Infonavit, de qué depende cuánto te prestan y cuánto aporta tu patrón.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Vivienda</a> › Crédito Infonavit</span></div>
+
+  <header>
+    <span class="tag">Vivienda</span>
+    <h1>Crédito Infonavit: puntos, precalificación y monto</h1>
+    <p class="lede">Para comprar casa con el Infonavit primero tienes que precalificar. Aquí te decimos qué puntos piden, cómo revisar los tuyos gratis, de qué depende cuánto te prestan y cuánto ahorra tu patrón por ti cada año.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni del Infonavit.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <h2>¿Cuánto aporta tu patrón a tu Subcuenta de Vivienda?</h2>
+      <label for="sal">Sueldo mensual bruto (antes de descuentos)
+        <input id="sal" type="number" min="0" max="1000000000" step="100" value="12000"></label>
+      <label for="anios">Años que llevas o piensas llevar cotizando
+        <input id="anios" type="number" min="0" max="40" step="1" value="5"></label>
+      <label for="zona">¿Dónde trabajas?
+        <select id="zona"><option value="general" selected>Resto del país</option><option value="frontera">Frontera norte (zona libre)</option></select></label>
+      <p class="nota">Por ley, tu patrón deposita 5% de tu salario en tu Subcuenta de Vivienda. Ese ahorro cuenta para tu crédito. Aquí no te pedimos tu NSS ni ningún dato personal.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Tu patrón deposita al año unos</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span>Salario diario integrado estimado</span><b id="sbc"></b></div>
+      <div class="row"><span>Aportación por bimestre</span><b id="bim"></b></div>
+      <div class="row"><span>Aportación al mes, en promedio</span><b id="mes"></b></div>
+      <div class="row"><span id="lacum">En 5 años, sin rendimientos</span><b id="acum"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Estimación con las prestaciones mínimas de ley. Tu saldo real lo ves en Mi Cuenta Infonavit: incluye los rendimientos y lo que de verdad pagó tu patrón.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Antes de empezar</h2>
+    <ul>
+      <li><strong>Todos los trámites del Infonavit son gratis.</strong> Si alguien te cobra por precalificarte, "liberar" tu crédito o sacar tu ahorro, es un fraude.</li>
+      <li>Los canales oficiales son <a href="https://micuenta.infonavit.org.mx/" rel="noopener">Mi Cuenta Infonavit</a>, el portal del Infonavit, Infonatel (800 008 3900) y los Centros de Servicio Infonavit (Cesi).</li>
+      <li>Cuentas Claras MX no es el Infonavit y no tramita créditos. Nunca te pediremos tu NSS, tu CURP ni tus contraseñas.</li>
+    </ul>
+
+    <h2>Requisitos para pedir tu crédito</h2>
+    <ul>
+      <li>Tener <strong>relación laboral vigente</strong>: trabajar para un patrón que te tenga dado de alta en el IMSS.</li>
+      <li>Estar <strong>registrado en una Afore</strong> y tener tus <strong>datos biométricos actualizados</strong> (huellas, foto y firma, que se registran en tu Afore).</li>
+      <li>Tener ahorro en tu <strong>Subcuenta de Vivienda</strong> y no tener otro crédito vigente con el Infonavit.</li>
+      <li>Alcanzar los <strong>puntos</strong> que pide tu precalificación (abajo te explicamos).</li>
+      <li>Tomar el curso gratuito <strong>"Saber más para decidir mejor"</strong> en Mi Cuenta Infonavit y guardar tu constancia.</li>
+      <li>En algunos créditos, autorizar que el Infonavit consulte tu historial en el Buró de Crédito.</li>
+    </ul>
+
+    <h2>¿Cuántos puntos piden?</h2>
+    <p>El Infonavit usa un sistema de puntos para saber si ya puedes pedir crédito. Los puntos salen de tu <strong>edad y tu salario</strong>, tu <strong>ahorro en la Subcuenta de Vivienda</strong>, los <strong>bimestres que llevas cotizando sin interrupción</strong> y datos de tu empresa, como su estabilidad y si paga a tiempo.</p>
+    <ul>
+      <li><strong>1,080 puntos (modelo anterior):</strong> hasta 2025 la meta era 1,080 puntos, con el modelo de evaluación que el Infonavit llama T1000, y al menos 3 bimestres de cotización continua. Así aparecía todavía en la página de precalificación del Infonavit cuando la consultamos por buscador en octubre de 2026, y en su Plan Estratégico y Financiero 2023-2027. Puede no aplicar al modelo nuevo.</li>
+      <li><strong>Modelo nuevo desde 2025:</strong> el Infonavit empezó a usar un Modelo Único de Originación, y su Plan Estratégico y Financiero 2026 prevé ampliarlo. En los medios se le llama "T100" porque mide en una escala de 100 puntos y da más peso a tu capacidad de pago. Las notas no coinciden en qué créditos usan cada esquema.</li>
+    </ul>
+    <p><strong>No te guíes por una cifra que leíste en redes.</strong> Tu precalificación en Mi Cuenta Infonavit te dice cuántos puntos tienes, cuántos necesitas y si ya puedes pedir tu crédito.</p>
+
+    <h2>Cómo precalificar, paso a paso</h2>
+    <ol>
+      <li>Entra a <a href="https://micuenta.infonavit.org.mx/" rel="noopener">Mi Cuenta Infonavit</a>. Revisa que la dirección termine en <strong>infonavit.org.mx</strong>.</li>
+      <li>Si es tu primera vez, regístrate con tu Número de Seguridad Social (NSS), tu CURP, un correo personal y tu número de celular.</li>
+      <li>Busca la sección de crédito y abre <strong>Precalificación y puntos</strong>.</li>
+      <li>Revisa tus puntos, tu saldo de la Subcuenta de Vivienda y el monto que te podrían prestar.</li>
+      <li>Si todavía no alcanzas, la página te dice qué te falta. Sigue cotizando y vuelve a revisar cada bimestre: tus puntos se actualizan con tus aportaciones.</li>
+    </ol>
+    <p>Los nombres de los menús cambian seguido. Si no encuentras la sección, llama a Infonatel al <strong>800 008 3900</strong> (en la Ciudad de México, 55 9171 5050).</p>
+
+    <h2>Después de precalificar: cómo pedir el crédito</h2>
+    <ol>
+      <li>Toma el curso <strong>"Saber más para decidir mejor"</strong> en Mi Cuenta Infonavit y guarda tu constancia.</li>
+      <li>Escoge la casa y revisa que sus papeles estén en orden: escrituras, predial y agua al corriente.</li>
+      <li>Pide el <strong>avalúo</strong> con una unidad de valuación autorizada por el Infonavit.</li>
+      <li>Junta tus documentos y llena la <strong>Solicitud de Inscripción de Crédito</strong>. La lista exacta te la da el Infonavit según tu tipo de crédito.</li>
+      <li>Entrega tu expediente en línea o en un Cesi, según te indique el Infonavit.</li>
+      <li>Escoge un <strong>notario</strong> de la lista autorizada por el Infonavit y firma tus escrituras. El Infonavit le paga al vendedor.</li>
+    </ol>
+    <p>El trámite ante el Infonavit es gratis, pero la compra tiene gastos: avalúo, notario e impuestos del estado. Pregunta los montos antes de firmar.</p>
+
+    <h2>¿De qué depende cuánto te prestan?</h2>
+    <p>El Infonavit calcula tu monto con tus datos, así que no te damos una cifra inventada. Depende sobre todo de:</p>
+    <ul>
+      <li><strong>Tu salario:</strong> el pago del crédito se descuenta de tu nómina, así que mientras más ganas, más puedes pagar.</li>
+      <li><strong>Tu edad:</strong> limita el plazo del crédito.</li>
+      <li><strong>Tu ahorro en la Subcuenta de Vivienda:</strong> se suma a lo que te prestan.</li>
+      <li><strong>La tasa de interés:</strong> en el crédito tradicional es fija y depende de tu salario: si ganas menos, tu tasa es más baja. El Infonavit publica su tabla de tasas por nivel de salario en su <a href="https://portalmx.infonavit.org.mx/" rel="noopener">portal</a>. No ponemos porcentajes aquí porque en octubre de 2026 no pudimos revisar la tabla oficial: el portal no abrió desde nuestra red. <strong>Tu tasa exacta aparece en tu precalificación.</strong> Algunos productos tienen otras tasas.</li>
+      <li><strong>El valor de la casa</strong>, según el avalúo.</li>
+      <li><strong>Si juntas créditos:</strong> puedes sumar tu crédito con el de otra persona (Unamos Créditos) o con un banco (Cofinavit).</li>
+    </ul>
+
+    <h2>Lo que aporta tu patrón</h2>
+    <p>La Ley del Infonavit (artículo 29, fracción II) dice que tu patrón debe aportar <strong>5% de tu salario</strong> a tu Subcuenta de Vivienda, con un tope de 25 UMA al día. Ese dinero es tuyo: si no lo usas en un crédito, al pensionarte se usa para tu pensión o te lo entregan, según tu régimen (Ley 73 o Ley 97). Así lo dice el artículo 40 de la Ley del Infonavit. Revisa cuál te toca en <a href="../../retiro/ley-73-vs-ley-97/">Ley 73 o Ley 97</a>.</p>
+    <p><strong>Ejemplo con los datos cargados:</strong> con un sueldo de $12,000 al mes, tu salario diario es $400. Con las prestaciones mínimas de ley (15 días de aguinaldo y 12 de vacaciones con 25% de prima), tu salario integrado es de unos $419.72 al día. Tu patrón aporta 419.72 × 365 × 5% = <strong>$7,659.89 al año</strong>, unos $1,276.65 por bimestre. En 5 años serían $38,299.45, sin contar rendimientos ni aumentos de sueldo.</p>
+    <p>Si tu salario integrado queda abajo del salario mínimo de tu zona, usamos ese mínimo, porque la Ley del Seguro Social (artículo 28) no deja cotizar con menos. En 2026 es de $315.04 al día en la mayor parte del país y de <strong>$440.87 al día en la Zona Libre de la Frontera Norte</strong> (Conasami, Diario Oficial del 9 de diciembre de 2025). Por eso en la frontera norte la aportación mínima es mayor: con el mismo sueldo de $12,000, tu salario integrado ($419.72) queda abajo del mínimo de esa zona y la aportación se calcula con $440.87, unos $8,045.88 al año. Escoge tu zona en la calculadora.</p>
+
+    <h2>Cambios recientes</h2>
+    <p>Según notas de medios especializados, el 5 de agosto de 2026 se publicó en el Diario Oficial un cambio a los anexos de las Reglas para el Otorgamiento de Créditos del Infonavit. Entre otras cosas, acepta la CURP con datos biométricos como identificación y pide una constancia de asesoría o educación financiera del Infonavit. No cambia montos, tasas ni plazos. Revisa la lista vigente de documentos en el portal del Infonavit.</p>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Me cobran por precalificar?</h3>
+    <p>No. Precalificar, tomar el curso y tramitar tu crédito ante el Infonavit es gratis.</p>
+    <h3>Si me quedo sin trabajo, ¿pierdo mi ahorro?</h3>
+    <p>No. Tu ahorro en la Subcuenta de Vivienda sigue siendo tuyo. Lo que sí baja es la parte de tus puntos que mide cuánto tiempo llevas cotizando sin interrupción.</p>
+    <h3>¿Para qué más sirve el crédito?</h3>
+    <p>Además de comprar casa nueva o usada, el Infonavit tiene créditos para comprar terreno, construir o mejorar tu casa. Revisa las opciones en tu precalificación.</p>
+    <h3>¿Me conviene comprar o seguir rentando?</h3>
+    <p>Depende de cuántos años te quedes, de la tasa y de cuánto suba la casa. Haz la cuenta en la calculadora <a href="../rentar-o-comprar/">¿rentar o comprar casa?</a></p>
+    <h3>Gano poco y no alcanzo los puntos, ¿qué hago?</h3>
+    <p>Revisa el programa Vivienda para el Bienestar del Gobierno de México (búscalo en el portal de la <a href="https://www.gob.mx/conavi" rel="noopener">Comisión Nacional de Vivienda, Conavi</a>), que tiene opciones para personas con ingresos bajos. Sus requisitos y fechas de registro cambian: confírmalos en su portal.</p>
+
+    <h2>Enlaces oficiales</h2>
+    <ul>
+      <li><a href="https://micuenta.infonavit.org.mx/" rel="noopener">Mi Cuenta Infonavit</a>: precalificación, puntos, saldo y curso "Saber más para decidir mejor".</li>
+      <li><a href="https://portalmx.infonavit.org.mx/" rel="noopener">Portal del Infonavit</a>: tipos de crédito, tabla de tasas y requisitos.</li>
+      <li>Infonatel: 800 008 3900 desde todo el país, o 55 9171 5050 en la Ciudad de México.</li>
+      <li><a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LIFNVT.pdf" rel="noopener">Ley del Infonavit</a> (artículo 29, fracción II), en el sitio de la Cámara de Diputados.</li>
+    </ul>
+    <p class="nota">Fuentes: páginas "Quiero comprar" y "Precalificación y puntos" del Infonavit (la "Tabla de tasas de interés diferenciadas por nivel salarial" solo la vimos por buscador y no la usamos: pendiente de revisar con la fuente oficial); Plan Estratégico y Financiero 2026 del Infonavit (aprobado el 8 de diciembre de 2025); material oficial de prevención de fraudes del Infonavit; Ley del Infonavit, artículos 29, fracción II, y 40; Ley del Seguro Social, artículo 28; salarios mínimos 2026 de la Conasami. El portal del Infonavit no abrió desde nuestra red y lo consultamos por buscador en octubre de 2026. Los requisitos cambian: verifica siempre en Mi Cuenta Infonavit antes de hacer tu trámite.</p>
+
+    <p>También te puede servir: <a href="../rentar-o-comprar/">¿rentar o comprar casa?</a>, <a href="../predial/">predial: cómo se calcula y descuentos</a>, <a href="../../retiro/afore/">cuánto tendrás en tu Afore</a>, <a href="../../retiro/ley-73-vs-ley-97/">Ley 73 o Ley 97</a> y <a href="../../trabajo/sueldo-neto/">calculadora de sueldo neto</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni del Infonavit. Esta guía es orientativa y no sustituye la información de <a href="https://micuenta.infonavit.org.mx/" rel="noopener">Mi Cuenta Infonavit</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/vivienda.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const r = Vivienda.aportacionInfonavit({ sueldoMensual: $("sal").value, anios: $("anios").value, zona: $("zona").value });
+  $("total").textContent = mxn(r.anual);
+  $("sbc").textContent = mxn(r.sbc);
+  $("bim").textContent = mxn(r.bimestral);
+  $("mes").textContent = mxn(r.mensual);
+  $("lacum").textContent = (r.anios === 1 ? "En 1 año" : `En ${r.anios.toLocaleString("es-MX")} años`) + ", sin rendimientos";
+  $("acum").textContent = mxn(r.acumulado);
+  const msg = [];
+  if (r.sinSueldo) msg.push("Escribe tu sueldo mensual para calcular.");
+  if (r.conPiso) msg.push(`Tu salario integrado queda abajo del salario mínimo de tu zona, así que usamos el mínimo de 2026: ${mxn(r.piso)} al día.`);
+  if (r.topado) msg.push("Tu salario pasa del tope de 25 UMA al día: la aportación se calcula solo hasta ese tope.");
+  if (r.recortado) msg.push("Alguna cantidad está fuera de rango y la ajustamos: sueldo hasta $1,000,000,000 y hasta 40 años.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

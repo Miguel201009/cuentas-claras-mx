@@ -1,4 +1,4 @@
-// Cálculos de la sección Trabajo (reparto de utilidades y horas extra) de Cuentas Claras MX.
+// Cálculos de la sección Trabajo (reparto de utilidades, horas extra y temporada de aguinaldo) de Cuentas Claras MX.
 // Funciones puras, sin datos personales: todo se calcula en el navegador de la persona.
 // En el navegador carga antes ../../assets/calc.js (UMA y salario mínimo vienen de Calc.DATOS).
 (function (raiz) {
@@ -53,6 +53,39 @@
       jornadaMin: 1,
       jornadaMax: 24,
       maxHorasSemana: 168
+    },
+    // Temporada de aguinaldo: pensionados, gobierno y fecha límite. Revisado el 21 oct 2026 con la ley (transcripciones
+    // de Justia, mLey y SDV), la página del IMSS y notas de prensa; dof.gob.mx y diputados.gob.mx no abrieron desde aquí.
+    aguinaldo: {
+      // Empresas privadas: "antes del día veinte de diciembre", al menos 15 días de salario (art. 87 LFT).
+      diaLimite: 20,
+      diasLey: 15,
+      // Gobierno federal: al menos 40 días "sin deducción alguna"; 50% antes del 15 de diciembre y 50% a más tardar
+      // el 15 de enero (art. 42 Bis LFTSE). El decreto anual del DOF (el de 2025 salió el 4 nov 2025) dio 40 días y
+      // permitió pagar desde el 10 de noviembre. El decreto de 2026 aún no se publica (21 oct 2026).
+      gobiernoDias: 40,
+      gobiernoPrimeraParte: 0.5,
+      // Multa al patrón que no paga: de 50 a 5,000 UMA (art. 1002 LFT), por cada trabajador afectado (art. 992 LFT).
+      multaUma: { min: 50, max: 5000 },
+      // Pensiones libres de ISR hasta 15 UMA diarias (art. 93 fr. IV LISR): unos $53,493 al mes en 2026 (Uno TV, IDC).
+      pensionExentaUma: 15,
+      // Días de aguinaldo por tipo de pensión (sobre la pensión mensual / 30) y en cuántas partes llega.
+      pensiones: {
+        // IMSS, Ley del Seguro Social de 1973, cesantía en edad avanzada o vejez: una mensualidad de la pensión, sin
+        // asignaciones familiares ni ayudas asistenciales (art. 167 LSS 1973; preguntas frecuentes del IMSS). En noviembre.
+        imss73: { dias: 30, partes: [{ cuando: "noviembre de 2026, con tu pensión", parte: 1 }] },
+        // ISSSTE (pensiones del régimen anterior, décimo transitorio): hasta 40 días de la cuota de la pensión
+        // (decreto de aguinaldo, DOF 4 nov 2025, art. quinto). 20 días en la primera quincena de noviembre y 20 en enero.
+        issste: { dias: 40, partes: [{ cuando: "primera quincena de noviembre de 2026", parte: 0.5 }, { cuando: "enero de 2027", parte: 0.5 }] },
+        // IMSS, invalidez (LSS 1997): no menos de 30 días de la pensión (art. 142 LSS).
+        imssInvalidez: { dias: 30, minimo: true, partes: [{ cuando: "pregunta a quien te paga la pensión", parte: 1 }] },
+        // IMSS, riesgo de trabajo: incapacidad permanente total, o parcial de más de 50%: 15 días (art. 58 fr. IV LSS).
+        imssRiesgo: { dias: 15, partes: [{ cuando: "pregunta a quien te paga la pensión", parte: 1 }] },
+        // IMSS, Ley 97, cesantía o vejez (retiro programado o renta vitalicia): no hay aguinaldo (IMSS).
+        imss97: { dias: 0, partes: [] },
+        // Pensión para el Bienestar de las Personas Adultas Mayores: programa social, sin aguinaldo (Uno TV, Ruptura 360).
+        bienestar: { dias: 0, partes: [] }
+      }
     },
     // Límites para que una cifra absurda no rompa el resultado: lo que pase de aquí se recorta y se avisa.
     maximos: { sueldoMensual: 1e8, montoEmpresa: 1e12, diasEmpresa: 1e9 }
@@ -185,7 +218,88 @@
     };
   }
 
-  const api = { DATOS, ptu, horasExtra, limiteDobles, jornadaSemanal };
+  const DIAS_SEMANA = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
+
+  // Días de aguinaldo que escribe la persona: de 0 a 365. Lo que pase de 365 se recorta y se avisa.
+  function diasAguinaldo(dias) {
+    const d = num(dias);
+    return { dias: Math.min(d, 365), acotado: d > 365 };
+  }
+
+  // Aguinaldo de una pensión del IMSS o del ISSSTE. tipo: imss73, issste, imssInvalidez, imssRiesgo, imss97 o bienestar.
+  // Pensión diaria = pensión mensual / 30; aguinaldo = pensión diaria x días (en imss73, 30 días = una mensualidad).
+  function aguinaldoPension({ pensionMensual, tipo = "imss73" }) {
+    const cfg = DATOS.aguinaldo;
+    const clave = Object.prototype.hasOwnProperty.call(cfg.pensiones, tipo) ? tipo : "imss73";
+    const regla = cfg.pensiones[clave];
+    const recortado = num(pensionMensual) > DATOS.maximos.sueldoMensual;
+    const pension = acotado(pensionMensual, DATOS.maximos.sueldoMensual);
+    const diaria = pension / 30;
+    const total = diaria * regla.dias;
+    const partes = regla.partes.map(p => ({ cuando: p.cuando, monto: total * p.parte }));
+    const exentoPensionMensual = Calc.redondear(cfg.pensionExentaUma * Calc.DATOS.umaMensual);
+    return {
+      tipo: clave, dias: regla.dias, minimo: !!regla.minimo, derecho: regla.dias > 0,
+      pension, recortado, diaria, total, partes, exentoPensionMensual, pasaExento: pension > exentoPensionMensual
+    };
+  }
+
+  // Aguinaldo de una persona que trabaja para el gobierno federal (art. 42 Bis LFTSE): al menos 40 días, proporcional
+  // si entró durante el año (decreto anual, art. séptimo), mitad antes del 15 de diciembre y mitad a más tardar el 15 de enero.
+  // ingreso: Date; si falta o es anterior al año, cuenta el año completo.
+  function aguinaldoGobierno({ salarioMensual, ingreso, dias = DATOS.aguinaldo.gobiernoDias, anio = Calc.DATOS.anio }) {
+    const cfg = DATOS.aguinaldo;
+    const recortado = num(salarioMensual) > DATOS.maximos.sueldoMensual;
+    const sueldo = acotado(salarioMensual, DATOS.maximos.sueldoMensual);
+    const d = diasAguinaldo(dias);
+    const inicio = new Date(anio, 0, 1);
+    const ing = ingreso instanceof Date && !isNaN(ingreso) ? ingreso : inicio;
+    const r = Calc.aguinaldo({ salarioMensual: sueldo, ingreso: ing, diasAguinaldo: d.dias, anio });
+    const primera = r.bruto * cfg.gobiernoPrimeraParte;
+    return Object.assign({}, r, {
+      sueldo, recortado, dias: d.dias, diasAcotado: d.acotado, menosDeLey: d.dias < cfg.gobiernoDias,
+      entraDespues: r.trabajados === 0, primera, segunda: r.bruto - primera,
+      exentoAplicado: Math.min(r.bruto, r.exento)
+    });
+  }
+
+  // Aguinaldo proporcional al dejar el trabajo (art. 87 LFT, segundo párrafo): cuenta del 1 de enero del año de salida
+  // (o de la fecha de entrada, si fue después) al último día trabajado. ingreso y salida: Date ya revisadas.
+  function aguinaldoSalida({ salarioMensual, ingreso, salida, dias = DATOS.aguinaldo.diasLey }) {
+    const recortado = num(salarioMensual) > DATOS.maximos.sueldoMensual;
+    const sueldo = acotado(salarioMensual, DATOS.maximos.sueldoMensual);
+    const d = diasAguinaldo(dias);
+    const valida = x => x instanceof Date && !isNaN(x);
+    if (!valida(salida)) salida = new Date(Calc.DATOS.anio, 11, 31);
+    if (!valida(ingreso)) ingreso = new Date(salida.getFullYear(), 0, 1);
+    const r = Calc.aguinaldo({ salarioMensual: sueldo, ingreso, diasAguinaldo: d.dias, anio: salida.getFullYear(), corte: salida });
+    return Object.assign({}, r, {
+      sueldo, recortado, dias: d.dias, diasAcotado: d.acotado, menosDeLey: d.dias < DATOS.aguinaldo.diasLey,
+      anio: salida.getFullYear(), exentoAplicado: Math.min(r.bruto, r.exento)
+    });
+  }
+
+  // Fechas y multas del aguinaldo de un año. Último día: el 19 de diciembre ("antes del día veinte", art. 87 LFT).
+  // Último día hábil: el último de lunes a viernes antes del 20. Para reclamar hay un año (art. 516 LFT): la PROFEDET y la
+  // prensa lo cuentan hasta el 20 de diciembre del año siguiente. Multa: de 50 a 5,000 UMA (art. 1002 LFT).
+  function calendarioAguinaldo(anio = Calc.DATOS.anio) {
+    const a = Math.round(num(anio)) || Calc.DATOS.anio;
+    const cfg = DATOS.aguinaldo;
+    const veinte = new Date(a, 11, cfg.diaLimite);
+    const limite = new Date(a, 11, cfg.diaLimite - 1);
+    const habil = new Date(limite);
+    while (habil.getDay() === 0 || habil.getDay() === 6) habil.setDate(habil.getDate() - 1);
+    return {
+      anio: a, veinte, diaVeinte: DIAS_SEMANA[veinte.getDay()], limite, diaLimite: DIAS_SEMANA[limite.getDay()],
+      ultimoHabil: habil, diaHabil: DIAS_SEMANA[habil.getDay()], reclamarHasta: new Date(a + 1, 11, cfg.diaLimite),
+      multaMin: Calc.redondear(cfg.multaUma.min * Calc.DATOS.uma), multaMax: Calc.redondear(cfg.multaUma.max * Calc.DATOS.uma)
+    };
+  }
+
+  const api = {
+    DATOS, ptu, horasExtra, limiteDobles, jornadaSemanal,
+    aguinaldoPension, aguinaldoGobierno, aguinaldoSalida, calendarioAguinaldo
+  };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else raiz.Trabajo = api;
 })(this);

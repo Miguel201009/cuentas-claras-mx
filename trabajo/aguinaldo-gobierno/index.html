@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aguinaldo de burócratas y maestros 2026: calculadora | Cuentas Claras MX</title>
+<meta name="description" content="Cuántos días de aguinaldo da el gobierno federal a burócratas y maestros, cuándo pagan cada parte y cuánto te toca con tu sueldo. Calculadora gratis.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/trabajo/aguinaldo-gobierno/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Aguinaldo de burócratas y maestros 2026: calculadora">
+<meta property="og:description" content="Cuántos días de aguinaldo da el gobierno federal a burócratas y maestros, cuándo pagan cada parte y cuánto te toca con tu sueldo. Calculadora gratis.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/trabajo/aguinaldo-gobierno/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/trabajo-aguinaldo-gobierno.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Trabajo","item":"https://miguel201009.github.io/cuentas-claras-mx/trabajo/"},{"@type":"ListItem","position":3,"name":"Aguinaldo del gobierno y maestros","item":"https://miguel201009.github.io/cuentas-claras-mx/trabajo/aguinaldo-gobierno/"}]},{"@type":"WebApplication","name":"Aguinaldo para trabajadores del gobierno y maestros 2026","url":"https://miguel201009.github.io/cuentas-claras-mx/trabajo/aguinaldo-gobierno/","description":"Cuántos días de aguinaldo da el gobierno federal a burócratas y maestros, cuándo pagan cada parte y cuánto te toca con tu sueldo. Calculadora gratis.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Trabajo</a> › Aguinaldo del gobierno y maestros</span></div>
+
+  <header>
+    <span class="tag">Trabajo</span>
+    <h1>Aguinaldo para trabajadores del gobierno y maestros 2026</h1>
+    <p class="lede">Si trabajas en el gobierno federal o eres maestro de escuela pública, tu aguinaldo es de al menos 40 días y llega en dos partes. Escribe tu sueldo y te decimos cuánto te toca en cada una.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni de la SEP.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="sal">Sueldo mensual bruto (antes de descuentos)
+        <input id="sal" type="number" min="0" max="100000000" step="any" inputmode="decimal" value="15000"></label>
+      <label for="ing">Fecha en que entraste a trabajar
+        <input id="ing" type="date" value="2020-01-16"></label>
+      <label for="dias">Días de aguinaldo que te dan
+        <input id="dias" type="number" min="0" max="365" step="1" value="40"></label>
+      <p class="nota">40 días es lo mínimo que marca la ley para el gobierno federal. Muchos maestros reciben más, según su estado: revisa tu talón de pago o pregunta en recursos humanos.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Te toca aproximadamente</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span>Salario diario (sueldo ÷ 30)</span><b id="sd"></b></div>
+      <div class="row"><span>Días trabajados en 2026</span><b id="dt"></b></div>
+      <div class="row"><span>Días de aguinaldo que te tocan</span><b id="dp"></b></div>
+      <div class="row"><span>Primera mitad: antes del 15 de diciembre de 2026</span><b id="p1"></b></div>
+      <div class="row"><span>Segunda mitad: a más tardar el 15 de enero de 2027</span><b id="p2"></b></div>
+      <div class="row"><span>Parte libre de ISR (30 UMA)</span><b id="ex"></b></div>
+      <div class="row"><span>Parte que paga ISR</span><b id="gr"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Monto bruto y estimado. Tu dependencia calcula con las percepciones que autoriza Hacienda; si tienes bonos o compensaciones, la cifra puede cambiar.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>¿Cuántos días te tocan?</h2>
+    <p>La Ley Federal de los Trabajadores al Servicio del Estado, en su artículo 42 Bis, dice que el aguinaldo del gobierno federal es de <strong>al menos 40 días de salario</strong>, «sin deducción alguna». Es más que los 15 días mínimos de una empresa privada.</p>
+    <p>Además, cada noviembre el gobierno publica en el Diario Oficial un decreto con las reglas del año. El de 2025 (4 de noviembre de 2025) dio <strong>40 días</strong> a las personas servidoras públicas de las secretarías y organismos federales, al personal militar y a quienes cobran por honorarios en esas dependencias, y <strong>hasta 40 días</strong> a jubilados y pensionados. El Congreso, el Poder Judicial y los organismos autónomos pueden usarlo como base, pero fijan el suyo.</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Si trabajas en</th><th>Días de aguinaldo</th></tr></thead>
+      <tbody>
+        <tr><td>Gobierno federal (secretarías, organismos y entidades)</td><td>Al menos 40 días (art. 42 Bis de la ley y decreto anual)</td></tr>
+        <tr><td>Escuela pública, como maestro de la SEP o de tu estado</td><td>Al menos 40 días. En algunos estados reciben más por acuerdos con el sindicato; si tu plaza es estatal, también cuenta la ley de tu estado</td></tr>
+        <tr><td>Gobierno de tu estado o de tu municipio</td><td>Lo que diga la ley de los trabajadores de tu estado</td></tr>
+        <tr><td>Empresa privada, también escuelas particulares</td><td>Al menos 15 días (art. 87 de la Ley Federal del Trabajo)</td></tr>
+      </tbody>
+    </table></div>
+    <p class="nota"><strong>Los días de los maestros no coinciden entre fuentes.</strong> N+ e Infobae hablan de 40 días para docentes de escuelas públicas; Tus Buenas Noticias, de 60 días; y en Oaxaca, NVI Noticias reportó 90 días para la Sección 22 del sindicato (45 en diciembre y 45 en enero). Depende de tu estado y de tu plaza. Por eso la calculadora te deja escribir tus días.</p>
+
+    <h2>¿Cuándo lo pagan?</h2>
+    <p>La ley dice que se paga en dos partes (artículo 42 Bis):</p>
+    <ul>
+      <li><strong>50% antes del 15 de diciembre</strong>.</li>
+      <li><strong>50% a más tardar el 15 de enero</strong> del año siguiente.</li>
+    </ul>
+    <p>El decreto de 2025 permitió empezar a pagar desde el <strong>10 de noviembre</strong>. Cada dependencia pone sus fechas dentro de esos límites. El decreto de 2026 todavía no se publica (lo revisamos el 21 de octubre de 2026); el de 2025 salió el 4 de noviembre.</p>
+    <p><strong>Maestros de la SEP:</strong> en 2025 la primera parte se pagó en noviembre y diciembre (el 14 de noviembre y el 5 y 8 de diciembre, según el calendario de pagos de la SEP) y la segunda el 6 de enero de 2026. Para 2026 las fechas salen en el calendario de pagos del FONE; no lo pudimos abrir, así que pregunta en tu escuela o en recursos humanos.</p>
+
+    <h2>Cómo se calcula</h2>
+    <p><strong>Aguinaldo = salario diario × días de aguinaldo × días trabajados ÷ 365</strong></p>
+    <p>El salario diario es tu sueldo mensual entre 30. Si entraste a trabajar durante el año, te toca la parte proporcional (decreto de 2025, artículo séptimo).</p>
+    <h3>Ejemplo</h3>
+    <p>Si ganas $15,000 al mes, tu salario diario es $500. Con el año completo te tocan 40 × $500 = <strong>$20,000</strong>: <strong>$10,000</strong> antes del 15 de diciembre y $10,000 en enero. Si entraste el 1 de julio de 2026, trabajaste 184 días del año y te tocan unos <strong>$10,082.19</strong>.</p>
+
+    <h2>¿Paga impuestos?</h2>
+    <p>Sí, pero una parte está libre. El SAT considera libre de ISR hasta 30 UMA (artículo 93, fracción XIV de la Ley del ISR): con la UMA de $117.31 son <strong>$3,519.30</strong>. Tu dependencia retiene ISR sobre lo que pase de esa cantidad (decreto de 2025, artículo décimo).</p>
+    <p class="nota">La ley no habla de la UMA, sino de 30 días de salario mínimo, y hay quien opina que debe usarse el salario mínimo. Te lo explicamos en la <a href="../aguinaldo/">calculadora de aguinaldo</a>. Si te pagan una parte en diciembre y otra en enero, cada una cae en un año distinto y la cuenta del ISR puede cambiar: el resultado es un estimado.</p>
+
+    <h2>¿Y si no me lo pagan?</h2>
+    <p>Primero pregunta en recursos humanos de tu dependencia o a tu sindicato. Los conflictos entre una dependencia federal y sus trabajadores los resuelve el <strong>Tribunal Federal de Conciliación y Arbitraje</strong> (artículo 124, fracción I de la ley). Tienes <strong>un año</strong> para reclamar (artículo 112).</p>
+    <p>Si trabajas en una empresa privada, el camino es otro: la PROFEDET y los centros de conciliación. Te lo explicamos en <a href="../cuando-pagan-el-aguinaldo/">cuándo pagan el aguinaldo y qué hacer si no te lo pagan</a>.</p>
+
+    <h2>Fuentes</h2>
+    <p class="nota">Revisadas el 21 de octubre de 2026. Artículos 42 Bis, 112 y 124 de la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf_mov/Ley_Federal_de_los_Trabajadores_al_Servicio_del_Estado_Reglamentaria-Apartado_B-Articulo_123.pdf" rel="noopener">Ley Federal de los Trabajadores al Servicio del Estado</a> según las transcripciones de mLey, SDV y Justia, y la revista Hechos y Derechos de la UNAM. Decreto de aguinaldo del DOF del 4 de noviembre de 2025 (copia publicada por el IPN), La Jornada y Expansión (noviembre de 2025). Maestros: N+ (2023 y 2025), Infobae (2023), BBVA, Tus Buenas Noticias (febrero de 2025), NVI Noticias (2016) y Heraldo Binario (diciembre de 2025). No pudimos abrir el DOF, la Cámara de Diputados ni el calendario del FONE de la SEP desde nuestra red: lo que viene de ahí queda pendiente de cotejar con el texto oficial.</p>
+    <p>También te puede servir: <a href="../aguinaldo-pensionados/">aguinaldo para pensionados del IMSS e ISSSTE</a>, <a href="../cuando-pagan-el-aguinaldo/">cuándo pagan el aguinaldo</a>, <a href="../aguinaldo/">calculadora de aguinaldo para empresas privadas</a>, <a href="../sueldo-neto/">calculadora de sueldo neto e ISR</a> y <a href="../../dinero/cetes-vs-bancos/">CETES vs. banco</a>, si quieres poner a rendir tu aguinaldo.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni de la SEP. Los cálculos son orientativos; el monto oficial es el de tu talón de pago. Consulta la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf_mov/Ley_Federal_de_los_Trabajadores_al_Servicio_del_Estado_Reglamentaria-Apartado_B-Articulo_123.pdf" rel="noopener">Ley Federal de los Trabajadores al Servicio del Estado</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/trabajo.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const sal = leerNumero($("sal"));
+  const r = Trabajo.aguinaldoGobierno({ salarioMensual: sal.valor, ingreso: Calc.fecha($("ing").value), dias: $("dias").value });
+  $("total").textContent = mxn(r.bruto);
+  $("sd").textContent = mxn(r.sd);
+  $("dt").textContent = r.trabajados + " de " + r.diasAnio;
+  $("dp").textContent = r.diasProp.toFixed(2);
+  $("p1").textContent = mxn(r.primera);
+  $("p2").textContent = mxn(r.segunda);
+  $("ex").textContent = mxn(r.exentoAplicado);
+  $("gr").textContent = mxn(r.gravado);
+  const msg = [];
+  if (sal.acotado) msg.push(`Revisa el sueldo: calculamos con un máximo de ${mxn(sal.valor)} al mes.`);
+  if (r.diasAcotado) msg.push("Revisa los días: calculamos con un máximo de 365.");
+  if (r.menosDeLey) msg.push("En el gobierno federal la ley marca al menos 40 días. Si te dan menos, pregunta en recursos humanos.");
+  if (r.entraDespues) msg.push("Si entraste después de 2026, este año no te toca aguinaldo.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aguinaldo para pensionados 2026 (IMSS e ISSSTE) | Cuentas Claras MX</title>
+<meta name="description" content="Quién recibe aguinaldo en su pensión del IMSS o del ISSSTE, de cuánto es y cuándo lo depositan en noviembre de 2026 y enero de 2027. Calculadora gratis.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/trabajo/aguinaldo-pensionados/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Aguinaldo para pensionados 2026 (IMSS e ISSSTE)">
+<meta property="og:description" content="Quién recibe aguinaldo en su pensión del IMSS o del ISSSTE, de cuánto es y cuándo lo depositan en noviembre de 2026 y enero de 2027. Calculadora gratis.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/trabajo/aguinaldo-pensionados/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/trabajo-aguinaldo-pensionados.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Trabajo","item":"https://miguel201009.github.io/cuentas-claras-mx/trabajo/"},{"@type":"ListItem","position":3,"name":"Aguinaldo para pensionados","item":"https://miguel201009.github.io/cuentas-claras-mx/trabajo/aguinaldo-pensionados/"}]},{"@type":"WebApplication","name":"Aguinaldo para pensionados 2026 (IMSS e ISSSTE)","url":"https://miguel201009.github.io/cuentas-claras-mx/trabajo/aguinaldo-pensionados/","description":"Quién recibe aguinaldo en su pensión del IMSS o del ISSSTE, de cuánto es y cuándo lo depositan en noviembre de 2026 y enero de 2027. Calculadora gratis.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Trabajo</a> › Aguinaldo para pensionados</span></div>
+
+  <header>
+    <span class="tag">Trabajo</span>
+    <h1>Aguinaldo para pensionados 2026 (IMSS e ISSSTE)</h1>
+    <p class="lede">Si te pensionaste con la Ley 73 del IMSS o tienes pensión del ISSSTE, también te toca aguinaldo. Escoge tu tipo de pensión, escribe cuánto recibes al mes y te decimos cuánto es y cuándo llega.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno, del IMSS ni del ISSSTE.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="tipo">¿Qué pensión tienes?
+        <select id="tipo">
+          <option value="imss73" selected>IMSS Ley 73: vejez o cesantía</option>
+          <option value="issste">ISSSTE: jubilación o pensión</option>
+          <option value="imssInvalidez">IMSS: invalidez</option>
+          <option value="imssRiesgo">IMSS: riesgo de trabajo</option>
+          <option value="imss97">IMSS Ley 97: vejez o cesantía (Afore)</option>
+          <option value="bienestar">Pensión para el Bienestar</option>
+        </select></label>
+      <label for="pen">Tu pensión mensual (sin asignaciones familiares ni ayudas asistenciales)
+        <input id="pen" type="number" min="0" max="100000000" step="any" inputmode="decimal" value="10000"></label>
+      <p class="nota">El monto viene en tu tarjetón digital del IMSS o en tu talón de pago del ISSSTE, en el concepto de pensión. Usa la cantidad antes de descuentos.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Tu aguinaldo aproximado</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span>Días de aguinaldo</span><b id="dias"></b></div>
+      <div class="row"><span>Tu pensión diaria (pensión ÷ 30)</span><b id="diaria"></b></div>
+      <div class="row" id="r1"><span id="l1"></span><b id="p1"></b></div>
+      <div class="row" id="r2"><span id="l2"></span><b id="p2"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Monto bruto y estimado. Lo que te depositen puede cambiar por descuentos, como préstamos o pensión alimenticia.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>¿Quién recibe aguinaldo con su pensión?</h2>
+    <p>No todas las pensiones traen aguinaldo. Depende de quién te paga y de la ley con la que te pensionaste:</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Tu pensión</th><th>Aguinaldo</th><th>De dónde sale</th></tr></thead>
+      <tbody>
+        <tr><td>IMSS, Ley 73, por vejez o cesantía en edad avanzada</td><td>Una mensualidad de tu pensión</td><td>Art. 167 de la Ley del Seguro Social de 1973 y la página de preguntas del IMSS</td></tr>
+        <tr><td>ISSSTE: jubilación, retiro, viudez y otras pensiones del régimen anterior</td><td>Hasta 40 días de tu pensión, en dos partes</td><td>Decreto de aguinaldo del gobierno federal (DOF 4 nov 2025, art. quinto)</td></tr>
+        <tr><td>IMSS por invalidez</td><td>Al menos 30 días de tu pensión</td><td>Art. 142 de la Ley del Seguro Social</td></tr>
+        <tr><td>IMSS por riesgo de trabajo: incapacidad permanente total, o parcial de más de 50%</td><td>15 días de tu pensión</td><td>Art. 58, fr. IV de la Ley del Seguro Social</td></tr>
+        <tr><td>IMSS, Ley 97, por vejez o cesantía (retiro programado o renta vitalicia con tu Afore)</td><td>No hay</td><td>Página de preguntas del IMSS</td></tr>
+        <tr><td>Pensión para el Bienestar de las Personas Adultas Mayores</td><td>No hay</td><td>Es un programa social, no una pensión por tu trabajo</td></tr>
+      </tbody>
+    </table></div>
+    <p>¿No sabes si eres Ley 73 o Ley 97? Si empezaste a cotizar en el IMSS antes del 1 de julio de 1997, puedes ser Ley 73. Te lo explicamos en <a href="../../retiro/ley-73-vs-ley-97/">Ley 73 vs. Ley 97</a>.</p>
+    <p class="nota"><strong>Hay notas que no coinciden.</strong> La página del IMSS solo menciona a quienes se pensionaron por vejez o cesantía con la Ley 73. Algunas notas de prensa de 2026 dicen que también lo reciben las pensiones de viudez, orfandad y ascendencia de la Ley 73; no lo pudimos confirmar. Si es tu caso, revisa tu tarjetón digital de noviembre.</p>
+
+    <h2>¿Cuánto es?</h2>
+    <p><strong>IMSS, Ley 73:</strong> es igual a una pensión mensual. No cuentan las asignaciones familiares ni las ayudas asistenciales. Si recibes $10,000 al mes, tu aguinaldo es de $10,000, así que en noviembre te llegan $20,000 en total.</p>
+    <p><strong>ISSSTE:</strong> son 40 días de tu pensión. Divide tu pensión entre 30 y multiplica por 40. Con $10,000 al mes: $10,000 ÷ 30 = $333.33 al día, × 40 = <strong>$13,333.33</strong>. Te llega en dos partes de <strong>$6,666.67</strong> (20 días cada una).</p>
+    <p>Son los datos que vienen cargados en la calculadora.</p>
+
+    <h2>¿Cuándo lo pagan en 2026?</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Institución</th><th>Cuándo llega</th></tr></thead>
+      <tbody>
+        <tr><td>IMSS, Ley 73</td><td>En noviembre, en un solo pago. El calendario del IMSS programa la pensión de noviembre para el lunes 2 de noviembre de 2026.</td></tr>
+        <tr><td>ISSSTE, primera parte (20 días)</td><td>En la primera quincena de noviembre de 2026. El ISSSTE aún no da el día exacto.</td></tr>
+        <tr><td>ISSSTE, segunda parte (20 días)</td><td>En enero de 2027, sin fecha confirmada. La del año pasado se programó para el 2 de enero de 2026, con la primera pensión del año.</td></tr>
+      </tbody>
+    </table></div>
+    <p>En 2025 el aguinaldo del IMSS se programó junto con la pensión del 3 de noviembre. El IMSS no publica una fecha aparte para el aguinaldo, así que espéralo con tu pago de noviembre. No tienes que hacer ningún trámite: llega a la misma cuenta donde cobras tu pensión.</p>
+    <p>Ojo: el ISSSTE adelanta la pensión de noviembre al jueves 29 de octubre de 2026. Ese depósito es tu pensión, no tu aguinaldo.</p>
+    <p class="nota">Desconfía de mensajes que prometen un aguinaldo «adelantado» o en tres partes. En octubre de 2025 el ISSSTE dijo que era falso que se pagara en tres partes. Consulta solo los canales oficiales.</p>
+
+    <h2>¿Paga impuestos?</h2>
+    <p>Las pensiones no pagan ISR mientras no pasen de 15 UMA diarias (artículo 93, fracción IV de la Ley del ISR). Con la UMA de 2026 son unos <strong>$53,493.30 al mes</strong>. Si tu pensión pasa de esa cantidad, el IMSS o el ISSSTE te retienen ISR sobre lo que pase. Si tienes dos pensiones, se suman.</p>
+    <p class="nota">No encontramos una regla confirmada de cómo se suma el aguinaldo a ese límite. Si tu pensión es alta, revisa en tu tarjetón si te retuvieron ISR. Si crees que te retuvieron de más, pide asesoría gratuita en la Procuraduría de la Defensa del Contribuyente (PRODECON).</p>
+
+    <h2>¿Y si no me llegó?</h2>
+    <ul>
+      <li><strong>IMSS:</strong> revisa tu tarjetón digital; ahí el aguinaldo aparece aparte. Si no está, llama al 800 623 2323, opción 3, o acude a tu Unidad de Medicina Familiar.</li>
+      <li><strong>ISSSTE:</strong> revisa tu talón de pago y pregunta en los canales oficiales del <a href="https://www.gob.mx/issste" rel="noopener">ISSSTE en gob.mx</a>.</li>
+      <li><strong>Invalidez o riesgo de trabajo con aseguradora:</strong> si tu pensión la paga una aseguradora (renta vitalicia), pregúntale a ella.</li>
+    </ul>
+
+    <h2>Otros casos</h2>
+    <p><strong>Pensión del ISSSTE con cuenta individual.</strong> Si te pensionaste con PENSIONISSSTE o una Afore y una aseguradora, la Ley del ISSSTE da a quienes tienen pensión por invalidez una gratificación anual con los mismos días que los trabajadores en activo del gobierno federal (artículo 121). En los demás casos, pregunta a tu aseguradora.</p>
+    <p><strong>Si trabajas y además tienes pensión.</strong> Tu patrón te debe pagar tu aguinaldo de trabajador aparte, antes del 20 de diciembre. Te lo explicamos en <a href="../cuando-pagan-el-aguinaldo/">cuándo pagan el aguinaldo</a>.</p>
+    <p><strong>Pensión del Bienestar.</strong> No trae aguinaldo, pero si también tienes pensión del IMSS o del ISSSTE, esa sí puede traerlo.</p>
+
+    <h2>Fuentes</h2>
+    <p class="nota">Revisadas el 21 de octubre de 2026. IMSS: <a href="https://www.imss.gob.mx/pensiones/preguntas-frecuentes/derecho-aguinaldo" rel="noopener">¿Tengo derecho a un aguinaldo?</a> (preguntas frecuentes de pensiones); artículo 167 de la Ley del Seguro Social de 1973 según IDC Online; artículos 58 y 142 de la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LSS.pdf" rel="noopener">Ley del Seguro Social</a> según las transcripciones de Justia, mLey y SDV. ISSSTE: decreto de aguinaldo del DOF del 4 de noviembre de 2025 (copia publicada por el IPN), La Jornada y Expansión; artículo 121 de la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LISSSTE.pdf" rel="noopener">Ley del ISSSTE</a> según mLey. Fechas de 2026: calendario de pagos del IMSS e ISSSTE publicado por Uno TV y Vanguardia, y notas de Excélsior (14 de octubre de 2026), Expansión (20 de octubre de 2026) y Crónica (15 de octubre de 2026). Fechas de 2025: Uno TV y Xataka. Pensión para el Bienestar: Uno TV y Ruptura 360. ISR de las pensiones: Uno TV e IDC Online (octubre de 2026). No pudimos abrir el DOF ni la Cámara de Diputados desde nuestra red: lo que viene de ahí queda pendiente de cotejar con el texto oficial. El decreto de aguinaldo de 2026 todavía no se publica; si cambia algo, lo actualizamos.</p>
+    <p>También te puede servir: <a href="../cuando-pagan-el-aguinaldo/">cuándo pagan el aguinaldo y qué hacer si no te lo pagan</a>, <a href="../aguinaldo-gobierno/">aguinaldo de trabajadores del gobierno y maestros</a>, <a href="../aguinaldo/">calculadora de aguinaldo</a>, <a href="../../retiro/semanas-cotizadas/">semanas cotizadas</a>, <a href="../../retiro/ley-73-vs-ley-97/">pensión Ley 73 vs. Ley 97</a> y <a href="../../familia/becas/">becas y programas sociales</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno, del IMSS ni del ISSSTE. Los cálculos son orientativos; el monto oficial es el de tu tarjetón o talón de pago. Consulta la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LSS.pdf" rel="noopener">Ley del Seguro Social</a> y la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LISSSTE.pdf" rel="noopener">Ley del ISSSTE</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/trabajo.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const DIAS = { imss73: "30 (una mensualidad)", issste: "40", imssInvalidez: "Al menos 30", imssRiesgo: "15", imss97: "No hay", bienestar: "No hay" };
+const AVISO = {
+  imss73: "Te toca si te pensionaste por vejez o cesantía en edad avanzada con la Ley del Seguro Social de 1973. No cuentan las asignaciones familiares ni las ayudas asistenciales.",
+  issste: "Llega en dos partes de 20 días. La fecha exacta la da el ISSSTE.",
+  imssInvalidez: "La ley dice que es de al menos 30 días de tu pensión (artículo 142 de la Ley del Seguro Social). Pregunta la fecha a quien te paga la pensión: el IMSS o tu aseguradora.",
+  imssRiesgo: "Aplica si tu incapacidad permanente es total, o parcial de más de 50% (artículo 58, fracción IV de la Ley del Seguro Social). Pregunta la fecha a quien te paga la pensión.",
+  imss97: "Según el IMSS, las pensiones por vejez o cesantía de la ley de 1997 (con tu Afore) no traen aguinaldo.",
+  bienestar: "La Pensión para el Bienestar es un programa social, no una pensión por tu trabajo, y no trae aguinaldo."
+};
+function calcular() {
+  const pen = leerNumero($("pen"));
+  const r = Trabajo.aguinaldoPension({ pensionMensual: pen.valor, tipo: $("tipo").value });
+  $("total").textContent = mxn(r.total);
+  $("dias").textContent = DIAS[r.tipo];
+  $("diaria").textContent = mxn(r.diaria);
+  const dos = r.partes.length === 2;
+  $("r1").hidden = r.partes.length === 0;
+  $("r2").hidden = !dos;
+  if (r.partes.length) {
+    $("l1").textContent = (dos ? "Primera parte: " : "Cuándo llega: ") + r.partes[0].cuando;
+    $("p1").textContent = mxn(r.partes[0].monto);
+  }
+  if (dos) {
+    $("l2").textContent = "Segunda parte: " + r.partes[1].cuando;
+    $("p2").textContent = mxn(r.partes[1].monto);
+  }
+  const msg = [AVISO[r.tipo]];
+  if (pen.acotado) msg.push(`Revisa la pensión: calculamos con un máximo de ${mxn(pen.valor)} al mes.`);
+  if (r.pasaExento) msg.push(`Tu pensión pasa de 15 UMA al mes (${mxn(r.exentoPensionMensual)}): te pueden retener ISR sobre lo que pase.`);
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

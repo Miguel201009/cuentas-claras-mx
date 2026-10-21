@@ -26,7 +26,7 @@ pruebas/                   Una prueba por archivo de assets, más sitio.test.js 
 
 | Sección | Carpeta | Páginas |
 |---|---|---|
-| Trabajo | `trabajo/` | aguinaldo, finiquito, vacaciones, sueldo-neto, prima-de-antiguedad, ptu, horas-extra |
+| Trabajo | `trabajo/` | aguinaldo, cuando-pagan-el-aguinaldo, aguinaldo-pensionados, aguinaldo-gobierno, finiquito, vacaciones, sueldo-neto, prima-de-antiguedad, ptu, horas-extra |
 | Impuestos y SAT | `impuestos/` | rfc, resico, declaracion-anual |
 | Dinero y ahorro | `dinero/` | cetes-vs-bancos, meses-sin-intereses, prestamo |
 | Retiro e IMSS | `retiro/` | afore, semanas-cotizadas, ley-73-vs-ley-97 |
@@ -54,7 +54,7 @@ Necesitas Node (sin instalar paquetes). Desde la carpeta del sitio:
 for f in pruebas/*.test.js; do node "$f" || exit 1; done
 ```
 
-Cada archivo imprime un mensaje de éxito o se detiene con el primer error. `sitio.test.js` revisa todo el sitio: que existan las 47 páginas, enlaces internos relativos y sin romper, títulos sin repetir, aviso de sitio independiente, que ninguna página pida datos personales ni use scripts externos, la portada (sin "Próximamente", con todas las páginas), el buscador, `sitemap.xml` y `robots.txt`.
+Cada archivo imprime un mensaje de éxito o se detiene con el primer error. `sitio.test.js` revisa todo el sitio: que existan las 50 páginas, enlaces internos relativos y sin romper, títulos sin repetir, aviso de sitio independiente, que ninguna página pida datos personales ni use scripts externos, la portada (sin "Próximamente", con todas las páginas), el buscador, `sitemap.xml` y `robots.txt`.
 
 Para verlo en el navegador como en GitHub Pages, sirve la carpeta de arriba y abre la subcarpeta:
 
@@ -97,6 +97,8 @@ Al cambiar una cifra en `assets/*.js`, búscala también en las páginas (`grep 
 | Enero | IVA de 8% en la frontera (estímulo prorrogado hasta el 31 dic 2026) | `assets/casa.js` (`ivaFrontera`) y `assets/negocio.js` (`iva.frontera`) | Decretos de estímulos fiscales región fronteriza norte y sur, DOF |
 | Cuando cambie | Densidad del gas LP y fuente de precios máximos | `assets/casa.js` (`gas`); `casa/gas-lp/` | CNE, precios máximos semanales en el DOF |
 | Cada año | PTU: porcentaje, tope y fechas de pago | `assets/trabajo.js` (`ptu`) | LFT arts. 117 a 131; Comisión Nacional para la PTU (DOF); manual PTU del SAT y la STPS |
+| Noviembre | Decreto de aguinaldo del gobierno federal (40 días; desde cuándo se paga) y pensionados del ISSSTE | `assets/trabajo.js` (`aguinaldo`); `trabajo/aguinaldo-gobierno/` y `trabajo/aguinaldo-pensionados/` | Decreto anual de aguinaldo en el DOF (el de 2025: 4 nov 2025); LFTSE art. 42 Bis |
+| Octubre | Fechas de pago del aguinaldo de pensionados (IMSS en noviembre; ISSSTE en noviembre y enero) y de maestros (calendario FONE) | `assets/trabajo.js` (`aguinaldo.pensiones`); textos de `trabajo/aguinaldo-pensionados/`, `trabajo/aguinaldo-gobierno/` y `trabajo/cuando-pagan-el-aguinaldo/` | Calendarios de pago del IMSS, del ISSSTE y del FONE de la SEP |
 | Enero (hasta 2030) | Horas extra al doble y jornada semanal por año | `assets/trabajo.js` (`horasExtra`, `verificadoDOF: false`) | Reforma a la LFT y al art. 123 constitucional, DOF 3 mar y 1 may 2026. Cotejar el decreto |
 | Cada año | Montos de becas y pensiones del Bienestar (hoy son ejemplos editables) | `assets/familia.js` (`apoyos`); `familia/becas/` | Secretaría de Bienestar y Coordinación de Becas Benito Juárez (gob.mx) |
 | Cuando cambie la ley | Licencia de maternidad (42 + 42 días) y paternidad (5 días) | `assets/familia.js` (`maternidad`, `paternidad`) | LFT arts. 170 y 132 fr. XXVII Bis; LSS arts. 101 y 102 |

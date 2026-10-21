@@ -102,3 +102,14 @@ Al cambiar una cifra en `assets/*.js`, búscala también en las páginas (`grep 
 | Cuando cambie la ley | Licencia de maternidad (42 + 42 días) y paternidad (5 días) | `assets/familia.js` (`maternidad`, `paternidad`) | LFT arts. 170 y 132 fr. XXVII Bis; LSS arts. 101 y 102 |
 
 Después de actualizar, cambia el año en los títulos y textos ("2026") y la fecha `lastmod` de `sitemap.xml`.
+
+## Google y vista previa en redes
+
+`scripts/seo.js` agrega a cada página la dirección canónica, las etiquetas de vista previa (WhatsApp, Facebook) y los datos estructurados, y rehace `sitemap.xml` y `robots.txt`. Córrelo después de agregar o cambiar páginas:
+
+```
+node scripts/seo.js --imagenes                       # con la dirección de GitHub Pages
+node scripts/seo.js https://cuentasclarasmexico.com/ --imagenes   # cuando el dominio propio esté conectado
+```
+
+`--imagenes` rehace las imágenes de `assets/compartir/` (necesita Playwright).

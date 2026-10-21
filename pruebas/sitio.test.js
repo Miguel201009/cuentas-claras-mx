@@ -124,12 +124,25 @@ assert.strictEqual(B.buscar(textos, "qwertyuiop").modo, "ninguna");
 const sitemap = leer("sitemap.xml");
 assert.ok(sitemap.startsWith('<?xml version="1.0" encoding="UTF-8"?>'), "sitemap: encabezado XML");
 assert.ok(sitemap.includes('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'), "sitemap: urlset");
-const locs = [...sitemap.matchAll(/<url><loc>([^<]+)<\/loc><lastmod>2026-10-20<\/lastmod><\/url>/g)].map(m => m[1]);
-assert.strictEqual(locs.length, (sitemap.match(/<url>/g) || []).length, "sitemap: cada url con lastmod 2026-10-20");
+const locs = [...sitemap.matchAll(/<url><loc>([^<]+)<\/loc><lastmod>\d{4}-\d{2}-\d{2}<\/lastmod><\/url>/g)].map(m => m[1]);
+assert.strictEqual(locs.length, (sitemap.match(/<url>/g) || []).length, "sitemap: cada url con lastmod");
 assert.deepStrictEqual([...locs].sort(), todas.map(p => BASE + p).sort(), "sitemap: todas las páginas y solo ellas");
 assert.strictEqual(new Set(locs).size, locs.length, "sitemap: sin repetidos");
 const robots = leer("robots.txt");
 assert.ok(robots.includes("Sitemap: " + BASE + "sitemap.xml"), "robots: sitemap");
 assert.ok(!/Disallow: \/\s*$/m.test(robots), "robots: no bloquea el sitio");
+
+// ---------- Datos para Google y vista previa en redes ----------
+for (const p of todas) {
+  const h = leer(p + "index.html");
+  assert.strictEqual((h.match(/<!-- seo -->/g) || []).length, 1, `${p}: un solo bloque seo`);
+  const canon = (h.match(/<link rel="canonical" href="([^"]+)">/) || [])[1];
+  assert.strictEqual(canon, BASE + p, `${p}: canonical`);
+  const img = (h.match(/<meta property="og:image" content="([^"]+)">/) || [])[1] || "";
+  assert.ok(img.startsWith(BASE + "assets/compartir/"), `${p}: og:image en la base`);
+  assert.ok(fs.existsSync(path.join(raiz, img.slice(BASE.length))), `${p}: existe la imagen ${img}`);
+  const ld = (h.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/) || [])[1];
+  assert.ok(ld && JSON.parse(ld)["@graph"].length >= 1, `${p}: datos estructurados válidos`);
+}
 
 console.log(`sitio.test.js: todas las pruebas pasaron (${todas.length} páginas revisadas)`);

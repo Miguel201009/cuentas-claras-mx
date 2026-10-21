@@ -160,4 +160,19 @@ for (const p of todas) {
   assert.ok(ld && JSON.parse(ld)["@graph"].length >= 1, `${p}: datos estructurados válidos`);
 }
 
+// ---------- Botones para compartir ----------
+const C = require("../assets/compartir.js");
+assert.strictEqual(C.nombre("Calculadora de aguinaldo 2026: cuánto te toca | Cuentas Claras MX"), "Calculadora de aguinaldo 2026: cuánto te toca");
+assert.strictEqual(C.nombre(""), "Cuentas Claras MX");
+const ejemplo = C.enlaces("Calculadora de aguinaldo 2026 | Cuentas Claras MX", BASE + "trabajo/aguinaldo/");
+assert.ok(ejemplo.whatsapp.startsWith("https://wa.me/?text="), "whatsapp: wa.me");
+assert.ok(decodeURIComponent(ejemplo.whatsapp).endsWith(BASE + "trabajo/aguinaldo/"), "whatsapp: termina con el link");
+assert.strictEqual(ejemplo.facebook, "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(BASE + "trabajo/aguinaldo/"));
+for (const p of todas) {
+  const h = leer(p + "index.html");
+  const src = "../".repeat(p.split("/").filter(Boolean).length) + "assets/compartir.js";
+  assert.ok(h.includes(`<script src="${src}" defer></script>`), `${p}: carga compartir.js`);
+}
+assert.ok(leer("llms.txt").startsWith("# Cuentas Claras MX"), "llms.txt");
+
 console.log(`sitio.test.js: todas las pruebas pasaron (${todas.length} páginas revisadas)`);

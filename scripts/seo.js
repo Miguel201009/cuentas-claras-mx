@@ -70,6 +70,7 @@ function bloque(d) {
     `<meta property="og:image:height" content="630">`,
     `<meta name="twitter:card" content="summary_large_image">`,
     `<script type="application/ld+json">${json}</script>`,
+    `<script src="${"../".repeat(d.rel.split("/").filter(Boolean).length)}assets/compartir.js" defer></script>`,
     "<!-- /seo -->"
   ].join("\n");
 }
@@ -104,6 +105,18 @@ async function main() {
     .concat(todas.map(d => `  <url><loc>${d.url}</loc><lastmod>${HOY}</lastmod></url>`), ["</urlset>", ""]).join("\n");
   fs.writeFileSync(path.join(RAIZ, "sitemap.xml"), sitemap);
   fs.writeFileSync(path.join(RAIZ, "robots.txt"), `User-agent: *\nAllow: /\n\nSitemap: ${BASE}sitemap.xml\n`);
+
+  // llms.txt: lista corta de páginas para que asistentes como ChatGPT o Perplexity entiendan el sitio y lo citen.
+  const porSeccion = new Map();
+  for (const d of todas.filter(d => d.rel && d.rel !== "aviso-legal/")) {
+    const s = d.seccion && d.migas.length > 2 ? d.seccion : "Secciones";
+    if (!porSeccion.has(s)) porSeccion.set(s, []);
+    porSeccion.get(s).push(`- [${d.ogTitulo}](${d.url}): ${d.desc}`);
+  }
+  const llms = ["# Cuentas Claras MX", "",
+    "> Calculadoras y guías gratis para cualquier persona en México: trabajo, impuestos del SAT, dinero, retiro e IMSS, vivienda, trámites, auto, casa, familia y negocio. Cada cifra cita la ley o la fuente oficial. Sitio independiente, no es del gobierno.", ""];
+  for (const [s, lineas] of porSeccion) llms.push(`## ${s}`, "", ...lineas, "");
+  fs.writeFileSync(path.join(RAIZ, "llms.txt"), llms.join("\n"));
 
   if (IMAGENES) {
     const { chromium } = require("playwright");

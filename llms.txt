@@ -1,0 +1,84 @@
+# Cuentas Claras MX
+
+> Calculadoras y guías gratis para cualquier persona en México: trabajo, impuestos del SAT, dinero, retiro e IMSS, vivienda, trámites, auto, casa, familia y negocio. Cada cifra cita la ley o la fuente oficial. Sitio independiente, no es del gobierno.
+
+## Secciones
+
+- [Auto 2026: tenencia, verificación y gasolina](https://miguel201009.github.io/cuentas-claras-mx/auto/): Guías y calculadoras para tu auto en México: tenencia y refrendo por estado, verificación y Hoy No Circula, y costo de gasolina por viaje. Gratis.
+- [Casa y servicios 2026: luz, aparatos y gas LP](https://miguel201009.github.io/cuentas-claras-mx/casa/): Guías y calculadoras de casa en México: cómo leer tu recibo de luz de CFE y evitar la DAC, consumo de cada aparato y gasto de gas LP. Gratis y sin registro.
+- [Dinero y ahorro 2026: CETES, meses sin intereses y préstamos](https://miguel201009.github.io/cuentas-claras-mx/dinero/): Calculadoras gratis de dinero y ahorro en México: CETES contra banco, si conviene comprar a meses sin intereses y el pago mensual y CAT de un préstamo.
+- [Familia y becas 2026: apoyos, licencias y pensión](https://miguel201009.github.io/cuentas-claras-mx/familia/): Guías y calculadoras gratis para tu familia en México: becas y pensiones del Bienestar, licencia de maternidad y paternidad, y pensión alimenticia.
+- [Impuestos y SAT 2026](https://miguel201009.github.io/cuentas-claras-mx/impuestos/): Guías y calculadoras de impuestos en México: RFC con CURP, RESICO, declaración anual con saldo a favor y sueldo neto con ISR. Gratis y sin registro.
+- [Negocio propio 2026: precio, equilibrio y SAT](https://miguel201009.github.io/cuentas-claras-mx/negocio/): Calculadoras y guías para tu negocio en México: precio de venta y margen con IVA, punto de equilibrio y alta en el SAT paso a paso. Gratis y sin registro.
+- [Retiro e IMSS 2026: Afore y pensión](https://miguel201009.github.io/cuentas-claras-mx/retiro/): Calculadoras y guías gratis de retiro en México: cuánto tendrás en tu Afore, semanas cotizadas del IMSS y pensión Ley 73 vs. Ley 97.
+- [Calculadoras de trabajo 2026](https://miguel201009.github.io/cuentas-claras-mx/trabajo/): Calculadoras gratis de trabajo en México: aguinaldo (también de pensionados y del gobierno), finiquito, vacaciones, sueldo neto e ISR, prima de antigüedad, PTU y horas extra.
+- [Trámites 2026: CURP, INE, pasaporte y licencia](https://miguel201009.github.io/cuentas-claras-mx/tramites/): Guías gratis de trámites en México: tu CURP, credencial del INE, costo del pasaporte 2026 y el portal oficial de cada estado para tu licencia de manejo.
+- [Vivienda 2026: Infonavit, rentar o comprar y predial](https://miguel201009.github.io/cuentas-claras-mx/vivienda/): Guías y calculadoras de vivienda en México: crédito Infonavit y precalificación, ¿rentar o comprar casa? y predial con descuentos. Gratis y sin registro.
+
+## Auto
+
+- [Calculadora de gasolina por viaje 2026](https://miguel201009.github.io/cuentas-claras-mx/auto/gasolina-por-viaje/): Calcula cuánta gasolina gastas en un viaje y cuánto le toca a cada quien: kilómetros, rendimiento, precio por litro, ida y vuelta y casetas.
+- [Tenencia y refrendo 2026 por estado](https://miguel201009.github.io/cuentas-claras-mx/auto/tenencia-y-refrendo/): Qué es la tenencia, qué es el refrendo o control vehicular, en qué se diferencian y dónde revisar y pagar en el portal oficial de tu estado.
+- [Verificación vehicular 2026: calendario y hologramas](https://miguel201009.github.io/cuentas-claras-mx/auto/verificacion/): Cuándo te toca verificar según tu placa, qué significan los hologramas 00, 0, 1 y 2, qué días no circulas y cuánto es la multa por verificar tarde.
+
+## Casa y servicios
+
+- [Consumo de luz por aparato 2026: kWh y costo](https://miguel201009.github.io/cuentas-claras-mx/casa/consumo-de-aparatos/): Calcula cuántos kWh gasta cada aparato de tu casa y cuánto te cuesta al mes y en tu recibo bimestral de CFE. Watts y precio editables, gratis y sin registro.
+- [Calculadora de gas LP 2026: gasto y cuánto dura](https://miguel201009.github.io/cuentas-claras-mx/casa/gas-lp/): Calcula cuánto gastas en gas LP, cuánto te dura el cilindro o el tanque y pasa de litros a kilos. Precio editable y dónde ver el precio máximo oficial.
+- [Recibo de luz CFE 2026: tarifas, DAC y cómo leerlo](https://miguel201009.github.io/cuentas-claras-mx/casa/recibo-de-luz/): Cómo leer tu recibo de luz de CFE, tarifas 1 y 1A a 1F, consumo básico, intermedio y excedente, y cómo evitar la tarifa DAC. Con calculadora gratis.
+
+## Dinero y ahorro
+
+- [CETES vs. banco 2026: cuánto rinde tu dinero](https://miguel201009.github.io/cuentas-claras-mx/dinero/cetes-vs-bancos/): Compara cuánto te dejan los CETES y el banco en 2026: intereses, retención de ISR de 0.90%, inflación, qué es la GAT y el seguro del IPAB.
+- [¿Conviene comprar a meses sin intereses? Calculadora 2026](https://miguel201009.github.io/cuentas-claras-mx/dinero/meses-sin-intereses/): Compara pagar de contado o a meses sin intereses: cuánto ahorras si tu dinero sigue rindiendo, el efecto de la inflación y los riesgos del pago mínimo.
+- [Calculadora de préstamo 2026: pago mensual, intereses y CAT](https://miguel201009.github.io/cuentas-claras-mx/dinero/prestamo/): Calcula el pago mensual de tu préstamo, la tabla de pagos, los intereses, el IVA y un CAT estimado. Aprende a comparar créditos con la Condusef.
+
+## Familia y becas
+
+- [Becas y programas sociales 2026](https://miguel201009.github.io/cuentas-claras-mx/familia/becas/): Qué becas y pensiones del Bienestar hay en 2026, para quién son, cómo registrarte gratis y cómo evitar fraudes. Suma lo que recibe tu casa.
+- [Licencia de maternidad y paternidad 2026](https://miguel201009.github.io/cuentas-claras-mx/familia/maternidad-y-paternidad/): Cuántos días te tocan de licencia de maternidad y paternidad, cuánto te paga el IMSS por tu incapacidad y qué semanas necesitas. Calculadora gratis.
+- [Pensión alimenticia 2026: cómo se fija y cómo pedirla](https://miguel201009.github.io/cuentas-claras-mx/familia/pension-alimenticia/): Qué cubre la pensión alimenticia, cómo la fija un juez, cómo pedirla gratis con la defensoría pública o el DIF y una calculadora de gastos de tus hijos.
+
+## Impuestos y SAT
+
+- [Declaración anual 2026 de personas físicas: saldo a favor](https://miguel201009.github.io/cuentas-claras-mx/impuestos/declaracion-anual/): Quién debe presentar la declaración anual, fechas, deducciones personales y su tope, paso a paso en el SAT y calculadora para saber si te toca saldo a favor.
+- [RESICO personas físicas 2026: calculadora de ISR mensual](https://miguel201009.github.io/cuentas-claras-mx/impuestos/resico/): Calcula tu ISR mensual en RESICO con la tabla de tasas vigente, de 1% a 2.5%. Quién puede entrar, tope de 3.5 millones, retención de 1.25% y obligaciones.
+- [Cómo sacar el RFC con CURP 2026](https://miguel201009.github.io/cuentas-claras-mx/impuestos/rfc/): Saca tu RFC gratis y en línea con tu CURP, paso a paso. También cómo obtener tu constancia de situación fiscal, tu contraseña del SAT y tu e.firma.
+
+## Negocio propio
+
+- [Alta en el SAT como persona física con negocio 2026](https://miguel201009.github.io/cuentas-claras-mx/negocio/alta-en-el-sat/): Date de alta en el SAT para tu negocio paso a paso: RFC, e.firma, régimen (RESICO, actividad empresarial o plataformas), facturas y obligaciones.
+- [Calculadora de precio de venta y margen 2026](https://miguel201009.github.io/cuentas-claras-mx/negocio/precio-de-venta/): Calcula a cuánto vender con el margen que quieres, IVA de 16% u 8% y comisión de terminal. Diferencia entre margen y markup. Gratis y sin registro.
+- [Calculadora de punto de equilibrio 2026](https://miguel201009.github.io/cuentas-claras-mx/negocio/punto-de-equilibrio/): Cuánto tienes que vender al mes para no perder: punto de equilibrio en unidades y en pesos, ventas por día y ventas para la ganancia que quieres.
+
+## Retiro e IMSS
+
+- [Cuánto tendrás en tu Afore 2026](https://miguel201009.github.io/cuentas-claras-mx/retiro/afore/): Estima cuánto juntarás en tu Afore con lo que ponen tú, tu patrón y el gobierno, el aumento de la reforma 2020, ahorro voluntario y comisión.
+- [Pensión Ley 73 vs. Ley 97 2026](https://miguel201009.github.io/cuentas-claras-mx/retiro/ley-73-vs-ley-97/): Cómo saber si te toca la Ley 73 o la Ley 97 del IMSS, sus diferencias y una calculadora estimada de pensión Ley 73 con la tabla del artículo 167.
+- [Semanas cotizadas IMSS 2026](https://miguel201009.github.io/cuentas-claras-mx/retiro/semanas-cotizadas/): Cuántas semanas cotizadas pide el IMSS en 2026 (875 en Ley 97, 500 en Ley 73), tabla año por año y cómo sacar tu constancia gratis en línea.
+
+## Trabajo
+
+- [Aguinaldo de burócratas y maestros 2026: calculadora](https://miguel201009.github.io/cuentas-claras-mx/trabajo/aguinaldo-gobierno/): Cuántos días de aguinaldo da el gobierno federal a burócratas y maestros, cuándo pagan cada parte y cuánto te toca con tu sueldo. Calculadora gratis.
+- [Aguinaldo para pensionados 2026 (IMSS e ISSSTE)](https://miguel201009.github.io/cuentas-claras-mx/trabajo/aguinaldo-pensionados/): Quién recibe aguinaldo en su pensión del IMSS o del ISSSTE, de cuánto es y cuándo lo depositan en noviembre de 2026 y enero de 2027. Calculadora gratis.
+- [Calculadora de aguinaldo 2026: cuánto te toca](https://miguel201009.github.io/cuentas-claras-mx/trabajo/aguinaldo/): Calcula tu aguinaldo 2026 en México, completo o proporcional, con la Ley Federal del Trabajo. Gratis, sin registro y con la parte exenta de ISR.
+- [¿Cuándo pagan el aguinaldo 2026? Fecha límite y qué hacer](https://miguel201009.github.io/cuentas-claras-mx/trabajo/cuando-pagan-el-aguinaldo/): El aguinaldo 2026 se paga antes del 20 de diciembre. Qué hacer si no te lo pagan, dónde quejarte gratis, multas al patrón y cuánto te toca si renuncias.
+- [Calculadora de finiquito y liquidación 2026](https://miguel201009.github.io/cuentas-claras-mx/trabajo/finiquito/): Calcula tu finiquito si renuncias o tu liquidación si te despiden en México. Desglose por concepto con la Ley Federal del Trabajo, gratis y sin registro.
+- [Calculadora de horas extra 2026: pago doble y triple](https://miguel201009.github.io/cuentas-claras-mx/trabajo/horas-extra/): Calcula cuánto te deben pagar por horas extra en México: dobles y triples con la reforma de 2026 y el calendario rumbo a la jornada de 40 horas.
+- [Calculadora de prima de antigüedad 2026](https://miguel201009.github.io/cuentas-claras-mx/trabajo/prima-de-antiguedad/): Calcula tu prima de antigüedad en México: 12 días de salario por año trabajado, con el tope de dos salarios mínimos 2026. Cuándo te toca si renuncias o te despiden.
+- [Calculadora de PTU 2026: reparto de utilidades](https://miguel201009.github.io/cuentas-claras-mx/trabajo/ptu/): Calcula tu reparto de utilidades (PTU) en México: mitad por días y mitad por salario, con el tope de 3 meses. Quién no tiene derecho y fechas de pago.
+- [Calculadora de sueldo neto e ISR 2026](https://miguel201009.github.io/cuentas-claras-mx/trabajo/sueldo-neto/): Calcula tu sueldo neto 2026 en México: ISR con la tarifa del artículo 96, subsidio para el empleo y cuotas del IMSS. Gratis, sin registro y con el cálculo explicado.
+- [Calculadora de vacaciones y prima vacacional 2026](https://miguel201009.github.io/cuentas-claras-mx/trabajo/vacaciones/): Cuántos días de vacaciones te tocan por ley en México según tus años de trabajo (reforma vacaciones dignas) y cuánto es tu prima vacacional.
+
+## Trámites
+
+- [Consultar e imprimir la CURP gratis 2026](https://miguel201009.github.io/cuentas-claras-mx/tramites/curp/): Cómo consultar, descargar e imprimir tu CURP gratis en gob.mx, qué hacer si tiene errores y qué es la CURP biométrica. Paso a paso y sin intermediarios.
+- [Credencial para votar INE 2026: requisitos y vigencia](https://miguel201009.github.io/cuentas-claras-mx/tramites/ine/): Requisitos, cita, costo y reposición de la credencial del INE. Revisa si tu credencial sigue vigente y si te sirve para votar el 6 de junio de 2027.
+- [Licencia de manejo por estado 2026](https://miguel201009.github.io/cuentas-claras-mx/tramites/licencia-de-manejo/): Cómo sacar o renovar tu licencia de manejo en México: requisitos comunes, pasos y el portal oficial de cada estado para tramitar tu licencia.
+- [Costo del pasaporte 2026 y requisitos](https://miguel201009.github.io/cuentas-claras-mx/tramites/pasaporte/): Cuánto cuesta el pasaporte mexicano en 2026 según su vigencia, quién paga la mitad, requisitos y cómo sacar cita en la SRE. Calculadora gratis.
+
+## Vivienda
+
+- [Crédito Infonavit 2026: puntos y precalificación](https://miguel201009.github.io/cuentas-claras-mx/vivienda/credito-infonavit/): Cuántos puntos pide el Infonavit, cómo precalificar gratis en Mi Cuenta Infonavit, de qué depende cuánto te prestan y cuánto aporta tu patrón.
+- [Predial 2026: cómo se calcula y descuentos](https://miguel201009.github.io/cuentas-claras-mx/vivienda/predial/): Qué es el predial, cómo se calcula con el valor catastral, descuentos por pagar el año por adelantado y dónde pagarlo en las principales ciudades.
+- [¿Rentar o comprar casa? Calculadora 2026](https://miguel201009.github.io/cuentas-claras-mx/vivienda/rentar-o-comprar/): Compara rentar contra comprar casa a varios años: renta y su aumento, enganche, hipoteca, plusvalía, mantenimiento y predial. Gratis y sin registro.

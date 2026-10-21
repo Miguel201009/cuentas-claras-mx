@@ -23,8 +23,9 @@ const herramientas = todas.filter(p => p.split("/").length === 3); // seccion/he
 assert.ok(todas.includes("") && todas.includes("aviso-legal/"), "portada y aviso legal");
 for (const s of SECCIONES) assert.ok(todas.includes(s + "/"), `falta el índice de ${s}`);
 for (const p of ["trabajo/sueldo-neto/", "trabajo/prima-de-antiguedad/", "trabajo/aguinaldo-pensionados/",
-  "trabajo/aguinaldo-gobierno/", "trabajo/cuando-pagan-el-aguinaldo/"]) assert.ok(todas.includes(p), `falta ${p}`);
-assert.strictEqual(herramientas.length, 38, "38 calculadoras y guías");
+  "trabajo/aguinaldo-gobierno/", "trabajo/cuando-pagan-el-aguinaldo/", "trabajo/salario-minimo-2027/", "trabajo/dias-festivos-2027/",
+  "dinero/buen-fin/"]) assert.ok(todas.includes(p), `falta ${p}`);
+assert.strictEqual(herramientas.length, 41, "41 calculadoras y guías");
 
 // ---------- Reglas para cada página ----------
 const titulos = new Map();
@@ -124,15 +125,31 @@ const casos = {
   "cuándo pagan el aguinaldo": "trabajo/cuando-pagan-el-aguinaldo/",
   "no me pagaron el aguinaldo": "trabajo/cuando-pagan-el-aguinaldo/",
   "fecha límite aguinaldo": "trabajo/cuando-pagan-el-aguinaldo/",
-  "profedet": "trabajo/cuando-pagan-el-aguinaldo/"
+  "profedet": "trabajo/cuando-pagan-el-aguinaldo/",
+  "buen fin": "dinero/buen-fin/",
+  "ofertas": "dinero/buen-fin/",
+  "descuentos noviembre": "dinero/buen-fin/",
+  "salario mínimo": "trabajo/salario-minimo-2027/",
+  "salario mínimo 2027": "trabajo/salario-minimo-2027/",
+  "aumento salario mínimo": "trabajo/salario-minimo-2027/",
+  "conasami": "trabajo/salario-minimo-2027/",
+  "días festivos": "trabajo/dias-festivos-2027/",
+  "días festivos 2027": "trabajo/dias-festivos-2027/",
+  "días de descanso obligatorio": "trabajo/dias-festivos-2027/",
+  "pago triple": "trabajo/dias-festivos-2027/",
+  "feriados": "trabajo/dias-festivos-2027/"
 };
 for (const [q, esperado] of Object.entries(casos)) assert.ok(hrefs(q).includes(esperado), `buscar "${q}" debe dar ${esperado}: ${hrefs(q)}`);
 assert.ok(!hrefs("ine").some(h => h.startsWith("dinero/")), "ine no muestra la sección dinero");
-assert.deepStrictEqual(hrefs("trabajo").filter(h => h.startsWith("trabajo/")).length, 10, "el nombre de la sección encuentra todas sus herramientas");
+assert.deepStrictEqual(hrefs("trabajo").filter(h => h.startsWith("trabajo/")).length, 12, "el nombre de la sección encuentra todas sus herramientas");
 // En temporada de aguinaldo, cada búsqueda lleva primero a su página
 assert.strictEqual(hrefs("aguinaldo pensionados")[0], "trabajo/aguinaldo-pensionados/");
 assert.strictEqual(hrefs("aguinaldo maestros")[0], "trabajo/aguinaldo-gobierno/");
 assert.strictEqual(hrefs("no me pagaron el aguinaldo")[0], "trabajo/cuando-pagan-el-aguinaldo/");
+// Temporada de fin de año: Buen Fin, salario mínimo y días festivos
+assert.strictEqual(hrefs("buen fin")[0], "dinero/buen-fin/");
+assert.strictEqual(hrefs("salario mínimo 2027")[0], "trabajo/salario-minimo-2027/");
+assert.strictEqual(hrefs("días festivos")[0], "trabajo/dias-festivos-2027/");
 assert.strictEqual(B.buscar(textos, "qwertyuiop").modo, "ninguna");
 
 // ---------- Sitemap y robots ----------

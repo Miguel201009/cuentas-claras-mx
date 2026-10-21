@@ -58,6 +58,12 @@
     // Meta de inflación del Banco de México: 3% anual, con un margen de un punto arriba o abajo.
     metaInflacion: 0.03,
 
+    // El Buen Fin 2026: del viernes 13 al martes 17 de noviembre (5 días). Bloomberg Línea, N+ (29 sep 2026), Expansión
+    // (7 oct 2026) y Fox Sports. El lunes 16 es descanso obligatorio (art. 74 fr. VI LFT, tercer lunes de noviembre).
+    // Registro de comercios hasta el 12 nov 2026 en elbuenfin.org. Sorteo del SAT: compras con tarjeta desde $250
+    // (Bloomberg Línea y N+); las bases de 2026 las publica el SAT. Revisado el 21 oct 2026.
+    buenFin: { anio: 2026, inicio: "2026-11-13", fin: "2026-11-17", dias: 5, sorteoMinimo: 250 },
+
     // Límites para que una cifra absurda no rompa el resultado: lo que pase de aquí se recorta y se avisa.
     maximos: { monto: 1e9, tasaAhorro: 100, tasaCredito: 1000, inflacion: 100, meses: 480, dias: 3650, comision: 50 }
   };
@@ -266,7 +272,39 @@
     };
   }
 
-  const api = { DATOS, num, porcentaje, rendimiento, perdidaInflacion, limiteExento, compararAhorro, mesesSinIntereses, tirMensual, prestamo };
+  // ---------- El Buen Fin: ¿de verdad es oferta? ----------
+
+  // Compara el precio de oferta contra el precio "antes" que anuncia la tienda y, si lo tienes, contra el precio más
+  // bajo que viste en las semanas previas (lo que recomienda Profeco: comparar antes). extra: % de descuento adicional
+  // (por ejemplo, con cierta tarjeta) que se aplica sobre el precio de oferta.
+  // veredicto: "faltan" (sin precios), "noEsOferta" (pagas lo mismo o más que el precio de referencia),
+  // "inflado" (el precio "antes" es mayor que el que viste: el descuento real es menor que el anunciado) o "real".
+  function descuentoReal({ precioAntes, precioOferta, precioPrevio = 0, extra = 0 }) {
+    const max = DATOS.maximos;
+    const recortado = pasaMaximo([[precioAntes, max.monto], [precioOferta, max.monto], [precioPrevio, max.monto], [extra, 100]]);
+    const antes = hasta(precioAntes, max.monto);
+    const oferta = hasta(precioOferta, max.monto);
+    const previo = hasta(precioPrevio, max.monto);
+    const pExtra = hasta(extra, 100) / 100;
+    const final = oferta * (1 - pExtra);
+    const faltan = antes === 0 || oferta === 0;
+    const conPrevio = previo > 0;
+    const referencia = conPrevio ? previo : antes;
+    const anunciado = faltan ? 0 : 1 - oferta / antes;
+    const total = faltan ? 0 : 1 - final / antes;
+    const real = faltan ? 0 : 1 - final / referencia;
+    let veredicto = "real";
+    if (faltan) veredicto = "faltan";
+    else if (final >= referencia - 0.005) veredicto = "noEsOferta";
+    else if (conPrevio && previo < antes - 0.005) veredicto = "inflado";
+    return {
+      antes, oferta, previo, extra: pExtra, final, faltan, conPrevio, referencia, recortado,
+      anunciado, total, real, ahorroAnunciado: faltan ? 0 : antes - final, ahorroReal: faltan ? 0 : referencia - final,
+      veredicto
+    };
+  }
+
+  const api = { DATOS, num, porcentaje, descuentoReal, rendimiento, perdidaInflacion, limiteExento, compararAhorro, mesesSinIntereses, tirMensual, prestamo };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else raiz.Dinero = api;
 })(this);

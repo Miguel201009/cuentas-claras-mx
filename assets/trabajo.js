@@ -87,6 +87,40 @@
         bienestar: { dias: 0, partes: [] }
       }
     },
+    // Salario mínimo. Los valores vigentes viven en Calc.DATOS.salarioMinimo (2026: 315.04 general y 440.87 en la zona
+    // libre de la frontera norte; EY, Por Esto, Fox Sports, ViveUSA). El de 2027 lo fija la CONASAMI en diciembre de 2026
+    // y rige desde el 1 ene 2027: mientras no se anuncie, publicado2027 es false y la página solo muestra escenarios.
+    // AL ANUNCIARSE: poner publicado2027: true, las cifras en anuncio2027 y actualizar Calc.DATOS (anio y salarioMinimo).
+    salarioMinimo: {
+      publicado2027: false,
+      anuncio2027: { general: 0, frontera: 0, fecha: "" },
+      // Escenarios de prensa, NO oficiales: 12% y 13% (Fox Sports, 15 oct 2026, "escenarios hipotéticos").
+      escenarios: [12, 13],
+      // Meta del gobierno: que el salario mínimo alcance para 2.5 canastas básicas en 2030 (Uno TV, ViveUSA).
+      metaCanastas: 2.5,
+      // Historial del salario mínimo general (pesos diarios, desde el 1 de enero de cada año). Expansión (1 dic 2022),
+      // ADN40 (19 nov 2025), N+ (2024) y EY/Por Esto (2026). 2021: 123.22 x 1.15 = 141.70.
+      historialGeneral: { 2019: 102.68, 2020: 123.22, 2021: 141.70, 2022: 172.87, 2023: 207.44, 2024: 248.93, 2025: 278.80, 2026: 315.04 },
+      // Zona libre de la frontera norte: Expansión y N+ (2023 y 2024), ADN40 y Por Esto (2025), EY (2026).
+      historialFrontera: { 2023: 312.41, 2024: 374.89, 2025: 419.88, 2026: 440.87 },
+      // Para pasar de diario a semana, quincena y mes: art. 89 LFT (semana entre 7, mes entre 30). El mes promedio
+      // (365 / 12 = 30.4167 días) es el que usan EY y la prensa: 315.04 x 365 / 12 = 9,582.47.
+      diasSemana: 7, diasQuincena: 15, diasMes: 30, diasAnio: 365
+    },
+    // Días de descanso obligatorio, art. 74 LFT: 1 ene; primer lunes de febrero (5 feb); tercer lunes de marzo (21 mar);
+    // 1 may; 16 sep; tercer lunes de noviembre (20 nov); 1 oct cada seis años, con el cambio de Presidente (2024, 2030);
+    // 25 dic; y el día de la jornada electoral en elecciones ordinarias federales y locales (fr. IX).
+    // Art. 75 LFT: si trabajas ese día te pagan, además de tu salario del día, un salario doble (pago triple).
+    // Art. 71 LFT: si además es domingo, prima dominical de al menos 25% del salario de un día ordinario.
+    // Revisado el 21 oct 2026 con Expansión (27 abr 2026), La Verdad Noticias y El Imparcial; diputados.gob.mx no abrió.
+    descanso: {
+      // Elecciones ordinarias federales: domingo 6 de junio de 2027 (Expansión, 11 sep 2026; ADN40, 10 sep 2026; La Verdad).
+      elecciones: { 2027: "2027-06-06" },
+      // Año en que hubo cambio de Presidente (el siguiente es cada seis años).
+      transmisionBase: 2024,
+      pagoAdicional: 2,
+      primaDominical: 0.25
+    },
     // Límites para que una cifra absurda no rompa el resultado: lo que pase de aquí se recorta y se avisa.
     maximos: { sueldoMensual: 1e8, montoEmpresa: 1e12, diasEmpresa: 1e9 }
   };
@@ -296,9 +330,99 @@
     };
   }
 
+  // ---------- Salario mínimo ----------
+
+  // Lo que gana a la semana, quincena y mes quien cobra el salario mínimo. zona: "general" o "frontera".
+  // aumento (%): escenario para 2027 (0 = salario vigente). El salario diario se redondea a centavos, como lo publica la CONASAMI.
+  function salarioMinimoPeriodos({ zona = "general", aumento = 0, diario } = {}) {
+    const cfg = DATOS.salarioMinimo;
+    const z = zona === "frontera" ? "frontera" : "general";
+    const base = diario !== undefined ? num(diario) : Calc.DATOS.salarioMinimo[z];
+    const pct = Math.min(num(aumento), 100);
+    const d = Calc.redondear(base * (1 + pct / 100));
+    return {
+      zona: z, base, aumento: pct, aumentoAcotado: num(aumento) > 100, diario: d, alza: Calc.redondear(d - base),
+      semana: Calc.redondear(d * cfg.diasSemana), quincena: Calc.redondear(d * cfg.diasQuincena),
+      mes30: Calc.redondear(d * cfg.diasMes), mesPromedio: Calc.redondear(d * cfg.diasAnio / 12),
+      anio: Calc.redondear(d * cfg.diasAnio)
+    };
+  }
+
+  // Historial con el aumento de cada año, en %, contra el año anterior (el primer año no tiene aumento).
+  function historialSalarioMinimo(tabla = DATOS.salarioMinimo.historialGeneral) {
+    const anios = Object.keys(tabla).map(Number).sort((a, b) => a - b);
+    return anios.map((a, i) => ({ anio: a, diario: tabla[a], aumento: i ? tabla[a] / tabla[anios[i - 1]] - 1 : 0 }));
+  }
+
+  // ---------- Días de descanso obligatorio ----------
+
+  const MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+
+  // n-ésimo lunes de un mes (mes de 0 a 11).
+  function lunes(anio, mes, n) {
+    const d = new Date(anio, mes, 1);
+    const primero = 1 + ((8 - d.getDay()) % 7);
+    return new Date(anio, mes, primero + 7 * (n - 1));
+  }
+
+  // Días de descanso obligatorio de un año (art. 74 LFT), en orden. Cada uno: { fecha, dia, texto, motivo, fraccion }.
+  function diasDescanso(anio) {
+    const a = Math.round(num(anio)) || Calc.DATOS.anio;
+    const cfg = DATOS.descanso;
+    const lista = [
+      { fecha: new Date(a, 0, 1), motivo: "Año Nuevo", fraccion: "I" },
+      { fecha: lunes(a, 1, 1), motivo: "Día de la Constitución (5 de febrero)", fraccion: "II" },
+      { fecha: lunes(a, 2, 3), motivo: "Natalicio de Benito Juárez (21 de marzo)", fraccion: "III" },
+      { fecha: new Date(a, 4, 1), motivo: "Día del Trabajo", fraccion: "IV" },
+      { fecha: new Date(a, 8, 16), motivo: "Día de la Independencia", fraccion: "V" },
+      { fecha: lunes(a, 10, 3), motivo: "Revolución Mexicana (20 de noviembre)", fraccion: "VI" },
+      { fecha: new Date(a, 11, 25), motivo: "Navidad", fraccion: "VIII" }
+    ];
+    if (a >= cfg.transmisionBase && (a - cfg.transmisionBase) % 6 === 0) {
+      lista.push({ fecha: new Date(a, 9, 1), motivo: "Cambio de Presidente de la República", fraccion: "VII" });
+    }
+    if (cfg.elecciones[a]) {
+      const [y, m, d] = cfg.elecciones[a].split("-").map(Number);
+      lista.push({ fecha: new Date(y, m - 1, d), motivo: "Jornada electoral (elecciones federales)", fraccion: "IX" });
+    }
+    return lista.sort((x, y) => x.fecha - y.fecha).map(x => Object.assign(x, {
+      dia: DIAS_SEMANA[x.fecha.getDay()],
+      texto: `${DIAS_SEMANA[x.fecha.getDay()]} ${x.fecha.getDate()} de ${MESES[x.fecha.getMonth()]} de ${x.fecha.getFullYear()}`,
+      domingo: x.fecha.getDay() === 0
+    }));
+  }
+
+  // Los que faltan de un año a partir de una fecha (incluida).
+  function diasDescansoPendientes(desde) {
+    const d = desde instanceof Date && !isNaN(desde) ? desde : new Date(Calc.DATOS.anio, 0, 1);
+    const hoy = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    return diasDescanso(d.getFullYear()).filter(x => x.fecha >= hoy);
+  }
+
+  // Cuánto te deben si trabajas un día de descanso obligatorio (art. 75 LFT): tu salario normal del día más un salario doble.
+  // monto y periodo: lo que ganas por día, semana, quincena o mes (art. 89 LFT: semana entre 7; quincena entre 15; mes entre 30).
+  // domingo: si el día cae en domingo, se suma la prima dominical (art. 71 LFT, al menos 25%).
+  const DIVISOR = { diario: 1, semanal: 7, quincenal: 15, mensual: 30 };
+  function pagoDiaFestivo({ monto, periodo = "diario", dias = 1, domingo = false }) {
+    const cfg = DATOS.descanso;
+    const div = DIVISOR[periodo] || 1;
+    const recortado = num(monto) > DATOS.maximos.sueldoMensual;
+    const sd = acotado(monto, DATOS.maximos.sueldoMensual) / div;
+    const n = Math.min(Math.round(num(dias)), 366);
+    const normal = sd * n;
+    const adicional = sd * cfg.pagoAdicional * n;
+    const prima = domingo ? sd * cfg.primaDominical * n : 0;
+    const extra = adicional + prima;
+    return {
+      sd, dias: n, recortado, diasAcotado: Math.round(num(dias)) > 366, normal, adicional, prima, extra,
+      total: normal + extra, porDia: n ? (normal + extra) / n : 0
+    };
+  }
+
   const api = {
     DATOS, ptu, horasExtra, limiteDobles, jornadaSemanal,
-    aguinaldoPension, aguinaldoGobierno, aguinaldoSalida, calendarioAguinaldo
+    aguinaldoPension, aguinaldoGobierno, aguinaldoSalida, calendarioAguinaldo,
+    salarioMinimoPeriodos, historialSalarioMinimo, diasDescanso, diasDescansoPendientes, pagoDiaFestivo
   };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else raiz.Trabajo = api;

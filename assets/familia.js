@@ -61,6 +61,22 @@
     maxMonto: 100000,
     bimestresPorAnio: 6,
 
+    // Montos 2026 por bimestre, cotejados el 23 oct 2026 en prensa que cita a la Secretaría de Bienestar y a
+    // la Coordinación Nacional de Becas (N+ 5 ene 2026, Fox Sports 17 oct 2026, UnoTV, Expansión, ADN40).
+    // No se pudo abrir gob.mx para confirmarlos en la fuente oficial. Son los mismos que los ejemplos de arriba.
+    bienestar2026: {
+      adultos: 6400, // Pensión Adultos Mayores, 65 años o más (en 2025 eran 6,200)
+      mujeres: 3100, // Pensión Mujeres Bienestar, 60 a 64 años
+      edadMujeres: 60,
+      edadAdultos: 65,
+      benitoJuarez: 1900, // por estudiante de media superior pública
+      ritaFamilia: 1900, // secundaria: por familia
+      ritaAdicional: 700, // secundaria: por cada estudiante más
+      ritaPrimaria: 2500, // primaria: un pago al año por estudiante (útiles y uniformes)
+      // Las becas pagan 5 bimestres por ciclo escolar: julio y agosto no se pagan (UnoTV 14 sep y 29 ene 2026).
+      bimestresCiclo: 5
+    },
+
     // Pensión alimenticia: no hay un porcentaje legal único. El art. 311 del Código Civil Federal (y los
     // códigos de los estados) dice que los alimentos se fijan según las necesidades de quien los recibe y
     // las posibilidades de quien los da. Aquí solo se suman gastos y se reparten según lo que gana cada uno.
@@ -266,7 +282,84 @@
     });
   }
 
-  const api = { DATOS, numero, cantidad, entero, sumaApoyos, maternidad, paternidad, gastosHijos };
+  // ------------------------------------------------------------- Pensiones y becas, una por una
+
+  // Cuánto suma una pensión del Bienestar. monto: por bimestre (6,400 si no se indica); personas: cuántas
+  // la cobran en tu casa (1 si no se indica); bimestres: cuántos pagos sumar, de 0 a 6 (6 = un año).
+  function pensionBienestar({ monto = DATOS.bienestar2026.adultos, personas = 1, bimestres = DATOS.bimestresPorAnio } = {}) {
+    const m = cantidad(monto, DATOS.maxMonto);
+    const p = entero(personas, DATOS.maxPersonas);
+    const b = entero(bimestres, DATOS.bimestresPorAnio);
+    const bimestre = r2(m.valor * p.valor);
+    return {
+      monto: m.valor, personas: p.valor, bimestres: b.valor,
+      bimestre, mes: r2(bimestre / 2), porPersona: r2(m.valor * b.valor), total: r2(bimestre * b.valor),
+      anio: r2(bimestre * DATOS.bimestresPorAnio),
+      acotado: m.acotado || p.acotado || b.acotado
+    };
+  }
+
+  // Pensión Mujeres Bienestar: cuánto recibirías desde hoy hasta cumplir 65 y cuánto al pasar a la pensión de
+  // Adultos Mayores. edad: años cumplidos; meses: meses desde tu último cumpleaños (0 a 11). Es una
+  // estimación: cuenta un pago por cada 2 meses completos que faltan para los 65.
+  function mujeresHasta65({ edad, meses = 0, monto = DATOS.bienestar2026.mujeres, montoAdultos = DATOS.bienestar2026.adultos } = {}) {
+    const B = DATOS.bienestar2026;
+    const e = numero(edad);
+    if (e === null || e < 0) return { ok: false, motivo: "edad", error: "Escribe tu edad en años cumplidos." };
+    const anios = Math.floor(e);
+    const mm = entero(meses, 11).valor;
+    const m = cantidad(monto, DATOS.maxMonto).valor;
+    const ma = cantidad(montoAdultos, DATOS.maxMonto).valor;
+    const alCumplir = { bimestre: ma, mes: r2(ma / 2), anio: r2(ma * DATOS.bimestresPorAnio), aumento: r2(ma - m) };
+    if (anios > 150) return { ok: false, motivo: "edad", error: "Revisa tu edad." };
+    if (anios < B.edadMujeres) {
+      const mesesFaltan = B.edadMujeres * 12 - (anios * 12 + mm);
+      return { ok: false, motivo: "menor", mesesFaltan, error: `La Pensión Mujeres Bienestar es de ${B.edadMujeres} a 64 años. Te faltan ${mesesFaltan} ${mesesFaltan === 1 ? "mes" : "meses"} para los ${B.edadMujeres}.` };
+    }
+    if (anios >= B.edadAdultos) return { ok: false, motivo: "mayor", alCumplir, error: `Con ${B.edadAdultos} años o más te toca la Pensión para Adultos Mayores, no la de Mujeres Bienestar.` };
+    const mesesFaltan = B.edadAdultos * 12 - (anios * 12 + mm);
+    const bimestres = Math.floor(mesesFaltan / 2);
+    return {
+      ok: true, edad: anios, meses: mm, monto: m, mesesFaltan, bimestres,
+      mes: r2(m / 2), anio: r2(m * DATOS.bimestresPorAnio), hasta65: r2(m * bimestres), alCumplir
+    };
+  }
+
+  // Beca Benito Juárez: estudiantes de media superior en tu casa x monto por bimestre x bimestres (0 a 5).
+  function becaBenitoJuarez({ estudiantes = 1, monto = DATOS.bienestar2026.benitoJuarez, bimestres = DATOS.bienestar2026.bimestresCiclo } = {}) {
+    const e = entero(estudiantes, DATOS.maxPersonas);
+    const m = cantidad(monto, DATOS.maxMonto);
+    const b = entero(bimestres, DATOS.bienestar2026.bimestresCiclo);
+    const bimestre = r2(e.valor * m.valor);
+    return {
+      estudiantes: e.valor, monto: m.valor, bimestres: b.valor, bimestre, ciclo: r2(bimestre * b.valor),
+      porEstudiante: r2(m.valor * b.valor), acotado: e.acotado || m.acotado || b.acotado
+    };
+  }
+
+  // Beca Rita Cetina. Secundaria: un monto por familia cada bimestre más un extra por cada estudiante después
+  // del primero. Primaria: un pago al año por estudiante. bimestres: pagos de secundaria a sumar (0 a 5).
+  function becaRitaCetina({ secundaria = 0, primaria = 0, familia = DATOS.bienestar2026.ritaFamilia,
+    adicional = DATOS.bienestar2026.ritaAdicional, porPrimaria = DATOS.bienestar2026.ritaPrimaria,
+    bimestres = DATOS.bienestar2026.bimestresCiclo } = {}) {
+    const s = entero(secundaria, DATOS.maxPersonas);
+    const p = entero(primaria, DATOS.maxPersonas);
+    const f = cantidad(familia, DATOS.maxMonto);
+    const a = cantidad(adicional, DATOS.maxMonto);
+    const mp = cantidad(porPrimaria, DATOS.maxMonto);
+    const b = entero(bimestres, DATOS.bienestar2026.bimestresCiclo);
+    const bimestre = s.valor > 0 ? r2(f.valor + (s.valor - 1) * a.valor) : 0;
+    const secundariaCiclo = r2(bimestre * b.valor);
+    const primariaAnual = r2(p.valor * mp.valor);
+    return {
+      secundaria: s.valor, primaria: p.valor, bimestres: b.valor, bimestre, secundariaCiclo, primariaAnual,
+      total: r2(secundariaCiclo + primariaAnual),
+      acotado: s.acotado || p.acotado || f.acotado || a.acotado || mp.acotado || b.acotado
+    };
+  }
+
+  const api = { DATOS, numero, cantidad, entero, sumaApoyos, maternidad, paternidad, gastosHijos,
+    pensionBienestar, mujeresHasta65, becaBenitoJuarez, becaRitaCetina };
   if (enNode) module.exports = api;
   else raiz.Familia = api;
 })(this);

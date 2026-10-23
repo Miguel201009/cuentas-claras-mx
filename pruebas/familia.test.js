@@ -355,4 +355,115 @@ for (const [nombre, html] of [["becas", bec], ["maternidad", mat], ["pensión", 
   assert.ok(!/"\$0"/.test(html), `${nombre}: usa mxn(0), no "$0"`);
 }
 
+// ---------- Pensiones y becas, una por una (montos 2026 cotejados en prensa) ----------
+const B26 = F.DATOS.bienestar2026;
+assert.strictEqual(B26.adultos, 6400);
+assert.strictEqual(B26.mujeres, 3100);
+assert.strictEqual(B26.benitoJuarez, 1900);
+assert.strictEqual(B26.ritaFamilia, 1900);
+assert.strictEqual(B26.ritaAdicional, 700);
+assert.strictEqual(B26.ritaPrimaria, 2500);
+assert.strictEqual(B26.bimestresCiclo, 5);
+// Los ejemplos de la calculadora de becas coinciden con los montos 2026
+assert.strictEqual(F.DATOS.apoyos.adultos.ejemplo, B26.adultos);
+assert.strictEqual(F.DATOS.apoyos.mujeres.ejemplo, B26.mujeres);
+assert.strictEqual(F.DATOS.apoyos.bachillerato.ejemplo, B26.benitoJuarez);
+
+// Adultos mayores: valores de la página (6,400, 1 persona, 6 bimestres)
+let pb = F.pensionBienestar({ monto: "6400", personas: "1", bimestres: "6" });
+assert.strictEqual(pb.bimestre, 6400);
+assert.strictEqual(pb.mes, 3200);
+assert.strictEqual(pb.total, 38400);
+assert.strictEqual(pb.anio, 38400);
+assert.strictEqual(pb.acotado, false);
+pb = F.pensionBienestar({ personas: 2, bimestres: 1 }); // pareja, el pago de noviembre
+assert.strictEqual(pb.bimestre, 12800);
+assert.strictEqual(pb.total, 12800);
+assert.strictEqual(pb.porPersona, 6400);
+pb = F.pensionBienestar({ personas: 2, bimestres: 9 });
+assert.strictEqual(pb.bimestres, 6);
+assert.strictEqual(pb.total, 76800);
+assert.strictEqual(pb.acotado, true);
+pb = F.pensionBienestar({ monto: "", personas: -1, bimestres: "abc" });
+assert.strictEqual(pb.total, 0);
+sinRaros(F.pensionBienestar({ monto: 1e300, personas: Infinity, bimestres: NaN }), "pensión rara");
+
+// Mujeres Bienestar: valores de la página (62 años, 0 meses)
+let mb = F.mujeresHasta65({ edad: "62", meses: "0" });
+assert.ok(mb.ok);
+assert.strictEqual(mb.mesesFaltan, 36);
+assert.strictEqual(mb.bimestres, 18);
+assert.strictEqual(mb.hasta65, 55800); // 18 x 3,100
+assert.strictEqual(mb.anio, 18600);
+assert.strictEqual(mb.alCumplir.bimestre, 6400);
+assert.strictEqual(mb.alCumplir.anio, 38400);
+assert.strictEqual(mb.alCumplir.aumento, 3300);
+mb = F.mujeresHasta65({ edad: 64, meses: 11 }); // falta 1 mes: ningún bimestre completo
+assert.strictEqual(mb.mesesFaltan, 1);
+assert.strictEqual(mb.bimestres, 0);
+assert.strictEqual(mb.hasta65, 0);
+mb = F.mujeresHasta65({ edad: 60, meses: 0 });
+assert.strictEqual(mb.bimestres, 30);
+assert.strictEqual(mb.hasta65, 93000);
+assert.strictEqual(F.mujeresHasta65({ edad: 60, meses: 25 }).meses, 11); // meses se acotan a 11
+assert.strictEqual(F.mujeresHasta65({ edad: 59, meses: 10 }).motivo, "menor");
+assert.strictEqual(F.mujeresHasta65({ edad: 59, meses: 10 }).mesesFaltan, 2);
+assert.strictEqual(F.mujeresHasta65({ edad: 66 }).motivo, "mayor");
+for (const v of ["", null, undefined, "abc", -5, NaN]) assert.strictEqual(F.mujeresHasta65({ edad: v }).ok, false, `edad ${v}`);
+assert.strictEqual(F.mujeresHasta65({ edad: 1e9 }).ok, false);
+sinRaros(F.mujeresHasta65({ edad: 63.7, meses: Infinity, monto: 1e300 }), "mujeres raro");
+
+// Beca Benito Juárez: valores de la página (1 estudiante, 5 bimestres)
+let bj = F.becaBenitoJuarez({ estudiantes: "1", bimestres: "5" });
+assert.strictEqual(bj.bimestre, 1900);
+assert.strictEqual(bj.ciclo, 9500);
+bj = F.becaBenitoJuarez({ estudiantes: 2, bimestres: 1 });
+assert.strictEqual(bj.ciclo, 3800);
+bj = F.becaBenitoJuarez({ estudiantes: 2, bimestres: 7 });
+assert.strictEqual(bj.bimestres, 5);
+assert.strictEqual(bj.acotado, true);
+assert.strictEqual(F.becaBenitoJuarez({ estudiantes: "" }).ciclo, 0);
+sinRaros(F.becaBenitoJuarez({ estudiantes: NaN, monto: Infinity, bimestres: -2 }), "benito raro");
+
+// Beca Rita Cetina: valores de la página (2 en secundaria, 1 en primaria)
+let rc = F.becaRitaCetina({ secundaria: "2", primaria: "1", bimestres: "5" });
+assert.strictEqual(rc.bimestre, 2600); // 1,900 + 700
+assert.strictEqual(rc.secundariaCiclo, 13000);
+assert.strictEqual(rc.primariaAnual, 2500);
+assert.strictEqual(rc.total, 15500);
+assert.strictEqual(F.becaRitaCetina({ secundaria: 1 }).secundariaCiclo, 9500);
+assert.strictEqual(F.becaRitaCetina({ secundaria: 3 }).bimestre, 3300);
+assert.strictEqual(F.becaRitaCetina({ primaria: 3 }).total, 7500);
+assert.strictEqual(F.becaRitaCetina({}).total, 0);
+assert.strictEqual(F.becaRitaCetina({ secundaria: 50 }).acotado, true);
+sinRaros(F.becaRitaCetina({ secundaria: 1e300, primaria: NaN, familia: Infinity }), "rita raro");
+
+// Las páginas nuevas cargan los mismos valores que las pruebas
+const leerPag = rel => fs.readFileSync(path.join(raiz, rel), "utf8");
+const pam = leerPag("familia/pension-bienestar-adultos-mayores/index.html");
+assert.strictEqual(valor(pam, "monto"), "6400");
+assert.strictEqual(valor(pam, "personas"), "1");
+assert.strictEqual(valor(pam, "bimestres"), "6");
+for (const t of ["$6,400", "$38,400", "$3,200", "$12,800"]) assert.ok(pam.includes(t), `adultos mayores: ${t}`);
+const pmu = leerPag("familia/pension-mujeres-bienestar/index.html");
+assert.strictEqual(valor(pmu, "edad"), "62");
+assert.strictEqual(valor(pmu, "meses"), "0");
+for (const t of ["$3,100", "$55,800", "$6,400", "$3,300"]) assert.ok(pmu.includes(t), `mujeres: ${t}`);
+const pbj = leerPag("familia/beca-benito-juarez/index.html");
+assert.strictEqual(valor(pbj, "estudiantes"), "1");
+assert.strictEqual(valor(pbj, "bimestres"), "5");
+for (const t of ["$1,900", "$9,500"]) assert.ok(pbj.includes(t), `benito juárez: ${t}`);
+const prc = leerPag("familia/beca-rita-cetina/index.html");
+assert.strictEqual(valor(prc, "secundaria"), "2");
+assert.strictEqual(valor(prc, "primaria"), "1");
+for (const t of ["$2,600", "$13,000", "$2,500", "$15,500"]) assert.ok(prc.includes(t), `rita cetina: ${t}`);
+// Enlaces de ida y vuelta con la guía general de becas
+for (const h of ["../pension-bienestar-adultos-mayores/", "../pension-mujeres-bienestar/", "../beca-benito-juarez/", "../beca-rita-cetina/"]) {
+  assert.ok(bec.includes(`href="${h}"`), `becas enlaza a ${h}`);
+}
+for (const [n, h] of [["adultos", pam], ["mujeres", pmu], ["benito", pbj], ["rita", prc]]) {
+  assert.ok(h.includes('href="../becas/"'), `${n} enlaza a becas`);
+  assert.ok(/no se ha anunciado|no se han anunciado|no ha anunciado|no han anunciado/i.test(h), `${n}: dice qué fechas faltan por anunciar`);
+}
+
 console.log("familia.test.js: todas las pruebas pasaron");

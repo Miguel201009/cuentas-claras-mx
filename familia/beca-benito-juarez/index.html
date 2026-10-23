@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beca Benito Juárez 2026: monto, pagos y estatus | Cuentas Claras MX</title>
+<meta name="description" content="La Beca Benito Juárez de prepa pública es de $1,900 por bimestre en 2026, $9,500 por ciclo escolar. Calendario de pagos, registro y cómo consultar tu estatus con tu CURP.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/familia/beca-benito-juarez/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Beca Benito Juárez 2026: monto, pagos y estatus">
+<meta property="og:description" content="La Beca Benito Juárez de prepa pública es de $1,900 por bimestre en 2026, $9,500 por ciclo escolar. Calendario de pagos, registro y cómo consultar tu estatus con tu CURP.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/familia/beca-benito-juarez/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/familia-beca-benito-juarez.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Familia y becas","item":"https://miguel201009.github.io/cuentas-claras-mx/familia/"},{"@type":"ListItem","position":3,"name":"Beca Benito Juárez","item":"https://miguel201009.github.io/cuentas-claras-mx/familia/beca-benito-juarez/"}]},{"@type":"WebApplication","name":"Beca Benito Juárez 2026 para prepa y bachillerato","url":"https://miguel201009.github.io/cuentas-claras-mx/familia/beca-benito-juarez/","description":"La Beca Benito Juárez de prepa pública es de $1,900 por bimestre en 2026, $9,500 por ciclo escolar. Calendario de pagos, registro y cómo consultar tu estatus con tu CURP.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Familia y becas</a> › Beca Benito Juárez</span></div>
+
+  <header>
+    <span class="tag">Familia y becas</span>
+    <h1>Beca Benito Juárez 2026 para prepa y bachillerato</h1>
+    <p class="lede">La Beca Universal Benito Juárez paga <strong>$1,900 cada bimestre</strong> a estudiantes de escuelas públicas de educación media superior: hasta <strong>$9,500 por ciclo escolar</strong>. Aquí están las fechas de pago, el registro y cómo revisar tu estatus.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni de la Coordinación Nacional de Becas.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <h3>¿Cuánto reciben tus hijos en el ciclo?</h3>
+      <div class="par">
+        <label for="estudiantes">Estudiantes de prepa pública en tu casa
+          <input id="estudiantes" type="number" min="0" max="20" step="1" inputmode="numeric" value="1"></label>
+        <label for="bimestres">Bimestres a sumar
+          <input id="bimestres" type="number" min="0" max="5" step="1" inputmode="numeric" value="5"></label>
+      </div>
+      <label for="monto">Monto por bimestre
+        <input id="monto" type="number" min="0" max="100000" step="50" inputmode="decimal" value="1900"></label>
+      <p class="nota">Un ciclo escolar tiene 5 pagos: julio y agosto no se pagan. Cada estudiante recibe su propia beca.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">En esos bimestres recibirían</span>
+      <div class="big" id="total">$0.00</div>
+      <div class="row"><span>Cada bimestre, en total</span><b id="r-bim"></b></div>
+      <div class="row"><span>Por estudiante</span><b id="r-est"></b></div>
+      <p class="nota" id="msg"></p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>¿Cuánto es y para quién?</h2>
+    <ul>
+      <li><strong>Monto 2026:</strong> $1,900 por bimestre por estudiante. En un ciclo escolar son 5 pagos: <strong>$9,500</strong>.</li>
+      <li><strong>Para quién:</strong> estudiantes inscritos en una escuela <strong>pública</strong> de educación media superior: bachillerato general o tecnológico, profesional técnico bachiller o equivalente.</li>
+      <li>Es universal: no tienes que comprobar ingresos. Según UnoTV, el límite es tener hasta 25 años cumplidos y la beca puede durar hasta 40 meses mientras sigas inscrito.</li>
+      <li>Se paga en una Tarjeta del Bienestar a nombre del estudiante o, si es menor de edad, de su mamá, papá o tutor.</li>
+    </ul>
+
+    <h2>Calendario de pagos</h2>
+    <p>Los depósitos van por la primera letra del primer apellido de quien tiene la tarjeta del Banco del Bienestar.</p>
+    <h3>Septiembre y octubre 2026: del 19 al 30 de octubre</h3>
+    <p>Lo anunció la Coordinación Nacional de Becas para el Bienestar. Es el primer pago del ciclo 2026-2027:</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Letra del primer apellido</th><th>Día de depósito</th></tr></thead>
+      <tbody>
+        <tr><td>A, B</td><td>Lunes 19 de octubre</td></tr>
+        <tr><td>C</td><td>Martes 20</td></tr>
+        <tr><td>D, E, F</td><td>Miércoles 21</td></tr>
+        <tr><td>G</td><td>Jueves 22</td></tr>
+        <tr><td>H, I, J, K, L</td><td>Viernes 23</td></tr>
+        <tr><td>M</td><td>Lunes 26</td></tr>
+        <tr><td>N, Ñ, O, P, Q</td><td>Martes 27</td></tr>
+        <tr><td>R</td><td>Miércoles 28</td></tr>
+        <tr><td>S</td><td>Jueves 29</td></tr>
+        <tr><td>T a Z</td><td>Viernes 30 de octubre</td></tr>
+      </tbody>
+    </table></div>
+    <p>Si te registraste en septiembre, este pago todavía no te llega: primero tienes que recibir tu Tarjeta del Bienestar.</p>
+    <h3>Noviembre y diciembre 2026</h3>
+    <p>Al 23 de octubre de 2026 <strong>no se han anunciado las fechas</strong>. Por los años anteriores se espera en diciembre; confírmalo cuando lo anuncie la Coordinación Nacional de Becas.</p>
+
+    <h2>Cómo registrarte</h2>
+    <ol>
+      <li><strong>Crea tu cuenta Llave MX</strong> antes de que abra el registro.</li>
+      <li><strong>Entra al portal oficial</strong> de la beca (becabenitojuarez.gob.mx) en las fechas de registro. El más reciente fue del <strong>21 al 30 de septiembre de 2026</strong>, para estudiantes nuevos del ciclo 2026-2027. Si no alcanzaste, espera el siguiente periodo.</li>
+      <li><strong>Captura los datos</strong> del estudiante y, si es menor de edad, de su mamá, papá o tutor.</li>
+      <li><strong>Espera la validación</strong> y el aviso para recoger tu tarjeta.</li>
+    </ol>
+    <h3>Documentos</h3>
+    <ul>
+      <li>CURP del estudiante (de preferencia certificada; <a href="../../tramites/curp/">consúltala aquí</a>).</li>
+      <li>Clave de Centro de Trabajo (CCT) de la escuela: viene en tu credencial o te la da la escuela.</li>
+      <li>Comprobante de domicilio digitalizado, reciente.</li>
+      <li>Identificación oficial digitalizada (INE, pasaporte, cédula profesional, cartilla militar o licencia de manejo).</li>
+      <li>Si el estudiante es menor de edad: CURP, celular e identificación de su mamá, papá o tutor.</li>
+    </ul>
+
+    <h2>Cómo consultar tu estatus</h2>
+    <ol>
+      <li>Entra al <strong>Buscador de Estatus</strong> de las Becas Benito Juárez, en buscador.becasbenitojuarez.gob.mx/consulta.</li>
+      <li>Escribe la CURP del estudiante, marca «No soy un robot» y da clic en «Buscar».</li>
+      <li>Ahí ves si eres beneficiario, tu forma de pago, si ya puedes recoger tu tarjeta, las becas pendientes por cobrar y, en «Becas emitidas», la fecha y la situación de cada pago.</li>
+    </ol>
+    <p>Para ver tu saldo, usa un cajero o la app del Banco del Bienestar. Nadie te puede cobrar por registrarte ni por desbloquear tu beca.</p>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Y si mi hijo está en secundaria o primaria?</h3>
+    <p>Le toca la <a href="../beca-rita-cetina/">Beca Rita Cetina</a>, que tiene otros montos y otro registro.</p>
+    <h3>¿Me pagan los bimestres que pasaron antes de registrarme?</h3>
+    <p>No está garantizado: según N+, depende de los recursos del año. No cuentes con un pago retroactivo.</p>
+
+    <h2>Fuentes</h2>
+    <p class="nota">Revisadas el 23 de octubre de 2026. Monto y 5 pagos por ciclo: UnoTV (14 de septiembre y 20 de octubre de 2026), N+ y La Crónica (19 de octubre). Calendario de octubre: N+ (19 de octubre, cita al coordinador nacional de Becas), UnoTV (20 de octubre) y La Crónica. Registro de septiembre y documentos: UnoTV (14 de septiembre) y Expansión (18 de septiembre, sin fechas exactas). Edad de hasta 25 años y 40 meses: solo UnoTV. Buscador de Estatus: UnoTV (20 de enero de 2026) y ADN40. No pudimos abrir gob.mx desde nuestra red: confirma en el portal oficial.</p>
+    <ul>
+      <li><a href="https://www.gob.mx/becasbenitojuarez" rel="noopener">Coordinación Nacional de Becas para el Bienestar Benito Juárez</a> (gob.mx).</li>
+    </ul>
+    <p>También te puede servir: <a href="../beca-rita-cetina/">Beca Rita Cetina</a>, <a href="../becas/">becas y programas sociales</a> y <a href="../../tramites/curp/">consultar e imprimir tu CURP</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni de la Coordinación Nacional de Becas. Los cálculos son orientativos; confirma los montos y fechas en <a href="https://www.gob.mx/becasbenitojuarez" rel="noopener">gob.mx/becasbenitojuarez</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/familia.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const r = Familia.becaBenitoJuarez({ estudiantes: $("estudiantes").value, monto: $("monto").value, bimestres: $("bimestres").value });
+  $("total").textContent = mxn(r.ciclo);
+  $("r-bim").textContent = mxn(r.bimestre);
+  $("r-est").textContent = mxn(r.porEstudiante);
+  $("msg").textContent = !r.estudiantes ? "Escribe cuántos estudiantes de prepa pública hay en tu casa." :
+    r.acotado ? "Revisa los datos: tomamos como máximo 20 estudiantes, 5 bimestres y $100,000 por bimestre." : "";
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

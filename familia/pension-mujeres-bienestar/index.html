@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pensión Mujeres Bienestar 2026: monto, registro y los 65 | Cuentas Claras MX</title>
+<meta name="description" content="La Pensión Mujeres Bienestar es de $3,100 por bimestre para mujeres de 60 a 64 años. Calendario, registro, documentos y qué pasa al cumplir 65. Calcula cuánto recibirás.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/familia/pension-mujeres-bienestar/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Pensión Mujeres Bienestar 2026: monto, registro y los 65">
+<meta property="og:description" content="La Pensión Mujeres Bienestar es de $3,100 por bimestre para mujeres de 60 a 64 años. Calendario, registro, documentos y qué pasa al cumplir 65. Calcula cuánto recibirás.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/familia/pension-mujeres-bienestar/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/familia-pension-mujeres-bienestar.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Familia y becas","item":"https://miguel201009.github.io/cuentas-claras-mx/familia/"},{"@type":"ListItem","position":3,"name":"Pensión Mujeres Bienestar","item":"https://miguel201009.github.io/cuentas-claras-mx/familia/pension-mujeres-bienestar/"}]},{"@type":"WebApplication","name":"Pensión Mujeres Bienestar 2026","url":"https://miguel201009.github.io/cuentas-claras-mx/familia/pension-mujeres-bienestar/","description":"La Pensión Mujeres Bienestar es de $3,100 por bimestre para mujeres de 60 a 64 años. Calendario, registro, documentos y qué pasa al cumplir 65. Calcula cuánto recibirás.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Familia y becas</a> › Pensión Mujeres Bienestar</span></div>
+
+  <header>
+    <span class="tag">Familia y becas</span>
+    <h1>Pensión Mujeres Bienestar 2026</h1>
+    <p class="lede">Si tienes de 60 a 64 años, en 2026 recibes <strong>$3,100 cada dos meses</strong>. Al cumplir 65 pasas sola a la pensión de Adultos Mayores, de $6,400. Calcula cuánto te toca hasta entonces.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni de la Secretaría de Bienestar.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <h3>¿Cuánto recibirás hasta los 65?</h3>
+      <div class="par">
+        <label for="edad">Tu edad (años cumplidos)
+          <input id="edad" type="number" min="0" max="120" step="1" inputmode="numeric" value="62"></label>
+        <label for="meses">Meses desde tu cumpleaños
+          <input id="meses" type="number" min="0" max="11" step="1" inputmode="numeric" value="0"></label>
+      </div>
+      <p class="nota">Es una estimación: contamos un pago por cada dos meses completos que te faltan para cumplir 65, con el monto de 2026. El monto puede subir cada año.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota" id="tit">Hasta cumplir 65 recibirías unos</span>
+      <div class="big" id="total">$0.00</div>
+      <div class="row"><span>Pagos que te faltan (aprox.)</span><b id="r-pagos"></b></div>
+      <div class="row"><span>Cada bimestre ahora</span><b id="r-bim"></b></div>
+      <div class="row"><span>Al cumplir 65, cada bimestre</span><b id="r-65"></b></div>
+      <div class="row"><span>Al cumplir 65, en un año</span><b id="r-65a"></b></div>
+      <p class="nota" id="msg"></p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>¿Cuánto es y para quién?</h2>
+    <ul>
+      <li><strong>Monto 2026:</strong> $3,100 por bimestre, unos $1,550 al mes y $18,600 en un año.</li>
+      <li><strong>Edad:</strong> mujeres de <strong>60 a 64 años</strong>.</li>
+      <li>Mexicanas por nacimiento o por naturalización que vivan en México.</li>
+      <li>Se paga en la Tarjeta del Bienestar, el mismo día que la pensión de Adultos Mayores.</li>
+    </ul>
+    <p>Ejemplo (los datos de la calculadora): una mujer que acaba de cumplir 62 años tiene 36 meses por delante hasta los 65, unos 18 pagos de $3,100: <strong>$55,800</strong>. Al cumplir 65 empieza a recibir $6,400 por bimestre, <strong>$3,300 más</strong> en cada pago.</p>
+
+    <h2>¿Qué pasa al cumplir 65?</h2>
+    <p>Pasas <strong>automáticamente</strong> a la <a href="../pension-bienestar-adultos-mayores/">Pensión para Adultos Mayores</a>: no tienes que volver a registrarte. No es una baja, es un cambio de programa. La pensión de Adultos Mayores <strong>sustituye</strong> a la de Mujeres Bienestar: no se cobran las dos.</p>
+
+    <h2>Calendario de pagos</h2>
+    <p>Se paga por la letra de tu primer apellido, con el mismo calendario de la pensión de Adultos Mayores.</p>
+    <ul>
+      <li><strong>Septiembre y octubre 2026:</strong> se depositó del 1 al 25 de septiembre (la A el martes 1, de la W a la Z el viernes 25).</li>
+      <li><strong>Noviembre y diciembre 2026:</strong> al 23 de octubre la Secretaría de Bienestar <strong>no ha anunciado el calendario oficial</strong>. La prensa publica uno tentativo del 3 al 27 de noviembre: revisa la tabla por letra en la página de la <a href="../pension-bienestar-adultos-mayores/">Pensión para Adultos Mayores</a>.</li>
+    </ul>
+
+    <h2>Cómo registrarte</h2>
+    <p>El registro es gratis y en persona, en tu Módulo de Bienestar, solo en las fechas que anuncia la Secretaría. El más reciente fue <strong>del 19 al 25 de octubre de 2026</strong>, de 9:00 a 16:00 horas, por letra del primer apellido:</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Letra</th><th>Día (octubre 2026)</th></tr></thead>
+      <tbody>
+        <tr><td>A, B, C</td><td>Lunes 19</td></tr>
+        <tr><td>D a H</td><td>Martes 20</td></tr>
+        <tr><td>I a M</td><td>Miércoles 21</td></tr>
+        <tr><td>N, Ñ, O, P, Q, R</td><td>Jueves 22</td></tr>
+        <tr><td>S a Z</td><td>Viernes 23</td></tr>
+        <tr><td>Todas</td><td>Sábado 24 y domingo 25</td></tr>
+      </tbody>
+    </table></div>
+    <p>Si no alcanzas a ir, espera el siguiente periodo: lo anuncian en gob.mx/bienestar y en las redes de la Secretaría. Si te registras ya cerca de los 65, pregunta en el módulo si te conviene esperar al registro de Adultos Mayores.</p>
+    <h3>Documentos</h3>
+    <ul>
+      <li>Identificación oficial vigente (INE, pasaporte o credencial del INAPAM).</li>
+      <li>Acta de nacimiento legible.</li>
+      <li>CURP impresa recientemente (<a href="../../tramites/curp/">consúltala gratis</a>).</li>
+      <li>Comprobante de domicilio de no más de 6 meses.</li>
+      <li>Teléfono celular y de casa.</li>
+    </ul>
+
+    <h2>Cómo consultar tu pago</h2>
+    <p>Revisa tu saldo en un cajero o sucursal del Banco del Bienestar o en su app. Para dudas del programa, ve a tu Módulo de Bienestar. Nadie te puede cobrar por registrarte ni por «acelerar» tu pago, y nunca compartas el NIP de tu tarjeta.</p>
+
+    <h2>Fuentes</h2>
+    <p class="nota">Revisadas el 23 de octubre de 2026. Monto: N+ (5 de enero de 2026), Fox Sports (17 de octubre de 2026), UnoTV y Expansión. Pase automático a los 65: Récord (17 de octubre de 2026) y UnoTV (7 de febrero de 2026). Pago de septiembre: UnoTV y Expansión. Registro de octubre: La Crónica (19 de octubre, cita a la Secretaría de Bienestar) y N+. Requisitos de nacionalidad: notas de prensa sobre las reglas de operación 2026, como en nuestra guía de <a href="../becas/">becas y programas sociales</a>. No pudimos abrir gob.mx desde nuestra red: confirma ahí antes de hacer un trámite.</p>
+    <p>También te puede servir: <a href="../pension-bienestar-adultos-mayores/">Pensión para Adultos Mayores</a>, <a href="../becas/">becas y programas sociales</a> y <a href="../../retiro/semanas-cotizadas/">semanas cotizadas en el IMSS</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni de la Secretaría de Bienestar. Los cálculos son orientativos; consulta los montos y fechas en <a href="https://www.gob.mx/bienestar" rel="noopener">gob.mx/bienestar</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/familia.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const r = Familia.mujeresHasta65({ edad: $("edad").value, meses: $("meses").value });
+  const B = Familia.DATOS.bienestar2026;
+  $("r-bim").textContent = mxn(B.mujeres);
+  $("r-65").textContent = mxn(B.adultos);
+  $("r-65a").textContent = mxn(B.adultos * 6);
+  if (r.ok) {
+    $("tit").textContent = "Hasta cumplir 65 recibirías unos";
+    $("total").textContent = mxn(r.hasta65);
+    $("r-pagos").textContent = r.bimestres;
+    $("msg").textContent = r.bimestres === 0 ? "Te faltan menos de dos meses para los 65: pronto pasas a la pensión de Adultos Mayores." :
+      `Te faltan ${r.mesesFaltan} meses para los 65. Después recibirías ${mxn(r.alCumplir.aumento)} más en cada pago.`;
+  } else {
+    $("tit").textContent = r.motivo === "mayor" ? "Te toca la pensión de Adultos Mayores" : "Todavía no aplica";
+    $("total").textContent = r.motivo === "mayor" ? mxn(B.adultos) : mxn(0);
+    $("r-pagos").textContent = "0";
+    $("msg").textContent = r.error;
+  }
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

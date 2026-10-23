@@ -24,8 +24,9 @@ assert.ok(todas.includes("") && todas.includes("aviso-legal/"), "portada y aviso
 for (const s of SECCIONES) assert.ok(todas.includes(s + "/"), `falta el índice de ${s}`);
 for (const p of ["trabajo/sueldo-neto/", "trabajo/prima-de-antiguedad/", "trabajo/aguinaldo-pensionados/",
   "trabajo/aguinaldo-gobierno/", "trabajo/cuando-pagan-el-aguinaldo/", "trabajo/salario-minimo-2027/", "trabajo/dias-festivos-2027/",
-  "dinero/buen-fin/"]) assert.ok(todas.includes(p), `falta ${p}`);
-assert.strictEqual(herramientas.length, 41, "41 calculadoras y guías");
+  "dinero/buen-fin/", "familia/pension-bienestar-adultos-mayores/", "familia/pension-mujeres-bienestar/",
+  "familia/beca-benito-juarez/", "familia/beca-rita-cetina/"]) assert.ok(todas.includes(p), `falta ${p}`);
+assert.strictEqual(herramientas.length, 45, "45 calculadoras y guías");
 
 // ---------- Reglas para cada página ----------
 const titulos = new Map();
@@ -137,7 +138,21 @@ const casos = {
   "días festivos 2027": "trabajo/dias-festivos-2027/",
   "días de descanso obligatorio": "trabajo/dias-festivos-2027/",
   "pago triple": "trabajo/dias-festivos-2027/",
-  "feriados": "trabajo/dias-festivos-2027/"
+  "feriados": "trabajo/dias-festivos-2027/",
+  "pensión adultos mayores": "familia/pension-bienestar-adultos-mayores/",
+  "pensión bienestar 65 años": "familia/pension-bienestar-adultos-mayores/",
+  "calendario pago pensión bienestar": "familia/pension-bienestar-adultos-mayores/",
+  "pensión abuelos": "familia/pension-bienestar-adultos-mayores/",
+  "mujeres bienestar": "familia/pension-mujeres-bienestar/",
+  "pensión mujeres 60 a 64": "familia/pension-mujeres-bienestar/",
+  "beca benito juárez": "familia/beca-benito-juarez/",
+  "beca prepa": "familia/beca-benito-juarez/",
+  "beca bachillerato": "familia/beca-benito-juarez/",
+  "buscador de estatus": "familia/beca-benito-juarez/",
+  "rita cetina": "familia/beca-rita-cetina/",
+  "beca secundaria": "familia/beca-rita-cetina/",
+  "beca primaria": "familia/beca-rita-cetina/",
+  "registro beca rita cetina": "familia/beca-rita-cetina/"
 };
 for (const [q, esperado] of Object.entries(casos)) assert.ok(hrefs(q).includes(esperado), `buscar "${q}" debe dar ${esperado}: ${hrefs(q)}`);
 assert.ok(!hrefs("ine").some(h => h.startsWith("dinero/")), "ine no muestra la sección dinero");
@@ -150,6 +165,10 @@ assert.strictEqual(hrefs("no me pagaron el aguinaldo")[0], "trabajo/cuando-pagan
 assert.strictEqual(hrefs("buen fin")[0], "dinero/buen-fin/");
 assert.strictEqual(hrefs("salario mínimo 2027")[0], "trabajo/salario-minimo-2027/");
 assert.strictEqual(hrefs("días festivos")[0], "trabajo/dias-festivos-2027/");
+// Temporada de pensiones y becas del Bienestar
+assert.strictEqual(hrefs("mujeres bienestar")[0], "familia/pension-mujeres-bienestar/");
+assert.strictEqual(hrefs("rita cetina")[0], "familia/beca-rita-cetina/");
+assert.ok(hrefs("pensión adultos mayores").indexOf("familia/pension-bienestar-adultos-mayores/") < 2, "adultos mayores entre los primeros");
 assert.strictEqual(B.buscar(textos, "qwertyuiop").modo, "ninguna");
 
 // ---------- Sitemap y robots ----------

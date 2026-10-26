@@ -230,7 +230,74 @@
     };
   }
 
-  const api = { DATOS, MAXIMO, umaAnual, limpiar, tasaResico, resicoMensual, resicoAnual, isrAnual, topeDeducciones, colegiaturasDeducibles, devolucion, declaracionAnual };
+  // ---------- ISR del aguinaldo (impuestos/aguinaldo-isr) ----------
+  // Parte exenta: 30 UMA diarias (art. 93 fr. XIV LISR; el SAT aplica la UMA por la desindexación, DOF 27 ene 2016).
+  // 2026: 30 x 117.31 = 3,519.30. Solo lo que pasa de ahí es gravado.
+  // Método normal (art. 96 LISR): el gravado se suma al sueldo del mes y se aplica la tarifa mensual; lo que se
+  // retiene por el aguinaldo es ISR(sueldo + gravado) - ISR(sueldo).
+  // Opción del art. 174 del Reglamento de la LISR (la elige quien paga): I. gravado / 365 x 30.4; II. eso se suma al
+  // sueldo ordinario del mes y se calcula ISR con la tarifa del art. 96; III. se resta el ISR del sueldo solo;
+  // IV. tasa = III / I; V. retención = gravado x tasa. Pasos confirmados con Siempre al Día (ejemplo de $12,000 de
+  // sueldo y $6,000 de aguinaldo: 366.30 contra 269.90) y FiscoClic. Para la tasa usamos el ISR sin redondear.
+  // No incluye el subsidio para el empleo (la página lo advierte).
+  const AGUINALDO_EXENTO_UMA = 30;
+
+  function isrSinRedondeo(base) {
+    const x = Calc.isrMensual(base);
+    return x.renglon ? x.cuotaFija + x.marginal : 0;
+  }
+
+  function isrAguinaldo({ sueldoMensual, aguinaldo }) {
+    const sueldo = r2(limpiar(sueldoMensual));
+    const ag = r2(limpiar(aguinaldo));
+    const exento = r2(AGUINALDO_EXENTO_UMA * Calc.DATOS.uma);
+    const exentoAplicado = Math.min(ag, exento);
+    const gravado = r2(ag - exentoAplicado);
+    const isrSueldo = isrSinRedondeo(sueldo);
+    // Método normal como en un recibo: cada ISR redondeado a centavos.
+    const normal = gravado > 0 ? r2(Calc.isrMensual(sueldo + gravado).isr - Calc.isrMensual(sueldo).isr) : 0;
+    let proporcion = 0, diferencia = 0, tasa = 0, art174 = 0;
+    if (gravado > 0) {
+      proporcion = gravado / 365 * 30.4;
+      diferencia = isrSinRedondeo(sueldo + proporcion) - isrSueldo;
+      tasa = diferencia / proporcion;
+      art174 = r2(gravado * tasa);
+    }
+    const mejor = gravado === 0 ? "igual" : art174 < normal ? "art174" : normal < art174 ? "normal" : "igual";
+    return {
+      sueldo, aguinaldo: ag, exento, exentoAplicado, gravado, todoExento: ag > 0 && gravado === 0,
+      normal, netoNormal: r2(ag - normal),
+      proporcion: r2(proporcion), diferencia: r2(diferencia), tasa: r2(tasa * 100), art174, neto174: r2(ag - art174),
+      mejor, ahorro: r2(Math.abs(normal - art174)), sinSueldo: sueldo === 0
+    };
+  }
+
+  // ---------- IVA (impuestos/calculadora-iva) ----------
+  // Tasa general 16% (art. 1 de la Ley del IVA). 8% en la región fronteriza norte y sur: estímulo fiscal (crédito de
+  // 50% del IVA) de los decretos del DOF 31 dic 2018 y 30 dic 2020, prorrogados hasta el 31 dic 2026 (DOF 31 dic 2025,
+  // vespertino; DFK, TLC Asociados y Punto Norte). Solo para quien está en el padrón del SAT de ese estímulo.
+  const TASAS_IVA = { 16: 0.16, 8: 0.08 };
+
+  // modo "agregar": el monto es SIN IVA y se le suma. modo "quitar": el monto ya trae IVA y se le separa.
+  function calcularIva({ monto, tasa = 16, modo = "agregar" }) {
+    const m = r2(limpiar(monto));
+    const t = TASAS_IVA[+tasa] !== undefined ? +tasa : 16;
+    const f = TASAS_IVA[t];
+    const quitar = modo === "quitar";
+    let base, iva, total;
+    if (quitar) {
+      total = m;
+      base = r2(m / (1 + f));
+      iva = r2(total - base);
+    } else {
+      base = m;
+      iva = r2(m * f);
+      total = r2(base + iva);
+    }
+    return { monto: m, tasa: t, modo: quitar ? "quitar" : "agregar", base, iva, total };
+  }
+
+  const api = { DATOS, MAXIMO, umaAnual, limpiar, tasaResico, resicoMensual, resicoAnual, isrAnual, topeDeducciones, colegiaturasDeducibles, devolucion, declaracionAnual, isrAguinaldo, calcularIva, TASAS_IVA };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else raiz.Impuestos = api;
 })(this);

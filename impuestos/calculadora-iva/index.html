@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de IVA 16% y 8%: sumar o quitar IVA | Cuentas Claras MX</title>
+<meta name="description" content="Suma o quita el IVA a cualquier precio: 16% en casi todo México y 8% en la región fronteriza norte y sur. Fórmulas, ejemplos y qué productos llevan tasa 0%.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/impuestos/calculadora-iva/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Calculadora de IVA 16% y 8%: sumar o quitar IVA">
+<meta property="og:description" content="Suma o quita el IVA a cualquier precio: 16% en casi todo México y 8% en la región fronteriza norte y sur. Fórmulas, ejemplos y qué productos llevan tasa 0%.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/impuestos/calculadora-iva/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/impuestos-calculadora-iva.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Impuestos y SAT","item":"https://miguel201009.github.io/cuentas-claras-mx/impuestos/"},{"@type":"ListItem","position":3,"name":"Calculadora de IVA","item":"https://miguel201009.github.io/cuentas-claras-mx/impuestos/calculadora-iva/"}]},{"@type":"WebApplication","name":"Calculadora de IVA: sumar o quitar el 16% y el 8%","url":"https://miguel201009.github.io/cuentas-claras-mx/impuestos/calculadora-iva/","description":"Suma o quita el IVA a cualquier precio: 16% en casi todo México y 8% en la región fronteriza norte y sur. Fórmulas, ejemplos y qué productos llevan tasa 0%.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Impuestos y SAT</a> › Calculadora de IVA</span></div>
+
+  <header>
+    <span class="tag">Impuestos y SAT</span>
+    <h1>Calculadora de IVA: sumar o quitar el 16% y el 8%</h1>
+    <p class="lede">Escribe una cantidad y elige si quieres <strong>agregarle el IVA</strong> o <strong>sacar el IVA que ya trae</strong>. Funciona con la tasa general de 16% y con la de 8% de la región fronteriza.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni del SAT.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <h3>Calcula el IVA</h3>
+      <label for="modo">¿Qué quieres hacer?
+        <select id="modo"><option value="agregar" selected>Agregar IVA (mi cantidad no lo trae)</option><option value="quitar">Quitar IVA (mi cantidad ya lo trae)</option></select></label>
+      <div class="par">
+        <label for="monto">Cantidad
+          <input id="monto" type="number" min="0" step="any" inputmode="decimal" value="1000"></label>
+        <label for="tasa">Tasa de IVA
+          <select id="tasa"><option value="16" selected>16% (general)</option><option value="8">8% (región fronteriza)</option></select></label>
+      </div>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota" id="tit">Total con IVA</span>
+      <div class="big" id="big">$0.00</div>
+      <div class="row"><span>Precio sin IVA (subtotal)</span><b id="r-base"></b></div>
+      <div class="row"><span id="r-ivat">IVA</span><b id="r-iva"></b></div>
+      <div class="row"><span>Total con IVA</span><b id="r-total"></b></div>
+      <p class="nota" id="msg"></p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Las fórmulas</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Quieres</th><th>Con 16%</th><th>Con 8%</th></tr></thead>
+      <tbody>
+        <tr><td>Agregar IVA</td><td>precio × 1.16</td><td>precio × 1.08</td></tr>
+        <tr><td>Quitar IVA</td><td>total ÷ 1.16</td><td>total ÷ 1.08</td></tr>
+        <tr><td>Solo el IVA de un precio sin IVA</td><td>precio × 0.16</td><td>precio × 0.08</td></tr>
+        <tr><td>Solo el IVA de un total con IVA</td><td>total − (total ÷ 1.16)</td><td>total − (total ÷ 1.08)</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>Error común:</strong> para quitar el IVA no se resta el 16% del total. Si algo cuesta $1,160 con IVA, el 16% de $1,160 es $185.60, pero el IVA real es $160: $1,160 ÷ 1.16 = $1,000 sin IVA.</p>
+
+    <h2>¿Cuándo es 16% y cuándo 8%?</h2>
+    <ul>
+      <li><strong>16%</strong> es la tasa general en todo el país (artículo 1 de la Ley del IVA).</li>
+      <li><strong>8%</strong> no es una tasa de la ley: es un estímulo fiscal que da un crédito de la mitad del IVA en la <strong>región fronteriza norte</strong> (municipios de Baja California, Sonora, Chihuahua, Coahuila, Nuevo León y Tamaulipas) y en la <strong>región fronteriza sur</strong>. Lo prorrogó un decreto publicado el 31 de diciembre de 2025, <strong>hasta el 31 de diciembre de 2026</strong>.</li>
+      <li>Solo lo puede cobrar quien tiene su domicilio o sucursal en esos municipios y está en el padrón de beneficiarios del SAT, con su opinión de cumplimiento al día. Si compras en la frontera a alguien que no está en el padrón, te cobra 16%.</li>
+      <li>Para 2027 todavía no se publica una nueva prórroga (26 de octubre de 2026). Si se publica, actualizaremos esta página.</li>
+    </ul>
+
+    <h2>Lo que no lleva IVA de 16%</h2>
+    <ul>
+      <li><strong>Tasa 0%:</strong> la mayoría de los alimentos sin preparar y las medicinas de patente, entre otros (artículo 2-A de la Ley del IVA). La comida preparada y los restaurantes sí pagan IVA.</li>
+      <li><strong>Exentos:</strong> por ejemplo, la venta y la renta de casa habitación, las colegiaturas de escuelas con reconocimiento oficial y los intereses de créditos hipotecarios para casa (artículos 9, 15 y 20).</li>
+      <li>Si tienes dudas con un producto, revisa la factura: el CFDI dice la tasa que te cobraron.</li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Qué precio tengo que poner en mi negocio?</h3>
+    <p>Los precios que ve el público deben incluir el IVA. Para saber a cuánto vender con tu ganancia y la comisión de la terminal, usa la <a href="../../negocio/precio-de-venta/">calculadora de precio de venta</a>.</p>
+    <h3>¿Y el IVA de mi recibo de luz?</h3>
+    <p>La CFE cobra IVA sobre la energía. Mira cómo se calcula en el <a href="../../casa/recibo-de-luz/">recibo de luz</a>.</p>
+    <h3>¿El IVA del Buen Fin cambia?</h3>
+    <p>No: los descuentos se aplican al precio, que ya trae el IVA incluido. Revisa los consejos en la <a href="../../dinero/buen-fin/">guía del Buen Fin</a>.</p>
+
+    <h2>Fuentes</h2>
+    <p class="nota">Revisadas el 26 de octubre de 2026. Tasa general de 16%: artículo 1 de la Ley del IVA; tasa 0% y exenciones: artículos 2-A, 9, 15 y 20 de la misma ley (como en nuestras páginas de préstamos y luz). Estímulo de 8% en la región fronteriza, prórroga al 31 de diciembre de 2026 (DOF del 31 de diciembre de 2025, edición vespertina) y requisitos: DFK México (Flash Fiscal 2, enero de 2026), TLC Asociados y Punto Norte (2 de enero de 2026). No pudimos abrir sat.gob.mx ni el DOF desde nuestra red: confirma ahí antes de facturar.</p>
+    <ul>
+      <li><a href="https://www.sat.gob.mx/" rel="noopener">Servicio de Administración Tributaria</a> (sat.gob.mx).</li>
+    </ul>
+    <p>También te puede servir: <a href="../../negocio/precio-de-venta/">precio de venta y margen</a>, <a href="../resico/">RESICO para personas físicas</a>, <a href="../../negocio/alta-en-el-sat/">alta en el SAT con tu negocio</a> y <a href="../aguinaldo-isr/">ISR del aguinaldo</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni del SAT. Los cálculos son orientativos y no sustituyen la asesoría de un contador.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/impuestos.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const m = leerNumero($("monto"));
+  const r = Impuestos.calcularIva({ monto: m.valor, tasa: $("tasa").value, modo: $("modo").value });
+  const quitar = r.modo === "quitar";
+  $("tit").textContent = quitar ? "Precio sin IVA" : "Total con IVA";
+  $("big").textContent = mxn(quitar ? r.base : r.total);
+  $("r-base").textContent = mxn(r.base);
+  $("r-ivat").textContent = `IVA (${r.tasa}%)`;
+  $("r-iva").textContent = mxn(r.iva);
+  $("r-total").textContent = mxn(r.total);
+  const msg = [];
+  if (!r.monto) msg.push("Escribe una cantidad.");
+  if (r.tasa === 8) msg.push("El 8% solo aplica a quien está en el padrón del estímulo de la región fronteriza; vigente hasta el 31 de diciembre de 2026.");
+  if (m.acotado) msg.push("Revisa la cantidad: tomamos como máximo 100 millones.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

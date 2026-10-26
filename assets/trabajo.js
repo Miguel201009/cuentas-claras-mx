@@ -419,10 +419,46 @@
     };
   }
 
+  // ---------- UMA (trabajo/uma-2027) ----------
+  // Ley para Determinar el Valor de la UMA (DOF 30 dic 2016): art. 4, diaria = la del año anterior x (1 + inflación
+  // anual del INPC de diciembre del año anterior); mensual = diaria x 30.4; anual = mensual x 12. Art. 5: el INEGI la
+  // publica en el DOF en los primeros 10 días de enero y rige desde el 1 de febrero.
+  // 2026: 117.31 / 3,566.22 / 42,794.64 (INEGI, DOF 9 ene 2026; UnoTV, Littler). 2025: 113.14.
+  // La UMA 2027 NO existe todavía: se publica en enero de 2027. umaEstimada solo hace un escenario con la inflación
+  // que escriba la persona. Referencia (no es la de diciembre): 3.62% anual en la 1a. quincena de octubre de 2026
+  // (INEGI; La Razón, Excélsior, La Jornada, 22 y 23 oct 2026).
+  const UMA = { anteriores: { 2025: 113.14 }, diasMes: 30.4, meses: 12, inflacionReferencia: 3.62, maxInflacion: 50 };
+
+  function valoresUma(diaria) {
+    const d = Calc.redondear(num(diaria));
+    const mensual = Calc.redondear(d * UMA.diasMes);
+    return { diaria: d, mensual, anual: Calc.redondear(mensual * UMA.meses) };
+  }
+
+  // Convierte UMA a pesos o pesos a UMA. de: "uma" o "pesos"; periodo: "diaria", "mensual" o "anual".
+  function convertirUma({ cantidad, de = "uma", periodo = "diaria", uma = Calc.DATOS.uma } = {}) {
+    const recortado = num(cantidad) > DATOS.maximos.montoEmpresa;
+    const c = acotado(cantidad, DATOS.maximos.montoEmpresa);
+    const v = valoresUma(uma > 0 ? uma : Calc.DATOS.uma);
+    const p = ["diaria", "mensual", "anual"].includes(periodo) ? periodo : "diaria";
+    const unidad = v[p];
+    const aPesos = de !== "pesos";
+    const resultado = aPesos ? Calc.redondear(c * unidad) : (unidad ? Math.round(c / unidad * 10000) / 10000 : 0);
+    return { cantidad: c, recortado, de: aPesos ? "uma" : "pesos", periodo: p, unidad, valores: v, resultado };
+  }
+
+  // Escenario de la UMA 2027 con una inflación supuesta (en %). No es la cifra oficial.
+  function umaEstimada(inflacion = UMA.inflacionReferencia, base = Calc.DATOS.uma) {
+    const inf = Math.min(num(inflacion), UMA.maxInflacion);
+    const v = valoresUma(base * (1 + inf / 100));
+    return Object.assign({ inflacion: inf, acotada: num(inflacion) > UMA.maxInflacion, alza: Calc.redondear(v.diaria - base), estimada: true }, v);
+  }
+
   const api = {
     DATOS, ptu, horasExtra, limiteDobles, jornadaSemanal,
     aguinaldoPension, aguinaldoGobierno, aguinaldoSalida, calendarioAguinaldo,
-    salarioMinimoPeriodos, historialSalarioMinimo, diasDescanso, diasDescansoPendientes, pagoDiaFestivo
+    salarioMinimoPeriodos, historialSalarioMinimo, diasDescanso, diasDescansoPendientes, pagoDiaFestivo,
+    UMA, valoresUma, convertirUma, umaEstimada
   };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else raiz.Trabajo = api;

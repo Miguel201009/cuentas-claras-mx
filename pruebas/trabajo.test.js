@@ -212,4 +212,22 @@ assert.strictEqual(T.horasExtra({ salarioMensual: 12000, horasJornada: 7.75, hor
   assert.ok(r.horas <= 168, "no más horas que las de una semana " + i);
 });
 
+// ---------- UMA: conversión y escenario 2027 ----------
+assert.deepStrictEqual(T.valoresUma(117.31), { diaria: 117.31, mensual: 3566.22, anual: 42794.64 }, "UMA 2026");
+assert.deepStrictEqual(T.valoresUma(113.14), { diaria: 113.14, mensual: 3439.46, anual: 41273.52 }, "UMA 2025");
+cerca(T.convertirUma({ cantidad: 30 }).resultado, 3519.30, "30 UMA = aguinaldo exento");
+cerca(T.convertirUma({ cantidad: 25 }).resultado, 2932.75, "tope IMSS 25 UMA");
+cerca(T.convertirUma({ cantidad: 5, periodo: "anual" }).resultado, 213973.20, "5 UMA anuales");
+cerca(T.convertirUma({ cantidad: 3566.22, de: "pesos", periodo: "mensual" }).resultado, 1, "una UMA mensual");
+cerca(T.convertirUma({ cantidad: 10000, de: "pesos", periodo: "mensual" }).resultado, 2.8041, "10,000 en UMA mensuales");
+assert.strictEqual(T.convertirUma({ cantidad: 1, periodo: "semanal" }).periodo, "diaria", "periodo desconocido = diaria");
+let um = T.umaEstimada(3.62);
+assert.strictEqual(um.estimada, true);
+cerca(um.diaria, 121.56, "117.31 x 1.0362"); cerca(um.mensual, 3695.42, "x 30.4"); cerca(um.anual, 44345.04, "x 12");
+cerca(T.umaEstimada(0).diaria, 117.31, "sin inflación");
+assert.strictEqual(T.umaEstimada(500).acotada, true);
+[{}, { cantidad: -3, de: "pesos" }, { cantidad: "x", periodo: "anual" }, { cantidad: 1e300 }, { cantidad: Infinity, uma: -1 }]
+  .forEach((e, i) => { const x = T.convertirUma(e); assert.ok(Number.isFinite(x.resultado) && x.resultado >= 0, "uma rara " + i); });
+[undefined, -1, "x", NaN, 1e300].forEach((v, i) => { const x = T.umaEstimada(v); assert.ok(Number.isFinite(x.anual), "estimada rara " + i); });
+
 console.log("OK: pruebas de trabajo (PTU y horas extra) pasaron");

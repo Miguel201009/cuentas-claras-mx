@@ -8,7 +8,7 @@
 - [Casa y servicios 2026: luz, aparatos y gas LP](https://miguel201009.github.io/cuentas-claras-mx/casa/): Guías y calculadoras de casa en México: cómo leer tu recibo de luz de CFE y evitar la DAC, consumo de cada aparato y gasto de gas LP. Gratis y sin registro.
 - [Dinero y ahorro 2026: CETES, meses sin intereses y préstamos](https://miguel201009.github.io/cuentas-claras-mx/dinero/): Calculadoras gratis de dinero y ahorro en México: CETES contra banco, si conviene comprar a meses sin intereses y el pago mensual y CAT de un préstamo.
 - [Familia y becas 2026: apoyos, licencias y pensión](https://miguel201009.github.io/cuentas-claras-mx/familia/): Guías y calculadoras gratis para tu familia en México: becas y pensiones del Bienestar, licencia de maternidad y paternidad, y pensión alimenticia.
-- [Impuestos y SAT 2026](https://miguel201009.github.io/cuentas-claras-mx/impuestos/): Guías y calculadoras de impuestos en México: RFC con CURP, RESICO, declaración anual con saldo a favor y sueldo neto con ISR. Gratis y sin registro.
+- [Impuestos y SAT 2026](https://miguel201009.github.io/cuentas-claras-mx/impuestos/): Guías y calculadoras de impuestos en México: RFC con CURP, RESICO, declaración anual con saldo a favor, ISR del aguinaldo, IVA y sueldo neto con ISR. Gratis y sin registro.
 - [Negocio propio 2026: precio, equilibrio y SAT](https://miguel201009.github.io/cuentas-claras-mx/negocio/): Calculadoras y guías para tu negocio en México: precio de venta y margen con IVA, punto de equilibrio y alta en el SAT paso a paso. Gratis y sin registro.
 - [Retiro e IMSS 2026: Afore y pensión](https://miguel201009.github.io/cuentas-claras-mx/retiro/): Calculadoras y guías gratis de retiro en México: cuánto tendrás en tu Afore, semanas cotizadas del IMSS y pensión Ley 73 vs. Ley 97.
 - [Calculadoras de trabajo 2026](https://miguel201009.github.io/cuentas-claras-mx/trabajo/): Calculadoras gratis de trabajo en México: aguinaldo (también de pensionados y del gobierno), finiquito, vacaciones, sueldo neto e ISR, prima de antigüedad, PTU y horas extra.
@@ -46,6 +46,8 @@
 
 ## Impuestos y SAT
 
+- [ISR del aguinaldo 2026: cuánto te retienen](https://miguel201009.github.io/cuentas-claras-mx/impuestos/aguinaldo-isr/): Calcula cuánto ISR te quitan del aguinaldo 2026: los primeros $3,519.30 (30 UMA) no pagan impuesto. Compara el cálculo normal con la opción del artículo 174 del Reglamento.
+- [Calculadora de IVA 16% y 8%: sumar o quitar IVA](https://miguel201009.github.io/cuentas-claras-mx/impuestos/calculadora-iva/): Suma o quita el IVA a cualquier precio: 16% en casi todo México y 8% en la región fronteriza norte y sur. Fórmulas, ejemplos y qué productos llevan tasa 0%.
 - [Declaración anual 2026 de personas físicas: saldo a favor](https://miguel201009.github.io/cuentas-claras-mx/impuestos/declaracion-anual/): Quién debe presentar la declaración anual, fechas, deducciones personales y su tope, paso a paso en el SAT y calculadora para saber si te toca saldo a favor.
 - [RESICO personas físicas 2026: calculadora de ISR mensual](https://miguel201009.github.io/cuentas-claras-mx/impuestos/resico/): Calcula tu ISR mensual en RESICO con la tabla de tasas vigente, de 1% a 2.5%. Quién puede entrar, tope de 3.5 millones, retención de 1.25% y obligaciones.
 - [Cómo sacar el RFC con CURP 2026](https://miguel201009.github.io/cuentas-claras-mx/impuestos/rfc/): Saca tu RFC gratis y en línea con tu CURP, paso a paso. También cómo obtener tu constancia de situación fiscal, tu contraseña del SAT y tu e.firma.
@@ -75,6 +77,7 @@
 - [Calculadora de PTU 2026: reparto de utilidades](https://miguel201009.github.io/cuentas-claras-mx/trabajo/ptu/): Calcula tu reparto de utilidades (PTU) en México: mitad por días y mitad por salario, con el tope de 3 meses. Quién no tiene derecho y fechas de pago.
 - [Salario mínimo 2027: cuánto sube y cuándo se anuncia](https://miguel201009.github.io/cuentas-claras-mx/trabajo/salario-minimo-2027/): El salario mínimo 2027 lo anuncia la CONASAMI en diciembre. Hoy es de $315.04 diarios y $440.87 en la frontera norte. Calcula tu pago por semana, quincena y mes.
 - [Calculadora de sueldo neto e ISR 2026](https://miguel201009.github.io/cuentas-claras-mx/trabajo/sueldo-neto/): Calcula tu sueldo neto 2026 en México: ISR con la tarifa del artículo 96, subsidio para el empleo y cuotas del IMSS. Gratis, sin registro y con el cálculo explicado.
+- [UMA 2027: valor, cuándo sale y para qué sirve](https://miguel201009.github.io/cuentas-claras-mx/trabajo/uma-2027/): La UMA vigente es de $117.31 diarios hasta el 31 de enero de 2027; la UMA 2027 la publica el INEGI en enero. Para qué sirve y convertidor de UMA a pesos y de pesos a UMA.
 - [Calculadora de vacaciones y prima vacacional 2026](https://miguel201009.github.io/cuentas-claras-mx/trabajo/vacaciones/): Cuántos días de vacaciones te tocan por ley en México según tus años de trabajo (reforma vacaciones dignas) y cuánto es tu prima vacacional.
 
 ## Trámites

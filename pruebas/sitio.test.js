@@ -25,8 +25,9 @@ for (const s of SECCIONES) assert.ok(todas.includes(s + "/"), `falta el índice 
 for (const p of ["trabajo/sueldo-neto/", "trabajo/prima-de-antiguedad/", "trabajo/aguinaldo-pensionados/",
   "trabajo/aguinaldo-gobierno/", "trabajo/cuando-pagan-el-aguinaldo/", "trabajo/salario-minimo-2027/", "trabajo/dias-festivos-2027/",
   "dinero/buen-fin/", "familia/pension-bienestar-adultos-mayores/", "familia/pension-mujeres-bienestar/",
-  "familia/beca-benito-juarez/", "familia/beca-rita-cetina/"]) assert.ok(todas.includes(p), `falta ${p}`);
-assert.strictEqual(herramientas.length, 45, "45 calculadoras y guías");
+  "familia/beca-benito-juarez/", "familia/beca-rita-cetina/", "impuestos/aguinaldo-isr/", "trabajo/uma-2027/",
+  "impuestos/calculadora-iva/"]) assert.ok(todas.includes(p), `falta ${p}`);
+assert.strictEqual(herramientas.length, 48, "48 calculadoras y guías");
 
 // ---------- Reglas para cada página ----------
 const titulos = new Map();
@@ -152,11 +153,25 @@ const casos = {
   "rita cetina": "familia/beca-rita-cetina/",
   "beca secundaria": "familia/beca-rita-cetina/",
   "beca primaria": "familia/beca-rita-cetina/",
-  "registro beca rita cetina": "familia/beca-rita-cetina/"
+  "registro beca rita cetina": "familia/beca-rita-cetina/",
+  "isr aguinaldo": "impuestos/aguinaldo-isr/",
+  "cuánto me quitan de ISR del aguinaldo": "impuestos/aguinaldo-isr/",
+  "impuesto aguinaldo": "impuestos/aguinaldo-isr/",
+  "artículo 174": "impuestos/aguinaldo-isr/",
+  "uma": "trabajo/uma-2027/",
+  "uma 2027": "trabajo/uma-2027/",
+  "valor de la uma": "trabajo/uma-2027/",
+  "unidad de medida y actualización": "trabajo/uma-2027/",
+  "uma a pesos": "trabajo/uma-2027/",
+  "iva": "impuestos/calculadora-iva/",
+  "calculadora de iva": "impuestos/calculadora-iva/",
+  "quitar iva": "impuestos/calculadora-iva/",
+  "iva 8% frontera": "impuestos/calculadora-iva/",
+  "desglosar iva": "impuestos/calculadora-iva/"
 };
 for (const [q, esperado] of Object.entries(casos)) assert.ok(hrefs(q).includes(esperado), `buscar "${q}" debe dar ${esperado}: ${hrefs(q)}`);
 assert.ok(!hrefs("ine").some(h => h.startsWith("dinero/")), "ine no muestra la sección dinero");
-assert.deepStrictEqual(hrefs("trabajo").filter(h => h.startsWith("trabajo/")).length, 12, "el nombre de la sección encuentra todas sus herramientas");
+assert.deepStrictEqual(hrefs("trabajo").filter(h => h.startsWith("trabajo/")).length, 13, "el nombre de la sección encuentra todas sus herramientas");
 // En temporada de aguinaldo, cada búsqueda lleva primero a su página
 assert.strictEqual(hrefs("aguinaldo pensionados")[0], "trabajo/aguinaldo-pensionados/");
 assert.strictEqual(hrefs("aguinaldo maestros")[0], "trabajo/aguinaldo-gobierno/");
@@ -169,6 +184,11 @@ assert.strictEqual(hrefs("días festivos")[0], "trabajo/dias-festivos-2027/");
 assert.strictEqual(hrefs("mujeres bienestar")[0], "familia/pension-mujeres-bienestar/");
 assert.strictEqual(hrefs("rita cetina")[0], "familia/beca-rita-cetina/");
 assert.ok(hrefs("pensión adultos mayores").indexOf("familia/pension-bienestar-adultos-mayores/") < 2, "adultos mayores entre los primeros");
+// Temporada de aguinaldo: ISR del aguinaldo; todo el año: UMA e IVA
+assert.strictEqual(hrefs("isr aguinaldo")[0], "impuestos/aguinaldo-isr/");
+assert.strictEqual(hrefs("uma 2027")[0], "trabajo/uma-2027/");
+assert.strictEqual(hrefs("calculadora de iva")[0], "impuestos/calculadora-iva/");
+assert.ok(hrefs("aguinaldo").includes("trabajo/aguinaldo/") && hrefs("aguinaldo")[0] === "trabajo/aguinaldo/", "aguinaldo sigue llevando primero a la calculadora");
 assert.strictEqual(B.buscar(textos, "qwertyuiop").modo, "ninguna");
 
 // ---------- Sitemap y robots ----------

@@ -463,7 +463,9 @@ for (const h of ["../pension-bienestar-adultos-mayores/", "../pension-mujeres-bi
 }
 for (const [n, h] of [["adultos", pam], ["mujeres", pmu], ["benito", pbj], ["rita", prc]]) {
   assert.ok(h.includes('href="../becas/"'), `${n} enlaza a becas`);
-  assert.ok(/no se ha anunciado|no se han anunciado|no ha anunciado|no han anunciado/i.test(h), `${n}: dice qué fechas faltan por anunciar`);
+  // Las becas aún esperan sus fechas de noviembre y diciembre; las pensiones ya tienen calendario oficial (26 oct 2026)
+  if (n === "benito" || n === "rita") assert.ok(/no se ha anunciado|no se han anunciado|no ha anunciado|no han anunciado/i.test(h), `${n}: dice qué fechas faltan por anunciar`);
+  else assert.ok(/3 al (viernes )?27 de noviembre/.test(h) && /oficial/.test(h), `${n}: calendario oficial de noviembre`);
 }
 
 console.log("familia.test.js: todas las pruebas pasaron");

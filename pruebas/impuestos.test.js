@@ -247,4 +247,49 @@ sinRaros(d, "anual enorme");
 assert.ok(d.impuesto >= 0 && d.saldoFavor >= 0 && d.aCargo >= 0);
 assert.strictEqual(I.declaracionAnual({ ingresosGravados: 1000, isrPagado: 5000 }).pagadoMayorQueIngresos, true);
 
+// ---------- ISR del aguinaldo: método normal (art. 96 LISR) contra art. 174 RLISR ----------
+let ag = I.isrAguinaldo({ sueldoMensual: 12000, aguinaldo: 6000 }); // ejemplo de la página (y de Siempre al Día)
+cerca(ag.exento, 3519.30, "30 UMA");
+cerca(ag.gravado, 2480.70, "6,000 - 3,519.30");
+cerca(ag.normal, 366.29, "1,312.91 - 946.62 (la fuente redondea 946.61 y da 366.30)");
+cerca(ag.proporcion, 206.61, "2,480.70 / 365 x 30.4");
+cerca(ag.tasa, 10.88, "tasa del art. 174");
+cerca(ag.art174, 269.90, "2,480.70 x 10.88%");
+cerca(ag.neto174, 5730.10, "neto con art. 174");
+assert.strictEqual(ag.mejor, "art174");
+// Todo exento: aguinaldo menor a 30 UMA
+ag = I.isrAguinaldo({ sueldoMensual: 9000, aguinaldo: 3000 });
+assert.strictEqual(ag.todoExento, true);
+assert.strictEqual(ag.normal, 0); assert.strictEqual(ag.art174, 0); assert.strictEqual(ag.mejor, "igual");
+cerca(ag.exentoAplicado, 3000, "exento hasta lo que recibes");
+// Mismo renglón de la tarifa: los dos métodos dan lo mismo
+ag = I.isrAguinaldo({ sueldoMensual: 20000, aguinaldo: 10000 });
+cerca(ag.normal, ag.art174, "mismo renglón");
+// Sueldo alto: el art. 174 retiene menos
+ag = I.isrAguinaldo({ sueldoMensual: 40000, aguinaldo: 20000 });
+cerca(ag.normal, 3924.47, "normal 40,000");
+cerca(ag.art174, 3876.26, "art. 174 40,000");
+// Sin sueldo capturado
+ag = I.isrAguinaldo({ sueldoMensual: "", aguinaldo: 10000 });
+assert.strictEqual(ag.sinSueldo, true);
+assert.ok(ag.art174 < ag.normal);
+[{}, { sueldoMensual: -5, aguinaldo: "x" }, { sueldoMensual: 1e300, aguinaldo: 1e300 }, { sueldoMensual: NaN, aguinaldo: Infinity }]
+  .forEach((e, i) => { const x = I.isrAguinaldo(e); sinRaros(x, "aguinaldo raro " + i); assert.ok(x.normal >= 0 && x.art174 >= 0); });
+
+// ---------- IVA: 16% general (art. 1 LIVA) y 8% región fronteriza ----------
+let iv = I.calcularIva({ monto: 1000 });
+cerca(iv.iva, 160, "16% de 1,000"); cerca(iv.total, 1160, "1,000 + IVA");
+iv = I.calcularIva({ monto: 1160, modo: "quitar" });
+cerca(iv.base, 1000, "1,160 / 1.16"); cerca(iv.iva, 160, "IVA incluido");
+iv = I.calcularIva({ monto: 1080, tasa: 8, modo: "quitar" });
+cerca(iv.base, 1000, "1,080 / 1.08"); cerca(iv.iva, 80, "IVA 8% incluido");
+iv = I.calcularIva({ monto: 2500, tasa: "8" });
+cerca(iv.total, 2700, "2,500 + 8%"); assert.strictEqual(iv.tasa, 8);
+iv = I.calcularIva({ monto: 99.99, modo: "quitar" });
+cerca(iv.base + iv.iva, 99.99, "base + IVA = total");
+cerca(iv.base, 86.20, "99.99 / 1.16");
+assert.strictEqual(I.calcularIva({ monto: 100, tasa: 10 }).tasa, 16, "tasa desconocida = 16%");
+[{}, { monto: -1 }, { monto: "abc", modo: "quitar" }, { monto: 1e300 }, { monto: Infinity, tasa: 8 }]
+  .forEach((e, i) => { const x = I.calcularIva(e); sinRaros(x, "iva raro " + i); assert.ok(x.total >= 0 && x.iva >= 0); });
+
 console.log("impuestos.test.js: todas las pruebas pasaron");

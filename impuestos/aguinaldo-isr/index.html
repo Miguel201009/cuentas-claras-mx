@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ISR del aguinaldo 2026: cuánto te retienen | Cuentas Claras MX</title>
+<meta name="description" content="Calcula cuánto ISR te quitan del aguinaldo 2026: los primeros $3,519.30 (30 UMA) no pagan impuesto. Compara el cálculo normal con la opción del artículo 174 del Reglamento.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/impuestos/aguinaldo-isr/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="ISR del aguinaldo 2026: cuánto te retienen">
+<meta property="og:description" content="Calcula cuánto ISR te quitan del aguinaldo 2026: los primeros $3,519.30 (30 UMA) no pagan impuesto. Compara el cálculo normal con la opción del artículo 174 del Reglamento.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/impuestos/aguinaldo-isr/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/impuestos-aguinaldo-isr.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Impuestos y SAT","item":"https://miguel201009.github.io/cuentas-claras-mx/impuestos/"},{"@type":"ListItem","position":3,"name":"ISR del aguinaldo","item":"https://miguel201009.github.io/cuentas-claras-mx/impuestos/aguinaldo-isr/"}]},{"@type":"WebApplication","name":"ISR del aguinaldo 2026: cuánto te retienen","url":"https://miguel201009.github.io/cuentas-claras-mx/impuestos/aguinaldo-isr/","description":"Calcula cuánto ISR te quitan del aguinaldo 2026: los primeros $3,519.30 (30 UMA) no pagan impuesto. Compara el cálculo normal con la opción del artículo 174 del Reglamento.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Impuestos y SAT</a> › ISR del aguinaldo</span></div>
+
+  <header>
+    <span class="tag">Impuestos y SAT</span>
+    <h1>ISR del aguinaldo 2026: cuánto te retienen</h1>
+    <p class="lede">Tu aguinaldo paga ISR solo en lo que pasa de <strong>$3,519.30</strong> (30 UMA). Escribe tu sueldo y tu aguinaldo y te mostramos cuánto te retendrían con el cálculo normal y con la opción del artículo 174 del Reglamento de la Ley del ISR, que a veces deja más dinero en tu bolsillo.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni del SAT.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <h3>¿Cuánto ISR le quitan a tu aguinaldo?</h3>
+      <label for="sueldo">Tu sueldo mensual bruto (antes de descuentos)
+        <input id="sueldo" type="number" min="0" step="any" inputmode="decimal" value="12000"></label>
+      <label for="ag">Tu aguinaldo bruto
+        <input id="ag" type="number" min="0" step="any" inputmode="decimal" value="6000"></label>
+      <p class="nota">¿No sabes cuánto es tu aguinaldo? Calcúlalo primero en la <a href="../../trabajo/aguinaldo/">calculadora de aguinaldo</a>: con 15 días de ley es medio mes de sueldo.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota" id="tit">Lo más probable que recibas</span>
+      <div class="big" id="neto">$0.00</div>
+      <div class="row"><span>Parte libre de ISR (30 UMA)</span><b id="ex"></b></div>
+      <div class="row"><span>Parte que paga ISR</span><b id="gr"></b></div>
+      <div class="row"><span>ISR con el cálculo normal (art. 96)</span><b id="normal"></b></div>
+      <div class="row"><span>ISR con la opción del art. 174</span><b id="a174"></b></div>
+      <div class="row"><span>Tasa del art. 174</span><b id="tasa"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">El método lo elige tu empresa, no tú. No incluimos el subsidio para el empleo ni otros pagos del mes, como horas extra o bonos.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>¿El aguinaldo paga ISR?</h2>
+    <p>Solo una parte. La Ley del ISR (artículo 93, fracción XIV) deja libre de impuesto el aguinaldo hasta <strong>30 veces la UMA diaria</strong>. El SAT usa la UMA en lugar del salario mínimo desde la desindexación de 2016. Con la UMA de $117.31, vigente del 1 de febrero de 2026 al 31 de enero de 2027, el límite es de <strong>$3,519.30</strong>.</p>
+    <ul>
+      <li>Si tu aguinaldo es de $3,519.30 o menos, no te deben retener ISR.</li>
+      <li>Si es mayor, solo lo que pasa de esa cantidad paga impuesto. Por ejemplo, con un aguinaldo de $6,000, pagan ISR $2,480.70.</li>
+    </ul>
+
+    <h2>Las dos formas de calcularlo</h2>
+    <h3>1. Cálculo normal (artículo 96 de la Ley del ISR)</h3>
+    <p>Tu empresa suma la parte que paga ISR a tu sueldo del mes y aplica la tarifa mensual. Lo que te retiene por el aguinaldo es la diferencia entre el ISR de todo junto y el de tu sueldo solo. Como el aguinaldo se suma a un solo mes, puede subirte de renglón en la tarifa y pagar una tasa más alta.</p>
+    <h3>2. Opción del artículo 174 del Reglamento</h3>
+    <p>El Reglamento le permite a quien paga «repartir» el aguinaldo en el año para calcular la tasa:</p>
+    <ol>
+      <li>Divide la parte gravada entre 365 y multiplícala por 30.4.</li>
+      <li>Suma eso a tu sueldo mensual ordinario y calcula el ISR con la tarifa del artículo 96.</li>
+      <li>Réstale el ISR de tu sueldo solo.</li>
+      <li>Divide esa diferencia entre el resultado del paso 1: esa es tu tasa.</li>
+      <li>Multiplica la tasa por la parte gravada: eso es lo que te retienen.</li>
+    </ol>
+    <p><strong>Ejemplo (los datos de la calculadora):</strong> sueldo de $12,000 y aguinaldo de $6,000. Pagan ISR $2,480.70. Con el cálculo normal te retienen <strong>$366.29</strong>; con el artículo 174, $2,480.70 ÷ 365 × 30.4 = $206.61, que da una tasa de 10.88% y una retención de <strong>$269.90</strong>. Son $96 más en tu bolsillo.</p>
+    <p>El artículo 174 <strong>no siempre</strong> retiene menos: si el aguinaldo no te cambia de renglón en la tarifa, los dos dan casi lo mismo. Ayuda más cuando el aguinaldo es grande comparado con tu sueldo. Con sueldos cerca del salario mínimo puede dar unos centavos más.</p>
+
+    <h2>¿Y si me retienen de más?</h2>
+    <ul>
+      <li>La retención no es tu impuesto final del año. Si te retuvieron de más, puede salir <a href="../declaracion-anual/">saldo a favor en la declaración anual</a>, o tu empresa lo ajusta en el cálculo anual de diciembre.</li>
+      <li>Puedes pedirle a tu área de nómina que use el artículo 174, pero la decisión es de la empresa: el Reglamento dice que quien paga «podrá» hacerlo así.</li>
+      <li>Revisa tu recibo de nómina (CFDI) de diciembre: ahí viene la parte exenta, la gravada y el ISR retenido.</li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Por qué mi aguinaldo llegó incompleto?</h3>
+    <p>Además del ISR, revisa si te pagaron los días completos: si entraste este año, te toca la parte proporcional. Calcula tu monto en la <a href="../../trabajo/aguinaldo/">calculadora de aguinaldo</a> y la fecha límite de pago en <a href="../../trabajo/cuando-pagan-el-aguinaldo/">cuándo pagan el aguinaldo</a>.</p>
+    <h3>¿Los pensionados pagan ISR del aguinaldo?</h3>
+    <p>Las pensiones tienen sus propias reglas de exención. Revisa el <a href="../../trabajo/aguinaldo-pensionados/">aguinaldo para pensionados</a>.</p>
+    <h3>¿Cambia en enero de 2027?</h3>
+    <p>La parte exenta se calcula con la UMA vigente el día del pago. La UMA 2027 se publica en enero y rige desde febrero; mira <a href="../../trabajo/uma-2027/">UMA 2027</a>.</p>
+
+    <h2>Fuentes</h2>
+    <p class="nota">Revisadas el 26 de octubre de 2026. Exención de 30 UMA: artículo 93, fracción XIV de la Ley del ISR, con la UMA 2026 de $117.31 (INEGI, DOF 9 de enero de 2026; UnoTV y Littler). Procedimiento del artículo 174 del Reglamento de la Ley del ISR y ejemplo de $12,000 y $6,000: Siempre al Día (siemprealdia.co, 2026) y FiscoClic; el resultado del artículo 174 coincide al centavo y el del cálculo normal difiere en 1 centavo por redondeo. Tarifa mensual del artículo 96: Anexo 8 de la Resolución Miscelánea Fiscal 2026 (DOF 28 de diciembre de 2025), la misma que usa nuestra <a href="../../trabajo/sueldo-neto/">calculadora de sueldo neto</a>. No pudimos abrir sat.gob.mx ni el DOF desde nuestra red: confirma con tu recibo de nómina.</p>
+    <ul>
+      <li><a href="https://www.sat.gob.mx/" rel="noopener">Servicio de Administración Tributaria</a> (sat.gob.mx).</li>
+    </ul>
+    <p>También te puede servir: <a href="../../trabajo/aguinaldo/">calculadora de aguinaldo</a>, <a href="../../trabajo/sueldo-neto/">sueldo neto e ISR</a>, <a href="../declaracion-anual/">declaración anual y saldo a favor</a> y <a href="../../trabajo/uma-2027/">UMA 2027</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni del SAT. Los cálculos son orientativos y no sustituyen la asesoría de un contador.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/impuestos.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const s = leerNumero($("sueldo")), a = leerNumero($("ag"));
+  const r = Impuestos.isrAguinaldo({ sueldoMensual: s.valor, aguinaldo: a.valor });
+  const mejor174 = r.mejor === "art174";
+  $("tit").textContent = !r.aguinaldo ? "Escribe tu aguinaldo" : r.todoExento ? "Recibes completo tu aguinaldo" : "Te quedan, según el método";
+  $("neto").textContent = !r.aguinaldo ? mxn(0) : r.todoExento ? mxn(r.aguinaldo) : (r.mejor === "igual" ? mxn(r.netoNormal) : mxn(Math.min(r.netoNormal, r.neto174)) + " a " + mxn(Math.max(r.netoNormal, r.neto174)));
+  $("ex").textContent = mxn(r.exentoAplicado);
+  $("gr").textContent = mxn(r.gravado);
+  $("normal").textContent = mxn(r.normal);
+  $("a174").textContent = mxn(r.art174);
+  $("tasa").textContent = r.gravado ? r.tasa.toFixed(2) + "%" : "";
+  const msg = [];
+  if (!r.aguinaldo) msg.push("Escribe tu aguinaldo bruto.");
+  else if (r.todoExento) msg.push("Tu aguinaldo no pasa de 30 UMA ($3,519.30): no te deben retener ISR por él.");
+  else if (mejor174) msg.push(`Con la opción del artículo 174 te retendrían ${mxn(r.ahorro)} menos que con el cálculo normal.`);
+  else if (r.mejor === "normal") msg.push(`Aquí el cálculo normal retiene ${mxn(r.ahorro)} menos.`);
+  else msg.push("Los dos métodos dan lo mismo con estos datos.");
+  if (r.sinSueldo && r.aguinaldo) msg.push("Sin sueldo mensual el resultado no es realista: escríbelo para comparar bien.");
+  if (s.acotado || a.acotado) msg.push("Revisa las cantidades: tomamos como máximo 100 millones.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

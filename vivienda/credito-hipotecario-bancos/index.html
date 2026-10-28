@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de crédito hipotecario 2026: pago mensual en bancos | Cuentas Claras MX</title>
+<meta name="description" content="Calcula el pago mensual de una hipoteca bancaria: valor de la casa, enganche, tasa y plazo. Ve los intereses totales, cuánto necesitas al inicio y los gastos de escrituración.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<style>
+  .tool .pagos { grid-column: 1 / -1 }
+  .pagos summary { cursor: pointer; font: 600 1.1rem var(--display); color: var(--brand); margin-bottom: 10px }
+  .pagos td.n, .pagos th.n { text-align: right; white-space: nowrap }
+</style>
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/vivienda/credito-hipotecario-bancos/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Calculadora de crédito hipotecario 2026: pago mensual en bancos">
+<meta property="og:description" content="Calcula el pago mensual de una hipoteca bancaria: valor de la casa, enganche, tasa y plazo. Ve los intereses totales, cuánto necesitas al inicio y los gastos de escrituración.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/vivienda/credito-hipotecario-bancos/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/vivienda-credito-hipotecario-bancos.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Vivienda","item":"https://miguel201009.github.io/cuentas-claras-mx/vivienda/"},{"@type":"ListItem","position":3,"name":"Crédito hipotecario","item":"https://miguel201009.github.io/cuentas-claras-mx/vivienda/credito-hipotecario-bancos/"}]},{"@type":"WebApplication","name":"Calculadora de crédito hipotecario de bancos","url":"https://miguel201009.github.io/cuentas-claras-mx/vivienda/credito-hipotecario-bancos/","description":"Calcula el pago mensual de una hipoteca bancaria: valor de la casa, enganche, tasa y plazo. Ve los intereses totales, cuánto necesitas al inicio y los gastos de escrituración.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Vivienda</a> › Crédito hipotecario</span></div>
+
+  <header>
+    <span class="tag">Vivienda</span>
+    <h1>Calculadora de crédito hipotecario de bancos</h1>
+    <p class="lede">Escribe el valor de la casa, tu enganche, la tasa y el plazo. Te decimos cuánto pagas cada mes, cuánto se va en intereses y cuánto dinero necesitas al inicio.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="valor">Valor de la casa o departamento
+        <input id="valor" type="number" min="0" step="10000" value="2500000"></label>
+      <label for="eng">Enganche (% del valor)
+        <input id="eng" type="number" min="0" max="100" step="1" value="20"></label>
+      <label for="tasa">Tasa de interés anual fija (%), ejemplo
+        <input id="tasa" type="number" min="0" max="40" step="0.05" value="10"></label>
+      <label for="plazo">Plazo
+        <select id="plazo">
+          <option value="5">5 años</option>
+          <option value="10">10 años</option>
+          <option value="15">15 años</option>
+          <option value="20" selected>20 años</option>
+          <option value="25">25 años</option>
+          <option value="30">30 años</option>
+        </select></label>
+      <label for="gas">Gastos de escrituración (% del valor), estimado
+        <input id="gas" type="number" min="0" max="30" step="0.5" value="5"></label>
+      <label for="com">Comisión por apertura (% del crédito), ejemplo
+        <input id="com" type="number" min="0" max="10" step="0.1" value="1"></label>
+      <label for="seg">Seguros al mes (vida y daños), si ya los sabes
+        <input id="seg" type="number" min="0" step="50" value="0"></label>
+      <p class="nota">La tasa, los gastos y la comisión cargados son ejemplos. Usa los de la oferta de tu banco. Los seguros vienen en esa oferta; si no los sabes, déjalos en 0.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Tu pago fijo cada mes</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span>Con seguros</span><b id="conseg"></b></div>
+      <div class="row"><span>Te prestan</span><b id="cred"></b></div>
+      <div class="row"><span>Intereses en total</span><b id="int"></b></div>
+      <div class="row"><span>Total de tus pagos (sin seguros)</span><b id="tot"></b></div>
+      <div class="row"><span>Seguros en todo el plazo</span><b id="segt"></b></div>
+      <div class="row"><span>Interés de tu primer pago</span><b id="pri"></b></div>
+      <div class="row"><span>Necesitas al inicio</span><b id="ini"></b></div>
+      <div class="row sub"><span>Enganche</span><b id="engm"></b></div>
+      <div class="row sub"><span>Escrituración (estimado)</span><b id="gasm"></b></div>
+      <div class="row sub"><span>Comisión por apertura con IVA</span><b id="comm"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Cálculo orientativo con tasa fija y pagos iguales. Los intereses de un crédito para casa habitación no pagan IVA. No incluye avalúo, investigación ni otras comisiones que cobre tu banco.</p>
+    </div>
+    <details class="pagos" open>
+      <summary>Cómo baja tu deuda año por año</summary>
+      <div class="tabla"><table>
+        <thead><tr><th>Año</th><th class="n">Capital</th><th class="n">Intereses</th><th class="n">Debes</th></tr></thead>
+        <tbody id="tabla"></tbody>
+      </table></div>
+      <p class="nota">Cifras en pesos, sin seguros. Capital es lo que baja tu deuda en ese año.</p>
+    </details>
+  </section>
+
+  <section class="prosa">
+    <h2>Cómo se calcula el pago</h2>
+    <p>El banco te presta el <strong>valor de la casa menos tu enganche</strong>. Con tasa fija pagas lo mismo cada mes:</p>
+    <p><strong>Pago = crédito × i ÷ (1 − (1 + i)<sup>−n</sup>)</strong>, donde i es la tasa anual ÷ 12 y n el número de meses.</p>
+    <p>Al principio casi todo tu pago se va en intereses, porque debes mucho. Con los años, cada vez más va a capital. Por eso abonar a capital en los primeros años ahorra más intereses.</p>
+
+    <h2>Ejemplo</h2>
+    <p>Una casa de $2,500,000 con 20% de enganche, a 20 años, con tasa fija de 10% (es un ejemplo), 5% de escrituración y 1% de comisión por apertura.</p>
+    <ul>
+      <li>Enganche: $500,000. Te prestan $2,000,000.</li>
+      <li>Pago fijo: 2,000,000 × 0.008333 ÷ (1 − 1.008333<sup>−240</sup>) = <strong>$19,300.43</strong> al mes, más seguros.</li>
+      <li>De tu primer pago, $16,666.67 son intereses: más de 86%. En todo el primer año solo bajas tu deuda $33,094.77.</li>
+      <li>En 20 años pagas $4,632,103.90: <strong>$2,632,103.90 de intereses</strong>.</li>
+      <li>Al inicio necesitas $648,200: $500,000 de enganche, $125,000 de escrituración (estimado) y $23,200 de comisión con IVA.</li>
+    </ul>
+    <p>Con el mismo crédito a 15 años, el pago sube a $21,492.10, pero los intereses bajan a $1,868,578.42. Y con tasa de 9% a 20 años, el pago baja a $17,994.52 e intereses de $2,318,684.59: un punto de tasa son más de $300,000.</p>
+
+    <h2>Qué tasas hay</h2>
+    <p>En octubre de 2026 los bancos anunciaban tasas fijas para comprar casa de <strong>aproximadamente 8.5% a 12% anual</strong> (El CEO, 13 oct 2026, con las tasas que publica cada banco; un comparador con datos de 2026 da de 9.9% a 11.5% para un buen perfil). Son tasas "desde": la tuya depende de tu ingreso, tu enganche, tu historial y el plazo. Compara al menos tres ofertas.</p>
+
+    <h2>Gastos que no ves en la mensualidad</h2>
+    <p>Las cifras de esta sección son <strong>estimadas</strong>. Pide a tu banco y a tu notario las cifras exactas antes de firmar.</p>
+    <ul>
+      <li><strong>Escrituración (gastos notariales):</strong> suele costar entre 4% y 7% del valor de la casa (BBVA y Expansión, 2026). Incluye el impuesto por comprar la casa, que cobra cada estado o municipio, los honorarios del notario, el avalúo y el registro. Cambia mucho por estado.</li>
+      <li><strong>Seguros:</strong> la Condusef explica que los seguros de vida y de daños son obligatorios en una hipoteca y vienen incluidos en tu mensualidad. Su costo depende de tu edad, el valor de la casa y el banco.</li>
+      <li><strong>Comisión por apertura, avalúo e investigación:</strong> se pagan al contratar. A la comisión se le suma 16% de IVA.</li>
+    </ul>
+    <p>Según la Condusef, los bancos suelen prestar entre 70% y 80% del valor de la casa (el resto es tu enganche), con plazos de 5 a 30 años. Algunos productos prestan más; pregunta en cada banco.</p>
+
+    <h2>Cómo comparar hipotecas</h2>
+    <ol>
+      <li>Pide la <strong>oferta vinculante</strong>: el banco te la da gratis y muestra cuánto te costaría el crédito con tus datos.</li>
+      <li>Compara el <strong>CAT</strong>, el <strong>pago mensual con seguros</strong> y el <strong>total a pagar</strong> con el mismo monto y plazo.</li>
+      <li>Revisa si puedes abonar a capital sin penalización.</li>
+      <li>Si cotizas en el Infonavit, revisa si te conviene un crédito Infonavit o uno con banco más tu Subcuenta de Vivienda.</li>
+    </ol>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Pago IVA en los intereses?</h3>
+    <p>No. Los intereses de créditos para comprar, construir o arreglar tu casa no pagan IVA (artículo 15, fracción X de la Ley del IVA). La comisión por apertura sí paga 16% de IVA.</p>
+    <h3>¿Qué tasa escribo?</h3>
+    <p>La tasa de interés anual que viene en tu oferta, no el CAT. El CAT ya incluye comisiones y seguros.</p>
+    <h3>¿Me conviene comprar o seguir rentando?</h3>
+    <p>Depende de la renta, la plusvalía y lo que rinde tu dinero. Compáralo en <a href="../rentar-o-comprar/">¿rentar o comprar casa?</a></p>
+
+    <h2>Fuente oficial</h2>
+    <p>Compara bancos con los <a href="https://www.gob.mx/condusef/acciones-y-programas/simuladores-y-calculadoras-23921" rel="noopener">simuladores de crédito hipotecario de la Condusef</a> y la <a href="https://www.banxico.org.mx/CAT/" rel="noopener">calculadora del CAT del Banco de México</a>. La regla del IVA está en la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LIVA.pdf" rel="noopener">Ley del IVA</a> (artículos 1 y 15).</p>
+    <p class="nota">Información revisada en octubre de 2026. Tasas: <a href="https://elceo.com/bienes-raices/santander-bbva-banorte-tasas-creditos-hipotecarios/" rel="noopener">El CEO</a> (13 oct 2026) y <a href="https://cotizadorhipotecario.mx/referencia/tasas-hipotecarias" rel="noopener">Cotizador Hipotecario</a>. Escrituración: <a href="https://www.bbva.mx/educacion-financiera/seguros/cuanto-cuesta-escriturar-una-casa.html" rel="noopener">BBVA</a> y <a href="https://politica.expansion.mx/mexico/2026/07/21/costo-escritura-casa-descuentos-2026" rel="noopener">Expansión</a> (21 jul 2026). Seguros, enganche y oferta vinculante: <a href="https://www.banorte.com/cms/CONDUSEF/2022/mayo/Art-En-que-me-debo-fijar-al-elegir-un-credito-hipotecario.pdf" rel="noopener">artículo de la Condusef</a>.</p>
+    <p>También te puede servir: <a href="../credito-infonavit/">crédito Infonavit</a>, <a href="../rentar-o-comprar/">¿rentar o comprar casa?</a>, <a href="../predial/">predial</a> y <a href="../../dinero/credito-automotriz/">crédito automotriz</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni de ningún banco. Los cálculos son orientativos y no son una oferta de crédito ni asesoría financiera.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/vivienda.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const r = Vivienda.hipotecaBancaria({
+    valor: $("valor").value, enganche: $("eng").value, tasaAnual: $("tasa").value, plazo: $("plazo").value,
+    gastos: $("gas").value, comision: $("com").value, seguroMensual: $("seg").value
+  });
+  $("total").textContent = mxn(r.pago);
+  $("conseg").textContent = r.seguroMensual > 0 ? mxn(r.pagoConSeguros) : "Pregunta a tu banco";
+  $("cred").textContent = mxn(Math.max(r.credito, 0));
+  $("int").textContent = mxn(r.totalIntereses);
+  $("tot").textContent = mxn(r.totalPagado);
+  $("segt").textContent = mxn(r.totalSeguros);
+  $("pri").textContent = mxn(r.interesPrimerMes || 0);
+  $("ini").textContent = mxn(r.alInicio);
+  $("engm").textContent = mxn(r.engancheMonto);
+  $("gasm").textContent = mxn(r.gastosMonto);
+  $("comm").textContent = mxn(r.comisionMonto + r.ivaComision);
+  $("tabla").innerHTML = r.tabla.map(f =>
+    `<tr><td>${f.anio}</td><td class="n">${mxn(f.capital)}</td><td class="n">${mxn(f.interes)}</td><td class="n">${mxn(f.saldo)}</td></tr>`
+  ).join("");
+  const msg = [];
+  if (r.valor === 0) msg.push("Escribe el valor de la casa.");
+  else if (r.credito <= 0) msg.push("Con 100% de enganche no necesitas crédito.");
+  else if (r.tasa === 0) msg.push("Con tasa de 0% solo regresas lo que te prestaron.");
+  if (r.recortado) msg.push("Alguna cantidad está fuera de rango y la ajustamos: valor hasta $1,000,000,000, tasa hasta 40%, plazo hasta 30 años, escrituración hasta 30% y comisión hasta 10%.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

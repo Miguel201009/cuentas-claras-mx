@@ -278,4 +278,51 @@ cerca(p.cat, Math.pow(1 + 10 / 12, 12) - 1, "CAT al 1000%", 1e-6);
 assert.strictEqual(D.porcentaje(0.009), "0.90%");
 assert.strictEqual(D.porcentaje(NaN), "0.00%");
 
+// ---------- Interés compuesto ----------
+// $10,000 al 10% anual por 1 año: capitalización anual 11,000; diaria 10,000 x (1 + 0.1/365)^365 = 11,051.56.
+cerca(D.interesCompuesto({ inicial: 10000, tasaAnual: 10, anios: 1, capitalizacion: 1 }).final, 11000, "anual");
+cerca(D.interesCompuesto({ inicial: 10000, tasaAnual: 10, anios: 1, capitalizacion: 365 }).final, 11051.56, "diaria");
+cerca(D.interesCompuesto({ inicial: 10000, tasaAnual: 12, anios: 1, capitalizacion: 12 }).final, 11268.25, "mensual: 1.01^12");
+// Ejemplo de la página: $10,000 + $1,000 al mes, 7% capitalizable cada mes, 10 años.
+// (1 + 0.07/12)^120 = 2.009661; 10,000 x 2.009661 + 1,000 x 1.009661 / 0.0058333 = 193,181.42.
+r = D.interesCompuesto({ inicial: 10000, aportacion: 1000, tasaAnual: 7, anios: 10, capitalizacion: 12, inflacion: 3 });
+cerca(r.final, 193181.42, "saldo final");
+cerca(r.aportado, 130000, "aportado");
+cerca(r.intereses, 63181.42, "intereses");
+cerca(r.realFinal, 193181.42 / Math.pow(1.03, 10), "en pesos de hoy");
+cerca(r.efectiva, 0.072290, "tasa efectiva", 1e-6);
+cerca(r.aniosDuplicar, 9.93, "regla del 72: se duplica en unos 10 años");
+assert.strictEqual(r.tabla.length, 10);
+cerca(r.tabla[9].saldo, r.final, "última fila de la tabla");
+// Sin interés solo se suma lo que aportas; con años fraccionados la tabla termina en el último mes.
+r = D.interesCompuesto({ inicial: 5000, aportacion: 500, tasaAnual: 0, anios: 2.5 });
+cerca(r.final, 5000 + 500 * 30, "tasa 0");
+assert.strictEqual(r.tabla.length, 3);
+assert.strictEqual(r.tabla[2].anio, 2.5);
+assert.ok(D.interesCompuesto({ inicial: 0, aportacion: 0, tasaAnual: 5, anios: 3 }).sinDatos);
+assert.ok(D.interesCompuesto({ inicial: 1e12, tasaAnual: 5, anios: 3 }).recortado);
+finito(D.interesCompuesto({ inicial: "abc", aportacion: -5, tasaAnual: 1e9, anios: 1e9, capitalizacion: 7 }), "entradas basura");
+finito(D.interesCompuesto({ inicial: 1e9, aportacion: 1e9, tasaAnual: 100, anios: 60, capitalizacion: 365 }), "máximos");
+
+// ---------- Crédito automotriz ----------
+// Ejemplo de la página: auto de $350,000, 20% de enganche, 15% anual sin IVA, 48 meses, 2% de comisión.
+// Crédito 280,000. j = 0.15/12 x 1.16 = 0.0145; pago = 280,000 x 0.0145 / (1 - 1.0145^-48) = 8,137.47.
+r = D.creditoAutomotriz({ precio: 350000, enganche: 20, tasaAnual: 15, meses: 48, comision: 2 });
+cerca(r.engancheMonto, 70000, "enganche");
+cerca(r.credito, 280000, "crédito");
+cerca(r.pago, 8137.47, "pago mensual");
+cerca(r.totalPagado, 390598.70, "total de pagos");
+cerca(r.totalIntereses, 95343.71, "intereses");
+cerca(r.totalIva, 15254.99, "IVA de los intereses");
+cerca(r.comisionMonto, 5600, "comisión 2%");
+cerca(r.ivaComision, 896, "IVA de la comisión");
+cerca(r.alInicio, 76496, "al inicio: enganche, comisión e IVA");
+cerca(r.costoAuto, 467094.70, "el auto te cuesta en total");
+cerca(r.cat, 0.1734, "CAT estimado con comisión", 0.0001);
+cerca(D.creditoAutomotriz({ precio: 350000, enganche: 20, tasaAnual: 15, meses: 48 }).cat, 0.1608, "CAT sin comisión", 0.0001);
+assert.ok(D.creditoAutomotriz({ precio: 350000, enganche: 100, tasaAnual: 15, meses: 48 }).sinCredito, "enganche de 100%");
+assert.ok(D.creditoAutomotriz({ precio: 0, enganche: 20, tasaAnual: 15, meses: 48 }).sinPrecio);
+assert.ok(D.creditoAutomotriz({ precio: 350000, enganche: 150, tasaAnual: 15, meses: 48 }).recortado);
+finito(D.creditoAutomotriz({ precio: "x", enganche: -3, tasaAnual: 1e6, meses: 1e6, comision: 1e3 }), "auto basura");
+
 console.log("Todas las pruebas de dinero pasaron");

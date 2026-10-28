@@ -1,4 +1,5 @@
-// Cálculos de la sección Vivienda de Cuentas Claras MX: rentar o comprar, predial y aportaciones al Infonavit.
+// Cálculos de la sección Vivienda de Cuentas Claras MX: rentar o comprar, predial, aportaciones al Infonavit y
+// crédito hipotecario de un banco.
 // Funciones puras, sin datos personales: todo se calcula en el navegador de la persona.
 // En el navegador carga antes ../../assets/calc.js (UMA, salario mínimo y mxn()). En Node se lee con require.
 (function (raiz) {
@@ -224,7 +225,56 @@
     };
   }
 
-  const api = { DATOS, num, rango, pagoMensual, rentarOComprar, predial, aportacionInfonavit };
+  // ---------- Crédito hipotecario de un banco ----------
+
+  // Pago mensual fijo de una hipoteca bancaria a tasa fija. valor de la casa en pesos; enganche, gastos de escrituración
+  // y comisión por apertura en % (los gastos, del valor de la casa; la comisión, del crédito); tasa anual en %; plazo en años.
+  // seguroMensual: lo que el banco suma cada mes por seguros de vida y daños (en pesos; viene en la oferta del banco).
+  // Los intereses de un crédito para comprar casa habitación no pagan IVA (art. 15, fr. X LIVA); la comisión
+  // por apertura sí (16%, art. 1 LIVA). Pago = crédito x i / (1 - (1 + i)^-n), i = tasa / 12; con tasa 0, crédito / n.
+  // El saldo de cada año se calcula en forma cerrada: saldo tras k pagos = crédito x (1 - (1 + i)^(k - n)) / (1 - (1 + i)^-n).
+  function hipotecaBancaria({ valor, enganche, tasaAnual, plazo, gastos = 0, comision = 0, seguroMensual = 0 }) {
+    const M = DATOS.maximos;
+    const v = rango(num(valor), 0, M.monto);
+    const e = rango(num(enganche), 0, M.porcentaje);
+    const t = rango(num(tasaAnual), 0, M.tasa);
+    const pl = rango(num(plazo), 0, M.plazo);
+    const g = rango(num(gastos), 0, M.gastos);
+    const c = rango(num(comision), 0, 10);
+    const s = rango(num(seguroMensual), 0, M.renta);
+    const recortado = [v, e, t, pl, g, c, s].some(x => x.recortado);
+    const n = Math.round(pl.valor * 12);
+    const engancheMonto = v.valor * e.valor / 100;
+    const credito = v.valor - engancheMonto;
+    const i = t.valor / 100 / 12;
+    const gastosMonto = v.valor * g.valor / 100;
+    const comisionMonto = credito * c.valor / 100;
+    const ivaComision = comisionMonto * 0.16;
+    const alInicio = engancheMonto + gastosMonto + comisionMonto + ivaComision;
+    const base = { valor: v.valor, credito, engancheMonto, gastosMonto, comisionMonto, ivaComision, alInicio, recortado,
+      meses: n, tasa: t.valor, seguroMensual: s.valor, sinDatos: credito <= 0 || n < 1,
+      pago: 0, pagoConSeguros: 0, totalIntereses: 0, totalPagado: 0, totalSeguros: 0, tabla: [], porcentajeCredito: 0 };
+    if (credito <= 0 || n < 1) return base;
+    const f = i > 0 ? 1 - Math.pow(1 + i, -n) : 1;
+    const pago = i > 0 ? credito * i / f : credito / n;
+    const saldoTras = k => k >= n ? 0 : (i > 0 ? credito * (1 - Math.pow(1 + i, k - n)) / f : credito * (1 - k / n));
+    const totalPagado = pago * n;
+    const tabla = [];
+    for (let a = 1; a * 12 - 12 < n; a++) {
+      const desde = (a - 1) * 12, hasta_ = Math.min(a * 12, n);
+      const capital = saldoTras(desde) - saldoTras(hasta_);
+      const pagado = pago * (hasta_ - desde);
+      tabla.push({ anio: a, capital, interes: pagado - capital, saldo: saldoTras(hasta_) });
+    }
+    return Object.assign(base, {
+      pago, pagoConSeguros: pago + s.valor, totalPagado, totalIntereses: totalPagado - credito,
+      totalSeguros: s.valor * n, tabla, porcentajeCredito: v.valor > 0 ? credito / v.valor : 0,
+      // Interés del primer mes: cuánto de tu primer pago se va en intereses.
+      interesPrimerMes: credito * i
+    });
+  }
+
+  const api = { DATOS, num, rango, pagoMensual, hipotecaBancaria, rentarOComprar, predial, aportacionInfonavit };
   if (enNode) module.exports = api;
   else raiz.Vivienda = api;
 })(this);

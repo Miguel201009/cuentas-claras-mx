@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de interés compuesto: cuánto crece tu ahorro | Cuentas Claras MX</title>
+<meta name="description" content="Calcula cuánto crece tu ahorro con interés compuesto: monto inicial, ahorro de cada mes, tasa anual, años y capitalización. Con tabla por año y pesos de hoy.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<style>
+  .tool .pagos { grid-column: 1 / -1 }
+  .pagos summary { cursor: pointer; font: 600 1.1rem var(--display); color: var(--brand); margin-bottom: 10px }
+  .pagos td.n, .pagos th.n { text-align: right; white-space: nowrap }
+</style>
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/dinero/interes-compuesto/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Calculadora de interés compuesto: cuánto crece tu ahorro">
+<meta property="og:description" content="Calcula cuánto crece tu ahorro con interés compuesto: monto inicial, ahorro de cada mes, tasa anual, años y capitalización. Con tabla por año y pesos de hoy.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/dinero/interes-compuesto/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/dinero-interes-compuesto.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Dinero y ahorro","item":"https://miguel201009.github.io/cuentas-claras-mx/dinero/"},{"@type":"ListItem","position":3,"name":"Interés compuesto","item":"https://miguel201009.github.io/cuentas-claras-mx/dinero/interes-compuesto/"}]},{"@type":"WebApplication","name":"Calculadora de interés compuesto","url":"https://miguel201009.github.io/cuentas-claras-mx/dinero/interes-compuesto/","description":"Calcula cuánto crece tu ahorro con interés compuesto: monto inicial, ahorro de cada mes, tasa anual, años y capitalización. Con tabla por año y pesos de hoy.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Dinero y ahorro</a> › Interés compuesto</span></div>
+
+  <header>
+    <span class="tag">Dinero y ahorro</span>
+    <h1>Calculadora de interés compuesto</h1>
+    <p class="lede">Escribe con cuánto empiezas, cuánto ahorras cada mes, la tasa y los años. Te decimos cuánto tendrás al final, cuánto pusiste tú y cuánto ganaste en intereses.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="ini">¿Con cuánto empiezas?
+        <input id="ini" type="number" min="0" step="1000" value="10000"></label>
+      <label for="apo">¿Cuánto ahorras cada mes?
+        <input id="apo" type="number" min="0" step="100" value="1000"></label>
+      <label for="tasa">Tasa de interés anual (%), ejemplo
+        <input id="tasa" type="number" min="0" max="100" step="0.1" value="7"></label>
+      <label for="anios">¿Cuántos años?
+        <input id="anios" type="number" min="0" max="60" step="1" value="10"></label>
+      <label for="cap">¿Cada cuándo se suman los intereses?
+        <select id="cap">
+          <option value="365">Cada día</option>
+          <option value="12" selected>Cada mes</option>
+          <option value="4">Cada tres meses</option>
+          <option value="1">Cada año</option>
+        </select></label>
+      <label for="inf">Inflación anual que esperas (%)
+        <input id="inf" type="number" min="0" max="100" step="0.1" value="3"></label>
+      <p class="nota">La tasa cargada es un ejemplo. Usa la tasa anual que te da tu banco, tu Sofipo o CETES. La inflación cargada es la meta del Banco de México (3%); la real puede ser mayor o menor.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Tendrás al final</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span>Lo que pusiste tú</span><b id="apor"></b></div>
+      <div class="row"><span>Lo que ganaste en intereses</span><b id="int"></b></div>
+      <div class="row"><span>Tasa efectiva al año</span><b id="efe"></b></div>
+      <div class="row"><span>En pesos de hoy (descontando inflación)</span><b id="real"></b></div>
+      <div class="row"><span>Tu monto inicial se duplica en</span><b id="dup"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Cálculo orientativo con tasa fija. Suponemos que ahorras al final de cada mes. No restamos impuestos: según dónde ahorres, te pueden retener ISR.</p>
+    </div>
+    <details class="pagos" open>
+      <summary>Cómo crece tu ahorro año por año</summary>
+      <div class="tabla"><table>
+        <thead><tr><th>Año</th><th class="n">Pusiste</th><th class="n">Intereses</th><th class="n">Saldo</th></tr></thead>
+        <tbody id="tabla"></tbody>
+      </table></div>
+      <p class="nota">Cifras en pesos y acumuladas al final de cada año.</p>
+    </details>
+  </section>
+
+  <section class="prosa">
+    <h2>Qué es el interés compuesto</h2>
+    <p>Con <strong>interés simple</strong> solo ganas intereses sobre lo que pusiste. Con <strong>interés compuesto</strong> los intereses se suman a tu ahorro y, desde ese momento, también ganan intereses. Es "interés sobre interés".</p>
+    <p>Al principio la diferencia es pequeña. Con los años crece cada vez más rápido, por eso lo que más ayuda es <strong>empezar pronto</strong> y <strong>no sacar el dinero</strong>.</p>
+
+    <h2>Cómo se calcula</h2>
+    <p>Sin aportaciones, después de t años tienes:</p>
+    <p><strong>Saldo = inicial × (1 + tasa ÷ m)<sup>m × t</sup></strong>, donde m es cuántas veces al año se suman los intereses (365 si es cada día, 12 si es cada mes).</p>
+    <p>Si además ahorras lo mismo cada mes, cada aportación crece por su lado. Con una tasa mensual i:</p>
+    <p><strong>Saldo = inicial × (1 + i)<sup>n</sup> + aportación × ((1 + i)<sup>n</sup> − 1) ÷ i</strong>, donde n es el número de meses.</p>
+    <p class="nota">Si los intereses se suman cada mes, i = tasa anual ÷ 12. Si se suman cada día o cada tres meses, usamos la tasa mensual equivalente: i = (1 + tasa ÷ m)<sup>m ÷ 12</sup> − 1.</p>
+
+    <h2>Ejemplo</h2>
+    <p>Empiezas con $10,000 y ahorras $1,000 cada mes durante 10 años, con una tasa de 7% anual (es un ejemplo) y los intereses se suman cada mes.</p>
+    <ul>
+      <li>Tú pones $10,000 + $1,000 × 120 meses = <strong>$130,000</strong>.</li>
+      <li>Al final tienes <strong>$193,181.42</strong>: ganaste $63,181.42 en intereses.</li>
+      <li>La tasa efectiva es 7.23% al año, un poco más que 7%, porque los intereses se suman cada mes.</li>
+      <li>Si la inflación fuera de 3% al año, esos $193,181.42 alcanzarían para lo mismo que $143,745.12 hoy.</li>
+      <li>Si sigues 20 años, pones $250,000 y tienes $561,314.05: los intereses ($311,314.05) ya son más que lo que pusiste.</li>
+    </ul>
+    <p>Son los datos que vienen cargados en la calculadora.</p>
+
+    <h2>La regla del 72</h2>
+    <p>Para saber rápido en cuánto tiempo se duplica tu dinero, divide 72 entre la tasa anual. Al 7%, 72 ÷ 7 ≈ 10.3 años. La calculadora da el número exacto (9.93 años con el ejemplo). La regla funciona bien con tasas de un dígito.</p>
+
+    <h2>Lo que la calculadora no ve</h2>
+    <ul>
+      <li><strong>Impuestos:</strong> bancos, casas de bolsa y cetesdirecto retienen ISR sobre lo que inviertes. Compara cuánto te queda en la calculadora de <a href="../cetes-vs-bancos/">CETES vs. banco</a>.</li>
+      <li><strong>Inflación:</strong> si tu tasa es menor que la inflación, tu dinero pierde poder de compra aunque el saldo suba.</li>
+      <li><strong>Tasas que cambian:</strong> muchas cuentas y CETES cambian de tasa con el tiempo. Revisa tu cálculo cada año.</li>
+      <li><strong>Comisiones:</strong> una comisión por manejo de cuenta puede comerse los intereses de un ahorro pequeño.</li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Qué tasa escribo?</h3>
+    <p>La tasa de interés anual que te ofrecen. En cuentas y depósitos fíjate en la GAT (Ganancia Anual Total): es la que sirve para comparar. Si te dan una GAT, escríbela y elige "cada año".</p>
+    <h3>¿Qué es mejor: que los intereses se sumen cada día o cada mes?</h3>
+    <p>Con la misma tasa anual, mientras más seguido se sumen, un poco más ganas. $10,000 al 10% por un año: $11,000 si se suman cada año y $11,051.56 si se suman cada día. La diferencia es pequeña; pesa más la tasa.</p>
+    <h3>¿Mi dinero está protegido?</h3>
+    <p>En los bancos, el IPAB protege tus depósitos hasta un límite por persona y por banco. Lo explicamos en <a href="../cetes-vs-bancos/">CETES vs. banco</a>. Desconfía de quien te promete rendimientos muy altos y seguros: suele ser fraude.</p>
+
+    <h2>Fuente oficial</h2>
+    <p>Compara cuentas e inversiones con los <a href="https://www.gob.mx/condusef/acciones-y-programas/simuladores-y-calculadoras-23921" rel="noopener">simuladores de la Condusef</a> y revisa la <a href="https://www.banxico.org.mx/" rel="noopener">meta de inflación del Banco de México</a>. Las fórmulas son las de matemáticas financieras de cualquier libro de texto.</p>
+    <p class="nota">Información revisada en octubre de 2026.</p>
+    <p>También te puede servir: <a href="../cetes-vs-bancos/">CETES vs. banco</a>, <a href="../prestamo/">calculadora de préstamo</a> (el interés compuesto también trabaja en tu contra cuando debes) y <a href="../../retiro/afore/">cuánto tendrás en tu Afore</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni de ningún banco. Los cálculos son orientativos y no son asesoría financiera.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/dinero.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const r = Dinero.interesCompuesto({
+    inicial: $("ini").value, aportacion: $("apo").value, tasaAnual: $("tasa").value,
+    anios: $("anios").value, capitalizacion: $("cap").value, inflacion: $("inf").value
+  });
+  $("total").textContent = mxn(r.final);
+  $("apor").textContent = mxn(r.aportado);
+  $("int").textContent = mxn(r.intereses);
+  $("efe").textContent = Dinero.porcentaje(r.efectiva);
+  $("real").textContent = mxn(r.realFinal);
+  $("dup").textContent = r.aniosDuplicar > 0 ? r.aniosDuplicar.toLocaleString("es-MX", { maximumFractionDigits: 1 }) + " años" : "Nunca (tasa 0%)";
+  $("tabla").innerHTML = r.tabla.map(f =>
+    `<tr><td>${f.anio.toLocaleString("es-MX", { maximumFractionDigits: 2 })}</td><td class="n">${mxn(f.aportado)}</td><td class="n">${mxn(f.intereses)}</td><td class="n">${mxn(f.saldo)}</td></tr>`
+  ).join("");
+  const msg = [];
+  if (r.sinDatos) msg.push("Escribe con cuánto empiezas o cuánto ahorras cada mes, y los años.");
+  else if (r.tasa === 0) msg.push("Con tasa de 0% solo tienes lo que pusiste.");
+  else if (r.efectiva < r.inflacion) msg.push("Ojo: tu tasa es menor que la inflación. Tu saldo sube, pero alcanza para menos.");
+  if (r.recortado) msg.push("Alguna cantidad es demasiado grande. Usamos como máximo $1,000,000,000, tasas e inflación de hasta 100% y 60 años.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

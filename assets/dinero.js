@@ -1,4 +1,5 @@
-// Cálculos de la sección Dinero y ahorro de Cuentas Claras MX: CETES contra banco, meses sin intereses y préstamos.
+// Cálculos de la sección Dinero y ahorro de Cuentas Claras MX: CETES contra banco, meses sin intereses, préstamos,
+// interés compuesto y crédito automotriz.
 // Funciones puras, sin datos personales: todo se calcula en el navegador de la persona.
 // En el navegador carga antes ../../assets/calc.js (ahí está mxn() para el formato de pesos y la UMA en Calc.DATOS).
 (function (raiz) {
@@ -65,7 +66,10 @@
     buenFin: { anio: 2026, inicio: "2026-11-13", fin: "2026-11-17", dias: 5, sorteoMinimo: 250 },
 
     // Límites para que una cifra absurda no rompa el resultado: lo que pase de aquí se recorta y se avisa.
-    maximos: { monto: 1e9, tasaAhorro: 100, tasaCredito: 1000, inflacion: 100, meses: 480, dias: 3650, comision: 50 }
+    maximos: { monto: 1e9, tasaAhorro: 100, tasaCredito: 1000, inflacion: 100, meses: 480, dias: 3650, comision: 50, anios: 60 },
+
+    // Capitalización del interés compuesto: veces al año que los intereses se suman al saldo.
+    capitalizaciones: { diaria: 365, mensual: 12, trimestral: 4, anual: 1 }
   };
 
   // Número válido, finito y positivo; vacío, texto, negativo o infinito cuenta como 0.
@@ -304,7 +308,81 @@
     };
   }
 
-  const api = { DATOS, num, porcentaje, descuentoReal, rendimiento, perdidaInflacion, limiteExento, compararAhorro, mesesSinIntereses, tirMensual, prestamo };
+  // ---------- Interés compuesto: cuánto crece tu ahorro ----------
+
+  // Saldo de un ahorro con monto inicial y aportación fija al final de cada mes.
+  // tasaAnual en % (tasa nominal anual), capitalizacion: veces al año que se suman los intereses (365, 12, 4 o 1).
+  // Para juntar aportaciones mensuales con cualquier capitalización se usa la tasa mensual equivalente:
+  //   i = (1 + tasa / m)^(m / 12) - 1   (con m = 12 es tasa / 12)
+  // Saldo después de n meses = inicial x (1 + i)^n + aportación x ((1 + i)^n - 1) / i   (con i = 0: inicial + aportación x n)
+  // Tasa efectiva anual = (1 + tasa / m)^m - 1. Con inflación (anual, en %) el saldo en pesos de hoy es saldo / (1 + inflación)^años.
+  // No resta impuestos: la retención de ISR depende de dónde ahorres (ver rendimiento()).
+  function interesCompuesto({ inicial, aportacion = 0, tasaAnual, anios, capitalizacion = 12, inflacion = 0 }) {
+    const max = DATOS.maximos;
+    const recortado = pasaMaximo([[inicial, max.monto], [aportacion, max.monto], [tasaAnual, max.tasaAhorro],
+      [anios, max.anios], [inflacion, max.inflacion]]);
+    const p0 = hasta(inicial, max.monto);
+    const a = hasta(aportacion, max.monto);
+    const tasa = hasta(tasaAnual, max.tasaAhorro) / 100;
+    const n = Math.round(hasta(anios, max.anios) * 12);
+    const pi = hasta(inflacion, max.inflacion) / 100;
+    const m = [365, 12, 4, 1].includes(+capitalizacion) ? +capitalizacion : 12;
+    const i = Math.pow(1 + tasa / m, m / 12) - 1;
+    const efectiva = Math.pow(1 + tasa / m, m) - 1;
+    const saldoEn = k => {
+      const f = Math.pow(1 + i, k);
+      return p0 * f + (i > 0 ? a * (f - 1) / i : a * k);
+    };
+    const tabla = [];
+    for (let k = 12; k <= n; k += 12) {
+      const saldo = saldoEn(k);
+      const aportado = p0 + a * k;
+      tabla.push({ anio: k / 12, aportado, intereses: saldo - aportado, saldo });
+    }
+    if (n % 12 && n > 0) {
+      const saldo = saldoEn(n), aportado = p0 + a * n;
+      tabla.push({ anio: n / 12, aportado, intereses: saldo - aportado, saldo });
+    }
+    const final = saldoEn(n);
+    const aportado = p0 + a * n;
+    const anios_ = n / 12;
+    const realFinal = final / Math.pow(1 + pi, anios_);
+    return {
+      inicial: p0, aportacion: a, tasa, meses: n, anios: anios_, capitalizacion: m, tasaMensual: i, efectiva,
+      inflacion: pi, recortado, sinDatos: n === 0 || (p0 === 0 && a === 0),
+      final, aportado, intereses: final - aportado, realFinal, tabla,
+      // años para duplicar el monto inicial sin aportaciones (con tasa 0 nunca se duplica)
+      aniosDuplicar: efectiva > 0 ? Math.log(2) / Math.log(1 + efectiva) : 0
+    };
+  }
+
+  // ---------- Crédito automotriz ----------
+
+  // Pago mensual de un crédito para auto: el banco o la financiera presta el precio menos el enganche.
+  // enganche en % del precio. La tasa (anual, en %, sin IVA) y el plazo van a prestamo(): pagos fijos con IVA de 16%
+  // sobre los intereses (un crédito automotriz es crédito al consumo; no es de los exentos del art. 15 LIVA).
+  // La comisión por apertura (en % del crédito) se paga al inicio con su IVA de 16%; para el CAT estimado cuenta
+  // como si se descontara del crédito. No incluye el seguro del auto ni otros seguros.
+  function creditoAutomotriz({ precio, enganche, tasaAnual, meses, comision = 0, conIva = true }) {
+    const max = DATOS.maximos;
+    const p = hasta(precio, max.monto);
+    const e = hasta(enganche, 100) / 100;
+    const engancheMonto = p * e;
+    const credito = p - engancheMonto;
+    const r = prestamo({ monto: credito, tasaAnual, meses, conIva, comision });
+    const recortado = r.recortado || pasaMaximo([[precio, max.monto], [enganche, 100]]);
+    // Lo que pagas al inicio: enganche, comisión y su IVA.
+    const alInicio = engancheMonto + r.comisionMonto + r.ivaComision;
+    return Object.assign({}, r, {
+      precio: p, enganchePct: e, engancheMonto, credito, recortado, sinPrecio: p === 0, sinCredito: p > 0 && credito === 0,
+      alInicio,
+      // Lo que te cuesta el auto en total: enganche, todos los pagos, la comisión y su IVA.
+      costoAuto: alInicio + r.totalPagado,
+      sobrePrecio: r.costoTotal
+    });
+  }
+
+  const api = { DATOS, interesCompuesto, creditoAutomotriz, num, porcentaje, descuentoReal, rendimiento, perdidaInflacion, limiteExento, compararAhorro, mesesSinIntereses, tirMensual, prestamo };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else raiz.Dinero = api;
 })(this);

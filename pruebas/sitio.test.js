@@ -26,8 +26,9 @@ for (const p of ["trabajo/sueldo-neto/", "trabajo/prima-de-antiguedad/", "trabaj
   "trabajo/aguinaldo-gobierno/", "trabajo/cuando-pagan-el-aguinaldo/", "trabajo/salario-minimo-2027/", "trabajo/dias-festivos-2027/",
   "dinero/buen-fin/", "familia/pension-bienestar-adultos-mayores/", "familia/pension-mujeres-bienestar/",
   "familia/beca-benito-juarez/", "familia/beca-rita-cetina/", "impuestos/aguinaldo-isr/", "trabajo/uma-2027/",
-  "impuestos/calculadora-iva/"]) assert.ok(todas.includes(p), `falta ${p}`);
-assert.strictEqual(herramientas.length, 48, "48 calculadoras y guías");
+  "impuestos/calculadora-iva/", "dinero/interes-compuesto/", "dinero/credito-automotriz/",
+  "vivienda/credito-hipotecario-bancos/"]) assert.ok(todas.includes(p), `falta ${p}`);
+assert.strictEqual(herramientas.length, 51, "51 calculadoras y guías");
 
 // ---------- Reglas para cada página ----------
 const titulos = new Map();
@@ -167,7 +168,19 @@ const casos = {
   "calculadora de iva": "impuestos/calculadora-iva/",
   "quitar iva": "impuestos/calculadora-iva/",
   "iva 8% frontera": "impuestos/calculadora-iva/",
-  "desglosar iva": "impuestos/calculadora-iva/"
+  "desglosar iva": "impuestos/calculadora-iva/",
+  "interés compuesto": "dinero/interes-compuesto/",
+  "cuánto crece mi ahorro": "dinero/interes-compuesto/",
+  "regla del 72": "dinero/interes-compuesto/",
+  "crédito automotriz": "dinero/credito-automotriz/",
+  "crédito para auto": "dinero/credito-automotriz/",
+  "financiamiento carro": "dinero/credito-automotriz/",
+  "mensualidad coche": "dinero/credito-automotriz/",
+  "crédito hipotecario": "vivienda/credito-hipotecario-bancos/",
+  "hipoteca": "vivienda/credito-hipotecario-bancos/",
+  "hipoteca banco": "vivienda/credito-hipotecario-bancos/",
+  "gastos notariales": "vivienda/credito-hipotecario-bancos/",
+  "escrituras": "vivienda/credito-hipotecario-bancos/"
 };
 for (const [q, esperado] of Object.entries(casos)) assert.ok(hrefs(q).includes(esperado), `buscar "${q}" debe dar ${esperado}: ${hrefs(q)}`);
 assert.ok(!hrefs("ine").some(h => h.startsWith("dinero/")), "ine no muestra la sección dinero");
@@ -188,6 +201,11 @@ assert.ok(hrefs("pensión adultos mayores").indexOf("familia/pension-bienestar-a
 assert.strictEqual(hrefs("isr aguinaldo")[0], "impuestos/aguinaldo-isr/");
 assert.strictEqual(hrefs("uma 2027")[0], "trabajo/uma-2027/");
 assert.strictEqual(hrefs("calculadora de iva")[0], "impuestos/calculadora-iva/");
+// Todo el año: interés compuesto, crédito automotriz y crédito hipotecario de bancos
+assert.strictEqual(hrefs("interés compuesto")[0], "dinero/interes-compuesto/");
+assert.strictEqual(hrefs("crédito automotriz")[0], "dinero/credito-automotriz/");
+assert.strictEqual(hrefs("crédito hipotecario")[0], "vivienda/credito-hipotecario-bancos/");
+assert.strictEqual(hrefs("hipoteca banco")[0], "vivienda/credito-hipotecario-bancos/");
 assert.ok(hrefs("aguinaldo").includes("trabajo/aguinaldo/") && hrefs("aguinaldo")[0] === "trabajo/aguinaldo/", "aguinaldo sigue llevando primero a la calculadora");
 assert.strictEqual(B.buscar(textos, "qwertyuiop").modo, "ninguna");
 

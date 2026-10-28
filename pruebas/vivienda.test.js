@@ -262,4 +262,34 @@ assert.ok(a.recortado && a.topado);
 assert.strictEqual(a.anios, 40);
 finito(a, "sueldo enorme");
 
+// ---------- Crédito hipotecario de un banco ----------
+// Ejemplo de la página: casa de $2,500,000, 20% de enganche, 10% anual, 20 años, 5% de escrituración y 1% de comisión.
+// Crédito 2,000,000; pago = 2,000,000 x 0.0083333 / (1 - 1.0083333^-240) = 19,300.43.
+{
+  const h = V.hipotecaBancaria({ valor: 2500000, enganche: 20, tasaAnual: 10, plazo: 20, gastos: 5, comision: 1 });
+  cerca(h.credito, 2000000, "crédito");
+  cerca(h.pago, 19300.43, "pago mensual");
+  cerca(h.pago, V.pagoMensual(2000000, 10, 240), "mismo pago que rentar o comprar");
+  cerca(h.totalPagado, 4632103.90, "total de pagos");
+  cerca(h.totalIntereses, 2632103.90, "intereses");
+  cerca(h.gastosMonto, 125000, "escrituración 5%");
+  cerca(h.comisionMonto, 20000, "comisión 1% del crédito");
+  cerca(h.ivaComision, 3200, "IVA de la comisión");
+  cerca(h.alInicio, 648200, "al inicio");
+  cerca(h.interesPrimerMes, 16666.67, "interés del primer mes");
+  assert.strictEqual(h.tabla.length, 20);
+  cerca(h.tabla[0].capital + h.tabla[0].interes, 19300.43 * 12, "un año de pagos", 0.1);
+  cerca(h.tabla.reduce((s, f) => s + f.capital, 0), 2000000, "el capital suma el crédito", 0.01);
+  assert.strictEqual(h.tabla[19].saldo, 0);
+  const s = V.hipotecaBancaria({ valor: 2500000, enganche: 20, tasaAnual: 10, plazo: 20, seguroMensual: 900 });
+  cerca(s.pagoConSeguros, 20200.43, "pago con seguros");
+  cerca(s.totalSeguros, 216000, "seguros en 20 años");
+  const cero = V.hipotecaBancaria({ valor: 1200000, enganche: 0, tasaAnual: 0, plazo: 10 });
+  cerca(cero.pago, 10000, "tasa 0");
+  assert.ok(V.hipotecaBancaria({ valor: 1000000, enganche: 100, tasaAnual: 10, plazo: 20 }).sinDatos);
+  assert.ok(V.hipotecaBancaria({ valor: 1000000, enganche: 20, tasaAnual: 99, plazo: 20 }).recortado);
+  finito(V.hipotecaBancaria({ valor: "x", enganche: -1, tasaAnual: 1e9, plazo: 1e9, gastos: 1e9, comision: 1e9, seguroMensual: 1e12 }), "basura");
+  finito(V.hipotecaBancaria({ valor: 1e9, enganche: 0, tasaAnual: 40, plazo: 30 }), "máximos");
+}
+
 console.log("Pruebas de vivienda: todas pasaron.");

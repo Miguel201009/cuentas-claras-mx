@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de crédito automotriz 2026: pago mensual y CAT | Cuentas Claras MX</title>
+<meta name="description" content="Calcula el pago mensual de tu crédito para auto: precio, enganche, tasa y plazo. Ve los intereses con IVA, la comisión por apertura, un CAT estimado y el costo total.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<style>
+  .tool .pagos { grid-column: 1 / -1 }
+  .pagos summary { cursor: pointer; font: 600 1.1rem var(--display); color: var(--brand); margin-bottom: 10px }
+  .pagos td.n, .pagos th.n { text-align: right; white-space: nowrap }
+  @media (max-width: 480px) { .pagos .p { display: none } }
+</style>
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/dinero/credito-automotriz/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Calculadora de crédito automotriz 2026: pago mensual y CAT">
+<meta property="og:description" content="Calcula el pago mensual de tu crédito para auto: precio, enganche, tasa y plazo. Ve los intereses con IVA, la comisión por apertura, un CAT estimado y el costo total.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/dinero/credito-automotriz/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/dinero-credito-automotriz.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Dinero y ahorro","item":"https://miguel201009.github.io/cuentas-claras-mx/dinero/"},{"@type":"ListItem","position":3,"name":"Crédito automotriz","item":"https://miguel201009.github.io/cuentas-claras-mx/dinero/credito-automotriz/"}]},{"@type":"WebApplication","name":"Calculadora de crédito automotriz","url":"https://miguel201009.github.io/cuentas-claras-mx/dinero/credito-automotriz/","description":"Calcula el pago mensual de tu crédito para auto: precio, enganche, tasa y plazo. Ve los intereses con IVA, la comisión por apertura, un CAT estimado y el costo total.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Dinero y ahorro</a> › Crédito automotriz</span></div>
+
+  <header>
+    <span class="tag">Dinero y ahorro</span>
+    <h1>Calculadora de crédito automotriz</h1>
+    <p class="lede">Escribe el precio del auto, tu enganche, la tasa y el plazo. Te decimos cuánto pagas cada mes, cuánto se va en intereses e IVA, y cuánto te cuesta el auto en total.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="precio">Precio del auto
+        <input id="precio" type="number" min="0" step="1000" value="350000"></label>
+      <label for="eng">Enganche (% del precio)
+        <input id="eng" type="number" min="0" max="100" step="1" value="20"></label>
+      <label for="tasa">Tasa de interés anual sin IVA (%), ejemplo
+        <input id="tasa" type="number" min="0" max="1000" step="0.1" value="15"></label>
+      <label for="meses">Plazo
+        <select id="meses">
+          <option value="12">12 meses</option>
+          <option value="24">24 meses</option>
+          <option value="36">36 meses</option>
+          <option value="48" selected>48 meses</option>
+          <option value="60">60 meses</option>
+          <option value="72">72 meses</option>
+        </select></label>
+      <label for="com">Comisión por apertura (% del crédito), ejemplo
+        <input id="com" type="number" min="0" max="50" step="0.1" value="2"></label>
+      <p class="nota">La tasa y la comisión cargadas son ejemplos. Usa la tasa de interés anual y la comisión que vienen en la cotización o en la carátula de tu crédito, no el CAT.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Tu pago fijo cada mes</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span>Enganche</span><b id="engm"></b></div>
+      <div class="row"><span>Te prestan</span><b id="cred"></b></div>
+      <div class="row"><span>Intereses en total</span><b id="int"></b></div>
+      <div class="row"><span>IVA de los intereses (estimado)</span><b id="ivat"></b></div>
+      <div class="row"><span>Comisión por apertura</span><b id="comm"></b></div>
+      <div class="row sub"><span>IVA de la comisión (16%)</span><b id="comiva"></b></div>
+      <div class="row"><span>Pagas al inicio (enganche y comisión)</span><b id="ini"></b></div>
+      <div class="row"><span>Total de tus pagos mensuales</span><b id="tot"></b></div>
+      <div class="row"><span>El auto te cuesta en total</span><b id="costo"></b></div>
+      <div class="row"><span>Pagas de más por el crédito</span><b id="extra"></b></div>
+      <div class="row"><span>CAT estimado (sin IVA)</span><b id="cat"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Cálculo orientativo con tasa fija. Suponemos que pagas la comisión al inicio. No incluye el seguro del auto, el seguro de vida ni otras comisiones; el CAT oficial de tu crédito puede ser mayor.</p>
+    </div>
+    <details class="pagos">
+      <summary>Tabla de pagos mes por mes</summary>
+      <div class="tabla"><table>
+        <thead><tr><th>Mes</th><th class="n p">Pago</th><th class="n">Capital</th><th class="n">Interés</th><th class="n">IVA</th><th class="n">Saldo</th></tr></thead>
+        <tbody id="tabla"></tbody>
+      </table></div>
+      <p class="nota">Cifras en pesos. Capital es lo que baja tu deuda. En pantallas angostas ocultamos la columna del pago, que es igual cada mes.</p>
+    </details>
+  </section>
+
+  <section class="prosa">
+    <h2>Cómo se calcula el pago</h2>
+    <p>El banco o la financiera te presta el <strong>precio del auto menos el enganche</strong>. Ese crédito se paga con pagos fijos cada mes. Cada pago tiene tres partes:</p>
+    <ul>
+      <li><strong>Interés:</strong> saldo que debes × tasa anual ÷ 12.</li>
+      <li><strong>IVA:</strong> 16% de ese interés. Un crédito para auto es un crédito al consumo y sus intereses pagan IVA.</li>
+      <li><strong>Capital:</strong> lo que sobra del pago y baja tu deuda.</li>
+    </ul>
+    <p><strong>Pago = crédito × j ÷ (1 − (1 + j)<sup>−meses</sup>)</strong>, donde <strong>j = tasa anual ÷ 12 × 1.16</strong>.</p>
+    <p class="nota">Es la misma fórmula de la <a href="../prestamo/">calculadora de préstamo</a>. Algunas financieras calculan el IVA aparte y el pago cambia un poco; revisa la tabla de tu contrato.</p>
+
+    <h2>Ejemplo</h2>
+    <p>Un auto de $350,000 con 20% de enganche, a 48 meses, con una tasa de 15% anual sin IVA y 2% de comisión por apertura (son ejemplos).</p>
+    <ul>
+      <li>Enganche: $70,000. Te prestan $280,000.</li>
+      <li>Tasa mensual con IVA: 15% ÷ 12 × 1.16 = 1.45%. Pago fijo: <strong>$8,137.47</strong> al mes.</li>
+      <li>Primer mes: $3,500 de interés, $560 de IVA y $4,077.47 de capital.</li>
+      <li>En 48 pagos das $390,598.70: $95,343.71 de intereses y $15,254.99 de IVA (estimado).</li>
+      <li>Comisión: $5,600 más $896 de IVA. Al inicio pagas $76,496 con el enganche.</li>
+      <li>El auto te cuesta en total <strong>$467,094.70</strong>: $117,094.70 más que su precio.</li>
+      <li>CAT estimado sin IVA: <strong>17.34%</strong> (16.08% sin la comisión).</li>
+    </ul>
+    <p>Son los datos que vienen cargados en la calculadora.</p>
+
+    <h2>Enganche y plazo: lo que más mueve el costo</h2>
+    <ul>
+      <li><strong>Plazo más largo:</strong> con el mismo ejemplo a 60 meses, el pago baja a $7,019.08, pero los intereses con IVA suben de $110,598.70 a $141,145.09.</li>
+      <li><strong>Más enganche:</strong> con 30% de enganche a 48 meses, el pago baja a $7,120.29 y los intereses con IVA bajan a $96,773.87.</li>
+    </ul>
+    <p>Cada banco o financiera pone su enganche mínimo. El simulador de la Condusef considera enganches de 20% a 80% del valor del auto, y algunos bancos aceptan menos. Pregunta antes de decidir.</p>
+
+    <h2>Qué tasas hay</h2>
+    <p>En notas de julio de 2026 (El CEO y Financera, con datos de los propios bancos y de la Condusef), los bancos anunciaban tasas para auto nuevo de <strong>aproximadamente 12% a 19% anual</strong>, y algunas financieras más altas. Son tasas "desde": la tuya depende de tu historial, tu enganche y el plazo. Usa la que te cotizan.</p>
+
+    <h2>CAT y comisión por apertura</h2>
+    <p>El <strong>CAT (Costo Anual Total)</strong> junta en un porcentaje la tasa, las comisiones y otros gastos. Se calcula con la metodología del Banco de México y <strong>siempre sin IVA</strong>. Es la mejor cifra para comparar dos créditos del mismo monto y plazo. Lo explicamos con más detalle en la <a href="../prestamo/">calculadora de préstamo</a>.</p>
+    <ul>
+      <li>La <strong>comisión por apertura</strong> se cobra una sola vez, al contratar. Es un porcentaje del crédito y se le suma 16% de IVA. Algunas promociones la quitan.</li>
+      <li>El CAT de la publicidad puede incluir seguros que esta calculadora no ve, así que el tuyo puede salir más alto.</li>
+      <li>Pide siempre la cotización por escrito con tasa, CAT, comisiones, seguros y tabla de pagos.</li>
+    </ul>
+
+    <h2>Seguros</h2>
+    <p>Mientras pagas el crédito, normalmente te piden asegurar el auto, y a veces un seguro de vida o de desempleo. Puede que puedas pagar el seguro de contado cada año o meterlo al crédito: si lo metes, también pagas intereses por él. Pregunta si puedes contratar el seguro con la aseguradora que tú elijas.</p>
+
+    <h2>Cuidado con los fraudes</h2>
+    <p>La Condusef advierte que pedirte un depósito o un "enganche" por adelantado para autorizar un crédito, sobre todo con la promesa de "entrega inmediata", es señal de fraude. Revisa que la empresa esté registrada en la Condusef y lee bien el contrato: un autofinanciamiento no es un crédito y no te entrega el auto al firmar.</p>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Por qué pago IVA en los intereses?</h3>
+    <p>La Ley del IVA grava con 16% los intereses de los créditos al consumo. Solo algunos quedan exentos, como los hipotecarios para casa habitación (artículo 15, fracción X). En créditos de bancos el IVA se calcula sobre el interés real (la tasa menos la inflación, artículo 18-A), así que el de tu estado de cuenta puede salir menor. Aquí usamos el 16% de todo el interés para no quedarnos cortos.</p>
+    <h3>¿Me conviene pagar antes?</h3>
+    <p>Si tu contrato permite pagos anticipados sin penalización, abonar a capital baja tus intereses. Pregunta si se reduce el plazo o el pago.</p>
+    <h3>¿Qué tasa escribo?</h3>
+    <p>La tasa de interés anual ordinaria sin IVA que viene en tu cotización. No escribas el CAT.</p>
+
+    <h2>Fuente oficial</h2>
+    <p>Compara créditos con el <a href="https://www.gob.mx/condusef/acciones-y-programas/simuladores-y-calculadoras-23921" rel="noopener">simulador de crédito automotriz de la Condusef</a>, la <a href="https://www.banxico.org.mx/CAT/" rel="noopener">calculadora del CAT del Banco de México</a> y el <a href="https://www.buro.gob.mx/" rel="noopener">Buró de Entidades Financieras</a>. Las reglas del IVA están en la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LIVA.pdf" rel="noopener">Ley del IVA</a> (artículos 1, 15 y 18-A).</p>
+    <p class="nota">Información revisada en octubre de 2026. Rango de tasas: <a href="https://elceo.com/negocios/donde-sacar-un-credito-automotriz-estas-son-las-opciones-mas-convenientes-para-comprar-un-auto/" rel="noopener">El CEO</a> (3 jul 2026) y <a href="https://financera.mx/prestamos/credito-automotriz/" rel="noopener">Financera</a> (13 jul 2026).</p>
+    <p>También te puede servir: <a href="../prestamo/">calculadora de préstamo</a>, <a href="../../auto/tenencia-y-refrendo/">tenencia y refrendo</a>, <a href="../../auto/gasolina-por-viaje/">gasolina por viaje</a> y <a href="../interes-compuesto/">interés compuesto</a>, para ver cuánto crecería tu ahorro si juntas para pagar de contado.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni de ningún banco. Los cálculos son orientativos y no son una oferta de crédito ni asesoría financiera.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/dinero.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const r = Dinero.creditoAutomotriz({
+    precio: $("precio").value, enganche: $("eng").value, tasaAnual: $("tasa").value,
+    meses: $("meses").value, comision: $("com").value
+  });
+  $("total").textContent = mxn(r.pago);
+  $("engm").textContent = mxn(r.engancheMonto);
+  $("cred").textContent = mxn(r.credito);
+  $("int").textContent = mxn(r.totalIntereses);
+  $("ivat").textContent = mxn(r.totalIva);
+  $("comm").textContent = mxn(r.comisionMonto);
+  $("comiva").textContent = mxn(r.ivaComision);
+  $("ini").textContent = mxn(r.alInicio);
+  $("tot").textContent = mxn(r.totalPagado);
+  $("costo").textContent = mxn(r.costoAuto);
+  $("extra").textContent = mxn(r.sobrePrecio);
+  $("cat").textContent = r.cat >= 1e4 ? "Más de 1,000,000%" : Dinero.porcentaje(r.cat);
+  const n2 = x => x.toLocaleString("es-MX", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  $("tabla").innerHTML = r.tabla.map(f =>
+    `<tr><td>${f.mes}</td><td class="n p">${n2(f.pago)}</td><td class="n">${n2(f.capital)}</td><td class="n">${n2(f.interes)}</td><td class="n">${n2(f.iva)}</td><td class="n">${n2(f.saldo)}</td></tr>`
+  ).join("");
+  const msg = [];
+  if (r.sinPrecio) msg.push("Escribe el precio del auto.");
+  else if (r.sinCredito) msg.push("Con 100% de enganche no necesitas crédito: pagas de contado.");
+  else {
+    if (r.tasa === 0) msg.push("Con tasa de 0% solo pagas el precio, más la comisión si la hay.");
+    if (r.cat > 0.4) msg.push("Ojo: es un CAT muy alto. Compara otras opciones antes de firmar.");
+  }
+  if (r.recortado) msg.push("Alguna cantidad está fuera de rango y la ajustamos: precio hasta $1,000,000,000, enganche hasta 100%, tasas hasta 1,000% y comisión hasta 50%.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

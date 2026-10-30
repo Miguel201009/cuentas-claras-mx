@@ -403,4 +403,52 @@ l = R.pensionLey73({ salarioPromedio: -600, semanas: -1300, edad: -65, hijos: -2
 assert.strictEqual(l.mensual, 0);
 finito(l, "Ley 73 negativos");
 
+// ---------- Aportaciones voluntarias ----------
+// $1,000 al mes, 20 años, 4% - 0.54% de comisión: i = 1.0346^(1/12) - 1; saldo = 1,000 x ((1+i)^240 - 1) / i = 343,291.45.
+// Ingresos de 300,000: tope 10% = 30,000 (5 UMA = 213,973.20). Se deducen los 12,000 del año.
+// ISR sin deducción: (300,000 - 210,403.70) x 21.36% + 22,282.14 = 41,419.91; con: 288,000 -> 38,856.71. Ahorro 2,563.20.
+{
+  const v = R.aportacionesVoluntarias({ mensual: 1000, anios: 20, rendimiento: 4, comision: 0.54, ingresoAnual: 300000 });
+  const i = Math.pow(1.0346, 1 / 12) - 1;
+  cerca(v.saldoFinal, 1000 * (Math.pow(1 + i, 240) - 1) / i, "fórmula cerrada");
+  cerca(v.saldoFinal, 343291.45, "saldo a 20 años");
+  cerca(v.aportado, 240000, "aportado");
+  cerca(v.rendimientos, 103291.45, "rendimientos");
+  assert.strictEqual(v.porAnio.length, 20);
+  cerca(v.porAnio[19].saldo, v.saldoFinal, "la tabla termina en el saldo final");
+  cerca(v.topeUma, 213973.20, "5 UMA anuales");
+  cerca(v.topeIngreso, 30000, "10% de los ingresos");
+  cerca(v.deduccion, 12000, "deducción");
+  cerca(v.isrSin, 41419.91, "ISR sin deducción");
+  cerca(v.isrCon, 38856.71, "ISR con deducción");
+  cerca(v.ahorroIsr, 2563.20, "ISR que te ahorras");
+  cerca(v.costoNeto, 9436.80, "costo neto");
+  assert.strictEqual(v.tasaMarginal, 21.36);
+  // Tope de 10%: con 100,000 de ingresos solo se deducen 10,000 de los 12,000.
+  const b = R.aportacionesVoluntarias({ mensual: 1000, anios: 1, ingresoAnual: 100000 });
+  cerca(b.deduccion, 10000, "tope 10%");
+  cerca(b.sinUsar, 2000, "lo que no se deduce");
+  // Tope de 5 UMA: con 3,000,000 de ingresos y 360,000 al año se deducen 213,973.20, todo en el renglón de 34%.
+  const c = R.aportacionesVoluntarias({ mensual: 30000, anios: 1, ingresoAnual: 3000000 });
+  assert.ok(c.limitaUma);
+  cerca(c.deduccion, 213973.20, "tope 5 UMA");
+  cerca(c.ahorroIsr, 72750.89, "213,973.20 x 34%");
+  // No deducible: no baja el ISR.
+  const d = R.aportacionesVoluntarias({ mensual: 1000, anios: 5, ingresoAnual: 300000, deducible: false });
+  assert.strictEqual(d.deduccion, 0);
+  assert.strictEqual(d.ahorroIsr, 0);
+  // Ingresos bajos: tope 10% de 5,000 = 500, al 1.92% del primer renglón regresa 9.60. Sin ingresos, nada.
+  cerca(R.aportacionesVoluntarias({ mensual: 500, anios: 1, ingresoAnual: 5000 }).ahorroIsr, 9.60, "ingresos bajos");
+  assert.strictEqual(R.aportacionesVoluntarias({ mensual: 500, anios: 1, ingresoAnual: 0 }).ahorroIsr, 0);
+  // Sin rendimiento ni comisión: el saldo es lo aportado.
+  cerca(R.aportacionesVoluntarias({ mensual: 500, anios: 10, rendimiento: 0, comision: 0 }).saldoFinal, 60000, "sin rendimiento");
+  const raro = R.aportacionesVoluntarias({ mensual: 1e12, anios: 1e6, rendimiento: 1e3, comision: -1, ingresoAnual: "x" });
+  assert.ok(raro.avisos.includes("mensual") && raro.avisos.includes("anios"));
+  finito(raro, "aportaciones voluntarias con basura");
+  const fs = require("fs"), path = require("path");
+  const pag = fs.readFileSync(path.join(__dirname, "..", "retiro/aportaciones-voluntarias/index.html"), "utf8");
+  for (const t of ["$343,291.45", "$103,291.45", "$213,973.20", "$2,563.20", "$9,436.80", "$41,419.91", "$38,856.71", 'href="../afore/"', "impuestos.js"])
+    assert.ok(pag.includes(t), `aportaciones voluntarias: falta ${t}`);
+}
+
 console.log("retiro.test.js: todas las pruebas pasaron");

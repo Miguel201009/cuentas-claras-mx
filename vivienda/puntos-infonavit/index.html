@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Puntos Infonavit 2026: cuántos necesitas y cómo revisarlos | Cuentas Claras MX</title>
+<meta name="description" content="Cuántos puntos Infonavit necesitas en 2026: el modelo de 1,080 puntos y el nuevo de 100 puntos (T100), de qué dependen tus puntos y cómo revisarlos gratis en Mi Cuenta Infonavit.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/vivienda/puntos-infonavit/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Puntos Infonavit 2026: cuántos necesitas y cómo revisarlos">
+<meta property="og:description" content="Cuántos puntos Infonavit necesitas en 2026: el modelo de 1,080 puntos y el nuevo de 100 puntos (T100), de qué dependen tus puntos y cómo revisarlos gratis en Mi Cuenta Infonavit.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/vivienda/puntos-infonavit/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/vivienda-puntos-infonavit.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Vivienda","item":"https://miguel201009.github.io/cuentas-claras-mx/vivienda/"},{"@type":"ListItem","position":3,"name":"Puntos Infonavit","item":"https://miguel201009.github.io/cuentas-claras-mx/vivienda/puntos-infonavit/"}]},{"@type":"WebApplication","name":"Puntos Infonavit: cuántos necesitas y cómo revisarlos","url":"https://miguel201009.github.io/cuentas-claras-mx/vivienda/puntos-infonavit/","description":"Cuántos puntos Infonavit necesitas en 2026: el modelo de 1,080 puntos y el nuevo de 100 puntos (T100), de qué dependen tus puntos y cómo revisarlos gratis en Mi Cuenta Infonavit.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Vivienda</a> › Puntos Infonavit</span></div>
+
+  <header>
+    <span class="tag">Vivienda</span>
+    <h1>Puntos Infonavit: cuántos necesitas y cómo revisarlos</h1>
+    <p class="lede">Para pedir un crédito del Infonavit necesitas juntar puntos. Aquí te explicamos los dos modelos que hay en 2026 (1,080 puntos y 100 puntos), de qué dependen tus puntos y cómo verlos gratis. Abajo puedes revisar en qué perfil quedas con tu sueldo.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni del Infonavit.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <h2>Revisa en qué perfil quedas</h2>
+      <label for="sal">Sueldo mensual bruto (antes de descuentos)
+        <input id="sal" type="number" min="0" max="1000000000" step="100" value="12000"></label>
+      <label for="meses">Meses que llevas cotizando sin interrupción
+        <input id="meses" type="number" min="0" max="600" step="1" value="8"></label>
+      <label for="anios">Años que llevas cotizando en total
+        <input id="anios" type="number" min="0" max="40" step="1" value="3"></label>
+      <label for="zona">¿Dónde trabajas?
+        <select id="zona"><option value="general" selected>Resto del país</option><option value="frontera">Frontera norte (zona libre)</option></select></label>
+      <p class="nota">El Infonavit no publica la fórmula de sus puntos, así que <strong>aquí no inventamos un puntaje</strong>. Te decimos en cuántos salarios mínimos queda tu sueldo, si ya llevas los bimestres seguidos que pide el modelo de 1,080 puntos y cuánto podría llevar tu Subcuenta de Vivienda.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Tu sueldo equivale a</span>
+      <div class="big" id="veces">0</div>
+      <div class="row"><span>Perfil probable</span><b id="perfil"></b></div>
+      <div class="row"><span>2 salarios mínimos al mes (estimado)</span><b id="lim"></b></div>
+      <div class="row"><span>Bimestres seguidos cotizados</span><b id="bim"></b></div>
+      <div class="row"><span>Bimestres que pide el modelo de 1,080 puntos</span><b id="bimreq"></b></div>
+      <div class="row"><span>Tu patrón aporta al año, unos</span><b id="sub"></b></div>
+      <div class="row"><span id="lacum">Subcuenta en 3 años, sin rendimientos</span><b id="acum"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Orientativo. Tus puntos reales, la meta que te toca y el monto que te prestan solo salen en tu precalificación de Mi Cuenta Infonavit.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>¿Cuántos puntos necesitas en 2026?</h2>
+    <p>En 2026 conviven dos modelos de evaluación. Cuál te aplica depende de tu sueldo y del crédito que pidas:</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Modelo</th><th>Meta</th><th>Para quién</th></tr></thead>
+      <tbody>
+        <tr><td>T100 (Modelo Único de Originación)</td><td>100 puntos</td><td>Quien gana de 1 a 2 salarios mínimos y no tiene casa ni otro crédito de vivienda.</td></tr>
+        <tr><td>T1000 (modelo anterior)</td><td>1,080 puntos y 3 bimestres seguidos de cotización</td><td>Los demás créditos, según lo que aparecía en la página de precalificación del Infonavit en octubre de 2026.</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>Lo que está confirmado:</strong> en agosto de 2025, el director del Infonavit, Octavio Romero Oropeza, presentó en la conferencia de la presidenta Claudia Sheinbaum el modelo T100. Mide en una escala de 100 puntos y está pensado para trabajadores que ganan de 1 a 2 salarios mínimos y no tienen casa. Con este modelo, si tu patrón no pagó a tiempo sus aportaciones ya no te afecta, y el Buró de Crédito solo se revisa para ver que no tengas otro crédito de vivienda (Expansión, IDC y UnoTV, agosto de 2025). El Plan Estratégico y Financiero 2026 del Infonavit prevé ampliarlo (UnoTV, 4 de junio de 2026).</p>
+    <p><strong>Lo que no está claro:</strong> el Infonavit no ha publicado la lista de qué créditos usan cada modelo ni la fórmula de puntos. Algunas notas dicen que la meta de 1,080 desapareció para todos y otras que sigue para casas de más valor. Por eso no te damos una regla que no podamos confirmar: tu precalificación te dice qué meta te toca.</p>
+
+    <h2>¿De qué dependen tus puntos?</h2>
+    <p>En el modelo de 1,080 puntos, el Infonavit toma en cuenta (La Razón, con datos del Infonavit):</p>
+    <ul>
+      <li><strong>Tu edad y tu salario diario integrado.</strong></li>
+      <li><strong>El saldo de tu Subcuenta de Vivienda</strong>, que crece con el 5% de tu salario que deposita tu patrón cada bimestre.</li>
+      <li><strong>Los bimestres que llevas cotizando</strong>, y que lleves al menos 3 bimestres de cotización continua (antes de 2021 eran 6).</li>
+      <li><strong>Datos de tu empresa y tu empleo:</strong> estabilidad laboral, si tu patrón paga a tiempo, tipo de trabajador, giro de la empresa y municipio.</li>
+    </ul>
+    <p>En el modelo T100 pesan sobre todo tus datos personales (edad, salario y ahorro en la Subcuenta) y ya no el cumplimiento de tu patrón. Si te dicen que tienen la "fórmula exacta" de los puntos, desconfía: el Infonavit no la ha publicado.</p>
+
+    <h2>Ejemplo con los datos cargados</h2>
+    <ul>
+      <li>Con un sueldo de $12,000 al mes, en la mayor parte del país, ganas 12,000 ÷ (315.04 × 30) = <strong>1.27 salarios mínimos</strong>. Quedas dentro del perfil de 1 a 2 salarios mínimos del modelo T100.</li>
+      <li>Con 8 meses seguidos cotizando llevas 4 bimestres completos: ya pasas los 3 que pide el modelo de 1,080 puntos.</li>
+      <li>Tu patrón deposita unos $7,659.89 al año en tu Subcuenta de Vivienda. En 3 años serían unos $22,979.67, sin rendimientos.</li>
+    </ul>
+    <p>Usamos el salario mínimo diario de 2026 ($315.04, o $440.87 en la frontera norte) por 30 días. Esa forma de medir los "2 salarios mínimos" es nuestra lectura: el Infonavit puede medirlo con tu salario integrado.</p>
+
+    <h2>Cómo revisar tus puntos gratis</h2>
+    <ol>
+      <li>Entra a <a href="https://micuenta.infonavit.org.mx/" rel="noopener">Mi Cuenta Infonavit</a>. Revisa que la dirección termine en <strong>infonavit.org.mx</strong>.</li>
+      <li>Si es tu primera vez, regístrate con tu Número de Seguridad Social (NSS), tu CURP, un correo y tu celular.</li>
+      <li>Busca la sección de crédito y abre <strong>Precalificación y puntos</strong>.</li>
+      <li>Ahí ves cuántos puntos tienes, cuántos necesitas, tu saldo y cuánto te podrían prestar.</li>
+    </ol>
+    <p>Si no encuentras la sección, llama a Infonatel al <strong>800 008 3900</strong>. Revisar tus puntos es gratis: si alguien te cobra por "subirte puntos" o "liberar" tu crédito, es un fraude.</p>
+
+    <h2>Si todavía no alcanzas</h2>
+    <ul>
+      <li><strong>Sigue cotizando sin interrupción.</strong> Tus puntos se actualizan cada bimestre con tus aportaciones.</li>
+      <li><strong>Evita huecos entre trabajos.</strong> Si dejas de cotizar, no pierdes tu ahorro, pero se corta la cuenta de bimestres seguidos.</li>
+      <li><strong>Revisa que tu patrón te registre con tu salario real.</strong> Si te dan de alta con menos, tu ahorro y tus puntos crecen más lento. Puedes ver tu salario registrado en Mi Cuenta Infonavit.</li>
+      <li><strong>Junta créditos:</strong> puedes sumar tu crédito con el de otra persona (Unamos Créditos) o con un banco (Cofinavit).</li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Ya no necesito 1,080 puntos?</h3>
+    <p>Depende de tu caso. Si ganas hasta 2 salarios mínimos y no tienes casa, el modelo T100 pide 100 puntos. Para los demás, la página del Infonavit seguía mostrando la meta de 1,080 puntos en octubre de 2026. Tu precalificación te dice cuál te toca.</p>
+    <h3>¿Los puntos se pierden si me quedo sin trabajo?</h3>
+    <p>Tu ahorro en la Subcuenta de Vivienda sigue siendo tuyo. Lo que se corta es la cuenta de bimestres seguidos: cuando vuelvas a cotizar, tienes que juntarlos otra vez.</p>
+    <h3>¿Cuánto me prestan?</h3>
+    <p>El monto depende de tu salario, tu edad, tu ahorro y el tipo de crédito, y solo lo da tu precalificación. Lee nuestra guía del <a href="../credito-infonavit/">crédito Infonavit</a> para ver de qué depende y cómo pedirlo.</p>
+    <h3>Trabajo para el gobierno, ¿me sirve esto?</h3>
+    <p>No. Si cotizas al ISSSTE, tu crédito es del FOVISSSTE, que no usa los puntos del Infonavit. Revisa el <a href="../fovissste/">crédito FOVISSSTE</a>.</p>
+
+    <h2>Fuentes</h2>
+    <p class="nota">Información revisada el 30 de octubre de 2026. Modelo T100: <a href="https://expansion.mx/finanzas-personales/2025/08/21/credito-infonavit-t100-nuevo-esquema" rel="noopener">Expansión</a> (21 ago 2025), <a href="https://idconline.mx/seguridad-social/2025/08/18/vivienda-y-modelo-t100-avances-y-apoyos-para-2025" rel="noopener">IDC</a> (18 ago 2025), <a href="https://www.unotv.com/nacional/requisitos-para-obtener-un-credito-t100-del-infonavit/" rel="noopener">UnoTV</a> (19 ago 2025) y <a href="https://www.unotv.com/negocios/infonavit-ya-presta-con-100-puntos-que-cambio-y-como-saber-si-puedes-solicitar-un-credito/" rel="noopener">UnoTV</a> (4 jun 2026). Modelo de 1,080 puntos y sus factores: <a href="https://www.razon.com.mx/negocios/infonavit-precalifican-1-6-millones-trabajadores-nuevo-sistema-puntaje-454526/" rel="noopener">La Razón</a> (7 oct 2021, con datos del Infonavit) y la página "Precalificación y puntos" del Infonavit (consultada por buscador en octubre de 2026: el portal no abrió desde nuestra red). Aportación de 5%: Ley del Infonavit, artículo 29, fracción II. Salarios mínimos 2026: Conasami, Diario Oficial del 9 de diciembre de 2025.</p>
+    <p>También te puede servir: <a href="../credito-infonavit/">crédito Infonavit: requisitos y cómo pedirlo</a>, <a href="../fovissste/">crédito FOVISSSTE</a>, <a href="../credito-hipotecario-bancos/">crédito hipotecario de bancos</a> y <a href="../rentar-o-comprar/">¿rentar o comprar casa?</a></p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni del Infonavit. Esta guía es orientativa y no sustituye tu precalificación en <a href="https://micuenta.infonavit.org.mx/" rel="noopener">Mi Cuenta Infonavit</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/vivienda.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const dec = n => n.toLocaleString("es-MX", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+function calcular() {
+  const r = Vivienda.revisionPuntosInfonavit({ sueldoMensual: $("sal").value, meses: $("meses").value, anios: $("anios").value, zona: $("zona").value });
+  $("veces").textContent = r.sinSueldo ? "Escribe tu sueldo" : dec(r.veces) + " salarios mínimos";
+  $("perfil").textContent = r.sinSueldo ? "" : r.perfilT100 ? "Modelo T100 (100 puntos)" : "Modelo de 1,080 puntos";
+  $("lim").textContent = mxn(r.limiteT100);
+  $("bim").textContent = r.bimestres.toLocaleString("es-MX");
+  $("bimreq").textContent = r.bimestresT1000;
+  $("sub").textContent = mxn(r.subcuentaAnual);
+  $("lacum").textContent = (r.anios === 1 ? "Subcuenta en 1 año" : `Subcuenta en ${r.anios.toLocaleString("es-MX")} años`) + ", sin rendimientos";
+  $("acum").textContent = mxn(r.subcuentaAcumulada);
+  const msg = [];
+  if (r.sinSueldo) msg.push("Escribe tu sueldo mensual para revisar.");
+  else if (r.perfilT100) msg.push("Tu sueldo queda dentro de 2 salarios mínimos: podrías entrar al modelo de 100 puntos si no tienes casa ni otro crédito de vivienda.");
+  else msg.push("Tu sueldo pasa de 2 salarios mínimos: lo más probable es que te evalúen con el modelo de 1,080 puntos.");
+  if (!r.cumpleBimestres) msg.push(`Te ${r.faltanBimestres === 1 ? "falta 1 bimestre" : "faltan " + r.faltanBimestres + " bimestres"} seguido${r.faltanBimestres === 1 ? "" : "s"} para los 3 que pide el modelo de 1,080 puntos.`);
+  if (r.recortado) msg.push("Alguna cantidad está fuera de rango y la ajustamos: hasta 600 meses y 40 años.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

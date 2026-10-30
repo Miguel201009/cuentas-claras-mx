@@ -1,6 +1,8 @@
-// Cálculos de la sección Retiro e IMSS de Cuentas Claras MX: proyección de la Afore, semanas cotizadas
-// y pensión de la Ley 73. Funciones puras, sin datos personales: todo se calcula en el navegador de la persona.
-// En el navegador carga antes ../../assets/calc.js (UMA, salario mínimo y factor de integración vienen de Calc.DATOS).
+// Cálculos de la sección Retiro e IMSS de Cuentas Claras MX: proyección de la Afore, semanas cotizadas,
+// pensión de la Ley 73 y aportaciones voluntarias (con la deducción de ISR). Funciones puras, sin datos personales:
+// todo se calcula en el navegador de la persona.
+// En el navegador carga antes ../../assets/calc.js (UMA, salario mínimo y factor de integración vienen de Calc.DATOS);
+// la página de aportaciones voluntarias carga además ../../assets/impuestos.js (tarifa anual del ISR).
 //
 // Nota de fuentes (oct 2026): el DOF, la Cámara de Diputados, el IMSS y la CONSAR no se pudieron abrir desde
 // la red de trabajo. Cada cifra se confirmó con al menos dos fuentes secundarias que coinciden entre sí y
@@ -48,6 +50,15 @@
     // Autorizada por la Junta de Gobierno de la CONSAR en noviembre de 2025 (La Jornada 21 nov 2025,
     // El Informador, El Mañana). Pendiente cotejar con el comunicado de la CONSAR.
     comision: 0.54,
+
+    // ---------- Aportaciones voluntarias deducibles ----------
+    // Art. 151 fr. V LISR: las aportaciones complementarias de retiro y las voluntarias deducibles se deducen hasta
+    // 10% de los ingresos acumulables del año, sin pasar de 5 UMA anuales (5 x 42,794.64 = 213,973.20 en 2026).
+    // No entran al tope general de deducciones personales (último párrafo del art. 151).
+    // Fuentes que coinciden: Afore SURA, Afore Azteca, El Imparcial (9 mar 2026, con datos de la CONSAR) y Heru.
+    // Si retiras antes de los 65 años (o de pensionarte por invalidez o incapacidad), lo retirado se acumula a tus
+    // ingresos y la Afore retiene 20% (Afore Azteca, Heru y El Imparcial con datos de la CONSAR).
+    deducibleVoluntarias: { porcentaje: 10, topeUma: 5, retencionAnticipada: 20 },
 
     // ---------- Semanas de cotización ----------
     // Ley 97: semanas para la pensión de cesantía o vejez según el año en que se pide. Arts. 154 y 162 LSS y
@@ -352,9 +363,58 @@
     };
   }
 
+  // ---------- Aportaciones voluntarias ----------
+
+  // Cuánto crece un ahorro voluntario mensual y cuánto ISR te regresa si lo haces deducible.
+  // Crecimiento: igual que proyeccionAfore(): cada mes el saldo rinde (rendimiento - comisión), en tasa anual
+  // convertida a mensual, y luego entra la aportación. Rendimiento por encima de la inflación (pesos de hoy).
+  // Deducción (art. 151 fr. V LISR): lo menor entre lo que aportas en el año, 10% de tus ingresos acumulables
+  // y 5 UMA anuales. ISR que te ahorras = ISR anual sin deducción - ISR anual con deducción (tarifa del art. 152,
+  // de impuestos.js). En el navegador la página carga antes calc.js e impuestos.js.
+  function aportacionesVoluntarias({ mensual, anios, rendimiento = 4, comision = DATOS.comision, ingresoAnual = 0,
+    deducible = true, saldo = 0 }) {
+    const Imp = (typeof module !== "undefined" && module.exports) ? require("./impuestos.js") : raiz.Impuestos;
+    const max = DATOS.maximos, cfg = DATOS.deducibleVoluntarias;
+    const avisos = [];
+    const lee = (x, tope, clave) => { const r = acotar(x, tope); if (r.acotado) avisos.push(clave); return r.valor; };
+    const m = lee(mensual, max.voluntaria, "mensual");
+    const n = Math.floor(lee(anios, max.anios, "anios"));
+    const rend = lee(rendimiento, max.rendimiento, "rendimiento");
+    const com = lee(comision, max.comision, "comision");
+    const ingreso = lee(ingresoAnual, max.sueldoMensual * 12, "ingreso");
+    const inicial = lee(saldo, max.saldo, "saldo");
+    const tasaMes = anual => Math.pow(1 + anual / 100, 1 / 12) - 1;
+    const iNeto = tasaMes(rend - com);
+    let s = inicial;
+    const porAnio = [];
+    for (let k = 1; k <= n * 12; k++) {
+      s = s * (1 + iNeto) + m;
+      if (k % 12 === 0) porAnio.push({ anio: k / 12, aportado: inicial + m * k, saldo: s });
+    }
+    const aportado = m * 12 * n;
+    const anual = m * 12;
+    const umaAnual = Imp.umaAnual;
+    const topeUma = r2(cfg.topeUma * umaAnual);
+    const topeIngreso = r2(ingreso * cfg.porcentaje / 100);
+    const tope = Math.min(topeUma, topeIngreso);
+    const deduccion = deducible ? Math.min(anual, tope) : 0;
+    const isrSin = Imp.isrAnual(ingreso).isr;
+    const isrCon = Imp.isrAnual(Math.max(0, ingreso - deduccion)).isr;
+    const ahorroIsr = r2(isrSin - isrCon);
+    return {
+      mensual: m, anios: n, rendimiento: rend, comision: com, ingreso, saldoInicial: inicial, avisos,
+      saldoFinal: s, aportado, rendimientos: s - inicial - aportado, porAnio,
+      anual, deducible: !!deducible, umaAnual, topeUma, topeIngreso, tope, limitaUma: topeUma <= topeIngreso,
+      deduccion, sinUsar: deducible ? Math.max(0, anual - deduccion) : 0,
+      isrSin, isrCon, ahorroIsr, costoNeto: anual - ahorroIsr,
+      tasaMarginal: Imp.isrAnual(ingreso).porcentaje,
+      ahorroIsrTotal: ahorroIsr * n
+    };
+  }
+
   const api = {
     DATOS, sbcDiario, tasaCeavPatron, cuotaSocialDiaria, aportacionMensual, proyeccionAfore,
-    semanasRequeridas, semanasFaltantes, incrementosLey73, pensionLey73, redondear: r2
+    semanasRequeridas, semanasFaltantes, incrementosLey73, pensionLey73, aportacionesVoluntarias, redondear: r2
   };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else raiz.Retiro = api;

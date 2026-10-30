@@ -1,5 +1,5 @@
-// Cálculos de la sección Vivienda de Cuentas Claras MX: rentar o comprar, predial, aportaciones al Infonavit y
-// crédito hipotecario de un banco.
+// Cálculos de la sección Vivienda de Cuentas Claras MX: rentar o comprar, predial, aportaciones al Infonavit,
+// revisión de puntos Infonavit, crédito FOVISSSTE y crédito hipotecario de un banco.
 // Funciones puras, sin datos personales: todo se calcula en el navegador de la persona.
 // En el navegador carga antes ../../assets/calc.js (UMA, salario mínimo y mxn()). En Node se lee con require.
 (function (raiz) {
@@ -22,7 +22,33 @@
       // precalificación del Infonavit consultada por buscador en octubre de 2026 (y en el Plan Estratégico y
       // Financiero 2023-2027). Puede no aplicar al Modelo Único de Originación (desde agosto de 2025).
       // Solo se usa como texto en la guía; la meta que aplica sale en la precalificación de cada persona.
-      puntosT1000: 1080
+      puntosT1000: 1080,
+      // Bimestres de cotización continua que pedía el modelo T1000 (bajaron de 6 a 3 en 2021: La Razón, 7 oct 2021,
+      // con datos del Infonavit; y la página de precalificación del Infonavit leída por buscador en oct 2026).
+      bimestresT1000: 3,
+      // Modelo T100 (Modelo Único de Originación): escala de 100 puntos, anunciado por Octavio Romero Oropeza en la
+      // mañanera de agosto de 2025, para quien gana de 1 a 2 salarios mínimos y no tiene casa ni crédito de vivienda
+      // (Expansión 21 ago 2025, IDC 18 ago 2025, UnoTV 19 ago 2025 y 4 jun 2026). No se publicó la fórmula de puntos.
+      // El límite de "2 salarios mínimos" lo tomamos al mes como salario mínimo diario x 30 (UnoTV citó $16,800 en
+      // 2025 = 2 x 278.80 x 30 redondeado). Es nuestra lectura: la página lo dice como estimado.
+      puntosT100: 100,
+      salariosMinimosT100: 2
+    },
+
+    fovissste: {
+      // Crédito Mi FOVISSSTE (antes "tradicional"): monto máximo + saldo de la Subcuenta de Vivienda, plazo hasta
+      // 30 años, 18 meses de aportaciones. En pesos: hasta $1,405,090.00 a tasa fija de 8% a 11%. En UMA: hasta
+      // 520 UMA ($1,854,434.40) a tasa de 2% a 6%, y el saldo se actualiza cada año con la UMA.
+      // Fuentes: fovissste.gob.mx/credito/credito-tradicional-fovissste/ (leída el 30 oct 2026) y UnoTV (30 sep 2026).
+      maximoPesos: 1405090,
+      maximoUma: 520,
+      tasaPesos: [8, 11],
+      tasaUma: [2, 6],
+      plazoMax: 30,
+      mesesAportacion: 18,
+      // El pago se descuenta por nómina: 30% del sueldo básico. Así lo dice el FOVISSSTE en el Crédito Unidos y en
+      // su nota del crédito en pesos de Vivienda para el Bienestar (13 oct 2026). Se usa para estimar la capacidad.
+      descuento: 30
     },
 
     predial: {
@@ -274,7 +300,64 @@
     });
   }
 
-  const api = { DATOS, num, rango, pagoMensual, hipotecaBancaria, rentarOComprar, predial, aportacionInfonavit };
+  // ---------- Puntos Infonavit ----------
+
+  // Revisión orientativa para la guía de puntos. El Infonavit no publica la fórmula de puntos, así que NO calcula
+  // puntos: dice en cuántos salarios mínimos queda tu sueldo (para saber si encajas en el perfil del modelo T100,
+  // de 1 a 2 salarios mínimos), cuántos bimestres continuos llevas contra los 3 del modelo T1000 y cuánto lleva
+  // tu Subcuenta de Vivienda (aportacionInfonavit, sin rendimientos).
+  // salario mínimo mensual = salario mínimo diario de la zona x 30.
+  function revisionPuntosInfonavit({ sueldoMensual, meses, anios, zona = "general" }) {
+    const I = DATOS.infonavit;
+    const m = rango(Math.floor(num(meses)), 0, 600);
+    const ap = aportacionInfonavit({ sueldoMensual, anios, zona });
+    const smMensual = ap.piso * 30;
+    const veces = ap.sueldo / smMensual;
+    const limiteT100 = smMensual * I.salariosMinimosT100;
+    const bimestres = Math.floor(m.valor / 2);
+    return {
+      sueldo: ap.sueldo, sinSueldo: ap.sinSueldo, zona: ap.zona, smMensual, veces, limiteT100,
+      perfilT100: !ap.sinSueldo && ap.sueldo <= limiteT100 + 1e-9,
+      meses: m.valor, bimestres, bimestresT1000: I.bimestresT1000,
+      cumpleBimestres: bimestres >= I.bimestresT1000, faltanBimestres: Math.max(0, I.bimestresT1000 - bimestres),
+      subcuentaAnual: ap.anual, subcuentaAcumulada: ap.acumulado, anios: ap.anios,
+      recortado: m.recortado || ap.recortado
+    };
+  }
+
+  // ---------- Crédito FOVISSSTE ----------
+
+  // Capacidad estimada de un crédito Mi FOVISSSTE en pesos: el pago es el 30% del sueldo básico mensual y, con la
+  // tasa y el plazo, sale cuánto crédito cubre ese pago (valor presente): crédito = pago x (1 - (1 + i)^-n) / i.
+  // Se recorta al monto máximo en pesos ($1,405,090) y se suma el saldo de la Subcuenta de Vivienda.
+  // Estimado: el FOVISSSTE también mira tu edad y el avalúo, y sus seguros pueden cambiar el pago.
+  function capacidadFovissste({ sueldoBasico, tasaAnual, plazo, saldoSubcuenta = 0 }) {
+    const F = DATOS.fovissste, M = DATOS.maximos;
+    const s = rango(num(sueldoBasico), 0, M.renta);
+    const t = rango(num(tasaAnual), 0, M.tasa);
+    const p = rango(Math.floor(num(plazo)), 0, F.plazoMax);
+    const sal = rango(num(saldoSubcuenta), 0, M.monto);
+    const recortado = [s, t, p, sal].some(x => x.recortado);
+    const pago = s.valor * F.descuento / 100;
+    const n = p.valor * 12;
+    const i = t.valor / 100 / 12;
+    let porPago = 0;
+    if (pago > 0 && n > 0) porPago = i > 0 ? pago * (1 - Math.pow(1 + i, -n)) / i : pago * n;
+    const credito = Math.min(porPago, F.maximoPesos);
+    const topado = porPago > F.maximoPesos;
+    // Si el crédito quedó en el tope, el pago para ese crédito es menor que el 30%.
+    const pagoReal = topado ? pagoMensual(credito, t.valor, n) : pago;
+    const totalPagado = pagoReal * n;
+    return {
+      sueldo: s.valor, tasa: t.valor, plazo: p.valor, saldo: sal.valor, recortado, sinDatos: !(pago > 0 && n > 0),
+      pago, pagoReal, porPago, credito, topado, total: credito + sal.valor,
+      totalPagado, intereses: Math.max(0, totalPagado - credito),
+      maximoPesos: F.maximoPesos, maximoUmaPesos: F.maximoUma * Calc.DATOS.umaMensual
+    };
+  }
+
+  const api = { DATOS, num, rango, pagoMensual, hipotecaBancaria, rentarOComprar, predial, aportacionInfonavit,
+    revisionPuntosInfonavit, capacidadFovissste };
   if (enNode) module.exports = api;
   else raiz.Vivienda = api;
 })(this);

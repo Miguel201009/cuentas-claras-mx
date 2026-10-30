@@ -292,4 +292,73 @@ finito(a, "sueldo enorme");
   finito(V.hipotecaBancaria({ valor: 1e9, enganche: 0, tasaAnual: 40, plazo: 30 }), "máximos");
 }
 
+// ---------- Puntos Infonavit (revisión orientativa, sin inventar puntos) ----------
+// $12,000 al mes: 12,000 / (315.04 x 30 = 9,451.20) = 1.2697 salarios mínimos; límite T100 = 18,902.40.
+// 8 meses = 4 bimestres (pide 3). Subcuenta: 419.72 x 365 x 5% = 7,659.89 al año; 3 años = 22,979.67.
+{
+  const r = V.revisionPuntosInfonavit({ sueldoMensual: 12000, meses: 8, anios: 3 });
+  cerca(r.smMensual, 9451.20, "salario mínimo mensual");
+  cerca(r.veces, 1.2697, "veces el salario mínimo", 0.0001);
+  cerca(r.limiteT100, 18902.40, "límite de 2 salarios mínimos");
+  assert.ok(r.perfilT100, "perfil T100");
+  assert.strictEqual(r.bimestres, 4);
+  assert.ok(r.cumpleBimestres);
+  cerca(r.subcuentaAnual, 7659.89, "subcuenta al año");
+  cerca(r.subcuentaAcumulada, 22979.67, "subcuenta en 3 años");
+  const alto = V.revisionPuntosInfonavit({ sueldoMensual: 25000, meses: 5, anios: 1 });
+  assert.ok(!alto.perfilT100, "25,000 pasa de 2 salarios mínimos");
+  assert.strictEqual(alto.bimestres, 2);
+  assert.strictEqual(alto.faltanBimestres, 1);
+  // Justo en el límite cuenta como dentro; en la frontera el mínimo es 440.87 x 30 = 13,226.10.
+  assert.ok(V.revisionPuntosInfonavit({ sueldoMensual: 18902.40 }).perfilT100, "en el límite");
+  const fr = V.revisionPuntosInfonavit({ sueldoMensual: 25000, zona: "frontera" });
+  cerca(fr.limiteT100, 26452.20, "límite en la frontera");
+  assert.ok(fr.perfilT100);
+  assert.ok(V.revisionPuntosInfonavit({ sueldoMensual: 0 }).sinSueldo);
+  assert.ok(!V.revisionPuntosInfonavit({ sueldoMensual: 0 }).perfilT100, "sin sueldo no hay perfil");
+  assert.ok(V.revisionPuntosInfonavit({ sueldoMensual: 10000, meses: 9999 }).recortado);
+  finito(V.revisionPuntosInfonavit({ sueldoMensual: "x", meses: -3, anios: 1e9, zona: "otra" }), "basura puntos");
+  assert.strictEqual(V.DATOS.infonavit.puntosT100, 100);
+  assert.strictEqual(V.DATOS.infonavit.puntosT1000, 1080);
+}
+
+// ---------- Crédito FOVISSSTE ----------
+// Sueldo básico 20,000: pago 30% = 6,000. A 10% y 20 años: 6,000 x (1 - 1.0083333^-240) / 0.0083333 = 621,747.71.
+// Total con subcuenta de 150,000 = 771,747.71; pagos 6,000 x 240 = 1,440,000; intereses 818,252.29.
+{
+  const f = V.capacidadFovissste({ sueldoBasico: 20000, tasaAnual: 10, plazo: 20, saldoSubcuenta: 150000 });
+  cerca(f.pago, 6000, "pago 30%");
+  cerca(f.credito, 621747.71, "crédito");
+  cerca(f.total, 771747.71, "con subcuenta");
+  cerca(f.totalPagado, 1440000, "total pagado");
+  cerca(f.intereses, 818252.29, "intereses");
+  assert.ok(!f.topado);
+  cerca(V.pagoMensual(f.credito, 10, 240), 6000, "el pago de ese crédito es el 30%");
+  // Tope: 60,000 a 9% y 30 años alcanza para 2,237,073.58, se queda en 1,405,090 y el pago baja.
+  const t = V.capacidadFovissste({ sueldoBasico: 60000, tasaAnual: 9, plazo: 30 });
+  assert.ok(t.topado);
+  cerca(t.credito, 1405090, "monto máximo en pesos");
+  cerca(t.porPago, 2237073.58, "lo que alcanzaría sin tope");
+  assert.ok(t.pagoReal < t.pago);
+  cerca(t.pagoReal, V.pagoMensual(1405090, 9, 360), "pago del crédito topado");
+  cerca(t.maximoUmaPesos, 1854434.40, "520 UMA");
+  const cero = V.capacidadFovissste({ sueldoBasico: 10000, tasaAnual: 0, plazo: 10 });
+  cerca(cero.credito, 360000, "tasa 0: 3,000 x 120");
+  assert.ok(V.capacidadFovissste({ sueldoBasico: 0, tasaAnual: 10, plazo: 20 }).sinDatos);
+  assert.ok(V.capacidadFovissste({ sueldoBasico: 20000, tasaAnual: 10, plazo: 45 }).recortado, "plazo de más de 30 años");
+  finito(V.capacidadFovissste({ sueldoBasico: 1e12, tasaAnual: 1e9, plazo: "x", saldoSubcuenta: -5 }), "basura fovissste");
+}
+
+// ---------- Páginas nuevas: los ejemplos dicen lo mismo que las funciones ----------
+{
+  const fs = require("fs"), path = require("path");
+  const leer = rel => fs.readFileSync(path.join(__dirname, "..", rel), "utf8");
+  const p = leer("vivienda/puntos-infonavit/index.html");
+  for (const t of ["1.27 salarios mínimos", "$7,659.89", "$22,979.67", "1,080 puntos", "100 puntos", 'href="../credito-infonavit/"'])
+    assert.ok(p.includes(t), `puntos: falta ${t}`);
+  const f = leer("vivienda/fovissste/index.html");
+  for (const t of ["$621,747.71", "$771,747.71", "$818,252.29", "$1,405,090", "$1,854,434.40", 'href="../credito-infonavit/"', 'href="../credito-hipotecario-bancos/"'])
+    assert.ok(f.includes(t), `fovissste: falta ${t}`);
+}
+
 console.log("Pruebas de vivienda: todas pasaron.");

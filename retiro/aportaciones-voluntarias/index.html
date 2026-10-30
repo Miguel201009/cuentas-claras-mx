@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aportaciones voluntarias a la Afore 2026: rendimiento y deducción | Cuentas Claras MX</title>
+<meta name="description" content="Calcula cuánto crece tu ahorro voluntario en la Afore y cuánto ISR te regresan si lo haces deducible: tipos de aportación, límite de 10% de tus ingresos y 5 UMA, y cómo deducirlo.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<style>
+  .tool .pagos { grid-column: 1 / -1 }
+  .pagos summary { cursor: pointer; font: 600 1.1rem var(--display); color: var(--brand); margin-bottom: 10px }
+  .pagos td.n, .pagos th.n { text-align: right; white-space: nowrap }
+</style>
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/retiro/aportaciones-voluntarias/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Aportaciones voluntarias a la Afore 2026: rendimiento y deducción">
+<meta property="og:description" content="Calcula cuánto crece tu ahorro voluntario en la Afore y cuánto ISR te regresan si lo haces deducible: tipos de aportación, límite de 10% de tus ingresos y 5 UMA, y cómo deducirlo.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/retiro/aportaciones-voluntarias/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/retiro-aportaciones-voluntarias.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Retiro e IMSS","item":"https://miguel201009.github.io/cuentas-claras-mx/retiro/"},{"@type":"ListItem","position":3,"name":"Aportaciones voluntarias","item":"https://miguel201009.github.io/cuentas-claras-mx/retiro/aportaciones-voluntarias/"}]},{"@type":"WebApplication","name":"Aportaciones voluntarias a tu Afore","url":"https://miguel201009.github.io/cuentas-claras-mx/retiro/aportaciones-voluntarias/","description":"Calcula cuánto crece tu ahorro voluntario en la Afore y cuánto ISR te regresan si lo haces deducible: tipos de aportación, límite de 10% de tus ingresos y 5 UMA, y cómo deducirlo.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Retiro e IMSS</a> › Aportaciones voluntarias</span></div>
+
+  <header>
+    <span class="tag">Retiro e IMSS</span>
+    <h1>Aportaciones voluntarias a tu Afore</h1>
+    <p class="lede">Escribe cuánto quieres ahorrar al mes en tu Afore y por cuántos años. Te decimos cuánto podrías juntar y, si lo haces deducible, cuánto ISR te regresan en tu declaración anual.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno, de la CONSAR ni de ninguna Afore.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="men">Ahorro voluntario al mes
+        <input id="men" type="number" min="0" step="50" value="1000"></label>
+      <label for="anios">Años que vas a ahorrar
+        <input id="anios" type="number" min="0" max="70" step="1" value="20"></label>
+      <label for="rend">Rendimiento anual arriba de la inflación (%), ejemplo
+        <input id="rend" type="number" min="0" max="10" step="0.1" value="4"></label>
+      <label for="com">Comisión de tu Afore (% anual)
+        <input id="com" type="number" min="0" max="3" step="0.01" value="0.54"></label>
+      <label for="ing">Tus ingresos del año que pagan ISR (sueldo bruto, por ejemplo)
+        <input id="ing" type="number" min="0" step="1000" value="300000"></label>
+      <label for="ded">¿Lo vas a hacer deducible?
+        <select id="ded"><option value="si" selected>Sí, aportación deducible (hasta los 65 años)</option><option value="no">No, de corto plazo (la saco cuando quiera)</option></select></label>
+      <p class="nota">El rendimiento es un ejemplo en pesos de hoy, no una promesa: cambia cada año y depende de tu Afore. La comisión de 0.54% es la de la mayoría de las Afore en 2026.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Podrías juntar, en pesos de hoy</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span>Lo que tú aportas</span><b id="apo"></b></div>
+      <div class="row"><span>Rendimientos</span><b id="ren"></b></div>
+      <div class="row"><span>Aportas al año</span><b id="anual"></b></div>
+      <div class="row"><span>Puedes deducir al año</span><b id="dedm"></b></div>
+      <div class="row sub"><span>Tope: 10% de tus ingresos</span><b id="t10"></b></div>
+      <div class="row sub"><span>Tope: 5 UMA anuales</span><b id="tuma"></b></div>
+      <div class="row"><span>ISR que te regresan o dejas de pagar al año</span><b id="isr"></b></div>
+      <div class="row"><span>Lo que de verdad te cuesta al año</span><b id="neto"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Cálculo orientativo con la tarifa anual del ISR de 2026. Supone que ganas lo mismo cada año. Tu devolución real depende de tu declaración completa.</p>
+    </div>
+    <details class="pagos">
+      <summary>Cómo crece tu ahorro año por año</summary>
+      <div class="tabla"><table>
+        <thead><tr><th>Año</th><th class="n">Aportado</th><th class="n">Saldo</th></tr></thead>
+        <tbody id="tabla"></tbody>
+      </table></div>
+    </details>
+  </section>
+
+  <section class="prosa">
+    <h2>Tipos de aportación voluntaria</h2>
+    <p>Cuando depositas en tu Afore escoges a qué subcuenta va tu dinero. Cada Afore les pone nombres un poco distintos, pero la CONSAR las agrupa así:</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Tipo</th><th>¿Cuándo la sacas?</th><th>¿Es deducible?</th></tr></thead>
+      <tbody>
+        <tr><td>Corto plazo</td><td>Casi cuando quieras; cada Afore pone el plazo</td><td>No</td></tr>
+        <tr><td>Largo plazo</td><td>Después de al menos 5 años</td><td>Sí</td></tr>
+        <tr><td>Complementarias de retiro</td><td>Al pensionarte o a los 65 años</td><td>Sí (art. 151 fr. V)</td></tr>
+        <tr><td>Con perspectiva de inversión de largo plazo</td><td>A los 65 años</td><td>Sí (art. 151 fr. V)</td></tr>
+      </tbody>
+    </table></div>
+    <p>Si quieres el dinero para una emergencia, usa la de corto plazo. Si es para tu retiro y pagas ISR, una deducible te regresa parte en impuestos.</p>
+
+    <h2>¿Cuánto puedes deducir?</h2>
+    <p>La Ley del ISR (artículo 151, fracción V) te deja deducir tus aportaciones complementarias de retiro y voluntarias deducibles hasta lo que sea <strong>menor</strong> entre:</p>
+    <ul>
+      <li>el <strong>10% de tus ingresos acumulables</strong> del año, y</li>
+      <li><strong>5 UMA anuales</strong>: 5 × $42,794.64 = <strong>$213,973.20 en 2026</strong>.</li>
+    </ul>
+    <p>Esta deducción <strong>no entra al tope general</strong> de deducciones personales (15% de tus ingresos o 5 UMA): es aparte. Las aportaciones de 2026 cuentan si las haces a más tardar el 31 de diciembre de 2026 y las deduces en la declaración anual de abril de 2027.</p>
+    <p>Hay otra deducción, la del artículo 185 de la Ley del ISR (cuentas especiales para el ahorro), con tope de $152,000 al año. Ahí el dinero se deduce al depositarlo y se paga ISR al retirarlo. Algunas Afore la ofrecen; pregunta en la tuya.</p>
+
+    <h2>Ejemplo con los datos cargados</h2>
+    <ul>
+      <li>Ahorras $1,000 al mes durante 20 años: aportas <strong>$240,000</strong>.</li>
+      <li>Con 4% de rendimiento al año menos 0.54% de comisión, juntarías unos <strong>$343,291.45</strong> en pesos de hoy: $103,291.45 son rendimientos.</li>
+      <li>Si ganas $300,000 al año, tu tope es 10% = $30,000 (menor que 5 UMA). Tus $12,000 del año se deducen completos.</li>
+      <li>Tu ISR del año baja de $41,419.91 a $38,856.71: te ahorras <strong>$2,563.20 al año</strong> (12,000 × 21.36%, tu tasa del último escalón). Ahorrar $12,000 te cuesta en realidad $9,436.80.</li>
+    </ul>
+    <p>Mientras más ganas, más alto es tu escalón de ISR y más te regresa la deducción.</p>
+
+    <h2>Si sacas el dinero antes</h2>
+    <p>Si retiras una aportación deducible antes de los 65 años (o antes de pensionarte por invalidez o incapacidad), pierdes el beneficio: lo que retiras se suma a tus ingresos del año y la Afore te <strong>retiene 20% de ISR</strong> (Afore Azteca, Heru y El Imparcial con datos de la CONSAR). Por eso, el dinero que puedas necesitar pronto mejor ponlo en corto plazo.</p>
+
+    <h2>Cómo aportar y deducir</h2>
+    <ol>
+      <li><strong>Deposita</strong> en la app AforeMóvil, en la página o la app de tu Afore, por domiciliación a tu tarjeta, o en tiendas como 7-Eleven, Circle K, Bodega Aurrerá, Walmart, Chedraui o Farmacias del Ahorro, y en el Banco del Bienestar. En tiendas se puede desde $50.</li>
+      <li><strong>Escoge la subcuenta deducible</strong> (complementaria o de largo plazo) y, si tu Afore lo pide, avísale por escrito que vas a deducirla con el artículo 151, fracción V.</li>
+      <li><strong>Pide tu constancia fiscal</strong> a tu Afore a principios del año siguiente.</li>
+      <li><strong>Deduce</strong> el monto en tu <a href="../../impuestos/declaracion-anual/">declaración anual</a> de abril. Si tu ISR baja, te queda saldo a favor.</li>
+    </ol>
+
+    <h2>Si cotizas al ISSSTE: ahorro solidario</h2>
+    <p>Si cotizas al ISSSTE con cuenta individual, puedes ahorrar <strong>1% o 2% de tu sueldo básico</strong> y tu dependencia pone <strong>$3.25 por cada peso</strong>, hasta 6.5% de tu sueldo (artículo 100 de la Ley del ISSSTE; Expansión, 21 oct 2026, y ADN40). Pocas inversiones dan algo así: pídelo en tu área de recursos humanos.</p>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Cuánto rinde mi Afore?</h3>
+    <p>Depende de tu Afore, de tu edad y del año. Hay años malos y años buenos. Compara rendimientos y comisiones en la página de la CONSAR antes de escoger.</p>
+    <h3>¿Me conviene más un plan personal de retiro (PPR) del banco?</h3>
+    <p>También es deducible con el mismo artículo 151, fracción V, y comparte el mismo tope con tus aportaciones a la Afore. Compara comisiones y rendimientos.</p>
+    <h3>¿Cuánto tendré en total en mi Afore?</h3>
+    <p>Suma lo que ponen tú, tu patrón y el gobierno en la calculadora de <a href="../afore/">cuánto tendrás en tu Afore</a>; ahí también puedes poner tu ahorro voluntario.</p>
+
+    <h2>Fuentes</h2>
+    <p class="nota">Información revisada el 30 de octubre de 2026. Tipos de aportación: <a href="https://expansion.mx/finanzas-personales/2026/07/15/aportaciones-voluntarias-afore-que-son-para-que-sirve" rel="noopener">Expansión</a> (15 jul 2026, con datos de la CONSAR) y <a href="https://www.unotv.com/pensiones/ahorro-voluntario-en-la-afore-cuales-son-los-4-tipos-que-existen-y-cual-te-conviene/" rel="noopener">UnoTV</a> (30 jul 2026). Límite de 10% y 5 UMA, y retención de 20%: <a href="https://afore.suramexico.com/afore/blog/deducir-aportaciones-voluntarias-afore.html" rel="noopener">Afore SURA</a>, <a href="https://www.aforeazteca.com.mx/tramites/aportaciones-voluntarias" rel="noopener">Afore Azteca</a>, <a href="https://www.elimparcial.com/dinero/2026/03/09/ahorro-voluntario-en-la-afore-el-beneficio-fiscal-que-puede-ayudarte-a-pagar-menos-impuestos-ante-el-sat/" rel="noopener">El Imparcial</a> (9 mar 2026) y <a href="https://www.heru.app/blog/aportaciones-afore-deduccion-impuestos-2025/" rel="noopener">Heru</a>. Artículo 185: <a href="https://www.elcontribuyente.mx/2026/04/como-deducir-tu-ahorro-para-el-retiro-ante-el-sat/" rel="noopener">El Contribuyente</a> y El Imparcial. UMA 2026: INEGI, Diario Oficial del 9 de enero de 2026. Tarifa anual del ISR: Anexo 8 de la Resolución Miscelánea Fiscal 2026. Comisión: CONSAR, noviembre de 2025. Ahorro solidario: <a href="https://expansion.mx/finanzas-personales/2026/10/21/ahorro-solidario-issste-aportacion-empleador" rel="noopener">Expansión</a> y <a href="https://www.adn40.mx/mexico/2026-02-23/como-funciona-el-sistema-ahorro-solidario-para-el-retiro-del-issste/" rel="noopener">ADN40</a>. La Ley del ISR no abrió desde nuestra red: revisa el texto en la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LISR.pdf" rel="noopener">Cámara de Diputados</a>.</p>
+    <p>También te puede servir: <a href="../afore/">cuánto tendrás en tu Afore</a>, <a href="../semanas-cotizadas/">semanas cotizadas</a>, <a href="../ley-73-vs-ley-97/">pensión Ley 73 vs. Ley 97</a>, <a href="../../impuestos/declaracion-anual/">declaración anual</a> y <a href="../../dinero/interes-compuesto/">interés compuesto</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno, de la CONSAR ni de ninguna Afore. Los cálculos son orientativos y no son asesoría fiscal ni de inversión.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/impuestos.js"></script>
+<script src="../../assets/retiro.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const AVISOS = {
+  mensual: "tomamos como máximo $1,000,000 al mes", anios: "hasta 70 años", rendimiento: "rendimiento hasta 10%",
+  comision: "comisión hasta 3%", ingreso: "ingresos hasta $1,200,000,000 al año", saldo: "saldo muy alto"
+};
+function calcular() {
+  const r = Retiro.aportacionesVoluntarias({
+    mensual: $("men").value, anios: $("anios").value, rendimiento: $("rend").value, comision: $("com").value,
+    ingresoAnual: $("ing").value, deducible: $("ded").value === "si"
+  });
+  $("total").textContent = mxn(r.saldoFinal);
+  $("apo").textContent = mxn(r.aportado);
+  $("ren").textContent = mxn(r.rendimientos);
+  $("anual").textContent = mxn(r.anual);
+  $("dedm").textContent = r.deducible ? mxn(r.deduccion) : "No aplica";
+  $("t10").textContent = mxn(r.topeIngreso);
+  $("tuma").textContent = mxn(r.topeUma);
+  $("isr").textContent = mxn(r.ahorroIsr);
+  $("neto").textContent = mxn(r.costoNeto);
+  $("tabla").innerHTML = r.porAnio.map(f =>
+    `<tr><td>${f.anio}</td><td class="n">${mxn(f.aportado)}</td><td class="n">${mxn(f.saldo)}</td></tr>`
+  ).join("");
+  const msg = [];
+  if (r.mensual === 0) msg.push("Escribe cuánto quieres ahorrar al mes.");
+  if (r.anios === 0) msg.push("Escribe por cuántos años.");
+  if (r.deducible && r.ingreso === 0) msg.push("Escribe tus ingresos del año para calcular la deducción.");
+  if (r.deducible && r.sinUsar > 0) msg.push(`Aportas ${mxn(r.sinUsar)} más de lo que puedes deducir al año: esa parte no baja tu ISR.`);
+  if (r.deducible && r.ingreso > 0 && r.ahorroIsr === 0) msg.push("Con esos ingresos casi no pagas ISR, así que deducir no te regresa nada: una aportación de corto plazo te da más libertad.");
+  if (r.comision >= r.rendimiento && r.mensual > 0) msg.push("Con una comisión igual o mayor que el rendimiento, tu ahorro no crece.");
+  if (r.avisos.length) msg.push("Ajustamos algunas cantidades: " + r.avisos.map(a => AVISOS[a]).join(", ") + ".");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

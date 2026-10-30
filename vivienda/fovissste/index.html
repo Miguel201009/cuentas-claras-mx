@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crédito FOVISSSTE 2026: requisitos, tipos y cuánto te prestan | Cuentas Claras MX</title>
+<meta name="description" content="Crédito FOVISSSTE para trabajadores del Estado en 2026: quién puede pedirlo, tipos de crédito, monto máximo, tasas, requisitos y cómo solicitarlo. Estima cuánto te alcanza con tu sueldo.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/vivienda/fovissste/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Crédito FOVISSSTE 2026: requisitos, tipos y cuánto te prestan">
+<meta property="og:description" content="Crédito FOVISSSTE para trabajadores del Estado en 2026: quién puede pedirlo, tipos de crédito, monto máximo, tasas, requisitos y cómo solicitarlo. Estima cuánto te alcanza con tu sueldo.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/vivienda/fovissste/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/vivienda-fovissste.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Vivienda","item":"https://miguel201009.github.io/cuentas-claras-mx/vivienda/"},{"@type":"ListItem","position":3,"name":"Crédito FOVISSSTE","item":"https://miguel201009.github.io/cuentas-claras-mx/vivienda/fovissste/"}]},{"@type":"WebApplication","name":"Crédito FOVISSSTE para trabajadores del Estado","url":"https://miguel201009.github.io/cuentas-claras-mx/vivienda/fovissste/","description":"Crédito FOVISSSTE para trabajadores del Estado en 2026: quién puede pedirlo, tipos de crédito, monto máximo, tasas, requisitos y cómo solicitarlo. Estima cuánto te alcanza con tu sueldo.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Vivienda</a> › Crédito FOVISSSTE</span></div>
+
+  <header>
+    <span class="tag">Vivienda</span>
+    <h1>Crédito FOVISSSTE para trabajadores del Estado</h1>
+    <p class="lede">Si trabajas para el gobierno y cotizas al ISSSTE, tu crédito para casa es del FOVISSSTE. Aquí te explicamos quién puede pedirlo, qué tipos hay, cuánto prestan, qué tasas cobran y cómo se pide en 2026. Con la calculadora estimas cuánto te alcanza con tu sueldo.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni del FOVISSSTE.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <h2>¿Cuánto te alcanza con Mi FOVISSSTE en pesos?</h2>
+      <label for="sb">Sueldo básico mensual (el que dice tu talón)
+        <input id="sb" type="number" min="0" step="100" value="20000"></label>
+      <label for="tasa">Tasa de interés anual fija (%), entre 8 y 11
+        <input id="tasa" type="number" min="0" max="40" step="0.1" value="10"></label>
+      <label for="plazo">Plazo
+        <select id="plazo">
+          <option value="10">10 años</option>
+          <option value="15">15 años</option>
+          <option value="20" selected>20 años</option>
+          <option value="25">25 años</option>
+          <option value="30">30 años</option>
+        </select></label>
+      <label for="saldo">Saldo de tu Subcuenta de Vivienda (si lo sabes)
+        <input id="saldo" type="number" min="0" step="1000" value="150000"></label>
+      <p class="nota">El FOVISSSTE descuenta el pago de tu nómina: 30% de tu sueldo básico. La tasa que te toca depende de tu sueldo y la ves en el simulador del FOVISSSTE; la cargada es un ejemplo.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Podrías tener para tu casa, estimado</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span>Crédito del FOVISSSTE</span><b id="cred"></b></div>
+      <div class="row"><span>Más tu Subcuenta de Vivienda</span><b id="sal"></b></div>
+      <div class="row"><span>Pago al mes (descuento por nómina)</span><b id="pago"></b></div>
+      <div class="row"><span>Total de tus pagos</span><b id="tot"></b></div>
+      <div class="row"><span>Intereses en todo el plazo</span><b id="int"></b></div>
+      <div class="row"><span>Monto máximo en pesos</span><b id="max"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Estimación con pagos fijos. El monto real lo da el FOVISSSTE con tu edad, tu sueldo, tu saldo y el avalúo de la casa. No incluye seguros ni gastos de escrituración.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>¿Quién puede pedirlo?</h2>
+    <p>Los trabajadores al servicio del Estado que cotizan al ISSSTE y aportan a su Subcuenta de Vivienda (por ejemplo, burócratas y maestros federales). Para Mi FOVISSSTE, el FOVISSSTE pide:</p>
+    <ul>
+      <li>Ser <strong>trabajador en activo</strong>.</li>
+      <li>Tener al menos <strong>18 meses de aportaciones</strong> a tu Subcuenta de Vivienda. No se pide un saldo mínimo.</li>
+      <li><strong>No estar en trámite de pensión</strong> (por invalidez, incapacidad o retiro voluntario).</li>
+      <li>No tener otro crédito FOVISSSTE vigente (para un segundo crédito hay reglas aparte).</li>
+    </ul>
+    <p>Para trabajadores en activo, el FOVISSSTE dice que no hay edad máxima. Si trabajas en una empresa privada, tu crédito es del Infonavit: revisa el <a href="../credito-infonavit/">crédito Infonavit</a>.</p>
+
+    <h2>Tipos de crédito</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Crédito</th><th>Para qué sirve</th></tr></thead>
+      <tbody>
+        <tr><td>Mi FOVISSSTE (antes "tradicional")</td><td>Comprar casa nueva o usada con dinero del FOVISSSTE, en pesos o en UMA.</td></tr>
+        <tr><td>FOVISSSTE para Todos</td><td>Te presta un banco (Banorte, BBVA o Banca Mifel) y el FOVISSSTE pone tu Subcuenta. Plazo de 5 a 20 años; de 25 a 70 años de edad.</td></tr>
+        <tr><td>Unidos</td><td>Juntar tu crédito FOVISSSTE con uno del Infonavit: tuyo si cotizas a los dos, o con tu pareja.</td></tr>
+        <tr><td>Pensionados</td><td>Para jubilados y pensionados del ISSSTE de 47 a 74 años.</td></tr>
+        <tr><td>Redención de Pasivos</td><td>Pagar una hipoteca que ya tienes con otra institución.</td></tr>
+        <tr><td>Mejora FOVISSSTE y Tú Construyes</td><td>Arreglar o ampliar tu casa, o construir en tu terreno.</td></tr>
+        <tr><td>Segundo Crédito</td><td>Si ya liquidaste el primero sin quitas ni apoyos y pasaron al menos 18 meses.</td></tr>
+      </tbody>
+    </table></div>
+    <p>El crédito FOVISSSTE Mujeres aparecía con la convocatoria cerrada en octubre de 2026.</p>
+
+    <h2>¿Cuánto te prestan y a qué tasa?</h2>
+    <p>En Mi FOVISSSTE, el monto es una cantidad máxima <strong>más el saldo de tu Subcuenta de Vivienda</strong>:</p>
+    <ul>
+      <li><strong>En pesos:</strong> hasta <strong>$1,405,090</strong> más tu saldo, con tasa fija de <strong>8% a 11%</strong>. El pago no cambia.</li>
+      <li><strong>En UMA:</strong> hasta <strong>520 UMA ($1,854,434.40)</strong> más tu saldo, con tasa de <strong>2% a 6%</strong>. Ojo: tu deuda se actualiza cada año con la UMA, así que sube en pesos aunque la tasa sea menor.</li>
+      <li><strong>Plazo:</strong> hasta 30 años.</li>
+    </ul>
+    <p>Lo que de verdad te prestan depende de tu sueldo, tu edad y el avalúo. El pago se descuenta de tu nómina: el FOVISSSTE habla de <strong>30% de tu sueldo básico</strong>. Con eso, la tasa y el plazo sale cuánto crédito puedes pagar; eso hace la calculadora.</p>
+    <p>Además, el FOVISSSTE paga la mitad de los gastos notariales del contrato y del registro, no cobra por pagos adelantados e incluye seguro por fallecimiento o incapacidad, seguro de daños y una prórroga de hasta 12 meses si te quedas sin trabajo.</p>
+
+    <h2>Ejemplo con los datos cargados</h2>
+    <ul>
+      <li>Con un sueldo básico de $20,000, el descuento es 30%: <strong>$6,000 al mes</strong>.</li>
+      <li>A 10% anual y 20 años, ese pago cubre un crédito de 6,000 × (1 − 1.008333<sup>−240</sup>) ÷ 0.008333 = <strong>$621,747.71</strong>.</li>
+      <li>Más $150,000 de tu Subcuenta, tendrías unos <strong>$771,747.71</strong> para tu casa.</li>
+      <li>En 20 años pagarías $1,440,000: $818,252.29 son intereses.</li>
+    </ul>
+    <p>Si tu pago alcanza para más de $1,405,090, el crédito se queda en ese máximo y tu pago baja.</p>
+
+    <h2>Cómo pedirlo en 2026</h2>
+    <p>El FOVISSSTE dice que Mi FOVISSSTE es <strong>sin sorteos ni convocatorias</strong>: lo pides cuando cumples los requisitos.</p>
+    <ol>
+      <li><strong>Simula tu crédito</strong> en el <a href="https://fovissste.gob.mx/simulador-credito-fovissste/" rel="noopener">simulador del FOVISSSTE</a> con tu CURP.</li>
+      <li><strong>Escoge la casa.</strong> Si es nueva, tiene que estar 100% terminada, con servicios y avalúo registrado.</li>
+      <li><strong>Regístrate en Mi Portal FOVISSSTE</strong>, toma el taller, escoge el esquema (pesos o UMA) y la entidad financiera, y revisa el monto y la fecha en que habrá recursos.</li>
+      <li><strong>Arma tu expediente</strong> con la entidad financiera que escogiste y elige la notaría.</li>
+      <li><strong>Firma las escrituras.</strong> El pago empieza a descontarse de tu nómina.</li>
+    </ol>
+    <p>El trámite con el FOVISSSTE es gratis. Para dudas, llama al <strong>800 368 4783</strong>.</p>
+
+    <h2>Vivienda para el Bienestar</h2>
+    <p>Para quien gana de 1 a 2 salarios mínimos, el FOVISSSTE anunció un crédito en pesos del programa Vivienda para el Bienestar: hasta <strong>$627,000</strong>, a 30 años, con tasa fija de 3.6% a 8.5% según tu ingreso y un descuento de 30% de tu salario (nota del FOVISSSTE del 13 de octubre de 2026). No lo pudimos confirmar con una segunda fuente: revisa las condiciones con el FOVISSSTE.</p>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Me conviene en pesos o en UMA?</h3>
+    <p>En pesos sabes desde el inicio cuánto vas a pagar. En UMA la tasa es más baja, pero tu deuda sube cada año con la UMA. Compara las dos opciones en el simulador del FOVISSSTE con tus datos.</p>
+    <h3>Mi pareja cotiza al Infonavit, ¿podemos juntar créditos?</h3>
+    <p>Sí, con el crédito Unidos. Tu pareja necesita su precalificación del Infonavit: revisa sus <a href="../puntos-infonavit/">puntos Infonavit</a>.</p>
+    <h3>¿Y si quiero un crédito más grande?</h3>
+    <p>Con FOVISSSTE para Todos te presta un banco y el FOVISSSTE pone tu Subcuenta. Compara también con una hipoteca normal en la calculadora de <a href="../credito-hipotecario-bancos/">crédito hipotecario de bancos</a>.</p>
+
+    <h2>Fuentes</h2>
+    <p class="nota">Información revisada el 30 de octubre de 2026 en las páginas oficiales del FOVISSSTE: <a href="https://fovissste.gob.mx/credito/credito-tradicional-fovissste/" rel="noopener">Mi FOVISSSTE</a>, <a href="https://fovissste.gob.mx/credito/credito-fovissste-para-todos/" rel="noopener">FOVISSSTE para Todos</a>, <a href="https://fovissste.gob.mx/credito/credito-unidos/" rel="noopener">Unidos</a> (de ahí sale el descuento de 30% del sueldo básico), <a href="https://fovissste.gob.mx/credito/credito-pensionados/" rel="noopener">Pensionados</a>, la <a href="https://fovissste.gob.mx/" rel="noopener">página de inicio</a> (requisitos generales y Segundo Crédito) y la nota <a href="https://fovissste.gob.mx/noticias/asi-sera-el-nuevo-credito-en-pesos-del-fovissste/" rel="noopener">"Así será el nuevo crédito en pesos del FOVISSSTE"</a> (13 oct 2026). Los montos y tasas de Mi FOVISSSTE coinciden con <a href="https://www.unotv.com/nacional/fovissste-vs-infonavit-cuanto-te-presta-cada-uno-para-comprar-casa/" rel="noopener">UnoTV</a> (30 sep 2026). El FOVISSSTE dice que su información es ilustrativa y puede cambiar: confírmala antes de firmar.</p>
+    <p>También te puede servir: <a href="../credito-infonavit/">crédito Infonavit</a>, <a href="../credito-hipotecario-bancos/">crédito hipotecario de bancos</a>, <a href="../rentar-o-comprar/">¿rentar o comprar casa?</a> y <a href="../../trabajo/aguinaldo-gobierno/">aguinaldo de trabajadores del gobierno</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni del FOVISSSTE. Los cálculos son orientativos y no son una oferta de crédito.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/vivienda.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const r = Vivienda.capacidadFovissste({ sueldoBasico: $("sb").value, tasaAnual: $("tasa").value, plazo: $("plazo").value, saldoSubcuenta: $("saldo").value });
+  $("total").textContent = mxn(r.total);
+  $("cred").textContent = mxn(r.credito);
+  $("sal").textContent = mxn(r.saldo);
+  $("pago").textContent = mxn(r.pagoReal);
+  $("tot").textContent = mxn(r.totalPagado);
+  $("int").textContent = mxn(r.intereses);
+  $("max").textContent = mxn(r.maximoPesos);
+  const msg = [];
+  if (r.sueldo === 0) msg.push("Escribe tu sueldo básico.");
+  if (r.topado) msg.push(`Tu pago alcanza para más del máximo, así que el crédito se queda en ${mxn(r.maximoPesos)} y tu pago baja a ${mxn(r.pagoReal)}.`);
+  if (r.tasa > 0 && (r.tasa < 8 || r.tasa > 11)) msg.push("Ojo: en pesos, el FOVISSSTE publica tasas de 8% a 11%.");
+  if (r.recortado) msg.push("Alguna cantidad está fuera de rango y la ajustamos: sueldo hasta $10,000,000, tasa hasta 40% y plazo hasta 30 años.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

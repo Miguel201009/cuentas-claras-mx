@@ -27,8 +27,9 @@ for (const p of ["trabajo/sueldo-neto/", "trabajo/prima-de-antiguedad/", "trabaj
   "dinero/buen-fin/", "familia/pension-bienestar-adultos-mayores/", "familia/pension-mujeres-bienestar/",
   "familia/beca-benito-juarez/", "familia/beca-rita-cetina/", "impuestos/aguinaldo-isr/", "trabajo/uma-2027/",
   "impuestos/calculadora-iva/", "dinero/interes-compuesto/", "dinero/credito-automotriz/",
-  "vivienda/credito-hipotecario-bancos/"]) assert.ok(todas.includes(p), `falta ${p}`);
-assert.strictEqual(herramientas.length, 51, "51 calculadoras y guías");
+  "vivienda/credito-hipotecario-bancos/", "vivienda/puntos-infonavit/", "vivienda/fovissste/",
+  "retiro/aportaciones-voluntarias/"]) assert.ok(todas.includes(p), `falta ${p}`);
+assert.strictEqual(herramientas.length, 54, "54 calculadoras y guías");
 
 // ---------- Reglas para cada página ----------
 const titulos = new Map();
@@ -180,7 +181,19 @@ const casos = {
   "hipoteca": "vivienda/credito-hipotecario-bancos/",
   "hipoteca banco": "vivienda/credito-hipotecario-bancos/",
   "gastos notariales": "vivienda/credito-hipotecario-bancos/",
-  "escrituras": "vivienda/credito-hipotecario-bancos/"
+  "escrituras": "vivienda/credito-hipotecario-bancos/",
+  "puntos infonavit": "vivienda/puntos-infonavit/",
+  "cuántos puntos necesito infonavit": "vivienda/puntos-infonavit/",
+  "1080 puntos": "vivienda/puntos-infonavit/",
+  "t100": "vivienda/puntos-infonavit/",
+  "fovissste": "vivienda/fovissste/",
+  "crédito fovissste": "vivienda/fovissste/",
+  "crédito issste casa": "vivienda/fovissste/",
+  "crédito vivienda trabajadores del estado": "vivienda/fovissste/",
+  "aportaciones voluntarias": "retiro/aportaciones-voluntarias/",
+  "ahorro voluntario afore": "retiro/aportaciones-voluntarias/",
+  "deducir afore": "retiro/aportaciones-voluntarias/",
+  "ahorro solidario": "retiro/aportaciones-voluntarias/"
 };
 for (const [q, esperado] of Object.entries(casos)) assert.ok(hrefs(q).includes(esperado), `buscar "${q}" debe dar ${esperado}: ${hrefs(q)}`);
 assert.ok(!hrefs("ine").some(h => h.startsWith("dinero/")), "ine no muestra la sección dinero");
@@ -206,6 +219,11 @@ assert.strictEqual(hrefs("interés compuesto")[0], "dinero/interes-compuesto/");
 assert.strictEqual(hrefs("crédito automotriz")[0], "dinero/credito-automotriz/");
 assert.strictEqual(hrefs("crédito hipotecario")[0], "vivienda/credito-hipotecario-bancos/");
 assert.strictEqual(hrefs("hipoteca banco")[0], "vivienda/credito-hipotecario-bancos/");
+// Todo el año: puntos Infonavit, FOVISSSTE y aportaciones voluntarias
+assert.strictEqual(hrefs("puntos infonavit")[0], "vivienda/puntos-infonavit/");
+assert.strictEqual(hrefs("fovissste")[0], "vivienda/fovissste/");
+assert.strictEqual(hrefs("aportaciones voluntarias")[0], "retiro/aportaciones-voluntarias/");
+assert.ok(hrefs("crédito infonavit").includes("vivienda/credito-infonavit/"), "crédito infonavit sigue encontrando su guía");
 assert.ok(hrefs("aguinaldo").includes("trabajo/aguinaldo/") && hrefs("aguinaldo")[0] === "trabajo/aguinaldo/", "aguinaldo sigue llevando primero a la calculadora");
 assert.strictEqual(B.buscar(textos, "qwertyuiop").modo, "ninguna");
 

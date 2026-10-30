@@ -63,6 +63,7 @@
 ## Retiro e IMSS
 
 - [Cuánto tendrás en tu Afore 2026](https://miguel201009.github.io/cuentas-claras-mx/retiro/afore/): Estima cuánto juntarás en tu Afore con lo que ponen tú, tu patrón y el gobierno, el aumento de la reforma 2020, ahorro voluntario y comisión.
+- [Aportaciones voluntarias a la Afore 2026: rendimiento y deducción](https://miguel201009.github.io/cuentas-claras-mx/retiro/aportaciones-voluntarias/): Calcula cuánto crece tu ahorro voluntario en la Afore y cuánto ISR te regresan si lo haces deducible: tipos de aportación, límite de 10% de tus ingresos y 5 UMA, y cómo deducirlo.
 - [Pensión Ley 73 vs. Ley 97 2026](https://miguel201009.github.io/cuentas-claras-mx/retiro/ley-73-vs-ley-97/): Cómo saber si te toca la Ley 73 o la Ley 97 del IMSS, sus diferencias y una calculadora estimada de pensión Ley 73 con la tabla del artículo 167.
 - [Semanas cotizadas IMSS 2026](https://miguel201009.github.io/cuentas-claras-mx/retiro/semanas-cotizadas/): Cuántas semanas cotizadas pide el IMSS en 2026 (875 en Ley 97, 500 en Ley 73), tabla año por año y cómo sacar tu constancia gratis en línea.
 
@@ -93,5 +94,7 @@
 
 - [Calculadora de crédito hipotecario 2026: pago mensual en bancos](https://miguel201009.github.io/cuentas-claras-mx/vivienda/credito-hipotecario-bancos/): Calcula el pago mensual de una hipoteca bancaria: valor de la casa, enganche, tasa y plazo. Ve los intereses totales, cuánto necesitas al inicio y los gastos de escrituración.
 - [Crédito Infonavit 2026: puntos y precalificación](https://miguel201009.github.io/cuentas-claras-mx/vivienda/credito-infonavit/): Cuántos puntos pide el Infonavit, cómo precalificar gratis en Mi Cuenta Infonavit, de qué depende cuánto te prestan y cuánto aporta tu patrón.
+- [Crédito FOVISSSTE 2026: requisitos, tipos y cuánto te prestan](https://miguel201009.github.io/cuentas-claras-mx/vivienda/fovissste/): Crédito FOVISSSTE para trabajadores del Estado en 2026: quién puede pedirlo, tipos de crédito, monto máximo, tasas, requisitos y cómo solicitarlo. Estima cuánto te alcanza con tu sueldo.
 - [Predial 2026: cómo se calcula y descuentos](https://miguel201009.github.io/cuentas-claras-mx/vivienda/predial/): Qué es el predial, cómo se calcula con el valor catastral, descuentos por pagar el año por adelantado y dónde pagarlo en las principales ciudades.
+- [Puntos Infonavit 2026: cuántos necesitas y cómo revisarlos](https://miguel201009.github.io/cuentas-claras-mx/vivienda/puntos-infonavit/): Cuántos puntos Infonavit necesitas en 2026: el modelo de 1,080 puntos y el nuevo de 100 puntos (T100), de qué dependen tus puntos y cómo revisarlos gratis en Mi Cuenta Infonavit.
 - [¿Rentar o comprar casa? Calculadora 2026](https://miguel201009.github.io/cuentas-claras-mx/vivienda/rentar-o-comprar/): Compara rentar contra comprar casa a varios años: renta y su aumento, enganche, hipoteca, plusvalía, mantenimiento y predial. Gratis y sin registro.

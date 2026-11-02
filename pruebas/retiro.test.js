@@ -451,4 +451,86 @@ finito(l, "Ley 73 negativos");
     assert.ok(pag.includes(t), `aportaciones voluntarias: falta ${t}`);
 }
 
+// ---------- Pensión de viudez ----------
+let v = R.pensionViudez({ caso: "pensionado", pension: 12000 });
+cerca(v.mensual, 10800, "viudez de pensionado: 90%");
+cerca(v.finiquito, 388800, "finiquito: 3 años de pensión");
+assert.strictEqual(v.derecho, true);
+// Ley 97: 600 x 35% x 365/12 = 6,387.50; x 90% = 5,748.75 (31.5% del salario)
+v = R.pensionViudez({ caso: "ley97", salarioPromedio: 600, semanas: 1000 });
+cerca(v.base, 6387.5, "invalidez Ley 97");
+cerca(v.mensual, 5748.75, "viudez Ley 97");
+cerca(v.sobreSalario, 0.315, "31.5% del salario");
+// Ley 73: 600 / 315.04 = 1.90 veces -> grupo hasta 2.00 (42.67% + 1.615% por incremento); 1,000 semanas = 10 incrementos
+// 58.82% x 600 x 365/12 = 10,734.65; x 90% = 9,661.185
+v = R.pensionViudez({ caso: "ley73", salarioPromedio: 600, semanas: 1000 });
+cerca(v.porcentajeBase, 58.82, "cuantía Ley 73");
+cerca(v.mensual, 9661.185, "viudez Ley 73");
+// Riesgo de trabajo: 600 x 70% x 365/12 = 12,775; x 40% = 5,110 (28% del salario), sin semanas
+v = R.pensionViudez({ caso: "riesgo", salarioPromedio: 600, semanas: 0 });
+cerca(v.mensual, 5110, "viudez por riesgo de trabajo");
+cerca(v.sobreSalario, 0.28, "28% del salario");
+// Menos de 150 semanas: sin derecho (salvo riesgo de trabajo)
+v = R.pensionViudez({ caso: "ley97", salarioPromedio: 600, semanas: 149 });
+assert.strictEqual(v.derecho, false); assert.strictEqual(v.mensual, 0); assert.strictEqual(v.faltanSemanas, true);
+v = R.pensionViudez({ caso: "ley73", salarioPromedio: 600, semanas: 150 });
+assert.strictEqual(v.derecho, true);
+// Tope de 25 UMA en el salario
+v = R.pensionViudez({ caso: "ley97", salarioPromedio: 10000, semanas: 1000 });
+assert.strictEqual(v.topado, true); cerca(v.salario, 25 * C.DATOS.uma, "tope 25 UMA");
+// Entradas raras
+[{}, { caso: "x", pension: -5 }, { caso: "ley73", salarioPromedio: "abc", semanas: NaN }, { caso: "ley97", salarioPromedio: 1e300, semanas: 1e300 },
+  { caso: "riesgo", salarioPromedio: Infinity }].forEach((e, i) => { const r = R.pensionViudez(e); finito(r, "viudez rara " + i); assert.ok(r.mensual >= 0); });
+
+// ---------- Modalidad 40 ----------
+// Cuota 2026: 6.925% fijo + cuota patronal de cesantía y vejez del rango
+cerca(R.tasaModalidad40(25 * C.DATOS.uma), 14.438, "25 UMA en 2026", 0.0001);
+cerca(R.tasaModalidad40(C.DATOS.salarioMinimo.general), 10.075, "1 salario mínimo", 0.0001);
+cerca(R.tasaModalidad40(2.8 * C.DATOS.uma), 12.951, "2.8 UMA", 0.0001);
+cerca(R.tasaModalidad40(25 * C.DATOS.uma, 2030), 18.8, "2030 arriba de 4 UMA", 0.0001);
+assert.strictEqual(R.tasaModalidad40(0), 0);
+// Tope: último salario + 1 UMA (acuerdo DOF 21 oct 2026), nunca más de 25 UMA; inscritos antes: 25 UMA
+cerca(R.topeModalidad40(1000), 1117.31, "último + 1 UMA");
+cerca(R.topeModalidad40(2900), 25 * C.DATOS.uma, "no pasa de 25 UMA");
+cerca(R.topeModalidad40(1000, true), 2932.75, "inscrito antes: 25 UMA");
+cerca(R.topeModalidad40(0), C.DATOS.salarioMinimo.general + C.DATOS.uma, "sin último salario: mínimo + 1 UMA");
+// Ejemplo de la página: último SBC $1,000, pide $5,000 -> se ajusta a $1,117.31; 1,117.31 x 30.4 x 14.438% = 4,904.04
+let m = R.modalidad40({ ultimoSalario: 1000, salario: 5000, meses: 24, semanas: 1200, salarioPromedio: 900, edad: 65 });
+assert.strictEqual(m.ajuste, "tope");
+cerca(m.usado, 1117.31, "salario usado");
+cerca(m.mensual, 4904.04, "cuota mensual 2026");
+// 24 meses desde noviembre de 2026: 2 meses en 2026, 12 en 2027 (15.528%) y 10 en 2028 (16.619%)
+assert.deepStrictEqual(m.porAnio.map(f => [f.anio, f.meses]), [[2026, 2], [2027, 12], [2028, 10]]);
+cerca(m.costo, 129547.86, "costo de 24 meses");
+assert.strictEqual(m.semanasM40, 104); // 24 x 30.4 / 7 = 104.2
+// Promedio: (1,117.31 x 104 + 900 x 146) / 250 = 990.40
+cerca(m.promedioNuevo, 990.40, "promedio nuevo", 0.01);
+cerca(m.sin.mensual, 19315.57, "pensión sin Modalidad 40");
+cerca(m.con.mensual, 22337.26, "pensión con Modalidad 40");
+cerca(m.aumento, 3021.69, "aumento");
+cerca(m.mesesRecuperar, 42.87, "meses para recuperar");
+// Inscrito antes del 22 oct 2026 con 25 UMA: 2,932.75 x 30.4 x 14.438% = 12,872.29 al mes
+m = R.modalidad40({ ultimoSalario: 1000, salario: 5000, inscritoAntes: true, meses: 1, semanas: 1200, salarioPromedio: 900 });
+cerca(m.mensual, 12872.29, "25 UMA al mes");
+// Salario menor al mínimo: sube al mínimo
+m = R.modalidad40({ ultimoSalario: 200, salario: 200, meses: 12, semanas: 600, salarioPromedio: 315.04 });
+assert.strictEqual(m.ajuste, "minimo"); cerca(m.usado, C.DATOS.salarioMinimo.general, "mínimo");
+// Sin semanas suficientes ni edad: sin pensión, sin división entre 0
+m = R.modalidad40({ ultimoSalario: 500, salario: 500, meses: 12, semanas: 100, salarioPromedio: 500, edad: 50 });
+assert.strictEqual(m.aumento, 0); assert.strictEqual(m.mesesRecuperar, null);
+[{}, { ultimoSalario: -1, salario: "x", meses: NaN }, { ultimoSalario: 1e300, salario: 1e300, meses: 1e300, semanas: 1e300, salarioPromedio: 1e300 }]
+  .forEach((e, i) => { const r = R.modalidad40(e); finito(Object.assign({}, r, { sin: null, con: null, porAnio: null }), "m40 rara " + i); });
+
+// ---------- Páginas nuevas ----------
+{
+  const fs = require("fs"), path = require("path");
+  const leerPag = rel => fs.readFileSync(path.join(__dirname, "..", rel, "index.html"), "utf8");
+  const viu = leerPag("retiro/pension-viudez-imss");
+  for (const t of ["$10,800.00", "$388,800.00", "$5,748.75", "$5,110.00", "150 semanas", 'href="../ley-73-vs-ley-97/"', "retiro.js"])
+    assert.ok(viu.includes(t), `viudez: falta ${t}`);
+  const m40 = leerPag("retiro/modalidad-40");
+  for (const t of ["14.438%", "$4,904.04", "$12,872.29", "$1,117.31", "$129,547.86", "$3,021.69", 'href="../ley-73-vs-ley-97/"', 'href="../semanas-cotizadas/"', "retiro.js"])
+    assert.ok(m40.includes(t), `modalidad 40: falta ${t}`);
+}
+
 console.log("retiro.test.js: todas las pruebas pasaron");

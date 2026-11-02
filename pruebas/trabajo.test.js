@@ -230,4 +230,42 @@ assert.strictEqual(T.umaEstimada(500).acotada, true);
   .forEach((e, i) => { const x = T.convertirUma(e); assert.ok(Number.isFinite(x.resultado) && x.resultado >= 0, "uma rara " + i); });
 [undefined, -1, "x", NaN, 1e300].forEach((v, i) => { const x = T.umaEstimada(v); assert.ok(Number.isFinite(x.anual), "estimada rara " + i); });
 
-console.log("OK: pruebas de trabajo (PTU y horas extra) pasaron");
+// ---------- Incapacidad del IMSS ----------
+// $15,000 al mes: SBC 500 x 1.0493 = 524.65. Enfermedad general 7 días: 4 pagados (desde el 4o.) x 60% (314.79) = 1,259.16
+let inc = T.incapacidadImss({ tipo: "enfermedad", monto: 15000, dias: 7, semanas: 20 });
+cerca(inc.sbc, 524.65, "SBC estimado");
+cerca(inc.pagoDiario, 314.79, "60% diario");
+assert.strictEqual(inc.diasPagados, 4);
+cerca(inc.recibes, 1259.16, "enfermedad 7 días");
+cerca(inc.sueldoDias, 3500, "sueldo de 7 días");
+cerca(inc.diferencia, 2240.84, "lo que dejas de recibir");
+// Riesgo de trabajo 10 días: 100% desde el primer día = 5,246.50
+inc = T.incapacidadImss({ tipo: "riesgo", monto: 15000, dias: 10 });
+cerca(inc.recibes, 5246.5, "riesgo 10 días");
+assert.strictEqual(inc.cumple, true);
+// 3 días o menos de enfermedad: el IMSS no paga
+assert.strictEqual(T.incapacidadImss({ monto: 15000, dias: 3, semanas: 10 }).recibes, 0);
+// Sin 4 semanas: no hay subsidio; eventual pide 6
+assert.strictEqual(T.incapacidadImss({ monto: 15000, dias: 10, semanas: 3 }).cumple, false);
+assert.strictEqual(T.incapacidadImss({ monto: 15000, dias: 10, semanas: 3 }).recibes, 0);
+assert.strictEqual(T.incapacidadImss({ monto: 15000, dias: 10, semanas: 5, eventual: true }).cumple, false);
+assert.strictEqual(T.incapacidadImss({ monto: 15000, dias: 10, semanas: "" }).cumple, null);
+// SBC directo, con tope de 25 UMA y piso del mínimo
+cerca(T.incapacidadImss({ dato: "sbc", monto: 5000, dias: 4, semanas: 10 }).sbc, 2932.75, "tope 25 UMA");
+cerca(T.incapacidadImss({ dato: "sbc", monto: 100, dias: 4, semanas: 10 }).sbc, 315.04, "piso salario mínimo");
+cerca(T.incapacidadImss({ dato: "sbc", monto: 100, dias: 4, semanas: 10, zona: "frontera" }).sbc, 440.87, "piso frontera");
+// Máximo: 78 semanas en enfermedad, 52 en riesgo
+assert.strictEqual(T.incapacidadImss({ monto: 15000, dias: 9999, semanas: 10 }).dias, 546);
+assert.strictEqual(T.incapacidadImss({ tipo: "riesgo", monto: 15000, dias: 9999 }).dias, 364);
+cerca(T.incapacidadImss({ monto: 15000, dias: 1 }).cuentaBancaria, 2835.36, "9 salarios mínimos");
+assert.strictEqual(T.incapacidadImss({ monto: 0, dias: 5 }).ok, false);
+[{}, { monto: -1 }, { monto: "x", dias: "y" }, { monto: 1e300, dias: 1e300, semanas: 1e300 }, { monto: 5000, dias: NaN, semanas: -4 }]
+  .forEach((e, i) => { const r = T.incapacidadImss(e); if (r.ok) finito(r, "incapacidad rara " + i); });
+{
+  const fs = require("fs"), path = require("path");
+  const pag = fs.readFileSync(path.join(__dirname, "..", "trabajo/incapacidad-imss/index.html"), "utf8");
+  for (const t of ["$1,259.16", "$5,246.50", "$524.65", "60%", 'href="../../familia/maternidad-y-paternidad/"', "trabajo.js"])
+    assert.ok(pag.includes(t), `incapacidad: falta ${t}`);
+}
+
+console.log("OK: pruebas de trabajo (PTU, horas extra e incapacidad) pasaron");

@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modalidad 40 IMSS 2026: cuánto cuesta y cuánto sube la pensión | Cuentas Claras MX</title>
+<meta name="description" content="Calcula cuánto pagas al mes en la Modalidad 40 del IMSS en 2026 (14.438% del salario arriba de 4 UMA), con las nuevas reglas del 22 de octubre, y cuánto podría subir tu pensión de la Ley 73. Estimado.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<style>
+  .tool .pagos { grid-column: 1 / -1 }
+  .pagos summary { cursor: pointer; font: 600 1.1rem var(--display); color: var(--brand); margin-bottom: 10px }
+  .pagos td.n, .pagos th.n { text-align: right; white-space: nowrap }
+</style>
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/retiro/modalidad-40/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Modalidad 40 IMSS 2026: cuánto cuesta y cuánto sube la pensión">
+<meta property="og:description" content="Calcula cuánto pagas al mes en la Modalidad 40 del IMSS en 2026 (14.438% del salario arriba de 4 UMA), con las nuevas reglas del 22 de octubre, y cuánto podría subir tu pensión de la Ley 73. Estimado.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/retiro/modalidad-40/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/retiro-modalidad-40.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Retiro e IMSS","item":"https://miguel201009.github.io/cuentas-claras-mx/retiro/"},{"@type":"ListItem","position":3,"name":"Modalidad 40","item":"https://miguel201009.github.io/cuentas-claras-mx/retiro/modalidad-40/"}]},{"@type":"WebApplication","name":"Modalidad 40: cuánto cuesta y cuánto sube tu pensión","url":"https://miguel201009.github.io/cuentas-claras-mx/retiro/modalidad-40/","description":"Calcula cuánto pagas al mes en la Modalidad 40 del IMSS en 2026 (14.438% del salario arriba de 4 UMA), con las nuevas reglas del 22 de octubre, y cuánto podría subir tu pensión de la Ley 73. Estimado.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Retiro e IMSS</a> › Modalidad 40</span></div>
+
+  <header>
+    <span class="tag">Retiro e IMSS</span>
+    <h1>Modalidad 40: cuánto cuesta y cuánto sube tu pensión</h1>
+    <p class="lede">Si ya no tienes patrón y eres de la Ley 73, puedes seguir pagando el IMSS por tu cuenta para sumar semanas y subir tu salario promedio. Calcula cuánto pagarías al mes y cuánto podría subir tu pensión.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni del IMSS.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="antes">¿Cuándo te inscribiste?
+        <select id="antes"><option value="no" selected>Me voy a inscribir ahora (reglas desde el 22 oct 2026)</option><option value="si">Ya estaba inscrito antes del 22 de octubre de 2026</option></select></label>
+      <label for="ult">Tu último salario diario de cotización al darte de baja
+        <input id="ult" type="number" min="0" step="10" value="1000"></label>
+      <label for="sal">Salario diario que quieres registrar
+        <input id="sal" type="number" min="0" step="10" value="5000"></label>
+      <label for="mes">Meses que vas a pagar
+        <input id="mes" type="number" min="0" max="240" step="1" inputmode="numeric" value="24"></label>
+      <label for="sem">Semanas que ya tienes cotizadas
+        <input id="sem" type="number" min="0" max="5000" step="1" inputmode="numeric" value="1200"></label>
+      <label for="prom">Tu salario diario promedio de las últimas 250 semanas
+        <input id="prom" type="number" min="0" step="10" value="900"></label>
+      <label for="edad">Edad a la que te vas a pensionar
+        <select id="edad"><option>60</option><option>61</option><option>62</option><option>63</option><option>64</option><option selected>65</option></select></label>
+      <p class="nota">Los salarios son diarios, como en tu constancia de semanas cotizadas. Si no sabes tu promedio, escribe tu último salario. Calculamos en pesos de hoy: no subimos la UMA ni el salario mínimo de los próximos años.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Pagarías al mes en 2026 (estimado)</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span>Salario que puedes registrar</span><b id="usado"></b></div>
+      <div class="row sub"><span>Tope para ti</span><b id="tope"></b></div>
+      <div class="row"><span>Cuota de 2026</span><b id="tasa"></b></div>
+      <div class="row"><span>Pagas en total</span><b id="costo"></b></div>
+      <div class="row"><span>Semanas que sumas</span><b id="semm"></b></div>
+      <div class="row"><span>Tu nuevo salario promedio</span><b id="pn"></b></div>
+      <div class="row"><span>Pensión sin Modalidad 40</span><b id="sin"></b></div>
+      <div class="row"><span>Pensión con Modalidad 40</span><b id="con"></b></div>
+      <div class="row"><span>Tu pensión sube al mes</span><b id="sube"></b></div>
+      <div class="row"><span>Recuperas lo que pagaste en</span><b id="rec"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Cálculo estimado con la tabla de la Ley 73 y el salario mínimo de 2026. El IMSS hace el cálculo oficial con tu historial completo.</p>
+    </div>
+    <details class="pagos">
+      <summary>Cuánto pagas cada año</summary>
+      <div class="tabla"><table>
+        <thead><tr><th>Año</th><th class="n">Cuota</th><th class="n">Al mes</th><th class="n">Meses</th><th class="n">En el año</th></tr></thead>
+        <tbody id="tabla"></tbody>
+      </table></div>
+    </details>
+  </section>
+
+  <section class="prosa">
+    <h2>¿Qué es la Modalidad 40?</h2>
+    <p>Es la <strong>continuación voluntaria en el régimen obligatorio</strong> del IMSS (artículo 218 de la Ley del Seguro Social). Si dejaste de trabajar con patrón, pagas tú las cuotas de invalidez y vida, retiro, cesantía y vejez para:</p>
+    <ul>
+      <li><strong>sumar semanas</strong> si te faltan para las 500 de la Ley 73, y</li>
+      <li><strong>subir tu salario promedio</strong> de las últimas 250 semanas, que es con lo que se calcula tu pensión de la Ley 73.</li>
+    </ul>
+    <p>No te da servicio médico. Si cotizas con la Ley 97, también te suma semanas y dinero a tu Afore, pero no cambia tu pensión de la misma forma.</p>
+
+    <h2>Requisitos</h2>
+    <ul>
+      <li>Estar dado de baja del régimen obligatorio (sin patrón que te cotice).</li>
+      <li>Tener al menos <strong>52 semanas cotizadas en los 5 años</strong> antes de tu baja.</li>
+      <li>Pedirla <strong>dentro de los 5 años</strong> después de tu baja.</li>
+      <li>Desde el 22 de octubre de 2026, el trámite nuevo es <strong>solo en línea</strong>.</li>
+    </ul>
+    <p>Revisa tu fecha de baja y tus semanas en tu <a href="../semanas-cotizadas/">constancia de semanas cotizadas</a>.</p>
+
+    <h2>Las nuevas reglas desde el 22 de octubre de 2026</h2>
+    <p>El Consejo Técnico del IMSS aprobó el acuerdo ACDO.AS2.HCT.101026/302.P.DG, publicado en el Diario Oficial el 21 de octubre de 2026 y vigente desde el 22. Si te inscribes desde esa fecha:</p>
+    <ul>
+      <li>Puedes cotizar con <strong>tu último salario</strong> al darte de baja, <strong>o hasta ese salario más 1 UMA</strong> ($117.31 diarios). Antes podías escoger cualquier salario hasta 25 UMA ($2,932.75 diarios). Nunca menos del salario mínimo ($315.04).</li>
+      <li><strong>Ya no hay pagos hacia atrás</strong>: tu inscripción cuenta desde el día que la pides.</li>
+      <li>Si ya estabas inscrito antes del 22 de octubre, <strong>sigues con tus condiciones</strong> hasta terminar el periodo que contrataste. Lo que ya pagaste cuenta completo. Si quieres seguir después, entras con las reglas nuevas.</li>
+      <li>No puedes estar al mismo tiempo en el esquema de personas trabajadoras independientes.</li>
+    </ul>
+    <p>Ejemplo: si tu último salario fue de $1,000 diarios, ahora el máximo es <strong>$1,117.31</strong>.</p>
+    <p class="nota"><strong>Puede cambiar:</strong> el IMSS dice que son medidas temporales mientras estudia su costo (6 meses) y que la Modalidad 40 no desaparece. Un especialista citado por El Financiero dice que el acuerdo va más allá de lo que permite la ley y podría impugnarse. Nosotros calculamos con las reglas vigentes.</p>
+
+    <h2>¿Cuánto cuesta en 2026?</h2>
+    <p>Pagas tú la parte del patrón y la del trabajador. La cuota depende de tu salario, porque la parte de cesantía y vejez del patrón sube por rangos y cada enero hasta 2030 (reforma de 2020 al artículo 168):</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Salario registrado</th><th class="n">Cuota 2026</th></tr></thead>
+      <tbody>
+        <tr><td>1 salario mínimo ($315.04)</td><td class="n">10.075%</td></tr>
+        <tr><td>2.51 a 3 UMA</td><td class="n">12.951%</td></tr>
+        <tr><td>Más de 4 UMA (más de $469.24)</td><td class="n">14.438%</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>Pago al mes = salario diario × 30.4 × cuota.</strong></p>
+    <ul>
+      <li>Con $1,117.31 diarios: $1,117.31 × 30.4 × 14.438% = <strong>$4,904.04</strong> al mes.</li>
+      <li>Con el tope de 25 UMA (solo si ya estabas inscrito): $2,932.75 × 30.4 × 14.438% = <strong>$12,872.29</strong> al mes.</li>
+    </ul>
+    <p>Arriba de 4 UMA la cuota sube a 15.528% en 2027, 16.619% en 2028, 17.709% en 2029 y 18.8% en 2030. Con 1 salario mínimo se queda en 10.075%. La calculadora usa la cuota de cada año.</p>
+    <p class="nota">Los totales de 14.438%, 12.951% y 10.075% coinciden en calcu.mx, Rivenza y Fintual. Los demás rangos los sacamos de la misma tabla del artículo 168: son estimados.</p>
+
+    <h2>Ejemplo con los datos cargados</h2>
+    <ul>
+      <li>Tu último salario fue de $1,000 diarios y quieres registrar $5,000: con las reglas nuevas el máximo es <strong>$1,117.31</strong>.</li>
+      <li>Pagas 24 meses desde noviembre de 2026: $4,904.04 al mes en 2026 y más en 2027 y 2028. En total, <strong>$129,547.86</strong>.</li>
+      <li>Sumas 104 semanas. Tu promedio de las últimas 250 semanas sube de $900 a unos $990.40.</li>
+      <li>Con 1,200 semanas y 65 años, tu pensión estimada pasa de $19,315.57 a $22,337.26: <strong>$3,021.69 más al mes</strong>. Recuperas lo que pagaste en unos 43 meses de pensión.</li>
+    </ul>
+    <p>Con las reglas nuevas, la Modalidad 40 sube poco tu promedio si tu último salario era bajo. Puede servirte más para <strong>juntar las semanas que te faltan</strong>. Haz tus números antes de pagar.</p>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Cómo se paga?</h3>
+    <p>Por mes adelantado (artículo 218). Pregunta en el IMSS cómo pagar al inscribirte. No le pagues a un gestor: el trámite es gratis.</p>
+    <h3>¿Me conviene?</h3>
+    <p>Depende de cuántas semanas tienes, de tu salario y de tu edad. Compara lo que pagas con lo que sube tu pensión, y recuerda que necesitas tener ese dinero mientras pagas. Si te faltan semanas para la Ley 73, puede ser la forma de alcanzar tu pensión.</p>
+    <h3>¿Sirve si soy de la Ley 97?</h3>
+    <p>Te suma semanas y aportaciones a tu Afore, pero tu pensión depende de tu ahorro. Revisa <a href="../afore/">cuánto tendrás en tu Afore</a> y <a href="../ley-73-vs-ley-97/">cuál ley te toca</a>.</p>
+
+    <h2>Fuentes</h2>
+    <p class="nota">Información revisada el 2 de noviembre de 2026. Nuevas reglas: acuerdo ACDO.AS2.HCT.101026/302.P.DG (DOF 21 oct 2026) según <a href="https://www.elfinanciero.com.mx/economia/2026/10/21/cotizas-en-modalidad-40-imss-cambia-reglas-para-el-salario-y-los-pagos-retroactivos/" rel="noopener">El Financiero</a> (21 oct 2026), <a href="https://expansion.mx/finanzas-personales/2026/10/21/modalidad-40-imss-nuevas-reglas-2026" rel="noopener">Expansión</a> (22 oct 2026), <a href="https://basham.com.mx/imss-establece-medidas-temporales-para-la-modalidad-40/" rel="noopener">Basham</a> y <a href="https://fintual.mx/descubre/que-cambio-en-la-modalidad-40-del-imss-y-como-afecta-tu-retiro/" rel="noopener">Fintual</a> (23 oct 2026). Cuotas de 2026 y requisitos: <a href="https://calcu.mx/pensiones/modalidad-40" rel="noopener">calcu.mx</a> (29 oct 2026), <a href="https://www.rivenza.com.mx/blog/cuota-modalidad-40-2026-tabla-por-salario" rel="noopener">Rivenza</a> y Fintual. Tabla de cesantía y vejez: artículo 168 de la Ley del Seguro Social y decreto del DOF del 16 de diciembre de 2020, la misma de nuestra <a href="../afore/">calculadora de Afore</a>. Pensión de la Ley 73: artículo 167 de la ley de 1973, como en <a href="../ley-73-vs-ley-97/">Ley 73 vs. Ley 97</a>. UMA 2026: INEGI. No pudimos abrir el DOF ni el IMSS desde nuestra red: revisa el acuerdo en el Diario Oficial.</p>
+    <p>También te puede servir: <a href="../ley-73-vs-ley-97/">pensión Ley 73 vs. Ley 97</a>, <a href="../semanas-cotizadas/">semanas cotizadas</a>, <a href="../pension-viudez-imss/">pensión de viudez</a> y <a href="../aportaciones-voluntarias/">aportaciones voluntarias a la Afore</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni del IMSS. Los cálculos son estimados y orientativos; consulta la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LSS.pdf" rel="noopener">Ley del Seguro Social</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/retiro.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const AVISOS = { ultimo: "último salario hasta $1,000,000", salario: "salario hasta $1,000,000", meses: "hasta 240 meses",
+  semanas: "hasta 5,000 semanas", promedio: "promedio hasta $1,000,000" };
+const pct = n => n.toLocaleString("es-MX", { maximumFractionDigits: 3 }) + "%";
+function calcular() {
+  const r = Retiro.modalidad40({
+    ultimoSalario: $("ult").value, salario: $("sal").value, inscritoAntes: $("antes").value === "si",
+    meses: $("mes").value, semanas: $("sem").value, salarioPromedio: $("prom").value, edad: $("edad").value
+  });
+  $("total").textContent = mxn(r.mensual);
+  $("usado").textContent = mxn(r.usado);
+  $("tope").textContent = mxn(r.tope);
+  $("tasa").textContent = r.tasa ? pct(r.tasa) : "";
+  $("costo").textContent = mxn(r.costo);
+  $("semm").textContent = r.semanasM40.toLocaleString("es-MX");
+  $("pn").textContent = mxn(r.promedioNuevo);
+  $("sin").textContent = r.sin.derecho ? mxn(r.sin.mensual) : "Sin pensión";
+  $("con").textContent = r.con.derecho ? mxn(r.con.mensual) : "Sin pensión";
+  $("sube").textContent = mxn(r.aumento);
+  $("rec").textContent = r.mesesRecuperar ? Math.ceil(r.mesesRecuperar).toLocaleString("es-MX") + " meses de pensión" : "No aplica";
+  $("tabla").innerHTML = r.porAnio.map(f =>
+    `<tr><td>${f.anio}</td><td class="n">${pct(f.tasa)}</td><td class="n">${mxn(f.mensual)}</td><td class="n">${f.meses}</td><td class="n">${mxn(f.pago)}</td></tr>`
+  ).join("");
+  const msg = [];
+  if (r.pedido === 0) msg.push("Escribe el salario que quieres registrar.");
+  if (r.ajuste === "tope") msg.push(r.inscritoAntes ? "Tu salario pasa del tope de 25 UMA: usamos $2,932.75." : `Con las reglas nuevas solo puedes registrar hasta tu último salario más 1 UMA: usamos ${mxn(r.tope)}.`);
+  if (r.ajuste === "minimo") msg.push("No puedes registrar menos del salario mínimo: usamos $315.04.");
+  if (r.meses === 0) msg.push("Escribe cuántos meses vas a pagar.");
+  if (!r.con.derecho && r.semanas + r.semanasM40 < 500) msg.push(`Aun con la Modalidad 40 tendrías ${(r.semanas + r.semanasM40).toLocaleString("es-MX")} semanas: la Ley 73 pide 500.`);
+  else if (!r.sin.derecho && r.con.derecho) msg.push("Sin la Modalidad 40 no juntarías las 500 semanas: con ella sí alcanzas pensión.");
+  if (r.con.usaMinima) msg.push("Tu pensión queda en la pensión mínima de la Ley 73.");
+  if (r.avisos.length) msg.push("Ajustamos algunas cantidades: " + r.avisos.map(a => AVISOS[a]).join(", ") + ".");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

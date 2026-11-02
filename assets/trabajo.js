@@ -1,4 +1,5 @@
-// Cálculos de la sección Trabajo (reparto de utilidades, horas extra y temporada de aguinaldo) de Cuentas Claras MX.
+// Cálculos de la sección Trabajo (reparto de utilidades, horas extra, temporada de aguinaldo e incapacidad del IMSS)
+// de Cuentas Claras MX.
 // Funciones puras, sin datos personales: todo se calcula en el navegador de la persona.
 // En el navegador carga antes ../../assets/calc.js (UMA y salario mínimo vienen de Calc.DATOS).
 (function (raiz) {
@@ -122,6 +123,19 @@
       primaDominical: 0.25
     },
     // Límites para que una cifra absurda no rompa el resultado: lo que pase de aquí se recorta y se avisa.
+    // Incapacidad temporal del IMSS (subsidio en dinero).
+    // Enfermedad general: 60% del último salario diario de cotización desde el 4o. día, hasta 52 semanas y 26 más de
+    // prórroga (arts. 96 y 98 LSS). Pide 4 semanas cotizadas justo antes de enfermarte; si eres eventual, 6 en los
+    // últimos 4 meses (art. 97). Riesgo de trabajo: 100% del salario con que cotizabas desde el primer día, sin semanas
+    // mínimas, hasta 52 semanas (art. 58 fr. I). Fuentes que coinciden: Expansión (8 oct 2026), calcu.mx (jul 2026),
+    // Rivenza (jun 2026) y Cofide (jun 2026).
+    // Pago en cuenta bancaria obligatorio desde el 6 oct 2026 si el pago llega a 9 salarios mínimos (enfermedad),
+    // 16 (riesgo) o 99 (maternidad): acuerdo del Consejo Técnico del IMSS, DOF 5 oct 2026 (Expansión y Consultor Salud).
+    incapacidad: {
+      enfermedad: { porcentaje: 0.60, diasEspera: 3, maxDias: (52 + 26) * 7, semanas: 4, semanasEventual: 6, cuentaSm: 9 },
+      riesgo: { porcentaje: 1, diasEspera: 0, maxDias: 52 * 7, semanas: 0, cuentaSm: 16 }
+    },
+
     maximos: { sueldoMensual: 1e8, montoEmpresa: 1e12, diasEmpresa: 1e9 }
   };
 
@@ -454,11 +468,52 @@
     return Object.assign({ inflacion: inf, acotada: num(inflacion) > UMA.maxInflacion, alza: Calc.redondear(v.diaria - base), estimada: true }, v);
   }
 
+  // Subsidio del IMSS por incapacidad temporal. tipo: "enfermedad" (enfermedad general o accidente fuera del trabajo)
+  // o "riesgo" (accidente o enfermedad de trabajo, también en el trayecto). dato: "sueldo" (sueldo mensual bruto; el SBC
+  // se estima con el factor de integración mínimo) o "sbc" (salario base de cotización diario del recibo).
+  // dias: días de incapacidad que te dieron. semanas: semanas cotizadas justo antes (vacío = no sabe). eventual: si eres
+  // trabajador eventual (la regla es 6 semanas en los últimos 4 meses). El SBC no baja del salario mínimo de la zona
+  // ni pasa de 25 UMA (art. 28 LSS).
+  function incapacidadImss({ tipo = "enfermedad", dato = "sueldo", monto, dias, semanas, eventual = false, zona = "general" } = {}) {
+    const cfg = DATOS.incapacidad[tipo === "riesgo" ? "riesgo" : "enfermedad"];
+    const esRiesgo = tipo === "riesgo";
+    const esSbc = dato === "sbc";
+    const avisos = [];
+    const capt = acotado(monto, esSbc ? 1e6 : DATOS.maximos.sueldoMensual);
+    if (!capt) return { ok: false, error: esSbc ? "Escribe tu salario base de cotización diario." : "Escribe tu sueldo mensual." };
+    const fi = Calc.DATOS.factorIntegracion;
+    const salarioMinimo = Calc.salarioMinimoZona(zona === "frontera" ? "frontera" : "general");
+    const tope = Calc.redondear(Calc.DATOS.imss.topeUma * Calc.DATOS.uma);
+    const sbcCapturado = Calc.redondear(esSbc ? capt : capt / 30 * fi);
+    const sbc = Math.min(Math.max(sbcCapturado, salarioMinimo), tope);
+    const conPiso = sbcCapturado < salarioMinimo, topado = sbcCapturado > tope;
+    const salarioDiario = esSbc ? capt / fi : capt / 30;
+    const d = Math.floor(num(dias));
+    const diasUsados = Math.min(d, cfg.maxDias);
+    if (d > cfg.maxDias) avisos.push("maxDias");
+    const espera = Math.min(diasUsados, cfg.diasEspera);
+    const diasPagados = diasUsados - espera;
+    const pagoDiario = Calc.redondear(sbc * cfg.porcentaje);
+    const imss = Calc.redondear(pagoDiario * diasPagados);
+    const s = semanas === "" || semanas == null || !Number.isFinite(+semanas) ? null : Math.max(0, Math.floor(+semanas));
+    const minimas = esRiesgo ? 0 : (eventual ? cfg.semanasEventual : cfg.semanas);
+    const cumple = esRiesgo ? true : (s === null ? null : s >= minimas);
+    const recibes = cumple === false ? 0 : imss;
+    const sueldoDias = Calc.redondear(salarioDiario * diasUsados);
+    return {
+      ok: true, tipo: esRiesgo ? "riesgo" : "enfermedad", sbcCapturado, sbc, conPiso, topado, tope, salarioMinimo,
+      porcentaje: cfg.porcentaje, dias: diasUsados, diasEspera: espera, diasPagados, pagoDiario, imss,
+      semanas: s, minimas, cumple, recibes, salarioDiario, sueldoDias,
+      diferencia: Math.max(0, Calc.redondear(sueldoDias - recibes)),
+      cuentaBancaria: Calc.redondear(cfg.cuentaSm * Calc.DATOS.salarioMinimo.general), avisos
+    };
+  }
+
   const api = {
     DATOS, ptu, horasExtra, limiteDobles, jornadaSemanal,
     aguinaldoPension, aguinaldoGobierno, aguinaldoSalida, calendarioAguinaldo,
     salarioMinimoPeriodos, historialSalarioMinimo, diasDescanso, diasDescansoPendientes, pagoDiaFestivo,
-    UMA, valoresUma, convertirUma, umaEstimada
+    UMA, valoresUma, convertirUma, umaEstimada, incapacidadImss
   };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else raiz.Trabajo = api;

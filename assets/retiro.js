@@ -1,6 +1,6 @@
 // Cálculos de la sección Retiro e IMSS de Cuentas Claras MX: proyección de la Afore, semanas cotizadas,
-// pensión de la Ley 73 y aportaciones voluntarias (con la deducción de ISR). Funciones puras, sin datos personales:
-// todo se calcula en el navegador de la persona.
+// pensión de la Ley 73, aportaciones voluntarias (con la deducción de ISR), pensión de viudez y Modalidad 40.
+// Funciones puras, sin datos personales: todo se calcula en el navegador de la persona.
 // En el navegador carga antes ../../assets/calc.js (UMA, salario mínimo y factor de integración vienen de Calc.DATOS);
 // la página de aportaciones voluntarias carga además ../../assets/impuestos.js (tarifa anual del ISR).
 //
@@ -105,10 +105,58 @@
       diasMes: 365 / 12
     },
 
+    // ---------- Pensión de viudez ----------
+    viudez: {
+      // Arts. 128 y 131 LSS vigente (Ley 97) y arts. 150 y 153 LSS 1973 (Ley 73): si la persona murió por enfermedad
+      // o accidente que no fue de trabajo, debía tener al menos 150 semanas cotizadas o estar pensionada, y la
+      // pensión de viudez es el 90% de la que tenía o de la de invalidez que le habría tocado.
+      // Fuentes que coinciden: mLey y Justia (texto del art. 131), Rivenza (29 may 2026), Informador (2 y 5 feb 2026),
+      // IDC Online (art. 153 LSS 1973) y skilio.
+      porcentaje: 0.90,
+      semanasMinimas: 150,
+      // Art. 141 LSS: la pensión de invalidez de la Ley 97 es 35% del promedio de los salarios de las últimas 500
+      // semanas, actualizado con el INPC (mLey y Justia). La ley pone un piso (promedio de las pensiones garantizadas
+      // de 1 salario mínimo a los 60 años) que no se publica: no lo calculamos y la página lo dice.
+      invalidez97: 0.35,
+      // Muerte por riesgo de trabajo (art. 64 fr. II LSS): 40% de la pensión de incapacidad permanente total, que es
+      // 70% del salario con que cotizaba (art. 58 fr. II). No pide semanas. Fuentes: mLey (arts. 58 y 64) e IDC Online.
+      riesgoIncapacidadTotal: 0.70,
+      riesgoViudez: 0.40,
+      // Si la persona viuda se vuelve a casar o vive en concubinato, recibe una sola vez 3 años de su pensión
+      // (art. 133 LSS vigente; Rivenza cita el 134). Fuentes: Justia (art. 133) y Rivenza.
+      finiquitoAnios: 3
+    },
+
+    // ---------- Modalidad 40 (continuación voluntaria en el régimen obligatorio, arts. 218 a 221 LSS) ----------
+    modalidad40: {
+      // Quien se inscribe paga la parte del patrón y la del trabajador de invalidez y vida (1.75 + 0.625), retiro (2),
+      // cesantía y vejez del trabajador (1.125) y gastos médicos de pensionados (1.05 + 0.375): 6.925% fijo, más la
+      // cuota patronal de cesantía y vejez del rango de salario (ceavPatron, sube cada enero hasta 2030).
+      // Comprobación con los totales de 2026 que publican calcu.mx (29 oct 2026), Rivenza (jun 2026) y Fintual
+      // (23 oct 2026): 14.438% arriba de 4 UMA (6.925 + 7.513), 12.951% con 2.8 UMA (6.925 + 6.026) y 10.075% con
+      // 1 salario mínimo (6.925 + 3.150). Los rangos intermedios salen de la misma tabla: son estimados.
+      fijas: 6.925,
+      // Acuerdo ACDO.AS2.HCT.101026/302.P.DG del Consejo Técnico del IMSS (DOF 21 oct 2026, vigente desde el 22 oct):
+      // quien se inscribe desde el 22 de octubre de 2026 puede cotizar con su último salario al darse de baja o hasta
+      // ese salario más 1 UMA, nunca menos del salario mínimo general, y sin pagos hacia atrás. Quien ya estaba inscrito
+      // sigue con sus condiciones (hasta 25 UMA) hasta terminar el periodo contratado. Son medidas temporales mientras
+      // el IMSS estudia su impacto (6 meses). Fuentes: El Financiero (21 oct), Expansión (22 oct), Basham (22 oct),
+      // Fintual (23 oct 2026). Un especialista citado por El Financiero dice que el acuerdo va más allá de la ley.
+      umasExtra: 1,
+      // Requisitos (art. 218 LSS): 52 semanas cotizadas en los 5 años antes de la baja y pedirla dentro de los
+      // 5 años siguientes a la baja (calcu.mx, Fintual, Expansión).
+      semanasPrevias: 52,
+      // Para pasar de diario a mensual: 30.4 días, como calcu.mx y Rivenza.
+      diasMes: 30.4,
+      // La pensión de la Ley 73 usa el promedio de las últimas 250 semanas cotizadas (art. 167 LSS 1973).
+      semanasPromedio: 250
+    },
+
     // Límites para que una cifra absurda no rompa el resultado: lo que pase de aquí se recorta y se avisa.
     maximos: {
       sueldoMensual: 1e8, saldo: 1e10, voluntaria: 1e6, rendimiento: 10, comision: 3, aumento: 10,
-      anios: 70, aniosCobro: 40, densidad: 100, semanas: 5000, hijos: 10, padres: 2, edad: 120
+      anios: 70, aniosCobro: 40, densidad: 100, semanas: 5000, hijos: 10, padres: 2, edad: 120,
+      pension: 1e7, salarioDiario: 1e6, meses: 240
     },
     // Edades que acepta la calculadora de Afore (hoy y al retirarte). Fuera de este rango no se proyecta.
     edades: { min: 15, max: 100 }
@@ -412,9 +460,134 @@
     };
   }
 
+  // ---------- Pensión de viudez ----------
+
+  // Pensión de viudez estimada del IMSS. caso:
+  //  "pensionado": la persona ya tenía pensión (de cualquier ley); se escribe cuánto recibía al mes.
+  //  "ley97": trabajaba y cotizaba con la Ley 97; base = pensión de invalidez (35% del salario promedio diario
+  //           de las últimas 500 semanas, art. 141), sin el piso de la pensión garantizada.
+  //  "ley73": trabajaba y empezó a cotizar antes del 1 jul 1997; base = pensión de invalidez del art. 167 LSS 1973
+  //           (cuantía básica + incrementos sobre el salario promedio de las últimas 250 semanas), sin el 11% ni la
+  //           pensión mínima, que dependen del caso.
+  //  "riesgo": murió por un accidente o enfermedad de trabajo; 40% de la pensión de incapacidad permanente total
+  //           (70% del salario con que cotizaba). No pide semanas.
+  // Pasa de diario a mensual con 365 / 12 días, como la calculadora de Ley 73.
+  function pensionViudez({ caso = "pensionado", pension, salarioPromedio, semanas, salarioMinimo = Calc.DATOS.salarioMinimo.general }) {
+    const cfg = DATOS.viudez, max = DATOS.maximos;
+    const avisos = [];
+    const lee = (x, tope, clave) => { const r = acotar(x, tope); if (r.acotado) avisos.push(clave); return r.valor; };
+    const tipo = ["pensionado", "ley97", "ley73", "riesgo"].includes(caso) ? caso : "pensionado";
+    const dias = DATOS.ley73.diasMes;
+    const topeSbc = Calc.DATOS.imss.topeUma * Calc.DATOS.uma;
+    let base = 0, porcentajeBase = 0, salario = 0, sem = null, faltanSemanas = false, topado = false, cuantia = null;
+    if (tipo === "pensionado") {
+      base = lee(pension, max.pension, "pension");
+    } else {
+      const capt = lee(salarioPromedio, max.salarioDiario, "salario");
+      topado = capt > topeSbc;
+      salario = Math.min(capt, topeSbc);
+      if (tipo !== "riesgo") {
+        sem = Math.floor(lee(semanas, max.semanas, "semanas"));
+        faltanSemanas = sem < cfg.semanasMinimas;
+      }
+      if (tipo === "ley97") {
+        porcentajeBase = cfg.invalidez97 * 100;
+      } else if (tipo === "ley73") {
+        const sm = num(salarioMinimo) || Calc.DATOS.salarioMinimo.general;
+        const fila = DATOS.ley73.tabla.find(f => r2(salario / sm) <= f[0]);
+        const inc = incrementosLey73(sem);
+        porcentajeBase = fila[1] + inc.total * fila[2];
+        cuantia = { veces: salario / sm, basica: fila[1], incremento: fila[2], incrementos: inc.total };
+      } else {
+        porcentajeBase = cfg.riesgoIncapacidadTotal * 100;
+      }
+      base = salario * porcentajeBase / 100 * dias;
+    }
+    const porcentaje = tipo === "riesgo" ? cfg.riesgoViudez : cfg.porcentaje;
+    const derecho = base > 0 && !faltanSemanas;
+    const mensual = derecho ? base * porcentaje : 0;
+    return {
+      caso: tipo, avisos, salario, topado, topeSbc, semanas: sem, faltanSemanas, cuantia,
+      porcentajeBase, base, porcentaje, derecho, mensual, anual: mensual * 12,
+      finiquito: mensual * 12 * cfg.finiquitoAnios,
+      sobreSalario: salario > 0 ? mensual / (salario * dias) : 0
+    };
+  }
+
+  // ---------- Modalidad 40 ----------
+
+  // Cuota de Modalidad 40 en % del salario registrado, para un salario diario y un año.
+  function tasaModalidad40(salarioDiario, anio = Calc.DATOS.anio) {
+    const s = num(salarioDiario);
+    if (!s) return 0;
+    return Math.round((DATOS.modalidad40.fijas + tasaCeavPatron(s, anio)) * 1000) / 1000;
+  }
+
+  // Salario más alto con el que te puedes inscribir. inscritoAntes = ya estabas inscrito antes del 22 oct 2026
+  // (sigues con el tope de 25 UMA hasta terminar tu periodo). Si no, tu último salario + 1 UMA, sin pasar de 25 UMA.
+  function topeModalidad40(ultimoSalario, inscritoAntes = false) {
+    const tope25 = Calc.DATOS.imss.topeUma * Calc.DATOS.uma;
+    if (inscritoAntes) return tope25;
+    const u = num(ultimoSalario);
+    return Math.min(tope25, Math.max(u, Calc.DATOS.salarioMinimo.general) + DATOS.modalidad40.umasExtra * Calc.DATOS.uma);
+  }
+
+  // Costo de la Modalidad 40 y su efecto estimado en la pensión de la Ley 73.
+  // ultimoSalario: salario diario con que te dieron de baja. salario: el que quieres registrar (se ajusta al tope y
+  // al mínimo). meses: cuántos meses vas a pagar. semanas: semanas que ya tienes. salarioPromedio: tu promedio diario
+  // de las últimas 250 semanas sin Modalidad 40 (si no lo sabes, tu último salario). edad: a la que te pensionas.
+  // Costo: cada mes se paga salario x 30.4 x la cuota del año de ese mes (sube cada enero hasta 2030). En pesos de
+  // hoy: no sube el salario ni la UMA. Promedio nuevo: las semanas pagadas en Modalidad 40 reemplazan a las más
+  // viejas de las 250 (máximo 250).
+  function modalidad40({ ultimoSalario, salario, inscritoAntes = false, meses, semanas, salarioPromedio, edad = 65,
+    anioInicio = Calc.DATOS.anio, mesInicio = 11 }) {
+    const cfg = DATOS.modalidad40, max = DATOS.maximos;
+    const avisos = [];
+    const lee = (x, tope, clave) => { const r = acotar(x, tope); if (r.acotado) avisos.push(clave); return r.valor; };
+    const ultimo = lee(ultimoSalario, max.salarioDiario, "ultimo");
+    const pedido = lee(salario, max.salarioDiario, "salario");
+    const tope = topeModalidad40(ultimo, inscritoAntes);
+    const minimo = Calc.DATOS.salarioMinimo.general;
+    let usado = pedido;
+    let ajuste = null;
+    if (pedido > tope) { usado = tope; ajuste = "tope"; }
+    else if (pedido > 0 && pedido < minimo) { usado = minimo; ajuste = "minimo"; }
+    const n = Math.floor(lee(meses, max.meses, "meses"));
+    const mes0 = Math.min(12, Math.max(1, Math.floor(num(mesInicio)) || 1)) - 1;
+    let costo = 0;
+    const porAnio = [];
+    for (let m = 0; m < n; m++) {
+      const anio = anioInicio + Math.floor((mes0 + m) / 12);
+      const tasa = tasaModalidad40(usado, anio);
+      const pago = usado * cfg.diasMes * tasa / 100;
+      costo += pago;
+      const f = porAnio.find(x => x.anio === anio);
+      if (f) { f.meses++; f.pago += pago; } else porAnio.push({ anio, tasa, mensual: pago, meses: 1, pago });
+    }
+    const tasaHoy = tasaModalidad40(usado, anioInicio);
+    const mensual = usado * cfg.diasMes * tasaHoy / 100;
+    const semanasM40 = Math.floor(n * cfg.diasMes / 7);
+    const tienes = Math.floor(lee(semanas, max.semanas, "semanas"));
+    const promedio = lee(salarioPromedio, max.salarioDiario, "promedio") || ultimo;
+    const reemplaza = Math.min(semanasM40, cfg.semanasPromedio);
+    const promedioNuevo = usado > 0
+      ? (usado * reemplaza + promedio * (cfg.semanasPromedio - reemplaza)) / cfg.semanasPromedio
+      : promedio;
+    const sin = pensionLey73({ salarioPromedio: promedio, semanas: tienes, edad });
+    const con = pensionLey73({ salarioPromedio: promedioNuevo, semanas: tienes + semanasM40, edad });
+    const aumento = Math.max(0, con.mensual - sin.mensual);
+    return {
+      avisos, ultimo, pedido, tope, minimo, usado, ajuste, inscritoAntes: !!inscritoAntes, meses: n,
+      tasa: tasaHoy, mensual, costo, porAnio, semanasM40, semanas: tienes, promedio, promedioNuevo,
+      sin, con, aumento, aumentoAnual: aumento * 12,
+      mesesRecuperar: aumento > 0 ? costo / aumento : null
+    };
+  }
+
   const api = {
     DATOS, sbcDiario, tasaCeavPatron, cuotaSocialDiaria, aportacionMensual, proyeccionAfore,
-    semanasRequeridas, semanasFaltantes, incrementosLey73, pensionLey73, aportacionesVoluntarias, redondear: r2
+    semanasRequeridas, semanasFaltantes, incrementosLey73, pensionLey73, aportacionesVoluntarias,
+    pensionViudez, tasaModalidad40, topeModalidad40, modalidad40, redondear: r2
   };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else raiz.Retiro = api;

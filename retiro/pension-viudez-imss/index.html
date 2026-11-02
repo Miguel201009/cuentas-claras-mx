@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pensión de viudez IMSS 2026: requisitos y monto | Cuentas Claras MX</title>
+<meta name="description" content="Quién recibe la pensión de viudez del IMSS, qué requisitos pide (150 semanas o estar pensionado) y de cuánto es con la Ley 73 y la Ley 97: el 90% de la pensión. Calculadora estimada gratis.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/retiro/pension-viudez-imss/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Pensión de viudez IMSS 2026: requisitos y monto">
+<meta property="og:description" content="Quién recibe la pensión de viudez del IMSS, qué requisitos pide (150 semanas o estar pensionado) y de cuánto es con la Ley 73 y la Ley 97: el 90% de la pensión. Calculadora estimada gratis.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/retiro/pension-viudez-imss/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/retiro-pension-viudez-imss.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Retiro e IMSS","item":"https://miguel201009.github.io/cuentas-claras-mx/retiro/"},{"@type":"ListItem","position":3,"name":"Pensión de viudez","item":"https://miguel201009.github.io/cuentas-claras-mx/retiro/pension-viudez-imss/"}]},{"@type":"WebApplication","name":"Pensión de viudez del IMSS","url":"https://miguel201009.github.io/cuentas-claras-mx/retiro/pension-viudez-imss/","description":"Quién recibe la pensión de viudez del IMSS, qué requisitos pide (150 semanas o estar pensionado) y de cuánto es con la Ley 73 y la Ley 97: el 90% de la pensión. Calculadora estimada gratis.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Retiro e IMSS</a> › Pensión de viudez</span></div>
+
+  <header>
+    <span class="tag">Retiro e IMSS</span>
+    <h1>Pensión de viudez del IMSS</h1>
+    <p class="lede">Si murió tu esposa, tu esposo o tu pareja y cotizaba en el IMSS, puede tocarte una pensión. Escoge tu caso y te decimos de cuánto sería, más o menos, con la Ley 73 o la Ley 97.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni del IMSS.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="caso">¿Cuál es tu caso?
+        <select id="caso">
+          <option value="pensionado" selected>Ya estaba pensionado o pensionada</option>
+          <option value="ley97">Trabajaba; empezó a cotizar desde el 1 de julio de 1997 (Ley 97)</option>
+          <option value="ley73">Trabajaba; empezó a cotizar antes del 1 de julio de 1997 (Ley 73)</option>
+          <option value="riesgo">Murió por un accidente o enfermedad de trabajo</option>
+        </select></label>
+      <div class="grupo" id="g-pen">
+        <label for="pen">Pensión que recibía al mes
+          <input id="pen" type="number" min="0" step="100" value="12000"></label>
+        <p class="nota">Usa la cantidad de su tarjetón o resolución de pensión, antes de descuentos.</p>
+      </div>
+      <div class="grupo" id="g-sal" hidden>
+        <label for="sal"><span id="l-sal">Salario diario promedio de sus últimas 500 semanas</span>
+          <input id="sal" type="number" min="0" step="10" value="600"></label>
+        <label for="sem" id="l-sem">Semanas cotizadas que tenía
+          <input id="sem" type="number" min="0" max="5000" step="1" inputmode="numeric" value="1000"></label>
+        <p class="nota" id="n-sal">Es el salario de cotización (SBC), no el sueldo neto. Lo ves en su constancia de semanas cotizadas o en sus recibos.</p>
+      </div>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Pensión de viudez estimada al mes</span>
+      <div class="big" id="total">$0</div>
+      <div class="row"><span id="t-base">Pensión base</span><b id="base"></b></div>
+      <div class="row"><span>Te toca de esa base</span><b id="pct"></b></div>
+      <div class="row"><span>Al año (12 pagos)</span><b id="anual"></b></div>
+      <div class="row"><span>Si te vuelves a casar: pago único de 3 años</span><b id="fin"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota" id="pie">Es un cálculo estimado. El monto oficial te lo da el IMSS en tu resolución de pensión.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>¿Quién la puede pedir?</h2>
+    <ul>
+      <li><strong>La esposa o el esposo</strong> de la persona asegurada o pensionada que murió.</li>
+      <li>Si no había matrimonio: <strong>la concubina o el concubinario</strong> que vivió con ella los <strong>5 años</strong> antes de su muerte, o que tuvo hijos con ella, si los dos estaban libres de matrimonio. Si tenía varias parejas así, ninguna tiene derecho (artículo 130 de la Ley del Seguro Social).</li>
+      <li>El texto de la ley pide que el viudo o concubinario <strong>dependiera económicamente</strong> de la trabajadora. Guías de 2026 como Rivenza e Informador ya no lo ponen como requisito; si el IMSS te lo pide, pide asesoría gratis en la PROFEDET.</li>
+    </ul>
+
+    <h2>Requisitos</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Si la persona que murió...</th><th>Qué se necesita</th></tr></thead>
+      <tbody>
+        <tr><td>Ya estaba pensionada (por invalidez, vejez o cesantía)</td><td>Solo acreditar el matrimonio o el concubinato.</td></tr>
+        <tr><td>Trabajaba y murió por enfermedad o accidente que no fue de trabajo</td><td>Que tuviera al menos <strong>150 semanas cotizadas</strong> y siguiera vigente en el IMSS o en su periodo de conservación de derechos.</td></tr>
+        <tr><td>Murió por un accidente o enfermedad de trabajo</td><td>No se piden semanas mínimas.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Las 150 semanas vienen del artículo 128 de la Ley del Seguro Social y aplican igual con la Ley 73. Revisa cuántas tenía en su <a href="../semanas-cotizadas/">constancia de semanas cotizadas</a>.</p>
+    <p class="nota"><strong>Un punto que no está claro:</strong> el artículo 132 dice que no hay pensión si la muerte fue antes de 6 meses de matrimonio (o antes de un año en algunos casos), salvo que hubiera hijos. Proceso (28 de enero de 2026) dice que la Suprema Corte declaró inconstitucional pedir un tiempo mínimo de matrimonio o concubinato; otras guías todavía lo piden. Si te la niegan por eso, pide que revisen tu caso.</p>
+
+    <h2>¿De cuánto es?</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Caso</th><th>Pensión de viudez</th><th>Ley</th></tr></thead>
+      <tbody>
+        <tr><td>Ya estaba pensionada</td><td><strong>90%</strong> de la pensión que recibía</td><td>Art. 131 LSS; art. 153 LSS de 1973</td></tr>
+        <tr><td>Trabajaba, Ley 97</td><td><strong>90%</strong> de la pensión de invalidez que le habría tocado: 35% de su salario promedio de las últimas 500 semanas. Da <strong>31.5% del salario</strong>.</td><td>Arts. 131 y 141 LSS</td></tr>
+        <tr><td>Trabajaba, Ley 73</td><td><strong>90%</strong> de la pensión de invalidez que le habría tocado con la tabla de la Ley 73 (salario promedio de las últimas 250 semanas)</td><td>Arts. 153 y 167 LSS de 1973</td></tr>
+        <tr><td>Murió por un riesgo de trabajo</td><td><strong>40%</strong> de la pensión de incapacidad total, que es 70% de su salario: <strong>28% del salario</strong></td><td>Arts. 58 y 64 LSS</td></tr>
+      </tbody>
+    </table></div>
+    <p>La pensión empieza desde el día de la muerte y es <strong>de por vida</strong>. Puedes trabajar y seguir cobrándola. Se termina si te vuelves a casar o vives en concubinato: en ese caso recibes <strong>un solo pago de 3 años de pensión</strong> (artículo 133).</p>
+    <p>La ley pone pensiones mínimas, pero dependen del caso: en la Ley 73 la pensión mínima de vejez de 2026 es de $10,636.54, y en la Ley 97 el piso de invalidez es el promedio de las pensiones garantizadas, una cifra que el IMSS no publica. Por eso la calculadora no aplica un mínimo: si te sale muy poco, el IMSS puede darte más.</p>
+
+    <h2>Ejemplos</h2>
+    <ul>
+      <li><strong>Ya estaba pensionado</strong> con $12,000 al mes: la viudez es $12,000 × 90% = <strong>$10,800.00</strong> al mes. Si después te vuelves a casar, recibes una vez $10,800 × 36 = <strong>$388,800.00</strong>.</li>
+      <li><strong>Trabajaba con la Ley 97</strong>, con un salario promedio de $600 diarios y 1,000 semanas: invalidez = $600 × 35% × 30.42 días = $6,387.50; viudez = 90% = <strong>$5,748.75</strong> al mes.</li>
+      <li><strong>Trabajaba con la Ley 73</strong> con el mismo salario y semanas: su salario es 1.90 salarios mínimos, así que la tabla da 42.67% más 10 incrementos de 1.615% = 58.82%. Invalidez = $10,734.65; viudez = 90% = unos <strong>$9,661</strong> al mes, sin contar el incremento de 11% que el IMSS aplica en algunos casos.</li>
+      <li><strong>Murió por un riesgo de trabajo</strong> con $600 diarios: $600 × 70% × 30.42 = $12,775; viudez = 40% = <strong>$5,110.00</strong> al mes.</li>
+    </ul>
+    <p>Para pasar de diario a mensual usamos 365 ÷ 12 = 30.42 días, igual que en la calculadora de <a href="../ley-73-vs-ley-97/">pensión Ley 73 vs. Ley 97</a>.</p>
+
+    <h2>Cómo pedirla</h2>
+    <ol>
+      <li>Junta los papeles: acta de defunción, tu identificación oficial, tu acta de nacimiento, acta de matrimonio (o pruebas del concubinato), comprobante de domicilio reciente y un estado de cuenta con CLABE a tu nombre. Si murió por un riesgo de trabajo, el formato ST-3; si cotizaba desde 1997, su estado de cuenta de la Afore (Expansión, 8 de abril de 2026).</li>
+      <li>Ve a la ventanilla de <strong>Prestaciones Económicas</strong> de la Unidad de Medicina Familiar que te toca por tu domicilio. Suele atender de lunes a viernes de 8:00 a 15:00.</li>
+      <li>Firma la solicitud de pensión. El IMSS revisa tus papeles y te entrega tu resolución con el monto.</li>
+      <li>El trámite es gratis. No le pagues a un gestor.</li>
+    </ol>
+    <p>Los hijos pueden tener pensión de orfandad (pregunta los requisitos en la misma ventanilla), y si no hay viuda, viudo ni hijos, los padres que dependían de la persona reciben 20% cada uno (artículo 137). Si cobraba pensión con la Ley 73, revisa también el <a href="../../trabajo/aguinaldo-pensionados/">aguinaldo para pensionados</a>.</p>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Qué pasa con el dinero de su Afore?</h3>
+    <p>Si cotizaba con la Ley 97, su Afore se usa para pagar la pensión de viudez. Si no hay derecho a pensión, los beneficiarios pueden pedir el saldo a la Afore. Pregunta en la Afore con el acta de defunción.</p>
+    <h3>¿Me dan algo para el funeral?</h3>
+    <p>Sí. El IMSS da una <strong>ayuda para gastos de funeral</strong> a quien pagó el servicio, con la factura y el acta de defunción. En 2026 ronda los $7,000 (La Verdad, 22 de julio, y Noticias Gobierno, 3 de junio de 2026); el IMSS te dice el monto exacto. Se pide dentro del año siguiente a la muerte.</p>
+    <h3>¿Y si era del ISSSTE?</h3>
+    <p>Las reglas son otras. Pregunta en la subdelegación del ISSSTE más cercana.</p>
+
+    <h2>Fuentes</h2>
+    <p class="nota">Información revisada el 2 de noviembre de 2026. Artículos 127 a 133 y 137 de la Ley del Seguro Social según las transcripciones de <a href="https://mexico.justia.com/federales/leyes/ley-del-seguro-social/titulo-segundo/capitulo-v/seccion-tercera-del-ramo-de-vida" rel="noopener">Justia</a> y mLey; artículo 141 (invalidez, 35% de 500 semanas) según <a href="https://mley.mx/LSS/articulo/141/" rel="noopener">mLey</a> y Justia; artículos 58 y 64 (riesgo de trabajo) según <a href="https://mley.mx/LSS/articulo/64/" rel="noopener">mLey</a> e <a href="https://idconline.mx/seguridad-social/2018/01/23/cuantia-de-pension-por-viudez-a-causa-de-muerte-de-pensionado" rel="noopener">IDC Online</a> (que también cita el art. 153 de la ley de 1973). Requisitos y monto: <a href="https://www.rivenza.com.mx/blog/pension-viudez-imss-ley-73" rel="noopener">Rivenza</a> (29 may 2026), <a href="https://www.informador.mx/mexico/pension-de-viudez-imss-estas-son-las-personas-que-la-pueden-solicitar-en-febrero-2026-20260205-0176.html" rel="noopener">Informador</a> (5 feb 2026) y <a href="https://www.proceso.com.mx/nacional/2026/1/29/pension-de-viudez-imss-2026-que-requisitos-ya-no-se-piden-como-solicitarla-367453.html" rel="noopener">Proceso</a> (28 ene 2026). Trámite y documentos: <a href="https://expansion.mx/finanzas-personales/2026/04/08/como-tramitar-la-pension-por-viudez-en-el-imss-e-issste" rel="noopener">Expansión</a> (8 abr 2026). Tabla de la Ley 73 y pensión mínima: las mismas fuentes de nuestra página de <a href="../ley-73-vs-ley-97/">Ley 73 vs. Ley 97</a>. No pudimos abrir el IMSS, el DOF ni la Cámara de Diputados desde nuestra red: revisa el texto en la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LSS.pdf" rel="noopener">Ley del Seguro Social</a>.</p>
+    <p>También te puede servir: <a href="../semanas-cotizadas/">semanas cotizadas</a>, <a href="../ley-73-vs-ley-97/">pensión Ley 73 vs. Ley 97</a>, <a href="../modalidad-40/">Modalidad 40</a>, <a href="../afore/">cuánto tendrás en tu Afore</a> y <a href="../../familia/pension-bienestar-adultos-mayores/">Pensión del Bienestar para adultos mayores</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni del IMSS. Los cálculos son estimados y orientativos; consulta la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LSS.pdf" rel="noopener">Ley del Seguro Social</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/retiro.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const AVISOS = { pension: "pensión hasta $10,000,000 al mes", salario: "salario hasta $1,000,000 diarios", semanas: "hasta 5,000 semanas" };
+const BASES = {
+  pensionado: "Pensión que recibía",
+  ley97: "Pensión de invalidez (35% del salario)",
+  ley73: "Pensión de invalidez Ley 73",
+  riesgo: "Pensión de incapacidad total (70%)"
+};
+function calcular() {
+  const caso = $("caso").value;
+  $("g-pen").hidden = caso !== "pensionado";
+  $("g-sal").hidden = caso === "pensionado";
+  $("l-sem").hidden = caso === "riesgo";
+  $("l-sal").textContent = caso === "ley97" ? "Salario diario promedio de sus últimas 500 semanas"
+    : caso === "ley73" ? "Salario diario promedio de sus últimas 250 semanas" : "Salario diario con que cotizaba";
+  const r = Retiro.pensionViudez({ caso, pension: $("pen").value, salarioPromedio: $("sal").value, semanas: $("sem").value });
+  $("total").textContent = mxn(r.mensual);
+  $("t-base").textContent = BASES[r.caso];
+  $("base").textContent = mxn(r.base);
+  $("pct").textContent = Math.round(r.porcentaje * 100) + "%";
+  $("anual").textContent = mxn(r.anual);
+  $("fin").textContent = mxn(r.finiquito);
+  const msg = [];
+  if (r.base === 0) msg.push(caso === "pensionado" ? "Escribe la pensión que recibía." : "Escribe su salario diario.");
+  if (r.faltanSemanas) msg.push(`Con menos de 150 semanas no hay pensión de viudez si la muerte no fue por un riesgo de trabajo. Pregunta en el IMSS por el saldo de su Afore.`);
+  if (r.topado) msg.push("El salario de cotización tiene un tope de 25 UMA ($2,932.75 diarios): calculamos con el tope.");
+  if (caso === "ley97" && r.derecho) msg.push("La ley pone un piso (la pensión garantizada) que el IMSS no publica: si te sale muy poco, puede ser más.");
+  if (caso === "ley73" && r.derecho) msg.push("Sin el incremento de 11% ni la pensión mínima, que dependen de tu caso: el IMSS puede darte más.");
+  if (r.avisos.length) msg.push("Ajustamos algunas cantidades: " + r.avisos.map(a => AVISOS[a]).join(", ") + ".");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

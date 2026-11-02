@@ -28,8 +28,8 @@ for (const p of ["trabajo/sueldo-neto/", "trabajo/prima-de-antiguedad/", "trabaj
   "familia/beca-benito-juarez/", "familia/beca-rita-cetina/", "impuestos/aguinaldo-isr/", "trabajo/uma-2027/",
   "impuestos/calculadora-iva/", "dinero/interes-compuesto/", "dinero/credito-automotriz/",
   "vivienda/credito-hipotecario-bancos/", "vivienda/puntos-infonavit/", "vivienda/fovissste/",
-  "retiro/aportaciones-voluntarias/"]) assert.ok(todas.includes(p), `falta ${p}`);
-assert.strictEqual(herramientas.length, 54, "54 calculadoras y guías");
+  "retiro/aportaciones-voluntarias/", "retiro/pension-viudez-imss/", "retiro/modalidad-40/", "trabajo/incapacidad-imss/"]) assert.ok(todas.includes(p), `falta ${p}`);
+assert.strictEqual(herramientas.length, 57, "57 calculadoras y guías");
 
 // ---------- Reglas para cada página ----------
 const titulos = new Map();
@@ -193,11 +193,23 @@ const casos = {
   "aportaciones voluntarias": "retiro/aportaciones-voluntarias/",
   "ahorro voluntario afore": "retiro/aportaciones-voluntarias/",
   "deducir afore": "retiro/aportaciones-voluntarias/",
-  "ahorro solidario": "retiro/aportaciones-voluntarias/"
+  "ahorro solidario": "retiro/aportaciones-voluntarias/",
+  "pensión de viudez": "retiro/pension-viudez-imss/",
+  "viudez imss": "retiro/pension-viudez-imss/",
+  "pensión viuda": "retiro/pension-viudez-imss/",
+  "pensión por fallecimiento esposo": "retiro/pension-viudez-imss/",
+  "modalidad 40": "retiro/modalidad-40/",
+  "continuación voluntaria imss": "retiro/modalidad-40/",
+  "cuánto cuesta la modalidad 40": "retiro/modalidad-40/",
+  "incapacidad imss": "trabajo/incapacidad-imss/",
+  "incapacidad por enfermedad": "trabajo/incapacidad-imss/",
+  "riesgo de trabajo": "trabajo/incapacidad-imss/",
+  "subsidio incapacidad": "trabajo/incapacidad-imss/",
+  "accidente de trabajo": "trabajo/incapacidad-imss/"
 };
 for (const [q, esperado] of Object.entries(casos)) assert.ok(hrefs(q).includes(esperado), `buscar "${q}" debe dar ${esperado}: ${hrefs(q)}`);
 assert.ok(!hrefs("ine").some(h => h.startsWith("dinero/")), "ine no muestra la sección dinero");
-assert.deepStrictEqual(hrefs("trabajo").filter(h => h.startsWith("trabajo/")).length, 13, "el nombre de la sección encuentra todas sus herramientas");
+assert.deepStrictEqual(hrefs("trabajo").filter(h => h.startsWith("trabajo/")).length, 14, "el nombre de la sección encuentra todas sus herramientas");
 // En temporada de aguinaldo, cada búsqueda lleva primero a su página
 assert.strictEqual(hrefs("aguinaldo pensionados")[0], "trabajo/aguinaldo-pensionados/");
 assert.strictEqual(hrefs("aguinaldo maestros")[0], "trabajo/aguinaldo-gobierno/");
@@ -223,6 +235,12 @@ assert.strictEqual(hrefs("hipoteca banco")[0], "vivienda/credito-hipotecario-ban
 assert.strictEqual(hrefs("puntos infonavit")[0], "vivienda/puntos-infonavit/");
 assert.strictEqual(hrefs("fovissste")[0], "vivienda/fovissste/");
 assert.strictEqual(hrefs("aportaciones voluntarias")[0], "retiro/aportaciones-voluntarias/");
+// Todo el año: pensión de viudez, Modalidad 40 e incapacidad del IMSS
+assert.strictEqual(hrefs("pensión de viudez")[0], "retiro/pension-viudez-imss/");
+assert.strictEqual(hrefs("modalidad 40")[0], "retiro/modalidad-40/");
+assert.strictEqual(hrefs("incapacidad imss")[0], "trabajo/incapacidad-imss/");
+assert.ok(hrefs("modalidad 40").includes("retiro/ley-73-vs-ley-97/"), "modalidad 40 también muestra Ley 73 vs. Ley 97");
+assert.ok(hrefs("incapacidad maternidad").includes("familia/maternidad-y-paternidad/"), "incapacidad por maternidad sigue en su página");
 assert.ok(hrefs("crédito infonavit").includes("vivienda/credito-infonavit/"), "crédito infonavit sigue encontrando su guía");
 assert.ok(hrefs("aguinaldo").includes("trabajo/aguinaldo/") && hrefs("aguinaldo")[0] === "trabajo/aguinaldo/", "aguinaldo sigue llevando primero a la calculadora");
 assert.strictEqual(B.buscar(textos, "qwertyuiop").modo, "ninguna");

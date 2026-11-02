@@ -15,7 +15,9 @@
     // esta red). Fuentes secundarias (mley.mx y resúmenes de búsqueda, oct 2026) lo citan como art. 24; un despacho lo
     // cita como art. 17; en las LIF 2024 y 2025 estaba en el art. 21. Por eso la página no cita el número.
     // La tasa de 0.90% sí coincide en todas las fuentes (DFK, CEFP, AMCP, IDC, EY).
-    // En 2025 fue 0.50%. Para 2027 Hacienda propuso 0.68% (iniciativa de LIF 2027, 8 sep 2026): aún no es ley.
+    // En 2025 fue 0.50%. Para 2027 Hacienda propuso 0.68% (iniciativa de LIF 2027, 8 sep 2026).
+    // El Senado aprobó la LIF 2027 el 27 oct 2026 (Bloomberg Línea; El Contribuyente, 29 oct, dice que queda en 0.68%);
+    // al 2 nov 2026 no está publicada en el DOF. Cambiar la tasa cuando se publique (rige desde el 1 ene 2027).
     // Arts. 54 y 135 LISR: la retienen bancos, casas de bolsa y cetesdirecto; es un pago a cuenta del ISR anual.
     // Se aplica en proporción a los días que dura la inversión, con año de 365 días.
     retencionIsr: 0.009,

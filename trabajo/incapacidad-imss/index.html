@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Incapacidad IMSS 2026: cuánto te pagan por enfermedad o riesgo de trabajo | Cuentas Claras MX</title>
+<meta name="description" content="Calcula cuánto te paga el IMSS por tu incapacidad en 2026: 60% de tu salario desde el cuarto día si es enfermedad general y 100% desde el primer día si es riesgo de trabajo. Requisitos y cómo cobrarla.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/trabajo/incapacidad-imss/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Incapacidad IMSS 2026: cuánto te pagan por enfermedad o riesgo de trabajo">
+<meta property="og:description" content="Calcula cuánto te paga el IMSS por tu incapacidad en 2026: 60% de tu salario desde el cuarto día si es enfermedad general y 100% desde el primer día si es riesgo de trabajo. Requisitos y cómo cobrarla.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/trabajo/incapacidad-imss/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/trabajo-incapacidad-imss.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Trabajo","item":"https://miguel201009.github.io/cuentas-claras-mx/trabajo/"},{"@type":"ListItem","position":3,"name":"Incapacidad del IMSS","item":"https://miguel201009.github.io/cuentas-claras-mx/trabajo/incapacidad-imss/"}]},{"@type":"WebApplication","name":"Incapacidad del IMSS: cuánto te pagan","url":"https://miguel201009.github.io/cuentas-claras-mx/trabajo/incapacidad-imss/","description":"Calcula cuánto te paga el IMSS por tu incapacidad en 2026: 60% de tu salario desde el cuarto día si es enfermedad general y 100% desde el primer día si es riesgo de trabajo. Requisitos y cómo cobrarla.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Trabajo</a> › Incapacidad del IMSS</span></div>
+
+  <header>
+    <span class="tag">Trabajo</span>
+    <h1>Incapacidad del IMSS: cuánto te pagan</h1>
+    <p class="lede">Si el IMSS te dio una incapacidad, tu patrón no te paga esos días: te paga el IMSS un subsidio. Escribe tu sueldo y tus días y te decimos cuánto recibes.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni del IMSS.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="tipo">Tipo de incapacidad
+        <select id="tipo"><option value="enfermedad" selected>Enfermedad general o accidente fuera del trabajo</option><option value="riesgo">Riesgo de trabajo (accidente o enfermedad por tu trabajo)</option></select></label>
+      <label for="dato">¿Qué dato tienes?
+        <select id="dato"><option value="sueldo" selected>Mi sueldo mensual bruto</option><option value="sbc">Mi salario base de cotización (SBC) diario</option></select></label>
+      <label for="monto"><span id="l-monto">Sueldo mensual bruto (antes de descuentos)</span>
+        <input id="monto" type="number" min="0" max="100000000" step="100" value="15000"></label>
+      <label for="dias">Días de incapacidad que te dieron
+        <input id="dias" type="number" min="0" max="546" step="1" inputmode="numeric" value="7"></label>
+      <div class="grupo" id="g-sem">
+        <label for="sem">Semanas cotizadas justo antes de enfermarte
+          <input id="sem" type="number" min="0" max="5000" step="1" inputmode="numeric" value="20"></label>
+        <label class="check"><input id="eve" type="checkbox"> Soy trabajador eventual</label>
+      </div>
+      <label for="zona">¿Dónde trabajas?
+        <select id="zona"><option value="general" selected>Resto del país</option><option value="frontera">Frontera norte (zona libre)</option></select></label>
+      <p class="nota">El SBC viene en tu recibo de nómina. Si no lo sabes, escribe tu sueldo y lo estimamos con las prestaciones mínimas de ley.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Te paga el IMSS (estimado)</span>
+      <div class="big" id="total">$0.00</div>
+      <div class="row"><span>Tu salario base de cotización (SBC)</span><b id="sbc"></b></div>
+      <div class="row"><span id="t-dia">Subsidio por día</span><b id="dia"></b></div>
+      <div class="row"><span>Días que paga el IMSS</span><b id="pag"></b></div>
+      <div class="row sub"><span>Días sin pago (los 3 primeros)</span><b id="esp"></b></div>
+      <div class="row"><span>Tu sueldo de esos días</span><b id="sue"></b></div>
+      <div class="row"><span>Dejas de recibir</span><b id="dif"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Estimado con tu salario de cotización. El IMSS calcula con el último SBC que registró tu patrón.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Cuánto te paga el IMSS</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Tipo</th><th>Cuánto</th><th>Desde qué día</th><th>Hasta cuándo</th></tr></thead>
+      <tbody>
+        <tr><td>Enfermedad general (o accidente fuera del trabajo)</td><td><strong>60%</strong> de tu SBC</td><td>Desde el <strong>4o. día</strong></td><td>Hasta 52 semanas, y 26 más si el IMSS lo autoriza</td></tr>
+        <tr><td>Riesgo de trabajo (accidente o enfermedad por tu trabajo, también en el trayecto)</td><td><strong>100%</strong> de tu SBC</td><td>Desde el <strong>1er. día</strong></td><td>Hasta que te den de alta, con un plazo de 52 semanas</td></tr>
+        <tr><td>Maternidad</td><td><strong>100%</strong> de tu SBC</td><td>84 días: 42 antes y 42 después del parto</td><td>Ve la <a href="../../familia/maternidad-y-paternidad/">calculadora de maternidad</a></td></tr>
+      </tbody>
+    </table></div>
+    <p class="nota">Ley del Seguro Social: artículos 96 a 98 (enfermedad general), 58 fracción I (riesgo de trabajo) y 101 (maternidad).</p>
+    <p>Tu SBC no puede ser menor al salario mínimo ($315.04 diarios en 2026, o $440.87 en la frontera norte) ni mayor a 25 UMA (<strong>$2,932.75</strong> diarios desde febrero de 2026).</p>
+
+    <h2>Requisitos</h2>
+    <ul>
+      <li><strong>Enfermedad general:</strong> tener al menos <strong>4 semanas cotizadas</strong> justo antes de enfermarte. Si eres trabajador eventual, <strong>6 semanas en los últimos 4 meses</strong> (artículo 97).</li>
+      <li><strong>Riesgo de trabajo:</strong> no se piden semanas. Tu patrón debe avisar al IMSS del accidente.</li>
+      <li><strong>Maternidad:</strong> 30 semanas cotizadas en los 12 meses anteriores.</li>
+      <li>La incapacidad la da el médico del IMSS en un certificado de incapacidad.</li>
+    </ul>
+
+    <h2>Ejemplo con los datos cargados</h2>
+    <ul>
+      <li>Ganas $15,000 al mes: tu salario diario es $500 y tu SBC estimado es $500 × 1.0493 = <strong>$524.65</strong>.</li>
+      <li><strong>Enfermedad general</strong> de 7 días: los primeros 3 no se pagan. El IMSS paga 4 días × 60% × $524.65 = 4 × $314.79 = <strong>$1,259.16</strong>. Tu sueldo de esos 7 días era $3,500: dejas de recibir $2,240.84.</li>
+      <li><strong>Riesgo de trabajo</strong> de 10 días: 10 × $524.65 = <strong>$5,246.50</strong>, desde el primer día.</li>
+    </ul>
+
+    <h2>¿Quién paga los primeros 3 días?</h2>
+    <p>En una enfermedad general, el IMSS no paga los primeros 3 días y la ley no obliga a tu patrón a pagarlos. Algunas empresas sí los pagan por contrato colectivo o por política interna: pregunta en tu trabajo. Tu patrón tampoco te paga sueldo los días de incapacidad: tu relación de trabajo se suspende, pero no te pueden despedir por eso.</p>
+
+    <h2>Cómo cobrarla</h2>
+    <ol>
+      <li>El médico del IMSS te da el certificado de incapacidad. Avisa a tu patrón.</li>
+      <li>Revisa que tu cuenta bancaria esté registrada en el IMSS. Desde el 6 de octubre de 2026, el pago tiene que ir a una cuenta a tu nombre si llega a 9 salarios mínimos (<strong>$2,835.36</strong>) en enfermedad general, a 16 (<strong>$5,040.64</strong>) en riesgo de trabajo o a 99 (<strong>$31,188.96</strong>) en maternidad. Abajo de eso, registrar la cuenta es opcional.</li>
+      <li>Puedes ver tus incapacidades y pagos en la app IMSS Digital.</li>
+    </ol>
+    <p>Esos límites son solo para la forma de pago: no cambian cuánto te toca (acuerdo del IMSS publicado en el Diario Oficial el 5 de octubre de 2026, según Expansión y Consultor Salud).</p>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Afectan mi aguinaldo o mi PTU?</h3>
+    <p>Para el reparto de utilidades, los días de incapacidad por maternidad y por riesgo de trabajo cuentan como trabajados (artículo 127 de la Ley Federal del Trabajo). Revisa la calculadora de <a href="../ptu/">PTU</a>.</p>
+    <h3>¿Y si mi incapacidad se vuelve permanente?</h3>
+    <p>Si es por un riesgo de trabajo, el IMSS puede darte una pensión por incapacidad permanente: 70% de tu salario si es total. Si no es de trabajo, revisa la pensión de invalidez en el IMSS.</p>
+
+    <h2>Fuentes</h2>
+    <p class="nota">Información revisada el 2 de noviembre de 2026. Porcentajes, días y semanas: <a href="https://expansion.mx/finanzas-personales/2026/10/08/imss-pago-incapacidades-monto-cambia-forma-de-pago" rel="noopener">Expansión</a> (8 oct 2026), <a href="https://calcu.mx/calculadoras/incapacidad-imss" rel="noopener">calcu.mx</a> (jul 2026), <a href="https://www.rivenza.com.mx/blog/incapacidad-imss-tipos-cobrar" rel="noopener">Rivenza</a> (jun 2026) y <a href="https://www.cofide.mx/blog/como-paga-el-imss-las-incapacidades" rel="noopener">Cofide</a> (14 jun 2026). Pago en cuenta bancaria: Expansión y <a href="https://consultorsalud.com.mx/pago-de-incapacidades-imss-2026-cuenta/" rel="noopener">Consultor Salud</a> (5 oct 2026). Pensión por incapacidad permanente total: artículo 58 de la Ley del Seguro Social según mLey. UMA 2026 (INEGI) y salario mínimo 2026 (CONASAMI). No pudimos abrir el IMSS ni el DOF desde nuestra red: revisa la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LSS.pdf" rel="noopener">Ley del Seguro Social</a>.</p>
+    <p>También te puede servir: <a href="../../familia/maternidad-y-paternidad/">licencia de maternidad y paternidad</a>, <a href="../sueldo-neto/">sueldo neto e ISR</a>, <a href="../finiquito/">finiquito y liquidación</a>, <a href="../../retiro/semanas-cotizadas/">semanas cotizadas</a> y <a href="../../retiro/pension-viudez-imss/">pensión de viudez del IMSS</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni del IMSS. Los cálculos son orientativos; consulta la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LSS.pdf" rel="noopener">Ley del Seguro Social</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/trabajo.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const riesgo = $("tipo").value === "riesgo";
+  const sbc = $("dato").value === "sbc";
+  $("g-sem").hidden = riesgo;
+  $("l-monto").textContent = sbc ? "Salario base de cotización (SBC) diario" : "Sueldo mensual bruto (antes de descuentos)";
+  const r = Trabajo.incapacidadImss({
+    tipo: $("tipo").value, dato: $("dato").value, monto: $("monto").value, dias: $("dias").value,
+    semanas: $("sem").value, eventual: $("eve").checked, zona: $("zona").value
+  });
+  if (!r.ok) {
+    ["sbc", "dia", "pag", "esp", "sue", "dif"].forEach(k => $(k).textContent = "");
+    $("total").textContent = mxn(0);
+    $("msg").textContent = r.error;
+    return;
+  }
+  $("total").textContent = mxn(r.recibes);
+  $("sbc").textContent = mxn(r.sbc);
+  $("t-dia").textContent = `Subsidio por día (${Math.round(r.porcentaje * 100)}%)`;
+  $("dia").textContent = mxn(r.pagoDiario);
+  $("pag").textContent = r.diasPagados;
+  $("esp").textContent = r.diasEspera;
+  $("sue").textContent = mxn(r.sueldoDias);
+  $("dif").textContent = mxn(r.diferencia);
+  const msg = [];
+  if (r.dias === 0) msg.push("Escribe cuántos días de incapacidad te dieron.");
+  if (r.cumple === false) msg.push(`Con menos de ${r.minimas} semanas cotizadas justo antes, el IMSS no paga el subsidio por enfermedad general.`);
+  if (r.cumple === null) msg.push("Escribe tus semanas cotizadas para saber si cumples: se piden 4 (6 si eres eventual).");
+  if (r.tipo === "enfermedad" && r.dias > 0 && r.dias <= 3) msg.push("Los primeros 3 días de una enfermedad general no los paga el IMSS.");
+  if (r.avisos.includes("maxDias")) msg.push(r.tipo === "riesgo" ? "Calculamos hasta 52 semanas (364 días)." : "Calculamos hasta 78 semanas (546 días): 52 más 26 de prórroga.");
+  if (r.conPiso) msg.push("Tu SBC no puede ser menor al salario mínimo: usamos el mínimo.");
+  if (r.topado) msg.push("El IMSS paga hasta el tope de 25 UMA diarias ($2,932.75).");
+  if (r.recibes >= r.cuentaBancaria && r.tipo === "enfermedad") msg.push(`Si un pago llega a ${mxn(r.cuentaBancaria)}, el IMSS lo deposita en tu cuenta bancaria registrada.`);
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+$("f").addEventListener("change", calcular);
+calcular();
+</script>
+</body>
+</html>

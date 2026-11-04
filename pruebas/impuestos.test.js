@@ -292,4 +292,41 @@ assert.strictEqual(I.calcularIva({ monto: 100, tasa: 10 }).tasa, 16, "tasa desco
 [{}, { monto: -1 }, { monto: "abc", modo: "quitar" }, { monto: 1e300 }, { monto: Infinity, tasa: 8 }]
   .forEach((e, i) => { const x = I.calcularIva(e); sinRaros(x, "iva raro " + i); assert.ok(x.total >= 0 && x.iva >= 0); });
 
+// ---------- Honorarios: actividad profesional contra RESICO ----------
+// $30,000 cobrados a empresas y $5,000 de gastos. General: utilidad 25,000 (renglón 6) = 7,466.35 x 21.36% + 1,856.84
+// = 3,451.65; retención 10% = 3,000. RESICO: 1.1% = 330; retención 1.25% = 375. IVA: 4,800 - 3,200 - 800 = 800.
+let ho = I.honorarios({ ingresos: 30000, gastos: 5000, cobradoAEmpresas: 30000 });
+cerca(ho.general.utilidad, 25000, "utilidad");
+cerca(ho.general.isr, 3451.65, "ISR actividad profesional");
+cerca(ho.general.retencion, 3000, "retención 10%");
+cerca(ho.general.aPagar, 451.65, "ISR a pagar general");
+cerca(ho.resico.isr, 330, "ISR RESICO");
+cerca(ho.resico.saldoFavor, 45, "RESICO a favor");
+cerca(ho.iva.trasladado, 4800, "IVA 16%");
+cerca(ho.iva.retenido, 3200, "2/3 del IVA");
+cerca(ho.iva.acreditable, 800, "IVA de gastos");
+cerca(ho.iva.aPagar, 800, "IVA a pagar");
+cerca(ho.cobrasGeneral, 28600, "depósito general"); cerca(ho.cobrasResico, 31225, "depósito RESICO");
+assert.strictEqual(ho.conviene, "resico"); cerca(ho.ahorro, 3121.65, "ahorro RESICO");
+// Sin empresas: no hay retenciones
+ho = I.honorarios({ ingresos: 20000, gastos: 0, cobradoAEmpresas: 0 });
+assert.strictEqual(ho.general.retencion, 0); assert.strictEqual(ho.iva.retenido, 0); cerca(ho.iva.aPagar, 3200, "IVA sin retención");
+// Retención de IVA: 10.6667% de lo cobrado
+cerca(I.honorarios({ ingresos: 10000, cobradoAEmpresas: 10000 }).iva.retenido, 1066.67, "10.6667%");
+// Gastos sin IVA, gastos mayores, empresas mayores que el total, fuera del RESICO
+ho = I.honorarios({ ingresos: 10000, gastos: 20000, cobradoAEmpresas: 50000, gastosConIva: false });
+assert.strictEqual(ho.general.isr, 0); assert.strictEqual(ho.gastosMayores, true); assert.strictEqual(ho.empresasAjustado, true);
+assert.strictEqual(ho.iva.acreditable, 0); cerca(ho.general.saldoFavor, 1000, "retención sin ISR = a favor");
+ho = I.honorarios({ ingresos: 4000000, cobradoAEmpresas: 0 });
+assert.strictEqual(ho.resico.fueraDeRegimen, true); assert.strictEqual(ho.conviene, "igual");
+// Gastos altos: conviene actividad profesional
+assert.strictEqual(I.honorarios({ ingresos: 30000, gastos: 27000 }).conviene, "general");
+[{}, { ingresos: -1, gastos: "x" }, { ingresos: 1e300, gastos: 1e300, cobradoAEmpresas: 1e300 }, { ingresos: NaN, cobradoAEmpresas: Infinity }]
+  .forEach((e, i) => { const x = I.honorarios(e); sinRaros(x, "honorarios raro " + i); });
+{
+  const pag = require("fs").readFileSync(require("path").join(__dirname, "..", "impuestos/honorarios/index.html"), "utf8");
+  for (const t of ["$3,451.65", "$451.65", "$330", "$800", "$3,121.65", "10.6667%", 'href="../resico/"', "impuestos.js"])
+    assert.ok(pag.includes(t), `honorarios: falta ${t}`);
+}
+
 console.log("impuestos.test.js: todas las pruebas pasaron");

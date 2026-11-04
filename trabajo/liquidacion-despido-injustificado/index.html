@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Liquidación por despido injustificado 2026: 3 meses, 20 días por año y prima | Cuentas Claras MX</title>
+<meta name="description" content="Calcula tu liquidación por despido injustificado en 2026: 3 meses de salario integrado, 20 días por año cuando aplican y prima de antigüedad, con la parte libre de ISR. Gratis y sin registro.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/trabajo/liquidacion-despido-injustificado/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Liquidación por despido injustificado 2026: 3 meses, 20 días por año y prima">
+<meta property="og:description" content="Calcula tu liquidación por despido injustificado en 2026: 3 meses de salario integrado, 20 días por año cuando aplican y prima de antigüedad, con la parte libre de ISR. Gratis y sin registro.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/trabajo/liquidacion-despido-injustificado/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/trabajo-liquidacion-despido-injustificado.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Trabajo","item":"https://miguel201009.github.io/cuentas-claras-mx/trabajo/"},{"@type":"ListItem","position":3,"name":"Liquidación por despido","item":"https://miguel201009.github.io/cuentas-claras-mx/trabajo/liquidacion-despido-injustificado/"}]},{"@type":"WebApplication","name":"Liquidación por despido injustificado","url":"https://miguel201009.github.io/cuentas-claras-mx/trabajo/liquidacion-despido-injustificado/","description":"Calcula tu liquidación por despido injustificado en 2026: 3 meses de salario integrado, 20 días por año cuando aplican y prima de antigüedad, con la parte libre de ISR. Gratis y sin registro.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Trabajo</a> › Liquidación por despido</span></div>
+
+  <header>
+    <span class="tag">Trabajo</span>
+    <h1>Liquidación por despido injustificado</h1>
+    <p class="lede">Si te corrieron sin una causa justificada, te deben una indemnización además de tu finiquito. Escribe tu sueldo y tus fechas y te decimos cuánto es, con y sin los 20 días por año.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="sal">Sueldo mensual bruto (antes de descuentos)
+        <input id="sal" type="number" min="0" max="100000000" step="any" inputmode="decimal" value="15000"></label>
+      <label for="ing">Fecha en que entraste
+        <input id="ing" type="date" min="1950-01-01" max="2030-12-31" value="2021-11-01"></label>
+      <label for="sali">Fecha del despido (último día)
+        <input id="sali" type="date" min="1950-01-01" max="2030-12-31" value="2026-10-31"></label>
+      <label for="agu">Días de aguinaldo de tu empresa
+        <select id="agu"><option value="15" selected>15 días (mínimo de ley)</option><option value="20">20 días</option><option value="30">30 días</option></select></label>
+      <label for="sdi">Salario diario integrado de tu recibo (opcional)
+        <input id="sdi" type="number" min="0" max="1000000" step="any" inputmode="decimal" placeholder="Si no lo sabes, déjalo vacío"></label>
+      <label for="zona">¿Dónde trabajabas?
+        <select id="zona"><option value="general" selected>Resto del país</option><option value="frontera">Frontera norte (zona libre)</option></select></label>
+      <p class="nota">Si no escribes tu salario integrado, lo estimamos con tu aguinaldo y la prima vacacional mínima de tu año de servicio. Si recibes bonos, comisiones o vales, tu salario integrado es mayor.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Tu liquidación básica (bruto)</span>
+      <div class="big" id="total">$0.00</div>
+      <div class="row"><span>Indemnización de 3 meses <small class="nota">Art. 48 LFT</small></span><b id="tres"></b></div>
+      <div class="row"><span>Prima de antigüedad <small class="nota">Art. 162 LFT</small></span><b id="pri"></b></div>
+      <div class="row sub"><span>Si además te tocan 20 días por año <small class="nota">Art. 50 LFT</small></span><b id="vei"></b></div>
+      <div class="row"><span><strong>Total con 20 días por año</strong></span><b id="con"></b></div>
+      <div class="row"><span>Salario diario integrado</span><b id="sdiv"></b></div>
+      <div class="row"><span>Antigüedad</span><b id="ant"></b></div>
+      <div class="row"><span>Parte libre de ISR (90 UMA por año)</span><b id="exe"></b></div>
+      <div class="row"><span>ISR estimado: básica / con 20 días</span><b id="isr"></b></div>
+      <div class="row"><span>Te queda: básica / con 20 días</span><b id="net"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Además te deben tu <a href="../finiquito/">finiquito</a>: días sin pagar, aguinaldo y vacaciones proporcionales. No incluye salarios caídos.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Qué te deben si te despiden sin causa</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Concepto</th><th>Cuánto</th><th>¿Cuándo te toca?</th></tr></thead>
+      <tbody>
+        <tr><td>Indemnización constitucional</td><td><strong>3 meses</strong> (90 días) de salario integrado</td><td>Siempre que el despido sea injustificado (art. 48 LFT y art. 123 de la Constitución)</td></tr>
+        <tr><td>Prima de antigüedad</td><td><strong>12 días por año</strong>, con un salario de máximo 2 salarios mínimos ($630.08 diarios en 2026)</td><td>En cualquier despido, sin importar tu antigüedad (art. 162 LFT)</td></tr>
+        <tr><td>20 días por año trabajado</td><td><strong>20 días</strong> de salario integrado por cada año</td><td>Cuando el patrón se niega a reinstalarte o tú terminas la relación por una falta del patrón (arts. 49, 50 y 52 LFT)</td></tr>
+        <tr><td>Finiquito</td><td>Días sin pagar, aguinaldo, vacaciones y prima vacacional</td><td>Siempre, renuncies o te despidan. Usa la <a href="../finiquito/">calculadora de finiquito</a></td></tr>
+        <tr><td>Salarios caídos</td><td>Hasta 12 meses de salario, más 2% mensual de interés después</td><td>Solo si demandas y ganas el juicio (art. 48 LFT)</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>¿Me tocan los 20 días por año?</h2>
+    <p>Aquí hay diferencias. La ley (artículo 50) da los 20 días por año cuando el patrón <strong>se niega a reinstalarte</strong> después de que lo demandas, en los casos del artículo 49 (por ejemplo, trabajadores de confianza o con menos de un año), o cuando <strong>tú rescindes</strong> la relación porque el patrón no te pagó, te bajó el sueldo o te maltrató (artículos 51 y 52). Varios despachos explican que en un despido común solo te deben los 3 meses y la prima de antigüedad.</p>
+    <p>Aun así, muchas calculadoras y abogados los suman siempre, y en una negociación es común pedirlos. Por eso te damos los dos totales. Si te ofrecen menos que la liquidación básica, no firmes y pide asesoría.</p>
+
+    <h2>Salario integrado y prima de antigüedad</h2>
+    <p>La indemnización y los 20 días se pagan con tu <strong>salario integrado</strong>: tu sueldo diario más lo que te toca de aguinaldo, prima vacacional y otras prestaciones (artículos 84 y 89 LFT). La prima de antigüedad, en cambio, usa tu salario diario sin integrar, con un piso de un salario mínimo ($315.04, o $440.87 en la frontera norte) y un tope de dos ($630.08, o $881.74 en la frontera norte). Más detalle en la <a href="../prima-de-antiguedad/">calculadora de prima de antigüedad</a>.</p>
+
+    <h2>Ejemplo con los datos cargados</h2>
+    <ul>
+      <li>Ganas $15,000 al mes ($500 diarios), entraste el 1 de noviembre de 2021 y te despidieron el 31 de octubre de 2026: <strong>5 años</strong> justos.</li>
+      <li>En tu sexto año te tocan 22 días de vacaciones. Salario integrado: 500 × (1 + (15 + 22 × 25%) ÷ 365) = <strong>$528.08</strong>.</li>
+      <li>Indemnización: 90 × $528.08 = <strong>$47,527.20</strong>.</li>
+      <li>Prima de antigüedad: 12 × 5 × $500 = <strong>$30,000.00</strong> (tu salario no pasa del tope de $630.08).</li>
+      <li><strong>Liquidación básica: $77,527.20.</strong> Con 20 días por año (20 × 5 × $528.08 = $52,808.00): <strong>$130,335.20</strong>.</li>
+      <li>ISR: no pagas por 90 UMA por año: 90 × $117.31 × 5 = $52,789.50. Sobre el resto ($24,737.70) te retienen con la tasa de tu último sueldo (9.35%): unos <strong>$2,313.50</strong>.</li>
+    </ul>
+
+    <h2>Cuánto ISR pagas por tu liquidación</h2>
+    <p>La indemnización, la prima de antigüedad y los 20 días están libres de ISR hasta <strong>90 UMA por cada año de servicio</strong> ($10,557.90 por año con la UMA de $117.31). Si trabajaste más de seis meses de un año, ese año cuenta completo (artículo 93, fracción XIII, de la Ley del ISR). Lo que pasa de ahí paga ISR con la tasa de tu último sueldo mensual: el ISR de la tarifa mensual dividido entre tu sueldo (artículos 95 y 96). Lo que te pagan de finiquito (aguinaldo, vacaciones) tiene sus propias partes libres.</p>
+    <p class="nota">Con menos de un año de antigüedad calculamos la parte libre en proporción. Es una estimación: tu empresa puede calcular la retención distinto y el ajuste final se hace en tu <a href="../../impuestos/declaracion-anual/">declaración anual</a>.</p>
+
+    <h2>Qué hacer si te despiden</h2>
+    <ol>
+      <li><strong>No firmes tu renuncia.</strong> Si te piden firmarla para pagarte, en la práctica es un despido.</li>
+      <li>Pide por escrito el aviso de despido. Si el patrón no te da por escrito la causa, el despido se considera injustificado (artículo 47 LFT).</li>
+      <li>Busca asesoría gratis en la PROFEDET o en la procuraduría de tu estado.</li>
+      <li>Tienes <strong>2 meses</strong> desde el despido para reclamar. Primero vas al Centro de Conciliación de tu estado (o al federal, según tu empresa) y, si no hay acuerdo, al tribunal laboral.</li>
+    </ol>
+
+    <h2>Fuentes</h2>
+    <p class="nota">Información revisada el 4 de noviembre de 2026. Conceptos de la liquidación (3 meses con salario integrado, 20 días por año, 12 días de prima de antigüedad con tope de 2 salarios mínimos): <a href="https://factorial.mx/blog/liquidacion-despido-injustificado/" rel="noopener">Factorial</a> (actualizado 9 feb 2026), <a href="https://sdv.com.mx/herramientas/calculadora-liquidacion/" rel="noopener">SDV</a> y <a href="https://finiquitojusto.com/derechos-laborales/finiquito-por-despido-injustificado-mexico-2026/" rel="noopener">FiniquitoJusto</a> (18 jun 2026). Cuándo aplican los 20 días: <a href="https://elconta.mx/pagar-siempre-20-dias-por-ano-en-cada-despido/" rel="noopener">El Conta</a> (2 ene 2026), con los artículos 49, 50 y 52 de la LFT. Parte libre de ISR de 90 UMA por año: <a href="https://www.buk.mx/blog/indemnizacion-grava-para-isr" rel="noopener">Buk</a> (actualizado 16 oct 2026) y SDV; tasa del último sueldo: <a href="https://www.elfinanciero.com.mx/mis-finanzas/te-despidieron-descontaran-isr-de-tu-liquidacion/" rel="noopener">El Financiero</a> y el <a href="https://sdv.com.mx/compendio/ley-isr/articulo-95/" rel="noopener">artículo 95 de la LISR en SDV</a>. Plazo de 2 meses y salarios caídos: Factorial. UMA 2026 (INEGI) y salario mínimo 2026 (CONASAMI) como en el resto del sitio. No pudimos abrir diputados.gob.mx desde nuestra red: revisa la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LFT.pdf" rel="noopener">Ley Federal del Trabajo</a>.</p>
+    <p>También te puede servir: <a href="../finiquito/">finiquito y liquidación</a>, <a href="../prima-de-antiguedad/">prima de antigüedad</a>, <a href="../vacaciones/">vacaciones y prima vacacional</a>, <a href="../aguinaldo/">aguinaldo</a>, <a href="../sueldo-neto/">sueldo neto e ISR</a> y <a href="../ptu/">reparto de utilidades (PTU)</a>, que te toca aunque ya no trabajes ahí.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno. Los cálculos son orientativos y no sustituyen la asesoría de un abogado laboral. Consulta la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LFT.pdf" rel="noopener">Ley Federal del Trabajo</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/trabajo.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const CAMPOS = ["tres", "pri", "vei", "con", "sdiv", "ant", "exe", "isr", "net"];
+function limpiar(texto, total) {
+  CAMPOS.forEach(k => $(k).textContent = "");
+  $("total").textContent = total;
+  $("msg").textContent = texto;
+}
+function calcular() {
+  const fechas = Calc.validarFechas($("ing").value, $("sali").value);
+  if (fechas.error) return limpiar(fechas.error, "Revisa las fechas");
+  const sal = leerNumero($("sal"));
+  const r = Trabajo.liquidacionDespido({
+    salarioMensual: sal.valor, ingreso: fechas.ingreso, salida: fechas.salida,
+    sdi: $("sdi").value, diasAguinaldo: +$("agu").value, zona: $("zona").value
+  });
+  if (!r.ok) return limpiar(r.error, mxn(0));
+  $("total").textContent = mxn(r.basico);
+  $("tres").textContent = mxn(r.tresMeses);
+  $("pri").textContent = mxn(r.primaMonto);
+  $("vei").textContent = mxn(r.veinteDias);
+  $("con").textContent = mxn(r.conVeinte);
+  $("sdiv").textContent = mxn(r.sdi) + (r.sdiEstimado ? " (estimado)" : "");
+  $("ant").textContent = r.antiguedad.toFixed(2) + " años";
+  $("exe").textContent = mxn(r.exentoTotal);
+  $("isr").textContent = mxn(r.isrBasico.retencion) + " / " + mxn(r.isrConVeinte.retencion);
+  $("net").textContent = mxn(r.isrBasico.neto) + " / " + mxn(r.isrConVeinte.neto);
+  const msg = [];
+  if (sal.acotado) msg.push(`Revisa el sueldo: calculamos con un máximo de ${mxn(sal.valor)} al mes.`);
+  if (r.prima.topado) msg.push(`Para la prima de antigüedad tu salario se topa en 2 salarios mínimos (${mxn(r.prima.tope)} diarios).`);
+  if (r.prima.conPiso) msg.push(`Tu salario es menor al mínimo: la prima de antigüedad se calcula con ${mxn(r.prima.salarioMinimo)} diarios.`);
+  if (!r.sdiEstimado && r.sdi < r.sd) msg.push("Tu salario integrado no puede ser menor que tu salario diario: revisa el dato de tu recibo.");
+  if (r.antiguedad < 1) msg.push("Con menos de un año, la parte libre de ISR la calculamos en proporción.");
+  if (r.antiguedad > 60) msg.push("Revisa las fechas: son más de 60 años de trabajo.");
+  msg.push(`Tasa de ISR de tu último sueldo: ${(r.tasa * 100).toFixed(2)}%.`);
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+$("f").addEventListener("change", calcular);
+calcular();
+</script>
+</body>
+</html>

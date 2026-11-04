@@ -268,4 +268,78 @@ assert.strictEqual(T.incapacidadImss({ monto: 0, dias: 5 }).ok, false);
     assert.ok(pag.includes(t), `incapacidad: falta ${t}`);
 }
 
-console.log("OK: pruebas de trabajo (PTU, horas extra e incapacidad) pasaron");
+// ---------- Liquidación por despido injustificado ----------
+// $15,000 al mes (500 diarios), del 1 nov 2021 al 31 oct 2026: 5 años. Sexto año: 22 días de vacaciones.
+// SDI = 500 x (1 + (15 + 22 x 0.25) / 365) = 528.08. 3 meses = 90 x 528.08 = 47,527.20. Prima = 12 x 5 x 500 = 30,000.
+// 20 días = 100 x 528.08 = 52,808. Exento ISR = 90 x 117.31 x 5 = 52,789.50. Tasa: ISR(15,000) = 1,402.82 / 15,000.
+let li = T.liquidacionDespido({ salarioMensual: 15000, ingreso: C.fecha("2021-11-01"), salida: C.fecha("2026-10-31") });
+assert.strictEqual(li.ok, true);
+assert.strictEqual(li.anios, 5); assert.strictEqual(li.diasVac, 22);
+cerca(li.sdi, 528.08, "SDI estimado");
+cerca(li.tresMeses, 47527.2, "3 meses");
+cerca(li.primaMonto, 30000, "prima de antigüedad");
+cerca(li.basico, 77527.2, "liquidación básica");
+cerca(li.veinteDias, 52808, "20 días por año");
+cerca(li.conVeinte, 130335.2, "con 20 días");
+cerca(li.exentoTotal, 52789.5, "90 UMA x 5 años");
+cerca(li.isrBasico.gravado, 24737.7, "gravado básica");
+cerca(li.isrBasico.retencion, 2313.5, "ISR básica");
+cerca(li.isrConVeinte.retencion, 7252.18, "ISR con 20 días");
+// SDI del recibo: se usa tal cual
+li = T.liquidacionDespido({ salarioMensual: 15000, ingreso: C.fecha("2021-11-01"), salida: C.fecha("2026-10-31"), sdi: 600 });
+cerca(li.tresMeses, 54000, "3 meses con SDI 600"); assert.strictEqual(li.sdiEstimado, false);
+// Tope de la prima: 2 salarios mínimos (630.08); más de 6 meses cuenta como año para el exento
+li = T.liquidacionDespido({ salarioMensual: 60000, ingreso: C.fecha("2023-03-01"), salida: C.fecha("2026-10-31") });
+assert.strictEqual(li.prima.topado, true);
+assert.strictEqual(li.aniosExento, 4, "3 años y 8 meses = 4 para el exento");
+// Menos de un año: exento proporcional; sueldo vacío no calcula
+li = T.liquidacionDespido({ salarioMensual: 10000, ingreso: C.fecha("2026-05-01"), salida: C.fecha("2026-07-30") });
+assert.ok(li.aniosExento > 0 && li.aniosExento < 0.5);
+assert.strictEqual(T.liquidacionDespido({ salarioMensual: 0, ingreso: C.fecha("2020-01-01"), salida: C.fecha("2026-01-01") }).ok, false);
+[{}, { salarioMensual: -1 }, { salarioMensual: "x", sdi: "y" }, { salarioMensual: 1e300, sdi: 1e300 }, { salarioMensual: 5000, sdi: NaN, diasAguinaldo: -3 }]
+  .forEach((e, i) => {
+    const r = T.liquidacionDespido(Object.assign({ ingreso: C.fecha("2020-01-01"), salida: C.fecha("2026-01-01") }, e));
+    if (r.ok) { finito(r, "liquidación rara " + i); finito(r.isrConVeinte, "liquidación ISR rara " + i); }
+  });
+
+// ---------- Nómina semanal y quincenal ----------
+// Tarifas del Anexo 8: semana de 2,333.33 (renglón 3) = 682.65 x 10.88% + 96.95 = 171.22; quincena de 5,000 = 366.91.
+cerca(T.isrTarifa(T.DATOS.nomina.semanal, 2333.33), 171.22, "ISR semanal");
+cerca(T.isrTarifa(T.DATOS.nomina.quincenal, 5000), 366.91, "ISR quincenal");
+assert.strictEqual(T.isrTarifa(T.DATOS.nomina.semanal, 0), 0);
+let nm = T.nominaPeriodos({ monto: 10000, periodo: "mensual" });
+cerca(nm.semana.subsidio, 123.34, "subsidio semanal 535.65 / 30.4 x 7");
+cerca(nm.quincena.subsidio, 264.3, "subsidio quincenal");
+cerca(nm.semana.isrRetenido, 47.88, "ISR semana con subsidio");
+cerca(nm.quincena.isrRetenido, 102.61, "ISR quincena con subsidio");
+cerca(nm.mes.neto, 9554.1, "mismo neto mensual que sueldo neto");
+// Ejemplo de la página: $3,500 a la semana
+nm = T.nominaPeriodos({ monto: 3500, periodo: "semanal" });
+cerca(nm.sd, 500, "salario diario");
+cerca(nm.semana.isrTarifa, 331.27, "ISR semana 3,500");
+assert.strictEqual(nm.conSubsidio, false, "15,200 al mes pasa del tope");
+cerca(nm.semana.imssObrero, 92.06, "IMSS semana");
+cerca(nm.semana.neto, 3076.67, "neto semana");
+cerca(nm.quincena.bruto, 7500, "quincena bruta");
+cerca(nm.quincena.isrTarifa, 709.86, "ISR quincena 7,500");
+cerca(nm.quincena.neto, 6592.88, "neto quincena");
+// Salario mínimo: sin ISR ni IMSS; la cifra mensual de la CONASAMI con la casilla
+nm = T.nominaPeriodos({ monto: 315.04, periodo: "diario" });
+assert.strictEqual(nm.soloMinimo, true); cerca(nm.semana.neto, 2205.28, "7 x 315.04");
+assert.strictEqual(T.nominaPeriodos({ monto: 9582.47, ganaMinimo: true }).soloMinimo, true);
+assert.strictEqual(T.nominaPeriodos({ monto: 9582.47 }).soloMinimo, false);
+assert.strictEqual(T.nominaPeriodos({ monto: 20000, ganaMinimo: true }).ganaMinimoNoAplica, true);
+assert.strictEqual(T.nominaPeriodos({ monto: 440.87, periodo: "diario", zona: "frontera" }).soloMinimo, true);
+[{}, { monto: -1 }, { monto: "x", periodo: "raro" }, { monto: 1e300 }, { monto: Infinity, zona: "luna" }]
+  .forEach((e, i) => { const r = T.nominaPeriodos(e); finito(r.semana, "nómina rara " + i); finito(r.quincena, "nómina rara q " + i); });
+{
+  const fs = require("fs"), path = require("path");
+  const liq = fs.readFileSync(path.join(__dirname, "..", "trabajo/liquidacion-despido-injustificado/index.html"), "utf8");
+  for (const t of ["$528.08", "$47,527.20", "$30,000.00", "$77,527.20", "$130,335.20", "$52,789.50", "$2,313.50", 'href="../finiquito/"', "trabajo.js"])
+    assert.ok(liq.includes(t), `liquidación: falta ${t}`);
+  const nom = fs.readFileSync(path.join(__dirname, "..", "trabajo/nomina-semanal-quincenal/index.html"), "utf8");
+  for (const t of ["$331.27", "$92.06", "$3,076.67", "$6,592.88", "$709.86", "$123.34", "$264.30", "trabajo.js"])
+    assert.ok(nom.includes(t), `nómina: falta ${t}`);
+}
+
+console.log("OK: pruebas de trabajo (PTU, horas extra, incapacidad, liquidación y nómina) pasaron");

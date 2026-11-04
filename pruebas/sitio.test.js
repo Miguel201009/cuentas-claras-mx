@@ -28,8 +28,9 @@ for (const p of ["trabajo/sueldo-neto/", "trabajo/prima-de-antiguedad/", "trabaj
   "familia/beca-benito-juarez/", "familia/beca-rita-cetina/", "impuestos/aguinaldo-isr/", "trabajo/uma-2027/",
   "impuestos/calculadora-iva/", "dinero/interes-compuesto/", "dinero/credito-automotriz/",
   "vivienda/credito-hipotecario-bancos/", "vivienda/puntos-infonavit/", "vivienda/fovissste/",
-  "retiro/aportaciones-voluntarias/", "retiro/pension-viudez-imss/", "retiro/modalidad-40/", "trabajo/incapacidad-imss/"]) assert.ok(todas.includes(p), `falta ${p}`);
-assert.strictEqual(herramientas.length, 57, "57 calculadoras y guías");
+  "retiro/aportaciones-voluntarias/", "retiro/pension-viudez-imss/", "retiro/modalidad-40/", "trabajo/incapacidad-imss/",
+  "trabajo/liquidacion-despido-injustificado/", "trabajo/nomina-semanal-quincenal/", "impuestos/honorarios/"]) assert.ok(todas.includes(p), `falta ${p}`);
+assert.strictEqual(herramientas.length, 60, "60 calculadoras y guías");
 
 // ---------- Reglas para cada página ----------
 const titulos = new Map();
@@ -205,11 +206,24 @@ const casos = {
   "incapacidad por enfermedad": "trabajo/incapacidad-imss/",
   "riesgo de trabajo": "trabajo/incapacidad-imss/",
   "subsidio incapacidad": "trabajo/incapacidad-imss/",
-  "accidente de trabajo": "trabajo/incapacidad-imss/"
+  "accidente de trabajo": "trabajo/incapacidad-imss/",
+  "liquidación por despido": "trabajo/liquidacion-despido-injustificado/",
+  "despido injustificado": "trabajo/liquidacion-despido-injustificado/",
+  "me corrieron": "trabajo/liquidacion-despido-injustificado/",
+  "20 días por año": "trabajo/liquidacion-despido-injustificado/",
+  "indemnización 3 meses": "trabajo/liquidacion-despido-injustificado/",
+  "nómina semanal": "trabajo/nomina-semanal-quincenal/",
+  "sueldo neto quincenal": "trabajo/nomina-semanal-quincenal/",
+  "cuánto me llega por semana": "trabajo/nomina-semanal-quincenal/",
+  "isr quincenal": "trabajo/nomina-semanal-quincenal/",
+  "honorarios": "impuestos/honorarios/",
+  "retención de honorarios": "impuestos/honorarios/",
+  "freelance impuestos": "impuestos/honorarios/",
+  "servicios profesionales isr iva": "impuestos/honorarios/"
 };
 for (const [q, esperado] of Object.entries(casos)) assert.ok(hrefs(q).includes(esperado), `buscar "${q}" debe dar ${esperado}: ${hrefs(q)}`);
 assert.ok(!hrefs("ine").some(h => h.startsWith("dinero/")), "ine no muestra la sección dinero");
-assert.deepStrictEqual(hrefs("trabajo").filter(h => h.startsWith("trabajo/")).length, 14, "el nombre de la sección encuentra todas sus herramientas");
+assert.deepStrictEqual(hrefs("trabajo").filter(h => h.startsWith("trabajo/")).length, 16, "el nombre de la sección encuentra todas sus herramientas");
 // En temporada de aguinaldo, cada búsqueda lleva primero a su página
 assert.strictEqual(hrefs("aguinaldo pensionados")[0], "trabajo/aguinaldo-pensionados/");
 assert.strictEqual(hrefs("aguinaldo maestros")[0], "trabajo/aguinaldo-gobierno/");
@@ -239,6 +253,13 @@ assert.strictEqual(hrefs("aportaciones voluntarias")[0], "retiro/aportaciones-vo
 assert.strictEqual(hrefs("pensión de viudez")[0], "retiro/pension-viudez-imss/");
 assert.strictEqual(hrefs("modalidad 40")[0], "retiro/modalidad-40/");
 assert.strictEqual(hrefs("incapacidad imss")[0], "trabajo/incapacidad-imss/");
+// Todo el año: liquidación por despido, nómina semanal y quincenal y honorarios
+assert.strictEqual(hrefs("despido injustificado")[0], "trabajo/liquidacion-despido-injustificado/");
+assert.strictEqual(hrefs("nómina semanal")[0], "trabajo/nomina-semanal-quincenal/");
+assert.strictEqual(hrefs("honorarios")[0], "impuestos/honorarios/");
+assert.ok(hrefs("liquidación").includes("trabajo/finiquito/"), "liquidación sigue encontrando el finiquito");
+assert.ok(hrefs("sueldo neto").includes("trabajo/sueldo-neto/"), "sueldo neto sigue encontrando su calculadora");
+assert.ok(hrefs("resico").includes("impuestos/resico/"), "resico sigue encontrando su calculadora");
 assert.ok(hrefs("modalidad 40").includes("retiro/ley-73-vs-ley-97/"), "modalidad 40 también muestra Ley 73 vs. Ley 97");
 assert.ok(hrefs("incapacidad maternidad").includes("familia/maternidad-y-paternidad/"), "incapacidad por maternidad sigue en su página");
 assert.ok(hrefs("crédito infonavit").includes("vivienda/credito-infonavit/"), "crédito infonavit sigue encontrando su guía");

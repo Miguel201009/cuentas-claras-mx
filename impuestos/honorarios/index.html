@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Honorarios 2026: calculadora de ISR, IVA y retenciones | Cuentas Claras MX</title>
+<meta name="description" content="Si cobras por honorarios, calcula tu ISR e IVA del mes en 2026: retención de 10% de ISR y dos terceras partes del IVA, y compara actividad profesional contra RESICO. Gratis y sin registro.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/impuestos/honorarios/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Honorarios 2026: calculadora de ISR, IVA y retenciones">
+<meta property="og:description" content="Si cobras por honorarios, calcula tu ISR e IVA del mes en 2026: retención de 10% de ISR y dos terceras partes del IVA, y compara actividad profesional contra RESICO. Gratis y sin registro.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/impuestos/honorarios/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/impuestos-honorarios.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Impuestos y SAT","item":"https://miguel201009.github.io/cuentas-claras-mx/impuestos/"},{"@type":"ListItem","position":3,"name":"Honorarios","item":"https://miguel201009.github.io/cuentas-claras-mx/impuestos/honorarios/"}]},{"@type":"WebApplication","name":"Honorarios: cuánto ISR e IVA pagas","url":"https://miguel201009.github.io/cuentas-claras-mx/impuestos/honorarios/","description":"Si cobras por honorarios, calcula tu ISR e IVA del mes en 2026: retención de 10% de ISR y dos terceras partes del IVA, y compara actividad profesional contra RESICO. Gratis y sin registro.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Impuestos y SAT</a> › Honorarios</span></div>
+
+  <header>
+    <span class="tag">Impuestos y SAT</span>
+    <h1>Honorarios: cuánto ISR e IVA pagas</h1>
+    <p class="lede">Si das servicios por tu cuenta (diseño, consultoría, medicina, clases, programación) y cobras con factura, escribe lo que cobraste en el mes. Te decimos tus retenciones, tu ISR y tu IVA, y si te conviene más el RESICO.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni del SAT.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="ing">Lo que cobraste en el mes, sin IVA
+        <input id="ing" type="number" min="0" max="1000000000000" step="any" inputmode="decimal" value="30000"></label>
+      <label for="emp">De eso, ¿cuánto le cobraste a empresas (personas morales)?
+        <input id="emp" type="number" min="0" max="1000000000000" step="any" inputmode="decimal" value="30000"></label>
+      <label for="gas">Gastos de tu trabajo pagados en el mes, sin IVA
+        <input id="gas" type="number" min="0" max="1000000000000" step="any" inputmode="decimal" value="5000"></label>
+      <label class="check"><input id="civa" type="checkbox" checked> Mis gastos tienen factura con IVA de 16%</label>
+      <p class="nota">Solo cuentan los gastos indispensables para tu trabajo, con factura a tu RFC y pagados con tarjeta o transferencia si pasan de $2,000. Si te pagan personas físicas (pacientes, alumnos), no te retienen nada.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">ISR del mes como actividad profesional (estimado)</span>
+      <div class="big" id="total">$0.00</div>
+      <div class="tabla"><table>
+        <thead><tr><th></th><th>Actividad profesional</th><th>RESICO</th></tr></thead>
+        <tbody>
+          <tr><td>Base del ISR</td><td class="n" id="g-base"></td><td class="n" id="r-base"></td></tr>
+          <tr><td>ISR del mes</td><td class="n" id="g-isr"></td><td class="n" id="r-isr"></td></tr>
+          <tr><td>Te retienen de ISR</td><td class="n" id="g-ret"></td><td class="n" id="r-ret"></td></tr>
+          <tr><td>ISR que pagas al SAT</td><td class="n" id="g-pag"></td><td class="n" id="r-pag"></td></tr>
+          <tr><td>Te depositan tus clientes</td><td class="n" id="g-dep"></td><td class="n" id="r-dep"></td></tr>
+          <tr><td>Te queda (después de gastos e ISR)</td><td class="n" id="g-que"></td><td class="n" id="r-que"></td></tr>
+        </tbody>
+      </table></div>
+      <div class="row"><span>IVA que cobras (16%)</span><b id="iva-t"></b></div>
+      <div class="row sub"><span>Te retienen de IVA (2/3)</span><b id="iva-r"></b></div>
+      <div class="row sub"><span>IVA de tus gastos (acreditable)</span><b id="iva-a"></b></div>
+      <div class="row"><span><strong>IVA que pagas al SAT</strong></span><b id="iva-p"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">El IVA es igual en los dos regímenes. Pagas ISR e IVA a más tardar el día 17 del mes siguiente.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Qué te retienen cuando facturas a una empresa</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Régimen</th><th>Retención de ISR</th><th>Retención de IVA</th></tr></thead>
+      <tbody>
+        <tr><td>Actividad profesional (honorarios)</td><td><strong>10%</strong> de lo que cobras sin IVA (art. 106 LISR)</td><td><strong>2/3 del IVA</strong>: 10.6667% de lo que cobras sin IVA</td></tr>
+        <tr><td>RESICO</td><td><strong>1.25%</strong> de lo que cobras sin IVA (art. 113-J LISR)</td><td><strong>2/3 del IVA</strong>, igual que en honorarios</td></tr>
+      </tbody>
+    </table></div>
+    <p class="nota">La retención de IVA viene del artículo 1-A, fracción II, inciso a), de la Ley del IVA y del artículo 3 de su Reglamento. Solo retienen las personas morales (empresas, asociaciones); si le cobras a una persona física, no hay retenciones.</p>
+    <p>Las retenciones no son un impuesto extra: son un anticipo. Las restas del ISR y del IVA que te tocan en el mes. Si te retuvieron más de lo que te toca, queda un saldo a favor.</p>
+
+    <h2>Cómo se calcula el ISR en cada régimen</h2>
+    <ul>
+      <li><strong>Actividad profesional:</strong> a lo que cobraste le restas tus gastos deducibles y a esa utilidad le aplicas la tarifa del ISR (artículo 106). La ley usa la tarifa acumulada del año: sumas lo cobrado y gastado de enero al mes que declaras y restas los pagos anteriores. Si cada mes cobras y gastas lo mismo, da lo mismo que la tarifa mensual, que es la que usamos aquí.</li>
+      <li><strong>RESICO:</strong> pagas del 1% al 2.5% de <strong>todo lo que cobras</strong>, sin restar gastos, siempre que no pases de 3.5 millones al año. Detalle en la <a href="../resico/">calculadora de RESICO</a>.</li>
+    </ul>
+
+    <h2>Ejemplo con los datos cargados</h2>
+    <ul>
+      <li>Cobras $30,000 al mes a empresas y gastas $5,000 en tu trabajo.</li>
+      <li><strong>Actividad profesional:</strong> utilidad de $25,000. Con la tarifa mensual: (25,000 − 17,533.65) × 21.36% + 1,856.84 = <strong>$3,451.65</strong>. Te retienen 10% ($3,000), así que pagas $451.65.</li>
+      <li><strong>RESICO:</strong> $30,000 × 1.1% = <strong>$330</strong>. Te retienen 1.25% ($375): te quedan $45 a favor.</li>
+      <li><strong>IVA:</strong> cobras $4,800, te retienen $3,200 y tus gastos traen $800 de IVA. Pagas <strong>$800</strong> de IVA en cualquiera de los dos.</li>
+      <li>En este ejemplo el RESICO te ahorra $3,121.65 de ISR al mes. Si tus gastos fueran muy altos, la actividad profesional puede salir mejor.</li>
+    </ul>
+
+    <h2>¿Me conviene el RESICO?</h2>
+    <ul>
+      <li>Conviene casi siempre si tus gastos son bajos, porque la tasa es de 1% a 2.5% de lo que cobras.</li>
+      <li>No puedes entrar si eres socio de una empresa, si cobras más de 3.5 millones al año o si recibes ingresos de los que no permite el régimen. Puedes tener un sueldo además, si en total no pasas de 3.5 millones.</li>
+      <li>En el RESICO no deduces gastos para el ISR, pero sí acreditas el IVA de tus gastos.</li>
+      <li>Si te atrasas en tus declaraciones, el SAT puede sacarte del RESICO y pasarte a actividad profesional.</li>
+    </ul>
+    <p class="nota">Si trabajas en la región fronteriza norte o sur y estás inscrito en el estímulo fiscal, tu IVA puede ser de 8%; esta calculadora usa 16%. Revisa la <a href="../calculadora-iva/">calculadora de IVA</a>.</p>
+
+    <h2>Fuentes</h2>
+    <p class="nota">Información revisada el 4 de noviembre de 2026. Retenciones de 10% y 1.25% de ISR y de dos terceras partes del IVA, también en RESICO: <a href="https://siemprealdia.co/mexico/fiscal/retenciones-fiscales-del-resico-vs-otros-regimenes/" rel="noopener">Siempre al Día</a> (24 jun 2025) y <a href="https://praxiumconsultores.com/blog/tabla-de-retenciones-a-personas-fisicas-2026" rel="noopener">Praxium</a> (12 sep 2026). Pagos provisionales e IVA del mes: <a href="https://praxiumconsultores.com/blog/calculo-de-honorarios-profesionales-ejemplo-paso-a-paso" rel="noopener">Praxium</a> (12 sep 2026). Tarifa mensual del ISR 2026: Anexo 8 de la RMF 2026, la misma de nuestra <a href="../../trabajo/sueldo-neto/">calculadora de sueldo neto</a>. Tasas y tope del RESICO: artículos 113-E y 113-J de la Ley del ISR, como en nuestra <a href="../resico/">calculadora de RESICO</a>. No pudimos abrir la ley en diputados.gob.mx desde nuestra red: revisa la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LISR.pdf" rel="noopener">Ley del ISR</a> y la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LIVA.pdf" rel="noopener">Ley del IVA</a>.</p>
+    <p>También te puede servir: <a href="../resico/">RESICO para personas físicas</a>, <a href="../calculadora-iva/">calculadora de IVA</a>, <a href="../declaracion-anual/">declaración anual</a>, <a href="../rfc/">cómo sacar el RFC</a> y <a href="../../negocio/alta-en-el-sat/">alta en el SAT con tu negocio</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni del SAT. Los cálculos son orientativos y no sustituyen la asesoría de un contador.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/impuestos.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const r = Impuestos.honorarios({ ingresos: $("ing").value, gastos: $("gas").value, cobradoAEmpresas: $("emp").value, gastosConIva: $("civa").checked });
+  const g = r.general, s = r.resico, fuera = s.fueraDeRegimen;
+  const pon = (id, v) => $(id).textContent = v;
+  $("total").textContent = mxn(g.isr);
+  pon("g-base", mxn(g.utilidad)); pon("r-base", fuera ? "No aplica" : mxn(s.ingresos));
+  pon("g-isr", mxn(g.isr)); pon("r-isr", fuera ? "No aplica" : `${mxn(s.isr)} (${s.tasa}%)`);
+  pon("g-ret", mxn(g.retencion)); pon("r-ret", fuera ? "No aplica" : mxn(s.retencion));
+  pon("g-pag", g.saldoFavor ? `${mxn(0)} (a favor ${mxn(g.saldoFavor)})` : mxn(g.aPagar));
+  pon("r-pag", fuera ? "No aplica" : s.saldoFavor ? `${mxn(0)} (a favor ${mxn(s.saldoFavor)})` : mxn(s.aPagar));
+  pon("g-dep", mxn(r.cobrasGeneral)); pon("r-dep", fuera ? "No aplica" : mxn(r.cobrasResico));
+  pon("g-que", mxn(r.quedaGeneral)); pon("r-que", fuera ? "No aplica" : mxn(r.quedaResico));
+  pon("iva-t", mxn(r.iva.trasladado));
+  pon("iva-r", "−" + mxn(r.iva.retenido));
+  pon("iva-a", "−" + mxn(r.iva.acreditable));
+  pon("iva-p", r.iva.saldoFavor ? `${mxn(0)} (a favor ${mxn(r.iva.saldoFavor)})` : mxn(r.iva.aPagar));
+  const msg = [];
+  if (!r.ingresos) msg.push("Escribe lo que cobraste en el mes.");
+  if (r.empresasAjustado) msg.push("Lo que le cobraste a empresas no puede ser mayor que todo lo que cobraste: usamos el total.");
+  if (r.gastosMayores) msg.push("Tus gastos son mayores que lo que cobraste: como actividad profesional no pagas ISR este mes y la pérdida se puede restar después.");
+  if (fuera) msg.push("Cobrar eso en un mes pasa del tope del RESICO (3.5 millones al año): solo puedes tributar como actividad profesional.");
+  else if (s.pasaTopeAnual) msg.push("Si cobras eso cada mes, en el año pasarías de 3.5 millones y saldrías del RESICO.");
+  if (!fuera && r.ingresos && r.conviene === "resico") msg.push(`Con estos datos, el RESICO te ahorra ${mxn(r.ahorro)} de ISR al mes.`);
+  if (!fuera && r.ingresos && r.conviene === "general") msg.push(`Con estos datos, la actividad profesional te ahorra ${mxn(r.ahorro)} de ISR al mes por tus gastos.`);
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+$("f").addEventListener("change", calcular);
+calcular();
+</script>
+</body>
+</html>

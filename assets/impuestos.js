@@ -297,7 +297,55 @@
     return { monto: m, tasa: t, modo: quitar ? "quitar" : "agregar", base, iva, total };
   }
 
-  const api = { DATOS, MAXIMO, umaAnual, limpiar, tasaResico, resicoMensual, resicoAnual, isrAnual, topeDeducciones, colegiaturasDeducibles, devolucion, declaracionAnual, isrAguinaldo, calcularIva, TASAS_IVA };
+  // ---------- Honorarios (impuestos/honorarios) ----------
+  // Persona física que cobra por servicios profesionales. Revisado el 4 nov 2026 con Siempre al Día (jun 2025) y
+  // Praxium (12 sep 2026), que coinciden; no pudimos abrir la ley en diputados.gob.mx.
+  // Actividad profesional (régimen general, arts. 100 a 110 LISR): pago provisional sobre la utilidad (cobrado menos
+  // gastos deducibles pagados) con la tarifa del art. 96. La ley usa la tarifa ACUMULADA del año; si cobras y gastas
+  // lo mismo cada mes da lo mismo que la tarifa mensual, que es lo que usamos (estimado). Si te paga una persona moral,
+  // te retiene 10% de ISR (art. 106, último párrafo).
+  // RESICO: se reutiliza resicoMensual (1% a 2.5% de lo cobrado, retención de 1.25%, art. 113-J).
+  // IVA: 16% sobre lo cobrado (art. 1 LIVA). Una persona moral te retiene dos terceras partes del IVA (art. 1-A fr. II
+  // inciso a) LIVA y art. 3 fr. I de su Reglamento), en los dos regímenes. Restas el IVA de tus gastos (acreditable).
+  const HONORARIOS = { retencionIsr: 10, tasaIva: 0.16, retencionIva: 2 / 3 };
+
+  function honorarios({ ingresos, gastos = 0, cobradoAEmpresas = 0, gastosConIva = true } = {}) {
+    const ing = r2(limpiar(ingresos));
+    const gas = r2(limpiar(gastos));
+    const capturadoEmpresas = r2(limpiar(cobradoAEmpresas));
+    const empresas = Math.min(ing, capturadoEmpresas);
+    // Actividad profesional
+    const utilidad = Math.max(0, r2(ing - gas));
+    const tarifa = Calc.isrMensual(utilidad);
+    const retencionGeneral = r2(empresas * HONORARIOS.retencionIsr / 100);
+    const difGeneral = r2(tarifa.isr - retencionGeneral);
+    const general = {
+      utilidad, isr: tarifa.isr, renglon: tarifa.renglon, retencion: retencionGeneral,
+      aPagar: Math.max(0, difGeneral), saldoFavor: Math.max(0, -difGeneral)
+    };
+    // RESICO (no deduce gastos para el ISR)
+    const resico = resicoMensual({ ingresos: ing, cobradoAEmpresas: empresas });
+    // IVA
+    const trasladado = r2(ing * HONORARIOS.tasaIva);
+    const retenido = r2(r2(empresas * HONORARIOS.tasaIva) * HONORARIOS.retencionIva);
+    const acreditable = gastosConIva ? r2(gas * HONORARIOS.tasaIva) : 0;
+    const difIva = r2(trasladado - retenido - acreditable);
+    const iva = { trasladado, retenido, acreditable, aPagar: Math.max(0, difIva), saldoFavor: Math.max(0, -difIva) };
+    // Lo que te depositan tus clientes en el mes y lo que te queda después de tus gastos e impuestos del mes.
+    const cobrasGeneral = r2(ing + trasladado - retencionGeneral - retenido);
+    const cobrasResico = r2(ing + trasladado - resico.retencion - retenido);
+    const quedaGeneral = r2(ing - gas - general.isr);
+    const quedaResico = r2(ing - gas - resico.isr);
+    let conviene = "igual";
+    if (!resico.fueraDeRegimen && ing > 0) conviene = resico.isr < general.isr ? "resico" : general.isr < resico.isr ? "general" : "igual";
+    return {
+      ingresos: ing, gastos: gas, cobradoAEmpresas: empresas, empresasAjustado: capturadoEmpresas > ing, gastosMayores: gas > ing,
+      general, resico, iva, cobrasGeneral, cobrasResico, quedaGeneral, quedaResico, conviene,
+      ahorro: resico.fueraDeRegimen ? 0 : r2(Math.abs(general.isr - resico.isr))
+    };
+  }
+
+  const api = { DATOS, MAXIMO, umaAnual, limpiar, tasaResico, resicoMensual, resicoAnual, isrAnual, topeDeducciones, colegiaturasDeducibles, devolucion, declaracionAnual, isrAguinaldo, calcularIva, TASAS_IVA, HONORARIOS, honorarios };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else raiz.Impuestos = api;
 })(this);

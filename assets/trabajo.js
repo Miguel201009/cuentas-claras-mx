@@ -136,6 +136,53 @@
       riesgo: { porcentaje: 1, diasEspera: 0, maxDias: 52 * 7, semanas: 0, cuentaSm: 16 }
     },
 
+    // Liquidación por despido injustificado (trabajo/liquidacion-despido-injustificado). Revisado el 4 nov 2026.
+    // Indemnización: 3 meses de salario (art. 123 apartado A fr. XXII constitucional y art. 48 LFT) con salario integrado
+    // (art. 84 y 89 LFT). 20 días por año (art. 50 fr. II LFT): solo cuando el patrón se niega a reinstalarte (art. 49 y 947)
+    // o cuando tú rescindes por falta del patrón (art. 52); no en todo despido (El Conta, 2 ene 2026). Muchas calculadoras
+    // los suman siempre (Factorial, FiniquitoJusto, SDV): por eso la página da el total con y sin ellos.
+    // ISR: exentos 90 UMA por cada año de servicio; la fracción de más de 6 meses cuenta como año (art. 93 fr. XIII LISR;
+    // Buk, ago 2026; SDV). Sobre lo gravado se retiene con la tasa del último sueldo mensual ordinario (ISR de la tarifa del
+    // art. 96 entre el sueldo; art. 95 y 96 LISR; El Financiero y SDV). Plazo para demandar: 2 meses (art. 518 LFT).
+    liquidacion: { mesesIndemnizacion: 3, diasPorAnio: 20, exentoUmaPorAnio: 90 },
+
+    // Nómina semanal y quincenal (trabajo/nomina-semanal-quincenal). Tarifas del art. 96 LISR para periodos de 7 y 15 días:
+    // Anexo 8 de la RMF 2026, DOF 28 dic 2025, apartado B fracciones II y IV. Coinciden Praxium (12 sep 2026) y
+    // El Contribuyente; pendiente cotejar con el PDF del SAT (red bloqueada). [límite inferior, límite superior, cuota fija, %].
+    // Subsidio para el empleo en periodos menores a un mes: monto mensual / 30.4 x días del periodo (decreto DOF 1 may 2024,
+    // reforma 31 dic 2025; IDC, 2 ene 2026, y Contador MX). El decreto da el tope de ingresos solo al mes ($11,492.66):
+    // para la semana y la quincena lo pasamos a mes con 30.4 días (estimado, el decreto no lo detalla).
+    nomina: {
+      semanal: [
+        [0.01, 194.46, 0, 1.92],
+        [194.47, 1650.67, 3.71, 6.40],
+        [1650.68, 2900.87, 96.95, 10.88],
+        [2900.88, 3372.11, 232.96, 16.00],
+        [3372.12, 4037.32, 308.35, 17.92],
+        [4037.33, 8142.75, 427.56, 21.36],
+        [8142.76, 12834.08, 1304.45, 23.52],
+        [12834.09, 24502.45, 2407.86, 30.00],
+        [24502.46, 32669.91, 5908.35, 32.00],
+        [32669.92, 98009.66, 8521.94, 34.00],
+        [98009.67, Infinity, 30737.49, 35.00]
+      ],
+      quincenal: [
+        [0.01, 416.70, 0, 1.92],
+        [416.71, 3537.15, 7.95, 6.40],
+        [3537.16, 6216.15, 207.75, 10.88],
+        [6216.16, 7225.95, 499.20, 16.00],
+        [7225.96, 8651.40, 660.75, 17.92],
+        [8651.41, 17448.75, 916.20, 21.36],
+        [17448.76, 27501.60, 2795.25, 23.52],
+        [27501.61, 52505.25, 5159.70, 30.00],
+        [52505.26, 70006.95, 12660.75, 32.00],
+        [70006.96, 210020.70, 18261.30, 34.00],
+        [210020.71, Infinity, 65866.05, 35.00]
+      ],
+      dias: { semanal: 7, quincenal: 15 },
+      diasSubsidio: 30.4
+    },
+
     maximos: { sueldoMensual: 1e8, montoEmpresa: 1e12, diasEmpresa: 1e9 }
   };
 
@@ -509,8 +556,98 @@
     };
   }
 
+  // ---------- Liquidación por despido injustificado ----------
+  // salarioMensual: sueldo mensual bruto. ingreso y salida: Date ya revisadas (Calc.validarFechas). sdi: salario diario
+  // integrado del recibo (opcional; si falta se estima con el aguinaldo y la prima vacacional del año de servicio en curso,
+  // como el factor de integración del IMSS). La prima de antigüedad se calcula con Calc.primaAntiguedad (salario base con
+  // tope de 2 salarios mínimos). No incluye el finiquito (aguinaldo, vacaciones y días sin pagar) ni salarios caídos.
+  function liquidacionDespido({ salarioMensual, ingreso, salida, sdi, diasAguinaldo = 15, primaVacacional = 0.25, zona = "general" } = {}) {
+    const cfg = DATOS.liquidacion;
+    const recortado = num(salarioMensual) > DATOS.maximos.sueldoMensual;
+    const sueldo = acotado(salarioMensual, DATOS.maximos.sueldoMensual);
+    if (!sueldo) return { ok: false, error: "Escribe tu sueldo mensual para calcular." };
+    const sd = sueldo / 30;
+    const t = Calc.tiempoServicio(ingreso, salida);
+    const diasVac = Calc.diasVacaciones(t.anios + 1);
+    const aguinaldoDias = Math.min(num(diasAguinaldo) || 15, 365);
+    const factor = 1 + (aguinaldoDias + diasVac * primaVacacional) / 365;
+    const sdiCapturado = acotado(sdi, 1e6);
+    const sdiUsado = Calc.redondear(sdiCapturado || sd * factor);
+    const tresMeses = Calc.redondear(cfg.mesesIndemnizacion * 30 * sdiUsado);
+    const veinteDias = Calc.redondear(cfg.diasPorAnio * t.total * sdiUsado);
+    const prima = Calc.primaAntiguedad({ salarioMensual: sueldo, ingreso, salida, motivo: "despido", zona });
+    const primaMonto = Calc.redondear(prima.prima);
+    const basico = Calc.redondear(tresMeses + primaMonto);
+    const conVeinte = Calc.redondear(basico + veinteDias);
+    // ISR: 90 UMA por año de servicio; más de 6 meses cuenta como año. Con menos de un año, la parte proporcional (estimado).
+    const aniosExento = t.anios + (t.fraccion > 0.5 ? 1 : 0) || t.fraccion;
+    const exento = Calc.redondear(cfg.exentoUmaPorAnio * Calc.DATOS.uma * aniosExento);
+    const tasa = Calc.isrMensual(sueldo).isr / sueldo;
+    const isr = total => {
+      const gravado = Math.max(0, Calc.redondear(total - exento));
+      const retencion = Calc.redondear(gravado * tasa);
+      return { total, exento: Math.min(exento, total), gravado, retencion, neto: Calc.redondear(total - retencion) };
+    };
+    return {
+      ok: true, sueldo, recortado, sd, anios: t.anios, fraccion: t.fraccion, antiguedad: t.total, diasVac, factor,
+      sdiEstimado: !sdiCapturado, sdi: sdiUsado, tresMeses, veinteDias, prima, primaMonto, basico, conVeinte,
+      aniosExento, exentoTotal: exento, tasa, isrBasico: isr(basico), isrConVeinte: isr(conVeinte)
+    };
+  }
+
+  // ---------- Nómina semanal y quincenal ----------
+  // ISR con una tarifa [límite inferior, límite superior, cuota fija, %].
+  function isrTarifa(tabla, base) {
+    const b = Math.max(0, +base || 0);
+    if (b < tabla[0][0]) return 0;
+    let i = tabla.length - 1;
+    while (i > 0 && b < tabla[i][0]) i--;
+    const [li, , cuota, pct] = tabla[i];
+    return Calc.redondear((b - li) * pct / 100 + cuota);
+  }
+
+  // Sueldo neto de una semana y de una quincena. monto y periodo: lo que ganas por día, semana, quincena o mes
+  // (art. 89 LFT: semana entre 7, quincena entre 15, mes entre 30). Semana = salario diario x 7; quincena = x 15.
+  // ISR con la tarifa del periodo menos el subsidio del periodo; IMSS obrero con el SBC estimado por los días del periodo.
+  // Quien gana el salario mínimo de su zona no paga ISR ni IMSS (art. 96 LISR y art. 36 LSS).
+  function nominaPeriodos({ monto, periodo = "mensual", zona = "general", ganaMinimo = false } = {}) {
+    const cfg = DATOS.nomina;
+    const div = DIVISOR[periodo] || 30;
+    const recortado = num(monto) > DATOS.maximos.sueldoMensual;
+    const capt = acotado(monto, DATOS.maximos.sueldoMensual);
+    const z = zona === "frontera" ? "frontera" : "general";
+    const sd = capt / div;
+    const salarioMinimo = Calc.salarioMinimoZona(z);
+    const enMinimo = sd > 0 && Math.round(sd * 100) <= Math.round(salarioMinimo * 100);
+    // Casilla "gano el salario mínimo": cubre la cifra mensual de la CONASAMI (mínimo x 365 / 12) y los meses de 31 días.
+    const minimo = enMinimo || (!!ganaMinimo && sd > 0 && Math.round(sd * 3000) <= Math.round(salarioMinimo * 3100));
+    const ganaMinimoNoAplica = !!ganaMinimo && sd > 0 && !minimo;
+    const sub = Calc.DATOS.subsidioEmpleo;
+    const mensualEquivalente = Calc.redondear(sd * cfg.diasSubsidio);
+    const conSubsidio = sd > 0 && mensualEquivalente <= sub.tope;
+    const sbcEstimado = sd * Calc.DATOS.factorIntegracion;
+    const calc = clave => {
+      const dias = cfg.dias[clave];
+      const bruto = Calc.redondear(sd * dias);
+      const isrT = isrTarifa(cfg[clave], bruto);
+      const subsidio = conSubsidio ? Calc.redondear(sub.mensual / cfg.diasSubsidio * dias) : 0;
+      const subsidioAplicado = Math.min(subsidio, isrT);
+      const isrRetenido = minimo ? 0 : Calc.redondear(isrT - subsidioAplicado);
+      const imss = Calc.cuotasImssObrero(sbcEstimado, z, dias);
+      const imssObrero = minimo ? 0 : imss.mensual;
+      const descuentos = Calc.redondear(isrRetenido + imssObrero);
+      return { dias, bruto, isrTarifa: isrT, subsidio, subsidioAplicado, isrRetenido, imssObrero, descuentos, neto: Calc.redondear(bruto - descuentos) };
+    };
+    const mes = Calc.sueldoNeto({ salarioMensual: Calc.redondear(sd * 30), zona: z, ganaMinimo: minimo });
+    return {
+      sd, recortado, zona: z, salarioMinimo, soloMinimo: minimo, ganaMinimoNoAplica, debajoMinimo: sd > 0 && sd < salarioMinimo,
+      mensualEquivalente, conSubsidio, sbc: Calc.cuotasImssObrero(sbcEstimado, z).sbc,
+      semana: calc("semanal"), quincena: calc("quincenal"), mes: { bruto: mes.bruto, neto: mes.neto, descuentos: mes.descuentos }
+    };
+  }
+
   const api = {
-    DATOS, ptu, horasExtra, limiteDobles, jornadaSemanal,
+    DATOS, ptu, horasExtra, limiteDobles, jornadaSemanal, liquidacionDespido, isrTarifa, nominaPeriodos,
     aguinaldoPension, aguinaldoGobierno, aguinaldoSalida, calendarioAguinaldo,
     salarioMinimoPeriodos, historialSalarioMinimo, diasDescanso, diasDescansoPendientes, pagoDiaFestivo,
     UMA, valoresUma, convertirUma, umaEstimada, incapacidadImss

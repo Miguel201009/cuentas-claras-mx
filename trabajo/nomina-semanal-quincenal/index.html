@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nómina semanal y quincenal 2026: tu sueldo neto por semana y por quincena | Cuentas Claras MX</title>
+<meta name="description" content="Calcula cuánto te llega por semana y por quincena en 2026 después del ISR y del IMSS, con las tarifas semanal y quincenal del SAT y el subsidio para el empleo. Gratis y sin registro.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/trabajo/nomina-semanal-quincenal/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Nómina semanal y quincenal 2026: tu sueldo neto por semana y por quincena">
+<meta property="og:description" content="Calcula cuánto te llega por semana y por quincena en 2026 después del ISR y del IMSS, con las tarifas semanal y quincenal del SAT y el subsidio para el empleo. Gratis y sin registro.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/trabajo/nomina-semanal-quincenal/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/trabajo-nomina-semanal-quincenal.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Trabajo","item":"https://miguel201009.github.io/cuentas-claras-mx/trabajo/"},{"@type":"ListItem","position":3,"name":"Nómina semanal y quincenal","item":"https://miguel201009.github.io/cuentas-claras-mx/trabajo/nomina-semanal-quincenal/"}]},{"@type":"WebApplication","name":"Nómina semanal y quincenal: tu sueldo neto","url":"https://miguel201009.github.io/cuentas-claras-mx/trabajo/nomina-semanal-quincenal/","description":"Calcula cuánto te llega por semana y por quincena en 2026 después del ISR y del IMSS, con las tarifas semanal y quincenal del SAT y el subsidio para el empleo. Gratis y sin registro.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Trabajo</a> › Nómina semanal y quincenal</span></div>
+
+  <header>
+    <span class="tag">Trabajo</span>
+    <h1>Nómina semanal y quincenal: tu sueldo neto</h1>
+    <p class="lede">¿Te pagan cada semana o cada quincena? Escribe lo que ganas y te decimos cuánto te llega en cada pago, después del ISR y del IMSS.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="per">¿Qué cantidad conoces?
+        <select id="per"><option value="semanal" selected>Mi sueldo por semana</option><option value="quincenal">Mi sueldo por quincena</option><option value="mensual">Mi sueldo al mes</option><option value="diario">Mi salario diario</option></select></label>
+      <label for="monto"><span id="l-monto">Sueldo bruto por semana (antes de descuentos)</span>
+        <input id="monto" type="number" min="0" max="100000000" step="any" inputmode="decimal" value="3500"></label>
+      <label for="zona">¿Dónde trabajas?
+        <select id="zona"><option value="general" selected>Resto del país</option><option value="frontera">Frontera norte (zona libre)</option></select></label>
+      <label class="check"><input id="min" type="checkbox"> Gano exactamente el salario mínimo de mi zona</label>
+      <p class="nota">Escribe tu sueldo fijo, sin horas extra, bonos ni vales. Tu salario diario es el sueldo de la semana entre 7, el de la quincena entre 15 o el del mes entre 30 (artículo 89 de la Ley Federal del Trabajo).</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Te llega por semana (estimado)</span>
+      <div class="big" id="total">$0.00</div>
+      <div class="row"><span><strong>Te llega por quincena</strong></span><b id="qneto"></b></div>
+      <div class="row"><span>Salario diario</span><b id="sd"></b></div>
+      <div class="tabla"><table>
+        <thead><tr><th></th><th>Semana (7 días)</th><th>Quincena (15 días)</th></tr></thead>
+        <tbody>
+          <tr><td>Sueldo bruto</td><td class="n" id="s-bru"></td><td class="n" id="q-bru"></td></tr>
+          <tr><td>ISR según la tarifa</td><td class="n" id="s-isr"></td><td class="n" id="q-isr"></td></tr>
+          <tr><td>Menos subsidio para el empleo</td><td class="n" id="s-sub"></td><td class="n" id="q-sub"></td></tr>
+          <tr><td>ISR que te retienen</td><td class="n" id="s-ret"></td><td class="n" id="q-ret"></td></tr>
+          <tr><td>Cuotas del IMSS</td><td class="n" id="s-ims"></td><td class="n" id="q-ims"></td></tr>
+          <tr><td><strong>Neto</strong></td><td class="n" id="s-net"></td><td class="n" id="q-net"></td></tr>
+        </tbody>
+      </table></div>
+      <div class="row"><span>Al mes (30 días), con la <a href="../sueldo-neto/">calculadora de sueldo neto</a></span><b id="mes"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Estimado para un sueldo fijo. Tu recibo puede variar unos pesos: cada empresa redondea y cuenta los días a su manera.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Cómo se calcula tu pago de cada semana o quincena</h2>
+    <ol>
+      <li>Sacas tu salario diario y lo multiplicas por <strong>7</strong> (semana) o por <strong>15</strong> (quincena).</li>
+      <li>Aplicas la <strong>tarifa de ISR del periodo</strong>: el SAT publica una tarifa para 7 días y otra para 15 días (Anexo 8 de la Resolución Miscelánea Fiscal 2026). Se usa igual que la mensual: al sueldo le restas el límite inferior, le aplicas el porcentaje y le sumas la cuota fija.</li>
+      <li>Restas el <strong>subsidio para el empleo</strong> del periodo: los $535.65 del mes entre 30.4 y por los días del pago. Son <strong>$123.34</strong> por semana y <strong>$264.30</strong> por quincena.</li>
+      <li>Restas tus <strong>cuotas del IMSS</strong>: 2.375% de tu salario base de cotización por cada día (más 0.40% de lo que pase de 3 UMA).</li>
+    </ol>
+
+    <h2>Ejemplo con $3,500 a la semana</h2>
+    <ul>
+      <li>Salario diario: 3,500 ÷ 7 = $500. Por quincena son 15 × $500 = $7,500.</li>
+      <li><strong>Semana:</strong> $3,500 cae en el renglón 5 de la tarifa semanal (límite inferior $3,372.12, cuota fija $308.35 y 17.92%): (3,500 − 3,372.12) × 17.92% + 308.35 = <strong>$331.27</strong> de ISR. No hay subsidio porque tu sueldo, pasado a mes (500 × 30.4 = $15,200), pasa de $11,492.66.</li>
+      <li><strong>IMSS:</strong> tu salario base de cotización estimado es 500 × 1.0493 = $524.65. Pagas 2.375% más 0.40% de lo que pasa de $351.93: <strong>$92.06</strong> por semana.</li>
+      <li><strong>Te llegan $3,076.67 por semana</strong> y $6,592.88 por quincena (ahí el ISR es $709.86 y el IMSS $197.26).</li>
+    </ul>
+
+    <h2>Tarifa semanal de ISR 2026 (7 días)</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Límite inferior</th><th>Límite superior</th><th>Cuota fija</th><th>% sobre excedente</th></tr></thead>
+      <tbody id="t-sem"></tbody>
+    </table></div>
+    <h2>Tarifa quincenal de ISR 2026 (15 días)</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Límite inferior</th><th>Límite superior</th><th>Cuota fija</th><th>% sobre excedente</th></tr></thead>
+      <tbody id="t-qui"></tbody>
+    </table></div>
+    <p class="nota">Cantidades en pesos. Las dos tarifas salen del Anexo 8 de la Resolución Miscelánea Fiscal para 2026 (Diario Oficial, 28 de diciembre de 2025). Coinciden en Praxium y El Contribuyente, pero no las pudimos comparar con el <a href="https://www.sat.gob.mx/minisitio/NormatividadRMFyRGCE/documentos2026/rmf/anexos/Anexo-8-RMF-2026_DOF-28122025.pdf" rel="noopener">documento del SAT</a>.</p>
+
+    <h2>Lo que no está claro</h2>
+    <ul>
+      <li><strong>Tope del subsidio:</strong> el decreto dice que el subsidio es para quien gana hasta $11,492.66 al mes, pero no dice cómo se revisa en una nómina semanal o quincenal. Nosotros pasamos tu sueldo a mes con 30.4 días, el mismo número que usa el decreto para el monto. Algunas empresas lo revisan con lo que te pagan en todo el mes, así que cerca del tope tu recibo puede ser distinto.</li>
+      <li><strong>Ajuste mensual:</strong> muchas empresas recalculan el ISR al final del mes con la tarifa mensual. Por eso un pago puede traer unos pesos más o menos de ISR.</li>
+      <li><strong>Salario mínimo:</strong> si ganas solo el mínimo de tu zona ($315.04 diarios, o $440.87 en la frontera norte), no te retienen ISR y tu parte del IMSS la paga tu patrón (artículo 96 de la Ley del ISR y artículo 36 de la Ley del Seguro Social).</li>
+    </ul>
+
+    <h2>Fuentes</h2>
+    <p class="nota">Información revisada el 4 de noviembre de 2026. Tarifas semanal y quincenal 2026: <a href="https://praxiumconsultores.com/blog/tarifa-isr-quincenal-y-semanal-2026" rel="noopener">Praxium</a> (12 sep 2026) y <a href="https://www.elcontribuyente.mx/tablas-isr/2026/" rel="noopener">El Contribuyente</a>. Subsidio para el empleo por periodos (mensual entre 30.4 por los días): <a href="https://idconline.mx/fiscal-contable/2026/01/02/actualizacion-del-subsidio-al-empleo-para-2026" rel="noopener">IDC</a> (2 ene 2026) y <a href="https://contadormx.com/tabla-de-subsidio-al-empleo-2026/" rel="noopener">Contador MX</a>. Monto y tope mensual del subsidio, cuotas del IMSS, UMA 2026 (INEGI) y salario mínimo 2026 (CONASAMI): los mismos de nuestra <a href="../sueldo-neto/">calculadora de sueldo neto</a>, con sus fuentes.</p>
+    <p>También te puede servir: <a href="../sueldo-neto/">sueldo neto e ISR al mes</a>, <a href="../horas-extra/">horas extra</a>, <a href="../salario-minimo-2027/">salario mínimo 2027</a>, <a href="../aguinaldo/">aguinaldo</a> y <a href="../../impuestos/aguinaldo-isr/">ISR del aguinaldo</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno. Los cálculos son orientativos y no sustituyen la asesoría de un contador. Consulta la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LISR.pdf" rel="noopener">Ley del ISR</a> y la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LSS.pdf" rel="noopener">Ley del Seguro Social</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/trabajo.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const ETIQUETA = { semanal: "Sueldo bruto por semana", quincenal: "Sueldo bruto por quincena", mensual: "Sueldo bruto al mes", diario: "Salario diario bruto" };
+const num = n => n.toLocaleString("es-MX", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+function tarifa(id, tabla) {
+  $(id).innerHTML = tabla.map(([li, ls, cf, p]) => `<tr><td class="n">${num(li)}</td><td class="n">${ls === Infinity ? "En adelante" : num(ls)}</td><td class="n">${num(cf)}</td><td class="n">${p.toFixed(2)}</td></tr>`).join("");
+}
+tarifa("t-sem", Trabajo.DATOS.nomina.semanal);
+tarifa("t-qui", Trabajo.DATOS.nomina.quincenal);
+function calcular() {
+  const per = $("per").value;
+  $("l-monto").textContent = ETIQUETA[per] + " (antes de descuentos)";
+  const m = leerNumero($("monto"));
+  const r = Trabajo.nominaPeriodos({ monto: m.valor, periodo: per, zona: $("zona").value, ganaMinimo: $("min").checked });
+  const fila = (p, x) => {
+    $(p + "-bru").textContent = mxn(x.bruto);
+    $(p + "-isr").textContent = mxn(x.isrTarifa);
+    $(p + "-sub").textContent = "−" + mxn(x.subsidioAplicado);
+    $(p + "-ret").textContent = mxn(x.isrRetenido);
+    $(p + "-ims").textContent = mxn(x.imssObrero);
+    $(p + "-net").textContent = mxn(x.neto);
+  };
+  fila("s", r.semana);
+  fila("q", r.quincena);
+  $("total").textContent = mxn(r.semana.neto);
+  $("qneto").textContent = mxn(r.quincena.neto);
+  $("sd").textContent = mxn(r.sd);
+  $("mes").textContent = mxn(r.mes.neto);
+  const msg = [];
+  if (m.acotado) msg.push(`Revisa la cantidad: calculamos con un máximo de ${mxn(m.valor)}.`);
+  if (!r.sd) msg.push("Escribe tu sueldo para calcular.");
+  if (r.soloMinimo) {
+    msg.push("Ganas el salario mínimo de tu zona: no te retienen ISR (art. 96 LISR) y tu parte del IMSS la paga tu patrón (art. 36 LSS).");
+    if (r.debajoMinimo) msg.push(`Tu salario diario es menor al mínimo (${mxn(r.salarioMinimo)}). Si trabajas jornada completa, te deben pagar al menos el mínimo.`);
+  } else if (r.sd > 0 && r.conSubsidio) {
+    msg.push(`Te toca el subsidio para el empleo porque tu sueldo pasado a mes (${mxn(r.mensualEquivalente)}) no pasa de ${mxn(Calc.DATOS.subsidioEmpleo.tope)}.`);
+  } else if (r.sd > 0) {
+    msg.push(`Tu sueldo pasado a mes (${mxn(r.mensualEquivalente)}) pasa de ${mxn(Calc.DATOS.subsidioEmpleo.tope)}: no te toca el subsidio para el empleo.`);
+  }
+  if (r.ganaMinimoNoAplica) msg.push("Marcaste que ganas el salario mínimo, pero tu sueldo es mayor: lo calculamos como un sueldo normal.");
+  if (!r.soloMinimo && r.semana.subsidio > r.semana.subsidioAplicado) msg.push("El subsidio es mayor que tu ISR; lo que sobra no se entrega en efectivo.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+$("f").addEventListener("change", calcular);
+calcular();
+</script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deducciones personales 2026: qué deducir y tope | Cuentas Claras MX</title>
+<meta name="description" content="Qué puedes deducir en tu declaración anual: médicos, lentes, seguro, colegiaturas, intereses de hipoteca y más. Calcula tu tope (5 UMA o 15% de tus ingresos) y cuánto te pueden devolver. Gratis.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/impuestos/deducciones-personales/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Deducciones personales 2026: qué deducir y tope">
+<meta property="og:description" content="Qué puedes deducir en tu declaración anual: médicos, lentes, seguro, colegiaturas, intereses de hipoteca y más. Calcula tu tope (5 UMA o 15% de tus ingresos) y cuánto te pueden devolver. Gratis.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/impuestos/deducciones-personales/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/impuestos-deducciones-personales.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Impuestos y SAT","item":"https://miguel201009.github.io/cuentas-claras-mx/impuestos/"},{"@type":"ListItem","position":3,"name":"Deducciones personales","item":"https://miguel201009.github.io/cuentas-claras-mx/impuestos/deducciones-personales/"}]},{"@type":"WebApplication","name":"Deducciones personales: qué deducir y cuánto te devuelven","url":"https://miguel201009.github.io/cuentas-claras-mx/impuestos/deducciones-personales/","description":"Qué puedes deducir en tu declaración anual: médicos, lentes, seguro, colegiaturas, intereses de hipoteca y más. Calcula tu tope (5 UMA o 15% de tus ingresos) y cuánto te pueden devolver. Gratis.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Impuestos y SAT</a> › Deducciones personales</span></div>
+
+  <header>
+    <span class="tag">Impuestos y SAT</span>
+    <h1>Deducciones personales: qué deducir y cuánto te devuelven</h1>
+    <p class="lede">Los gastos médicos, los lentes, las colegiaturas o los intereses de tu hipoteca pueden bajar el ISR de tu año. Escribe lo que gastaste y te decimos cuánto cuenta, tu tope y cuánto te podrían devolver en tu declaración anual.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni del SAT.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="grav">Lo que ganaste en el año y paga ISR (sueldo, honorarios, rentas)
+        <input id="grav" type="number" min="0" max="1000000000000" step="any" inputmode="decimal" value="360000"></label>
+      <label for="exe">Ingresos exentos del año (parte libre del aguinaldo, de la PTU, etc.)
+        <input id="exe" type="number" min="0" max="1000000000000" step="any" inputmode="decimal" value="0"></label>
+      <label for="ret">ISR que te retuvieron o pagaste en el año (déjalo vacío si no lo sabes)
+        <input id="ret" type="number" min="0" max="1000000000000" step="any" inputmode="decimal" value="54235.80"></label>
+      <p class="nota"><strong>Entran al tope general</strong></p>
+      <label for="med">Médicos, dentista, psicólogo, nutriólogo, hospital y análisis
+        <input id="med" type="number" min="0" max="1000000000000" step="any" inputmode="decimal" value="15000"></label>
+      <label for="len">Lentes graduados
+        <input id="len" type="number" min="0" max="1000000000000" step="any" inputmode="decimal" value="3000"></label>
+      <label for="plen">¿Para cuántas personas fueron los lentes?
+        <input id="plen" type="number" min="1" max="20" step="1" inputmode="numeric" value="1"></label>
+      <label for="seg">Seguro de gastos médicos (lo que pagaste de prima)
+        <input id="seg" type="number" min="0" max="1000000000000" step="any" inputmode="decimal" value="12000"></label>
+      <label for="hip">Intereses reales de tu crédito hipotecario (vienen en la constancia de tu banco o del Infonavit)
+        <input id="hip" type="number" min="0" max="1000000000000" step="any" inputmode="decimal" value="0"></label>
+      <label for="fun">Gastos funerales
+        <input id="fun" type="number" min="0" max="1000000000000" step="any" inputmode="decimal" value="0"></label>
+      <label for="tra">Transporte escolar obligatorio
+        <input id="tra" type="number" min="0" max="1000000000000" step="any" inputmode="decimal" value="0"></label>
+      <p class="nota"><strong>Tienen su propio límite (fuera del tope general)</strong></p>
+      <label for="col">Colegiaturas pagadas en el año
+        <input id="col" type="number" min="0" max="1000000000000" step="any" inputmode="decimal" value="20000"></label>
+      <label for="niv">Nivel escolar
+        <select id="niv"><option value="preescolar">Preescolar</option><option value="primaria" selected>Primaria</option><option value="secundaria">Secundaria</option><option value="tecnico">Profesional técnico</option><option value="bachillerato">Bachillerato</option><option value="varios">Hijos en varios niveles</option></select></label>
+      <label for="alu">Número de alumnos
+        <input id="alu" type="number" min="1" max="20" step="1" inputmode="numeric" value="1"></label>
+      <label for="don">Donativos a donatarias autorizadas
+        <input id="don" type="number" min="0" max="1000000000000" step="any" inputmode="decimal" value="0"></label>
+      <label for="vol">Aportaciones voluntarias deducibles a tu Afore o plan personal de retiro
+        <input id="vol" type="number" min="0" max="1000000000000" step="any" inputmode="decimal" value="0"></label>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota" id="t-total">Te podrían devolver (estimado)</span>
+      <div class="big" id="total">$0.00</div>
+      <div class="row"><span>Tu tope general <small class="nota" id="topeq"></small></span><b id="tope"></b></div>
+      <div class="row sub"><span>Gastos que entran al tope</span><b id="dsum"></b></div>
+      <div class="row sub"><span>De esos, sí cuentan</span><b id="dapl"></b></div>
+      <div class="row sub"><span>Colegiaturas que cuentan</span><b id="dcol"></b></div>
+      <div class="row sub"><span>Donativos que cuentan</span><b id="ddon"></b></div>
+      <div class="row sub"><span>Aportaciones de retiro que cuentan</span><b id="dret"></b></div>
+      <div class="row"><span><strong>Total que deduces</strong></span><b id="dtot"></b></div>
+      <div class="row"><span>ISR del año sin deducciones</span><b id="isr0"></b></div>
+      <div class="row"><span>ISR del año con deducciones</span><b id="isr1"></b></div>
+      <div class="row"><span>Lo que te ahorran tus deducciones</span><b id="aho"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Estimado con la tarifa anual 2026 del artículo 152 de la Ley del ISR. No resta el subsidio para el empleo; si ganas poco y te lo aplicaron, usa la <a href="../declaracion-anual/">calculadora de declaración anual</a>.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Qué puedes deducir</h2>
+    <p>Son gastos que el artículo 151 de la Ley del ISR te deja restar de tus ingresos del año. Cuentan los tuyos y los de tu cónyuge o concubino, tus padres, abuelos, hijos y nietos, siempre que ellos no hayan ganado en el año una UMA anual ($42,794.64) o más.</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Gasto</th><th>Límite propio</th><th>¿Entra al tope general?</th></tr></thead>
+      <tbody>
+        <tr><td>Médicos, dentistas, psicólogos y nutriólogos; hospital, análisis y prótesis (fr. I)</td><td>Sin límite propio</td><td>Sí</td></tr>
+        <tr><td>Lentes graduados (fr. I y art. 264 del Reglamento)</td><td><strong>$2,500</strong> al año por persona</td><td>Sí</td></tr>
+        <tr><td>Gastos funerales (fr. II)</td><td>1 UMA anual: <strong>$42,794.64</strong></td><td>Sí</td></tr>
+        <tr><td>Intereses reales del crédito hipotecario de tu casa (fr. IV)</td><td>Créditos de hasta 750,000 UDIS</td><td>Sí</td></tr>
+        <tr><td>Seguro de gastos médicos (fr. VI)</td><td>Sin límite propio</td><td>Sí</td></tr>
+        <tr><td>Transporte escolar obligatorio (fr. VII)</td><td>Sin límite propio</td><td>Sí</td></tr>
+        <tr><td>Colegiaturas de preescolar a bachillerato (decreto del DOF 26 dic 2013)</td><td>De $12,900 a $24,500 por alumno según el nivel</td><td>No</td></tr>
+        <tr><td>Donativos a donatarias autorizadas (fr. III)</td><td>7% de tus ingresos acumulables del año anterior</td><td>No (ver nota)</td></tr>
+        <tr><td>Aportaciones voluntarias para el retiro (fr. V)</td><td>10% de tus ingresos y hasta 5 UMA anuales ($213,973.20)</td><td>No</td></tr>
+      </tbody>
+    </table></div>
+    <p class="nota"><strong>Dato en disputa:</strong> el texto del artículo 151 y Siempre al Día dicen que los donativos no entran al tope general; Praxium dice que sí entran desde 2022. Esta calculadora los deja fuera del tope. Si donas mucho, revísalo con tu contador. Los límites por nivel de colegiatura están en la <a href="../declaracion-anual/">guía de la declaración anual</a>.</p>
+
+    <h2>El tope general</h2>
+    <p>Lo que entra al tope no puede pasar de lo que sea <strong>menor</strong> entre:</p>
+    <ul>
+      <li><strong>5 UMA anuales:</strong> 5 × $42,794.64 = <strong>$213,973.20</strong> en 2026.</li>
+      <li><strong>15% de tus ingresos totales</strong> del año, incluidos los exentos.</li>
+    </ul>
+    <p>Si ganas menos de $1,426,488 al año, tu tope es el 15%. Por ejemplo, con $360,000 de ingresos tu tope es $54,000.</p>
+
+    <h2>Requisitos para que cuenten</h2>
+    <ul>
+      <li>Factura (CFDI) a tu nombre, con tu RFC, del año que declaras.</li>
+      <li>Pago con tarjeta, transferencia o cheque nominativo. Los gastos médicos pagados en efectivo <strong>no</strong> cuentan.</li>
+      <li>Las colegiaturas, solo en escuelas particulares con validez oficial y sin inscripciones ni reinscripciones.</li>
+      <li>Si estás en RESICO, no puedes aplicar deducciones personales.</li>
+    </ul>
+
+    <h2>Cuánto te devuelven</h2>
+    <p>No te devuelven lo que gastaste: te devuelven el ISR que dejas de pagar. Al restar tus deducciones, tu base baja y pagas menos ISR en el año. Si tu patrón ya te retuvo el ISR completo, esa diferencia es tu <strong>saldo a favor</strong>. Como regla rápida, el ahorro es tus deducciones por tu tasa marginal (el porcentaje de tu renglón en la tarifa anual).</p>
+
+    <h2>Ejemplo con los datos cargados</h2>
+    <ul>
+      <li>Ganas $30,000 al mes: $360,000 en el año. Tu patrón te retuvo $4,519.65 cada mes, $54,235.80 en el año.</li>
+      <li>Gastaste $15,000 en médicos, $3,000 en lentes (cuentan $2,500) y $12,000 en tu seguro de gastos médicos: <strong>$29,500</strong>. Tu tope es 15% de $360,000 = $54,000, así que cuentan completos.</li>
+      <li>Pagaste $20,000 de colegiatura de primaria: cuentan <strong>$12,900</strong>.</li>
+      <li>Deduces $42,400. Tu base queda en $317,600 y tu ISR del año baja de $54,235.91 a <strong>$45,179.27</strong>.</li>
+      <li>Te ahorras <strong>$9,056.64</strong> (42,400 × 21.36%). Contra lo que te retuvieron, tu saldo a favor es de <strong>$9,056.53</strong>: menos de $10,000, así que lo pides con tu contraseña, sin e.firma.</li>
+    </ul>
+
+    <h2>Fuentes</h2>
+    <p class="nota">Información revisada el 6 de noviembre de 2026. Deducciones, límites de lentes ($2,500), gastos funerales (1 UMA anual), donativos (7%), hipoteca (750,000 UDIS), retiro y tope general: <a href="https://siemprealdia.co/mexico/fiscal/deducciones-personales-que-pueden-aplicar-las-personas-fisicas-sat/" rel="noopener">Siempre al Día</a> (28 oct 2026), <a href="https://praxiumconsultores.com/blog/deducciones-personales-sat-2026-cuales-son-y-cuanto-devuelven" rel="noopener">Praxium</a> (10 sep 2026) y el <a href="https://sdv.com.mx/compendio/ley-isr/articulo-151/" rel="noopener">artículo 151 en SDV</a>. UMA 2026 (INEGI, DOF 9 ene 2026), tarifa anual del ISR 2026 (Anexo 8 de la RMF 2026), límites de colegiaturas y devolución automática: los mismos de nuestra <a href="../declaracion-anual/">calculadora de declaración anual</a>, con sus fuentes. Límites de las aportaciones voluntarias: los de nuestra página de <a href="../../retiro/aportaciones-voluntarias/">aportaciones voluntarias</a>. No pudimos abrir la ley en diputados.gob.mx desde nuestra red: revisa la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LISR.pdf" rel="noopener">Ley del ISR</a>.</p>
+    <p>También te puede servir: <a href="../declaracion-anual/">declaración anual y saldo a favor</a>, <a href="../../retiro/aportaciones-voluntarias/">aportaciones voluntarias a la Afore</a>, <a href="../../trabajo/sueldo-neto/">sueldo neto e ISR</a> y <a href="../rfc/">cómo sacar tu RFC y e.firma</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni del SAT. Los cálculos son orientativos y no sustituyen la asesoría de un contador.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/impuestos.js"></script>
+<script src="../../assets/retiro.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const r = Impuestos.deduccionesPersonales({
+    ingresosGravados: $("grav").value, ingresosExentos: $("exe").value, isrRetenido: $("ret").value,
+    medicos: $("med").value, lentes: $("len").value, personasLentes: $("plen").value, seguro: $("seg").value,
+    hipoteca: $("hip").value, funerales: $("fun").value, transporte: $("tra").value,
+    colegiaturas: $("col").value, nivelColegiatura: $("niv").value, alumnos: $("alu").value,
+    donativos: $("don").value, retiro: $("vol").value
+  });
+  const pon = (id, v) => $(id).textContent = v;
+  $("t-total").textContent = !r.hayRetenido ? "Lo que te ahorran tus deducciones (estimado)" : r.aCargo ? "Te tocaría pagar (estimado)" : "Te podrían devolver (estimado)";
+  pon("total", mxn(!r.hayRetenido ? r.ahorro : r.aCargo ? r.aCargo : r.saldoFavor));
+  pon("tope", mxn(r.tope.tope));
+  pon("topeq", r.tope.limitaUma ? "(5 UMA anuales)" : "(15% de tus ingresos)");
+  pon("dsum", mxn(r.sumaDentro));
+  pon("dapl", mxn(r.dentroAplicado));
+  pon("dcol", mxn(r.colegiaturas.deducible));
+  pon("ddon", mxn(r.donativos.deducible));
+  pon("dret", mxn(r.retiro.deducible));
+  pon("dtot", mxn(r.total));
+  pon("isr0", mxn(r.isrSinDeducciones));
+  pon("isr1", mxn(r.isrConDeducciones));
+  pon("aho", mxn(r.ahorro));
+  const msg = [];
+  if (!r.ingresosGravados) msg.push("Escribe lo que ganaste en el año.");
+  if (r.sinUsar > 0) msg.push(`Tus gastos pasan del tope: ${mxn(r.sinUsar)} ya no cuentan.`);
+  const len = r.dentro.find(x => x.clave === "lentes"), fun = r.dentro.find(x => x.clave === "funerales");
+  if (len.pagado > len.deducible) msg.push(`De los lentes solo cuentan ${mxn(len.deducible)} ($2,500 por persona).`);
+  if (fun.pagado > fun.deducible) msg.push(`De los gastos funerales solo cuenta una UMA anual (${mxn(fun.deducible)}).`);
+  if (r.colegiaturas.recortado > 0) msg.push(`De las colegiaturas solo cuentan ${mxn(r.colegiaturas.deducible)} (${mxn(r.colegiaturas.limitePorAlumno)} por alumno${r.colegiaturas.varios ? ", el límite más alto: revisa el de cada nivel" : ""}).`);
+  if (r.donativos.pagado > r.donativos.deducible) msg.push(`De los donativos solo cuenta el 7% de tus ingresos (${mxn(r.donativos.limite)}).`);
+  if (r.retiro.pagado > r.retiro.deducible) msg.push(`De tus aportaciones de retiro solo cuentan ${mxn(r.retiro.limite)}.`);
+  if (r.hayRetenido && r.saldoFavor > 0) msg.push(r.devolucion.necesitaEfirma ? "Tu saldo a favor pasa de $10,000: para pedirlo necesitas tu e.firma." : "Tu saldo a favor es de hasta $10,000: lo puedes pedir con tu contraseña del SAT.");
+  if (r.hayRetenido && r.aCargo > 0) msg.push("Te retuvieron menos de lo que te toca en el año. Pasa cuando tuviste dos patrones o ingresos sin retención.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+$("f").addEventListener("change", calcular);
+calcular();
+</script>
+</body>
+</html>

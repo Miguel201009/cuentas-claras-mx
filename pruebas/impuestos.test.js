@@ -329,4 +329,70 @@ assert.strictEqual(I.honorarios({ ingresos: 30000, gastos: 27000 }).conviene, "g
     assert.ok(pag.includes(t), `honorarios: falta ${t}`);
 }
 
+// ---------- Plataformas digitales (art. 113-A LISR, LIF 2026 art. 25 y art. 18-J LIVA) ----------
+// Conductor con $20,000 sin IVA: ISR 2.1% = 420; IVA 3,200, retienen la mitad = 1,600; depósito 20,000 + 3,200 - 420 - 1,600.
+let pl = I.plataformasDigitales({ ingresos: 20000 });
+assert.strictEqual(pl.tasaIsr, 2.1);
+cerca(pl.isrRetenido, 420, "2.1%"); cerca(pl.iva, 3200, "IVA 16%"); cerca(pl.ivaRetenido, 1600, "50% del IVA");
+cerca(pl.deposito, 21180, "depósito"); cerca(pl.anual, 240000, "anual");
+assert.strictEqual(pl.puedeDefinitivo, true, "hasta 300,000 al año: pago definitivo");
+assert.strictEqual(I.plataformasDigitales({ ingresos: 10000, actividad: "hospedaje" }).tasaIsr, 4, "hospedaje 4%");
+pl = I.plataformasDigitales({ ingresos: 15000, actividad: "ventas" });
+cerca(pl.isrRetenido, 375, "ventas 2.5% (LIF 2026)"); cerca(pl.deposito, 15825, "depósito ventas");
+// Sin RFC: 20% de ISR y todo el IVA
+pl = I.plataformasDigitales({ ingresos: 10000, actividad: "hospedaje", conRfc: false });
+cerca(pl.isrRetenido, 2000, "20% sin RFC"); cerca(pl.ivaRetenido, 1600, "100% del IVA"); cerca(pl.ivaPendiente, 0, "nada pendiente");
+assert.strictEqual(pl.puedeDefinitivo, false);
+// IVA 0%, tope de 300,000 y otros ingresos
+pl = I.plataformasDigitales({ ingresos: 10000, actividad: "ventas", ivaCero: true });
+assert.strictEqual(pl.iva, 0); assert.strictEqual(pl.ivaRetenido, 0); cerca(pl.deposito, 9750, "sin IVA");
+assert.strictEqual(I.plataformasDigitales({ ingresos: 25000 }).puedeDefinitivo, true, "300,000 exactos");
+assert.strictEqual(I.plataformasDigitales({ ingresos: 25000.01 }).pasaTope, true);
+assert.strictEqual(I.plataformasDigitales({ ingresos: 10000, soloPlataformas: false }).puedeDefinitivo, false);
+assert.strictEqual(I.plataformasDigitales({ ingresos: 1, actividad: "otra" }).actividad, "transporte", "actividad desconocida");
+[{}, { ingresos: -5 }, { ingresos: "abc", conRfc: false }, { ingresos: 1e300 }, { ingresos: Infinity, actividad: "ventas" }]
+  .forEach((e, i) => sinRaros(I.plataformasDigitales(e), "plataformas raro " + i));
+
+// ---------- Deducciones personales (art. 151 LISR) ----------
+// Valores de la página: $360,000 de sueldo, $54,235.80 retenidos, médicos 15,000, lentes 3,000 (cuentan 2,500),
+// seguro 12,000, colegiatura de primaria 20,000 (cuentan 12,900). Tope 15% = 54,000. Base 317,600.
+// ISR sin deducciones: (360,000 - 210,403.70) x 21.36% + 22,282.14 = 54,235.91. Con: (317,600 - 210,403.70) x 21.36%
+// + 22,282.14 = 45,179.27. Ahorro 9,056.64 (42,400 x 21.36%); saldo a favor 54,235.80 - 45,179.27 = 9,056.53.
+let dp = I.deduccionesPersonales({ ingresosGravados: 360000, isrRetenido: 54235.80, medicos: 15000, lentes: 3000, personasLentes: 1,
+  seguro: 12000, colegiaturas: 20000, nivelColegiatura: "primaria", alumnos: 1 });
+cerca(dp.sumaDentro, 29500, "dentro del tope"); cerca(dp.tope.tope, 54000, "tope 15%"); cerca(dp.dentroAplicado, 29500, "aplicado");
+cerca(dp.colegiaturas.deducible, 12900, "colegiatura"); cerca(dp.total, 42400, "total");
+cerca(dp.base, 317600, "base"); cerca(dp.isrSinDeducciones, 54235.91, "ISR sin"); cerca(dp.isrConDeducciones, 45179.27, "ISR con");
+cerca(dp.ahorro, 9056.64, "ahorro"); cerca(dp.saldoFavor, 9056.53, "saldo a favor"); assert.strictEqual(dp.tasaMarginal, 21.36);
+assert.strictEqual(dp.devolucion.necesitaEfirma, false);
+// Tope por UMA: con ingresos altos manda 5 UMA anuales (213,973.20)
+dp = I.deduccionesPersonales({ ingresosGravados: 2000000, medicos: 300000 });
+cerca(dp.tope.tope, 213973.2, "5 UMA"); assert.strictEqual(dp.tope.limitaUma, true); cerca(dp.sinUsar, 86026.8, "sobra");
+assert.strictEqual(dp.hayRetenido, false); assert.strictEqual(dp.saldoFavor, 0);
+// Lentes por persona y funerales hasta 1 UMA anual
+dp = I.deduccionesPersonales({ ingresosGravados: 1000000, lentes: 9000, personasLentes: 3, funerales: 50000 });
+cerca(dp.dentro.find(x => x.clave === "lentes").deducible, 7500, "3 x 2,500");
+cerca(dp.dentro.find(x => x.clave === "funerales").deducible, 42794.64, "1 UMA anual");
+// Donativos (7%) y retiro (10% y 5 UMA, de retiro.js) fuera del tope
+dp = I.deduccionesPersonales({ ingresosGravados: 300000, medicos: 100000, donativos: 50000, retiro: 50000 });
+cerca(dp.dentroAplicado, 45000, "tope 15% de 300,000"); cerca(dp.donativos.deducible, 21000, "7%"); cerca(dp.retiro.deducible, 30000, "10%");
+cerca(dp.total, 96000, "fuera del tope se suman");
+cerca(I.deduccionesPersonales({ ingresosGravados: 5000000, retiro: 1e6 }).retiro.deducible, 213973.2, "retiro: 5 UMA");
+// Exentos cuentan para el 15%; retenido vacío; a cargo
+cerca(I.deduccionesPersonales({ ingresosGravados: 100000, ingresosExentos: 20000 }).tope.tope, 18000, "15% con exentos");
+assert.strictEqual(I.deduccionesPersonales({ ingresosGravados: 100000, isrRetenido: "" }).hayRetenido, false);
+dp = I.deduccionesPersonales({ ingresosGravados: 360000, isrRetenido: 0 });
+assert.ok(dp.aCargo > 0 && dp.saldoFavor === 0, "sin retenciones te toca pagar");
+[{}, { ingresosGravados: -1, medicos: "x" }, { ingresosGravados: 1e300, medicos: 1e300, donativos: 1e300, retiro: 1e300, personasLentes: 1e300 },
+  { ingresosGravados: NaN, isrRetenido: Infinity, alumnos: -3, nivelColegiatura: "zzz" }]
+  .forEach((e, i) => sinRaros(I.deduccionesPersonales(e), "deducciones raro " + i));
+{
+  const leerPag = r => require("fs").readFileSync(require("path").join(__dirname, "..", r), "utf8");
+  const pp = leerPag("impuestos/plataformas-digitales/index.html");
+  for (const t of ["$420", "$1,600", "$21,180", "$240,000", "2.1%", "2.5%", "113-A", "impuestos.js"]) assert.ok(pp.includes(t), `plataformas: falta ${t}`);
+  const pd = leerPag("impuestos/deducciones-personales/index.html");
+  for (const t of ["$213,973.20", "$54,000", "$12,900", "$45,179.27", "$9,056.64", "$9,056.53", "$2,500", "retiro.js", "Dato en disputa"])
+    assert.ok(pd.includes(t), `deducciones: falta ${t}`);
+}
+
 console.log("impuestos.test.js: todas las pruebas pasaron");

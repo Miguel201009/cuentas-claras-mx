@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Impuestos por Uber, Didi, Mercado Libre y Airbnb 2026 | Cuentas Claras MX</title>
+<meta name="description" content="Calcula cuánto ISR e IVA te retiene la plataforma en 2026 si ganas con Uber, Didi, Rappi, Mercado Libre o Airbnb: 2.1%, 4% o 2.5% de ISR, la mitad del IVA y cuándo ya no declaras. Gratis y sin registro.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/impuestos/plataformas-digitales/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Impuestos por Uber, Didi, Mercado Libre y Airbnb 2026">
+<meta property="og:description" content="Calcula cuánto ISR e IVA te retiene la plataforma en 2026 si ganas con Uber, Didi, Rappi, Mercado Libre o Airbnb: 2.1%, 4% o 2.5% de ISR, la mitad del IVA y cuándo ya no declaras. Gratis y sin registro.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/impuestos/plataformas-digitales/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/impuestos-plataformas-digitales.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Impuestos y SAT","item":"https://miguel201009.github.io/cuentas-claras-mx/impuestos/"},{"@type":"ListItem","position":3,"name":"Plataformas digitales","item":"https://miguel201009.github.io/cuentas-claras-mx/impuestos/plataformas-digitales/"}]},{"@type":"WebApplication","name":"Uber, Didi, Mercado Libre y Airbnb: tus impuestos","url":"https://miguel201009.github.io/cuentas-claras-mx/impuestos/plataformas-digitales/","description":"Calcula cuánto ISR e IVA te retiene la plataforma en 2026 si ganas con Uber, Didi, Rappi, Mercado Libre o Airbnb: 2.1%, 4% o 2.5% de ISR, la mitad del IVA y cuándo ya no declaras. Gratis y sin registro.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Impuestos y SAT</a> › Plataformas digitales</span></div>
+
+  <header>
+    <span class="tag">Impuestos y SAT</span>
+    <h1>Uber, Didi, Mercado Libre y Airbnb: tus impuestos</h1>
+    <p class="lede">Si ganas dinero manejando, repartiendo, vendiendo o rentando por una app, la plataforma te retiene ISR e IVA antes de pagarte. Escribe lo que cobraste en el mes y te decimos cuánto te retienen, cuánto te depositan y si ya con eso cumples.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni del SAT.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="act">¿Qué haces en la plataforma?
+        <select id="act"><option value="transporte" selected>Manejo o reparto (Uber, Didi, Rappi, inDrive)</option><option value="hospedaje">Rento cuartos o casas (Airbnb, Booking)</option><option value="ventas">Vendo productos o servicios (Mercado Libre, Amazon, Etsy)</option></select></label>
+      <label for="ing">Lo que cobraste en el mes por la plataforma, sin IVA
+        <input id="ing" type="number" min="0" max="1000000000000" step="any" inputmode="decimal" value="20000"></label>
+      <label class="check"><input id="inscrito" type="checkbox" checked> Le di mi RFC a la plataforma</label>
+      <label class="check"><input id="cero" type="checkbox"> Lo que vendo paga IVA de 0% (por ejemplo, alimentos sin preparar)</label>
+      <label class="check"><input id="solo" type="checkbox" checked> Solo gano dinero por plataformas</label>
+      <p class="nota">Escribe lo que pagaron tus clientes por tus viajes, rentas o ventas, sin el IVA y antes de la comisión de la app. Las propinas no cuentan.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Te retienen de ISR en el mes (estimado)</span>
+      <div class="big" id="total">$0.00</div>
+      <div class="row"><span>Tasa de ISR</span><b id="tasa"></b></div>
+      <div class="row"><span>IVA de lo que cobraste (16%)</span><b id="iva"></b></div>
+      <div class="row sub"><span>Te retienen de IVA</span><b id="ivar"></b></div>
+      <div class="row sub"><span>IVA que te queda por declarar</span><b id="ivap"></b></div>
+      <div class="row"><span><strong>Te deposita la plataforma (antes de su comisión)</strong></span><b id="dep"></b></div>
+      <div class="row"><span>Si cobras eso cada mes, en el año</span><b id="anual"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Las retenciones te las hace la app y las entera al SAT por ti. Revísalas en el CFDI de retenciones que te da cada mes.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Cuánto te retiene la plataforma en 2026</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Lo que haces</th><th>ISR con RFC</th><th>IVA con RFC</th><th>Sin RFC</th></tr></thead>
+      <tbody>
+        <tr><td>Transporte de pasajeros y reparto de comida o paquetes</td><td><strong>2.1%</strong></td><td>50% del IVA (8%)</td><td>20% de ISR y todo el IVA (16%)</td></tr>
+        <tr><td>Hospedaje (renta de cuartos o casas por días)</td><td><strong>4%</strong></td><td>50% del IVA (8%)</td><td>20% de ISR y todo el IVA (16%)</td></tr>
+        <tr><td>Venta de productos y otros servicios</td><td><strong>2.5%</strong></td><td>50% del IVA (8%)</td><td>20% de ISR y todo el IVA (16%)</td></tr>
+      </tbody>
+    </table></div>
+    <p class="nota">Porcentajes sobre lo que cobras sin IVA. ISR: artículo 113-A de la Ley del ISR; sin RFC, artículo 113-C. IVA: artículo 18-J de la Ley del IVA. La ley todavía dice 1% para la venta de productos y servicios, pero la Ley de Ingresos de la Federación 2026 (artículo 25) lo subió a 2.5% para este año.</p>
+    <ul>
+      <li><strong>Dale tu RFC a la app.</strong> Sin RFC te retienen 20% de ISR y todo el IVA: con $20,000 al mes serían $4,000 de ISR en lugar de $420.</li>
+      <li>La retención se calcula sobre lo que pagan tus clientes, <strong>no</strong> sobre lo que te queda después de la comisión de la app.</li>
+      <li>Las propinas no forman parte de lo que te cobran por el servicio.</li>
+    </ul>
+
+    <h2>¿La retención es todo lo que pagas?</h2>
+    <p>Depende de cuánto ganas:</p>
+    <ul>
+      <li><strong>Si solo ganas por plataformas y el año pasado no pasaste de $300,000</strong>, puedes quedarte con la retención como <strong>pago definitivo</strong> (artículo 113-B de la Ley del ISR). Ya no presentas declaraciones mensuales ni anual por esos ingresos (ni de ISR ni de IVA), pero tampoco restas gastos (gasolina, mantenimiento, empaques). Es una opción: si no la eliges, sigues declarando.</li>
+      <li><strong>Si ganas más o tienes otros ingresos</strong>, la retención es solo un anticipo. Cada mes presentas tu declaración, calculas el ISR con tus gastos (o con el RESICO, si te conviene) y restas lo que te retuvieron. El IVA también: declaras el IVA que cobraste, restas el que te retuvieron y el de tus gastos con factura.</li>
+      <li>Si vendes también por tu cuenta (en tu local o por WhatsApp), esas ventas no tienen retención: las declaras tú.</li>
+    </ul>
+    <p>Para comparar regímenes usa la <a href="../resico/">calculadora de RESICO</a>. Si te preguntas cómo darte de alta, lee <a href="../../negocio/alta-en-el-sat/">alta en el SAT con tu negocio</a>.</p>
+
+    <h2>Ejemplo con los datos cargados</h2>
+    <ul>
+      <li>Manejas para una app y tus viajes suman <strong>$20,000</strong> en el mes, sin IVA.</li>
+      <li><strong>ISR:</strong> 20,000 × 2.1% = <strong>$420</strong>.</li>
+      <li><strong>IVA:</strong> el IVA de tus viajes es $3,200. La app te retiene la mitad, $1,600.</li>
+      <li>La app te deposita 20,000 + 3,200 − 420 − 1,600 = <strong>$21,180</strong>, menos su comisión.</li>
+      <li>En el año serían $240,000: menos de $300,000, así que puedes quedarte con las retenciones de ISR y de IVA como pago definitivo y no presentar declaraciones por esos ingresos.</li>
+    </ul>
+    <p class="nota">Si no eliges el pago definitivo, el IVA que te queda por declarar ($1,600 en el ejemplo) lo pagas en tu declaración del mes, menos el IVA de tus gastos con factura.</p>
+
+    <h2>¿Y el IMSS si manejo o reparto?</h2>
+    <p>Desde el 1 de julio de 2025, si como conductor o repartidor te queda al mes, después de restar una parte por el uso de tu vehículo, al menos un salario mínimo mensual, la plataforma te debe dar de alta en el IMSS como trabajador (artículo 291-C de la Ley Federal del Trabajo). Con eso tienes servicio médico, incapacidades y cuenta en tu Afore. Si ganas menos, eres trabajador independiente y puedes inscribirte por tu cuenta.</p>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Tengo que sacar factura?</h3>
+    <p>Si tus clientes te la piden, sí. La app te da cada mes un comprobante (CFDI) de lo que te retuvo; guárdalo para tus declaraciones o para tu declaración anual si no elegiste el pago definitivo.</p>
+    <h3>¿Si rento mi casa por Airbnb pago como arrendamiento?</h3>
+    <p>No. Rentar por días con hospedaje a través de una plataforma tiene su propia retención de 4%. Si rentas por meses con contrato, eso es arrendamiento y va por otro camino.</p>
+    <h3>¿Va a cambiar en 2027?</h3>
+    <p>El Paquete Económico 2027 que se presentó en septiembre de 2026 mantiene el 2.5% de ISR para quien vende por plataformas y lo extiende a las empresas. Cuando se publique la Ley de Ingresos 2027 actualizaremos esta página.</p>
+
+    <h2>Fuentes</h2>
+    <p class="nota">Información revisada el 6 de noviembre de 2026. Tasas de 2.1%, 4% y 2.5% de ISR, 20% sin RFC, retención de 50% o 100% del IVA y pago definitivo hasta $300,000: <a href="https://praxiumconsultores.com/blog/retenciones-de-plataformas-digitales-2026-tabla" rel="noopener">Praxium</a> (12 sep 2026) y <a href="https://www.siigo.com/mx/blog/obligaciones-fiscales/regimen-plataformas-digitales-sat-obligaciones/" rel="noopener">Siigo</a>. Aumento de 1% a 2.5% por la Ley de Ingresos 2026, 20% sin RFC y retención de IVA: también <a href="https://idconline.mx/fiscal-contable/2026/04/17/plataformas-digitales-2026-el-nuevo-alcance-fiscal-para-personas-morales" rel="noopener">IDC</a> (17 abr 2026). Paquete Económico 2027: <a href="https://www.ey.com/es_mx/technical/tax/boletines-fiscales/ey-tax-flash-resumen-paquete-economico-2027" rel="noopener">EY</a> (10 sep 2026). Alta en el IMSS de conductores y repartidores: <a href="https://idconline.mx/seguridad-social/2025/08/11/cuanto-debes-ganar-en-una-app-digital-para-que-te-aseguren-al-imss" rel="noopener">IDC</a> (11 ago 2025) y <a href="https://www.unotv.com/nacional/repartidores-y-choferes-de-plataformas-digitales-podran-acceder-al-imss-desde-el-1-de-julio/" rel="noopener">UnoTV</a>. No pudimos abrir la ley en diputados.gob.mx desde nuestra red: revisa la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LISR.pdf" rel="noopener">Ley del ISR</a> y la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LIVA.pdf" rel="noopener">Ley del IVA</a>.</p>
+    <p>También te puede servir: <a href="../resico/">RESICO para personas físicas</a>, <a href="../honorarios/">honorarios: ISR e IVA</a>, <a href="../calculadora-iva/">calculadora de IVA</a>, <a href="../rfc/">cómo sacar el RFC</a> y <a href="../../negocio/precio-de-venta/">precio de venta con comisión</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni del SAT. Los cálculos son orientativos y no sustituyen la asesoría de un contador.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/impuestos.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const r = Impuestos.plataformasDigitales({ ingresos: $("ing").value, actividad: $("act").value, conRfc: $("inscrito").checked, ivaCero: $("cero").checked, soloPlataformas: $("solo").checked });
+  $("total").textContent = mxn(r.isrRetenido);
+  $("tasa").textContent = r.tasaIsr + "%";
+  $("iva").textContent = mxn(r.iva);
+  $("ivar").textContent = "−" + mxn(r.ivaRetenido) + ` (${r.tasaRetencionIva}%)`;
+  $("ivap").textContent = mxn(r.ivaPendiente);
+  $("dep").textContent = mxn(r.deposito);
+  $("anual").textContent = mxn(r.anual);
+  const msg = [];
+  if (!r.ingresos) msg.push("Escribe lo que cobraste en el mes.");
+  if (!r.conRfc) msg.push(`Sin RFC te retienen 20% de ISR y todo el IVA. Con tu RFC serían ${mxn(Impuestos.plataformasDigitales({ ingresos: r.ingresos, actividad: r.actividad, ivaCero: r.ivaCero }).isrRetenido)} de ISR.`);
+  if (r.ingresos && r.puedeDefinitivo) msg.push("A ese ritmo no pasas de $300,000 al año: puedes quedarte con la retención como pago definitivo y no presentar declaraciones (si el año pasado tampoco pasaste).");
+  if (r.ingresos && r.conRfc && !r.puedeDefinitivo) msg.push(r.pasaTope ? "A ese ritmo pasas de $300,000 al año: la retención es solo un anticipo y presentas declaración cada mes." : "Como tienes otros ingresos, la retención es un anticipo y presentas declaración cada mes.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+$("f").addEventListener("change", calcular);
+calcular();
+</script>
+</body>
+</html>

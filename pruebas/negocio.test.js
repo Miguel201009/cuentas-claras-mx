@@ -253,4 +253,46 @@ e = N.puntoEquilibrio({ gastosFijos: Infinity, precio: Infinity, costoVariable: 
 assert.strictEqual(e.sinPrecio, true);
 finito(e, "Infinity");
 
+// ---------- Cuotas IMSS del patrón (negocio/cuotas-imss-patron) ----------
+// Ejemplo de Praxium (10 sep 2026): sueldo de $12,000, mes de 30 días, clase I. SBC 400 x 1.0493 = 419.72 (Praxium usa
+// 419.73), así que se compara con tolerancia de unos centavos. Praxium: cuota fija 717.94, excedente 22.37, dinero 88.14,
+// pensionados 132.21, invalidez 220.36, riesgo 68.44, guarderías 125.92, retiro 251.84, cesantía 832.70, Infonavit 629.59,
+// total 3,089.51; trabajador 307.20.
+let ip = N.costoImssPatron({ sueldoMensual: 12000, dias: 30, isn: 4 });
+const praxium = { fija: 717.94, excedente: 22.37, dinero: 88.14, pensionados: 132.21, invalidez: 220.36, guarderias: 125.92, riesgo: 68.44 };
+for (const x of ip.imss) cerca(x.monto, praxium[x.clave], "Praxium " + x.clave, 0.02);
+cerca(ip.rcv[0].monto, 251.84, "retiro", 0.02); cerca(ip.rcv[1].monto, 832.70, "cesantía", 0.03);
+assert.strictEqual(ip.tasaCeav, 6.613, "3.58 UMA: 6.613% en 2026");
+cerca(ip.infonavit, 629.59, "Infonavit", 0.02); cerca(ip.seguridadSocial, 3089.51, "total", 0.1);
+cerca(ip.obrero, 307.20, "trabajador", 0.02); cerca(ip.impuestoNomina, 480, "ISN 4%");
+// Valores de la página: $15,000, 30.4 días, clase I, sin ISN.
+ip = N.costoImssPatron({ sueldoMensual: 15000 });
+cerca(ip.sbc, 524.65, "SBC"); cerca(ip.totalImss, 1589.68, "IMSS"); cerca(ip.totalRcv, 1517.27, "RCV");
+cerca(ip.infonavit, 797.47, "Infonavit"); cerca(ip.seguridadSocial, 3904.42, "seguridad social"); cerca(ip.prestaciones, 750, "aguinaldo y prima");
+cerca(ip.costoTotal, 19654.42, "costo total"); cerca(ip.obrero, 399.79, "descuento trabajador"); assert.strictEqual(ip.tasaCeav, 7.513);
+assert.deepStrictEqual(ip.imss.map(x => x.monto), [727.51, 57.76, 111.65, 167.47, 279.11, 159.49, 86.69]);
+// Salario mínimo: el patrón paga también la parte del trabajador (art. 36 LSS)
+ip = N.costoImssPatron({ sueldoMensual: 315.04 * 30 });
+assert.strictEqual(ip.pagaParteTrabajador, true); assert.ok(ip.parteTrabajador > 0); assert.strictEqual(ip.descuentoTrabajador, 0);
+assert.strictEqual(ip.imss[1].monto, 0, "sin excedente de 3 UMA");
+// Sueldo menor al mínimo: cotiza con el mínimo; frontera; tope de 25 UMA; clase V
+ip = N.costoImssPatron({ sueldoMensual: 5000 });
+assert.strictEqual(ip.conPiso, true); cerca(ip.sbc, 315.04, "piso general");
+cerca(N.costoImssPatron({ sueldoMensual: 5000, zona: "frontera" }).sbc, 440.87, "piso frontera");
+ip = N.costoImssPatron({ sueldoMensual: 500000 });
+assert.strictEqual(ip.topado, true); cerca(ip.sbc, 2932.75, "25 UMA");
+cerca(N.costoImssPatron({ sueldoMensual: 15000, prima: 7.58875 }).imss[6].monto, 1210.36, "clase V: 524.65 x 30.4 x 7.58875%");
+assert.strictEqual(N.DATOS.primasRiesgo.length, 5);
+// Vacío y raros
+ip = N.costoImssPatron({});
+assert.strictEqual(ip.costoTotal, 0); assert.strictEqual(ip.totalImss, 0);
+[{ sueldoMensual: -1 }, { sueldoMensual: "x", prima: "y" }, { sueldoMensual: 1e300, prima: 1e9, isn: 1e9 }, { sueldoMensual: Infinity, zona: "zzz" }]
+  .forEach((e, i) => finito(N.costoImssPatron(e), "imss raro " + i));
+assert.strictEqual(N.costoImssPatron({ sueldoMensual: 15000, prima: 99 }).acotado, true);
+{
+  const pag = require("fs").readFileSync(require("path").join(__dirname, "..", "negocio/cuotas-imss-patron/index.html"), "utf8");
+  for (const t of ["$524.65", "$1,589.68", "$1,517.27", "$797.47", "$3,904.42", "$19,654.42", "$399.79", "0.54355", "7.58875", "retiro.js", "vivienda.js", "negocio.js"])
+    assert.ok(pag.includes(t), `cuotas IMSS: falta ${t}`);
+}
+
 console.log("Pruebas de negocio: todo bien");

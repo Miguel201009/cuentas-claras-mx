@@ -29,8 +29,9 @@ for (const p of ["trabajo/sueldo-neto/", "trabajo/prima-de-antiguedad/", "trabaj
   "impuestos/calculadora-iva/", "dinero/interes-compuesto/", "dinero/credito-automotriz/",
   "vivienda/credito-hipotecario-bancos/", "vivienda/puntos-infonavit/", "vivienda/fovissste/",
   "retiro/aportaciones-voluntarias/", "retiro/pension-viudez-imss/", "retiro/modalidad-40/", "trabajo/incapacidad-imss/",
-  "trabajo/liquidacion-despido-injustificado/", "trabajo/nomina-semanal-quincenal/", "impuestos/honorarios/"]) assert.ok(todas.includes(p), `falta ${p}`);
-assert.strictEqual(herramientas.length, 60, "60 calculadoras y guías");
+  "trabajo/liquidacion-despido-injustificado/", "trabajo/nomina-semanal-quincenal/", "impuestos/honorarios/",
+  "impuestos/plataformas-digitales/", "impuestos/deducciones-personales/", "negocio/cuotas-imss-patron/"]) assert.ok(todas.includes(p), `falta ${p}`);
+assert.strictEqual(herramientas.length, 63, "63 calculadoras y guías");
 
 // ---------- Reglas para cada página ----------
 const titulos = new Map();
@@ -219,7 +220,19 @@ const casos = {
   "honorarios": "impuestos/honorarios/",
   "retención de honorarios": "impuestos/honorarios/",
   "freelance impuestos": "impuestos/honorarios/",
-  "servicios profesionales isr iva": "impuestos/honorarios/"
+  "servicios profesionales isr iva": "impuestos/honorarios/",
+  "uber": "impuestos/plataformas-digitales/",
+  "impuestos mercado libre": "impuestos/plataformas-digitales/",
+  "retención airbnb": "impuestos/plataformas-digitales/",
+  "cuánto me retiene didi": "impuestos/plataformas-digitales/",
+  "deducciones personales": "impuestos/deducciones-personales/",
+  "qué puedo deducir": "impuestos/deducciones-personales/",
+  "deducir lentes": "impuestos/deducciones-personales/",
+  "tope de deducciones": "impuestos/deducciones-personales/",
+  "cuotas imss patrón": "negocio/cuotas-imss-patron/",
+  "cuánto cuesta un trabajador": "negocio/cuotas-imss-patron/",
+  "contratar empleado imss": "negocio/cuotas-imss-patron/",
+  "cuotas obrero patronales": "negocio/cuotas-imss-patron/"
 };
 for (const [q, esperado] of Object.entries(casos)) assert.ok(hrefs(q).includes(esperado), `buscar "${q}" debe dar ${esperado}: ${hrefs(q)}`);
 assert.ok(!hrefs("ine").some(h => h.startsWith("dinero/")), "ine no muestra la sección dinero");
@@ -257,6 +270,11 @@ assert.strictEqual(hrefs("incapacidad imss")[0], "trabajo/incapacidad-imss/");
 assert.strictEqual(hrefs("despido injustificado")[0], "trabajo/liquidacion-despido-injustificado/");
 assert.strictEqual(hrefs("nómina semanal")[0], "trabajo/nomina-semanal-quincenal/");
 assert.strictEqual(hrefs("honorarios")[0], "impuestos/honorarios/");
+// Todo el año: plataformas digitales, deducciones personales y cuotas IMSS del patrón
+assert.strictEqual(hrefs("uber didi")[0], "impuestos/plataformas-digitales/");
+assert.strictEqual(hrefs("deducciones personales")[0], "impuestos/deducciones-personales/");
+assert.strictEqual(hrefs("cuotas imss patrón")[0], "negocio/cuotas-imss-patron/");
+assert.ok(hrefs("declaración anual").includes("impuestos/declaracion-anual/"), "declaración anual sigue encontrando su calculadora");
 assert.ok(hrefs("liquidación").includes("trabajo/finiquito/"), "liquidación sigue encontrando el finiquito");
 assert.ok(hrefs("sueldo neto").includes("trabajo/sueldo-neto/"), "sueldo neto sigue encontrando su calculadora");
 assert.ok(hrefs("resico").includes("impuestos/resico/"), "resico sigue encontrando su calculadora");

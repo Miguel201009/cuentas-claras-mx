@@ -1,6 +1,8 @@
 // Cálculos de la sección Negocio propio de Cuentas Claras MX: precio de venta con margen, IVA y comisión
-// de terminal, y punto de equilibrio. Funciones puras, sin datos personales: todo se calcula en el navegador.
-// En el navegador carga antes ../../assets/calc.js (de ahí salen el salario mínimo, el redondeo y mxn()).
+// de terminal, punto de equilibrio y cuotas del IMSS que paga el patrón. Funciones puras, sin datos personales:
+// todo se calcula en el navegador.
+// En el navegador carga antes ../../assets/calc.js (de ahí salen el salario mínimo, el redondeo y mxn()). La página de
+// cuotas IMSS del patrón carga además ../../assets/retiro.js (retiro y cesantía) y ../../assets/vivienda.js (Infonavit).
 (function (raiz) {
   const Calc = typeof module !== "undefined" && module.exports ? require("./calc.js") : raiz.Calc;
   const r2 = Calc.redondear;
@@ -25,8 +27,31 @@
     // Si tu negocio está exento, ese IVA no lo recuperas y se vuelve costo.
     ivaComision: 0.16,
 
+    // Cuotas del IMSS que paga el patrón (Ley del Seguro Social), en % del salario base de cotización (SBC) salvo la
+    // cuota fija, que es % de la UMA diaria por cada trabajador. Revisado el 6 nov 2026 con IDC ("Factores de las cuotas
+    // y aportaciones 2026", 9 feb 2026) y Praxium (10 sep 2026), que coinciden; El Contribuyente da las mismas tasas.
+    // Las cuotas del trabajador salen de Calc.DATOS.imss; retiro (2%) y cesantía y vejez del patrón (3.150% a 7.513% en
+    // 2026), de retiro.js; Infonavit (5%), de vivienda.js. No se repiten aquí.
+    imssPatron: {
+      cuotaFijaUma: 20.40, // enfermedades y maternidad, prestaciones en especie, art. 106 fr. I LSS
+      excedente: 1.10, // enfermedades y maternidad, sobre lo que pasa de 3 UMA, art. 106 fr. II
+      dinero: 0.70, // enfermedades y maternidad, prestaciones en dinero, art. 107
+      pensionados: 1.05, // gastos médicos de pensionados, art. 25
+      invalidez: 1.75, // invalidez y vida, art. 147
+      guarderias: 1.00 // guarderías y prestaciones sociales, art. 211
+    },
+    // Riesgos de trabajo: la empresa que se inscribe por primera vez paga la prima media de su clase (art. 73 LSS; tabla
+    // leída en mLey y SDV). Después la prima se ajusta cada año según los accidentes de la empresa (art. 74).
+    primasRiesgo: [
+      { clase: "I", prima: 0.54355, ejemplo: "comercio, oficinas y servicios" },
+      { clase: "II", prima: 1.13065, ejemplo: "algunas manufacturas ligeras" },
+      { clase: "III", prima: 2.59840, ejemplo: "industria y talleres" },
+      { clase: "IV", prima: 4.65325, ejemplo: "transporte de carga y trabajos pesados" },
+      { clase: "V", prima: 7.58875, ejemplo: "construcción y minería" }
+    ],
+
     // Límites para que una cifra absurda no rompa el resultado: lo que pase de aquí se recorta y se avisa.
-    maximos: { monto: 1e9, margen: 99, comision: 50, unidades: 1e8, dias: 31 }
+    maximos: { monto: 1e9, margen: 99, comision: 50, unidades: 1e8, dias: 31, prima: 15, isn: 10 }
   };
 
   // Número válido, finito y positivo; vacío, texto, negativo o infinito cuenta como 0.
@@ -173,7 +198,75 @@
     return { anio: Calc.DATOS.anio, general: Calc.DATOS.salarioMinimo.general, frontera: Calc.DATOS.salarioMinimo.frontera };
   }
 
-  const api = { DATOS, num, acotar, comisionEfectiva, margenAMarkup, markupAMargen, analizarPrecio, precioVenta, puntoEquilibrio, salarioMinimo };
+  // ---------- Cuotas del IMSS que paga el patrón (negocio/cuotas-imss-patron) ----------
+  // Retiro y vivienda vienen de sus archivos de tema. En Node se leen con require; en el navegador, de window.
+  function temas() {
+    const enNode = typeof module !== "undefined" && module.exports;
+    return { Retiro: enNode ? require("./retiro.js") : raiz.Retiro, Vivienda: enNode ? require("./vivienda.js") : raiz.Vivienda };
+  }
+
+  // Costo mensual de dar de alta a un trabajador con sueldo fijo. SBC = sueldo / 30 x factor de integración mínimo de
+  // ley (1.0493: 15 días de aguinaldo y 12 de vacaciones con 25% de prima), entre el salario mínimo de la zona y
+  // 25 UMA (art. 28 LSS). Cada cuota se pasa a mes con los días indicados (30.4 en promedio; el IMSS cobra los días
+  // de cada mes). prima: prima de riesgo de trabajo en %. isn: impuesto sobre nómina del estado en %, sobre el sueldo.
+  // Si el trabajador gana solo el salario mínimo (sueldo / 30 no pasa del mínimo de su zona), el patrón paga también
+  // la parte del trabajador (art. 36 LSS), con el mismo criterio que Calc.sueldoNeto().
+  function costoImssPatron({ sueldoMensual, zona = "general", prima = DATOS.primasRiesgo[0].prima, isn = 0, dias = Calc.DATOS.diasMes } = {}) {
+    const { Retiro, Vivienda } = temas();
+    const D = Calc.DATOS, P = DATOS.imssPatron, M = DATOS.maximos;
+    const s = acotar(sueldoMensual, M.monto);
+    const pr = acotar(prima, M.prima);
+    const im = acotar(isn, M.isn);
+    const z = zona === "frontera" ? "frontera" : "general";
+    const sueldo = s.valor;
+    const sd = sueldo / 30;
+    const minimo = Calc.salarioMinimoZona(z);
+    const tope = D.imss.topeUma * D.uma;
+    const integrado = sd * D.factorIntegracion;
+    const sbc = sueldo ? Math.min(Math.max(integrado, minimo), tope) : 0;
+    const excedente = Math.max(0, sbc - D.imss.excedenteUma * D.uma);
+    const mes = (base, tasa) => sueldo ? r2(base * tasa / 100 * dias) : 0;
+    const tasaCeav = sbc ? Retiro.tasaCeavPatron(sbc) : 0;
+    const imss = [
+      { clave: "fija", nombre: "Enfermedades y maternidad: cuota fija", tasa: P.cuotaFijaUma, monto: mes(D.uma, P.cuotaFijaUma), ley: "Art. 106 fr. I LSS" },
+      { clave: "excedente", nombre: "Enfermedades y maternidad: excedente de 3 UMA", tasa: P.excedente, monto: mes(excedente, P.excedente), ley: "Art. 106 fr. II LSS" },
+      { clave: "dinero", nombre: "Enfermedades y maternidad: prestaciones en dinero", tasa: P.dinero, monto: mes(sbc, P.dinero), ley: "Art. 107 LSS" },
+      { clave: "pensionados", nombre: "Gastos médicos de pensionados", tasa: P.pensionados, monto: mes(sbc, P.pensionados), ley: "Art. 25 LSS" },
+      { clave: "invalidez", nombre: "Invalidez y vida", tasa: P.invalidez, monto: mes(sbc, P.invalidez), ley: "Art. 147 LSS" },
+      { clave: "guarderias", nombre: "Guarderías y prestaciones sociales", tasa: P.guarderias, monto: mes(sbc, P.guarderias), ley: "Art. 211 LSS" },
+      { clave: "riesgo", nombre: "Riesgos de trabajo", tasa: pr.valor, monto: mes(sbc, pr.valor), ley: "Arts. 71 a 74 LSS" }
+    ];
+    const rcv = [
+      { clave: "retiro", nombre: "Retiro", tasa: Retiro.DATOS.retiroPatron, monto: mes(sbc, Retiro.DATOS.retiroPatron), ley: "Art. 168 fr. I LSS" },
+      { clave: "ceav", nombre: "Cesantía en edad avanzada y vejez", tasa: tasaCeav, monto: mes(sbc, tasaCeav), ley: "Art. 168 fr. II LSS" }
+    ];
+    const tasaInfonavit = Vivienda.DATOS.infonavit.aportacion * 100;
+    const infonavit = mes(sbc, tasaInfonavit);
+    const totalImss = r2(imss.reduce((t, x) => t + x.monto, 0));
+    const totalRcv = r2(rcv.reduce((t, x) => t + x.monto, 0));
+    const obrero = sueldo ? Calc.cuotasImssObrero(sbc, z, dias).mensual : 0;
+    const pagaParteTrabajador = sueldo > 0 && sd <= minimo;
+    const parteTrabajador = pagaParteTrabajador ? obrero : 0;
+    const impuestoNomina = r2(sueldo * im.valor / 100);
+    const seguridadSocial = r2(totalImss + totalRcv + infonavit + parteTrabajador);
+    // Aguinaldo (15 días, art. 87 LFT) y prima vacacional (25% de 12 días el primer año, arts. 76 y 80 LFT) que conviene
+    // apartar cada mes. No son cuotas del IMSS, pero sí parte del costo de un trabajador.
+    const diasVac = Calc.diasVacaciones(1);
+    const prestaciones = r2(sd * (15 + diasVac * 0.25) / 12);
+    const cargas = r2(seguridadSocial + impuestoNomina);
+    const costoTotal = r2(sueldo + cargas + prestaciones);
+    return {
+      sueldo, acotado: s.acotado || pr.acotado || im.acotado, zona: z, sd, minimo, sbc, conPiso: sueldo > 0 && integrado < minimo,
+      topado: integrado > tope, vecesUma: sbc / D.uma, dias, prima: pr.valor, isn: im.valor,
+      imss, totalImss, rcv, totalRcv, tasaCeav, tasaInfonavit, infonavit, obrero, pagaParteTrabajador, parteTrabajador,
+      seguridadSocial, impuestoNomina, cargas, prestaciones, costoTotal,
+      porcentajeCargas: sueldo ? r2(cargas / sueldo * 100) : 0,
+      descuentoTrabajador: pagaParteTrabajador ? 0 : obrero,
+      bimestralRcvInfonavit: r2((totalRcv + infonavit) * 2)
+    };
+  }
+
+  const api = { DATOS, num, acotar, comisionEfectiva, margenAMarkup, markupAMargen, analizarPrecio, precioVenta, puntoEquilibrio, salarioMinimo, costoImssPatron };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else raiz.Negocio = api;
 })(this);

@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cuotas IMSS del patrón 2026: cuánto cuesta un trabajador | Cuentas Claras MX</title>
+<meta name="description" content="Calcula cuánto te cuesta dar de alta a un trabajador en el IMSS en 2026: cuotas del patrón por ramo, retiro y cesantía, Infonavit, prima de riesgo e impuesto sobre nómina. Gratis y sin registro.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/negocio/cuotas-imss-patron/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Cuotas IMSS del patrón 2026: cuánto cuesta un trabajador">
+<meta property="og:description" content="Calcula cuánto te cuesta dar de alta a un trabajador en el IMSS en 2026: cuotas del patrón por ramo, retiro y cesantía, Infonavit, prima de riesgo e impuesto sobre nómina. Gratis y sin registro.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/negocio/cuotas-imss-patron/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/negocio-cuotas-imss-patron.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Negocio propio","item":"https://miguel201009.github.io/cuentas-claras-mx/negocio/"},{"@type":"ListItem","position":3,"name":"Cuotas IMSS del patrón","item":"https://miguel201009.github.io/cuentas-claras-mx/negocio/cuotas-imss-patron/"}]},{"@type":"WebApplication","name":"Cuánto cuesta dar de alta a un trabajador en el IMSS","url":"https://miguel201009.github.io/cuentas-claras-mx/negocio/cuotas-imss-patron/","description":"Calcula cuánto te cuesta dar de alta a un trabajador en el IMSS en 2026: cuotas del patrón por ramo, retiro y cesantía, Infonavit, prima de riesgo e impuesto sobre nómina. Gratis y sin registro.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Negocio propio</a> › Cuotas IMSS del patrón</span></div>
+
+  <header>
+    <span class="tag">Negocio propio</span>
+    <h1>Cuánto cuesta dar de alta a un trabajador en el IMSS</h1>
+    <p class="lede">Si vas a contratar a alguien, además del sueldo pagas cuotas al IMSS, retiro, Infonavit y, en casi todos los estados, impuesto sobre nómina. Escribe el sueldo y te decimos cuánto te cuesta al mes.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni del IMSS.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="sue">Sueldo bruto al mes del trabajador
+        <input id="sue" type="number" min="0" max="1000000000" step="any" inputmode="decimal" value="15000"></label>
+      <label for="zona">¿Dónde trabaja?
+        <select id="zona"><option value="general" selected>Resto del país</option><option value="frontera">Frontera norte (zona libre)</option></select></label>
+      <label for="clase">¿A qué se dedica tu negocio? (clase de riesgo de trabajo)
+        <select id="clase"><option value="0.54355" selected>Clase I: comercio, oficinas y servicios (0.54355%)</option><option value="1.13065">Clase II (1.13065%)</option><option value="2.59840">Clase III (2.59840%)</option><option value="4.65325">Clase IV (4.65325%)</option><option value="7.58875">Clase V: construcción y similares (7.58875%)</option><option value="otra">Ya tengo mi prima de riesgo</option></select></label>
+      <label for="prima">Prima de riesgo de trabajo (%)
+        <input id="prima" type="number" min="0" max="15" step="any" inputmode="decimal" value="0.54355"></label>
+      <label for="isn">Impuesto sobre nómina de tu estado (%), opcional
+        <input id="isn" type="number" min="0" max="10" step="any" inputmode="decimal" value="0"></label>
+      <p class="nota">La clase de riesgo te la asigna el IMSS según tu actividad cuando te das de alta como patrón. El impuesto sobre nómina lo cobra cada estado: en la Ciudad de México es 4%.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Te cuesta al mes en total (estimado)</span>
+      <div class="big" id="total">$0.00</div>
+      <div class="row"><span>Salario base de cotización (diario)</span><b id="sbc"></b></div>
+      <div class="tabla"><table>
+        <thead><tr><th>Concepto</th><th>Tasa</th><th>Al mes</th></tr></thead>
+        <tbody id="filas"></tbody>
+      </table></div>
+      <div class="row"><span>Cuotas del IMSS (pago mensual)</span><b id="t-imss"></b></div>
+      <div class="row"><span>Retiro y cesantía (pago bimestral)</span><b id="t-rcv"></b></div>
+      <div class="row"><span>Infonavit 5% (pago bimestral)</span><b id="t-inf"></b></div>
+      <div class="row" id="r-obr"><span>Parte del trabajador que pagas tú (gana el mínimo)</span><b id="t-obr"></b></div>
+      <div class="row"><span>Impuesto sobre nómina</span><b id="t-isn"></b></div>
+      <div class="row"><span>Aguinaldo y prima vacacional que conviene apartar</span><b id="t-pre"></b></div>
+      <div class="row"><span><strong>Cargas sobre el sueldo (sin aguinaldo)</strong></span><b id="t-car"></b></div>
+      <div class="row sub"><span>Al trabajador le descuentas de IMSS</span><b id="t-des"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Mes de 30.4 días en promedio. El IMSS cobra los días de cada mes, así que tu cédula puede variar unos pesos.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Qué pagas por cada trabajador</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Ramo</th><th>Patrón</th><th>Trabajador</th><th>Sobre qué</th></tr></thead>
+      <tbody>
+        <tr><td>Enfermedades y maternidad: cuota fija</td><td>20.40%</td><td>No paga</td><td>Una UMA diaria ($117.31) por trabajador</td></tr>
+        <tr><td>Enfermedades y maternidad: excedente</td><td>1.10%</td><td>0.40%</td><td>Lo que el salario pasa de 3 UMA ($351.93)</td></tr>
+        <tr><td>Enfermedades y maternidad: prestaciones en dinero</td><td>0.70%</td><td>0.25%</td><td>Salario base de cotización</td></tr>
+        <tr><td>Gastos médicos de pensionados</td><td>1.05%</td><td>0.375%</td><td>Salario base de cotización</td></tr>
+        <tr><td>Invalidez y vida</td><td>1.75%</td><td>0.625%</td><td>Salario base de cotización</td></tr>
+        <tr><td>Guarderías y prestaciones sociales</td><td>1.00%</td><td>No paga</td><td>Salario base de cotización</td></tr>
+        <tr><td>Riesgos de trabajo</td><td>Tu prima</td><td>No paga</td><td>Salario base de cotización</td></tr>
+        <tr><td>Retiro</td><td>2.00%</td><td>No paga</td><td>Salario base de cotización</td></tr>
+        <tr><td>Cesantía en edad avanzada y vejez</td><td>3.150% a 7.513%</td><td>1.125%</td><td>Salario base de cotización</td></tr>
+        <tr><td>Infonavit</td><td>5.00%</td><td>No paga</td><td>Salario base de cotización</td></tr>
+      </tbody>
+    </table></div>
+    <p class="nota">Ley del Seguro Social: artículos 106 y 107 (enfermedades y maternidad), 25 (pensionados), 147 (invalidez y vida), 211 (guarderías), 71 a 74 (riesgos de trabajo) y 168 (retiro y cesantía); Ley del Infonavit, artículo 29.</p>
+    <ul>
+      <li><strong>Salario base de cotización:</strong> el salario diario más la parte de aguinaldo y prima vacacional. Con las prestaciones mínimas de ley es el salario diario × 1.0493. Nunca es menor que el salario mínimo ($315.04, o $440.87 en la frontera norte) ni mayor que 25 UMA ($2,932.75).</li>
+      <li><strong>Cesantía y vejez</strong> sube cada año hasta 2030 y depende de cuántas UMA gana el trabajador. En 2026 va de 3.150% (si cotiza con un salario mínimo) a 7.513% (más de 4 UMA). La tabla completa está en <a href="../../retiro/afore/">cuánto tendrás en tu Afore</a>.</li>
+      <li><strong>Riesgos de trabajo:</strong> el primer año pagas la prima media de tu clase (artículo 73). Después se ajusta cada año según los accidentes que haya tenido tu empresa.</li>
+      <li><strong>Salario mínimo:</strong> si tu trabajador gana solo el mínimo, tú pagas también su parte del IMSS (artículo 36 de la Ley del Seguro Social).</li>
+    </ul>
+
+    <h2>Cuándo se paga</h2>
+    <ul>
+      <li>Las cuotas del IMSS, cada mes, a más tardar el día 17 del mes siguiente.</li>
+      <li>Retiro, cesantía y vejez e Infonavit, cada dos meses, a más tardar el día 17 del mes siguiente al bimestre.</li>
+      <li>Das de alta al trabajador en el IMSS antes de que empiece o el mismo día, con el IDSE o en el Escritorio Virtual del IMSS. Si no lo haces, pagas las cuotas atrasadas con recargos y multas, y si se accidenta, el IMSS te puede cobrar lo que gaste en atenderlo (artículo 77 de la Ley del Seguro Social).</li>
+    </ul>
+
+    <h2>Ejemplo con los datos cargados</h2>
+    <ul>
+      <li>Sueldo de <strong>$15,000</strong> al mes: $500 diarios. Salario base de cotización: 500 × 1.0493 = <strong>$524.65</strong>, que son 4.47 UMA.</li>
+      <li><strong>IMSS del mes:</strong> cuota fija $727.51, excedente $57.76, prestaciones en dinero $111.65, pensionados $167.47, invalidez y vida $279.11, guarderías $159.49 y riesgo de trabajo (clase I) $86.69: <strong>$1,589.68</strong>.</li>
+      <li><strong>Retiro y cesantía:</strong> 2% + 7.513% = $318.99 + $1,198.28 = <strong>$1,517.27</strong> al mes.</li>
+      <li><strong>Infonavit:</strong> 5% = <strong>$797.47</strong> al mes.</li>
+      <li>En total, <strong>$3,904.42</strong> al mes de seguridad social: 26% sobre el sueldo. Con el aguinaldo y la prima vacacional que conviene apartar ($750), el trabajador te cuesta <strong>$19,654.42</strong> al mes, más el impuesto sobre nómina de tu estado.</li>
+      <li>Al trabajador le descuentas $399.79 al mes de su parte del IMSS.</li>
+    </ul>
+
+    <h2>Fuentes</h2>
+    <p class="nota">Información revisada el 6 de noviembre de 2026. Cuotas del patrón y del trabajador por ramo y tabla de cesantía y vejez 2026: <a href="https://idconline.mx/seguridad-social/2026/02/09/factores-de-las-cuotas-y-aportaciones-2026" rel="noopener">IDC</a> (9 feb 2026) y <a href="https://praxiumconsultores.com/blog/cuotas-obrero-patronales-imss-2026-cuanto-paga-el-patron" rel="noopener">Praxium</a> (10 sep 2026); <a href="https://www.elcontribuyente.mx/indicadores/cuotas-imss/" rel="noopener">El Contribuyente</a> da las mismas tasas. Nuestra calculadora reproduce, con centavos de diferencia, el ejemplo de Praxium de un sueldo de $12,000. Primas medias de riesgo de trabajo: artículo 73 de la Ley del Seguro Social en <a href="https://mley.mx/LSS/articulo/73/" rel="noopener">mLey</a> y <a href="https://sdv.com.mx/compendio/ley-seguro-social/articulo-73/" rel="noopener">SDV</a>. Impuesto sobre nómina de 4% en la Ciudad de México: <a href="https://siemprealdia.co/mexico/fiscal/reformas-al-codigo-fiscal-de-la-cdmx/" rel="noopener">Siempre al Día</a> (23 dic 2025) y <a href="https://www.forvismazars.com/mx/es/insights/forvis-mazars-en-mexico-lideres-de-opinion/tax-alert/incremento-al-impuesto-sobre-nomina-en-cdmx-2025" rel="noopener">Forvis Mazars</a>. UMA, salario mínimo, cuotas del trabajador y factor de integración: los de nuestra <a href="../../trabajo/sueldo-neto/">calculadora de sueldo neto</a>; aportación al Infonavit: la de <a href="../../vivienda/credito-infonavit/">crédito Infonavit</a>. No pudimos abrir el portal del IMSS ni la ley en diputados.gob.mx desde nuestra red: revisa la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LSS.pdf" rel="noopener">Ley del Seguro Social</a>.</p>
+    <p>También te puede servir: <a href="../../trabajo/sueldo-neto/">sueldo neto del trabajador</a>, <a href="../../trabajo/nomina-semanal-quincenal/">nómina semanal y quincenal</a>, <a href="../../trabajo/aguinaldo/">calculadora de aguinaldo</a>, <a href="../punto-de-equilibrio/">punto de equilibrio</a> y <a href="../alta-en-el-sat/">alta en el SAT con tu negocio</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni del IMSS. Los cálculos son orientativos y no sustituyen la asesoría de un contador.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/retiro.js"></script>
+<script src="../../assets/vivienda.js"></script>
+<script src="../../assets/negocio.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const pct = n => (Math.round(n * 100000) / 100000).toLocaleString("es-MX", { maximumFractionDigits: 5 }) + "%";
+function calcular() {
+  const r = Negocio.costoImssPatron({ sueldoMensual: $("sue").value, zona: $("zona").value, prima: $("prima").value, isn: $("isn").value });
+  $("total").textContent = mxn(r.costoTotal);
+  $("sbc").textContent = mxn(r.sbc) + ` (${r.vecesUma.toFixed(2)} UMA)`;
+  const filas = r.imss.concat(r.rcv, [{ nombre: "Infonavit", tasa: r.tasaInfonavit, monto: r.infonavit }]);
+  $("filas").innerHTML = "";
+  for (const x of filas) {
+    const tr = document.createElement("tr");
+    for (const [t, n] of [[x.nombre, false], [x.clave === "fija" ? "20.40% UMA" : pct(x.tasa), true], [mxn(x.monto), true]]) {
+      const td = document.createElement("td"); td.textContent = t; if (n) td.className = "n"; tr.appendChild(td);
+    }
+    $("filas").appendChild(tr);
+  }
+  $("t-imss").textContent = mxn(r.totalImss);
+  $("t-rcv").textContent = mxn(r.totalRcv);
+  $("t-inf").textContent = mxn(r.infonavit);
+  $("r-obr").hidden = !r.pagaParteTrabajador;
+  $("t-obr").textContent = mxn(r.parteTrabajador);
+  $("t-isn").textContent = mxn(r.impuestoNomina);
+  $("t-pre").textContent = mxn(r.prestaciones);
+  $("t-car").textContent = `${mxn(r.cargas)} (${r.porcentajeCargas}%)`;
+  $("t-des").textContent = mxn(r.descuentoTrabajador);
+  const msg = [];
+  if (!r.sueldo) msg.push("Escribe el sueldo del trabajador.");
+  if (r.conPiso) msg.push(`El sueldo da un salario base menor que el mínimo de la zona: cotiza con ${mxn(r.minimo)} diarios. Por ley no puedes pagar menos del salario mínimo.`);
+  if (r.pagaParteTrabajador) msg.push("Como gana el salario mínimo, tú pagas también su parte del IMSS y no le descuentas nada.");
+  if (r.topado) msg.push("El salario pasa de 25 UMA: las cuotas se calculan con el tope.");
+  if (r.zona === "frontera" && r.sueldo) msg.push("En la frontera norte la cuota de cesantía y vejez sale del rango de UMA del salario; el IMSS no ha publicado un criterio para el mínimo de esa zona, así que es estimada.");
+  if (r.acotado) msg.push("Recortamos alguna cifra que pasaba del máximo.");
+  $("msg").textContent = msg.join(" ");
+}
+$("clase").addEventListener("change", () => { if ($("clase").value !== "otra") $("prima").value = $("clase").value; });
+$("prima").addEventListener("input", () => { $("clase").value = [...$("clase").options].some(o => o.value === $("prima").value) ? $("prima").value : "otra"; });
+$("f").addEventListener("input", calcular);
+$("f").addEventListener("change", calcular);
+calcular();
+</script>
+</body>
+</html>

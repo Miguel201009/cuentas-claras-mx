@@ -345,7 +345,125 @@
     };
   }
 
-  const api = { DATOS, MAXIMO, umaAnual, limpiar, tasaResico, resicoMensual, resicoAnual, isrAnual, topeDeducciones, colegiaturasDeducibles, devolucion, declaracionAnual, isrAguinaldo, calcularIva, TASAS_IVA, HONORARIOS, honorarios };
+  // ---------- Plataformas digitales (impuestos/plataformas-digitales) ----------
+  // Retención de ISR que hace la plataforma sobre lo que cobras SIN IVA (art. 113-A LISR):
+  //   transporte de pasajeros y entrega de bienes (Uber, Didi, Rappi): 2.1% (fr. I);
+  //   hospedaje (Airbnb): 4% (fr. II);
+  //   venta de bienes y prestación de servicios (Mercado Libre, Amazon): 2.5% en 2026. La ley dice 1% (fr. III), pero
+  //   el art. 25 fr. VI de la Ley de Ingresos de la Federación 2026 la subió a 2.5%. Fuentes que coinciden: Praxium
+  //   (12 sep 2026), Siigo e IDC (17 abr 2026). La iniciativa del Paquete Económico 2027 la mantiene en 2.5% (EY,
+  //   10 sep 2026); revisar en enero de 2027 con la Ley de Ingresos 2027 publicada.
+  // Sin RFC: 20% de ISR (art. 113-C fr. IV LISR) y 100% del IVA. Con RFC, la plataforma retiene 50% del IVA, es decir
+  // 8% de lo cobrado (art. 18-J fr. II inciso a) LIVA). Fuentes: Praxium, Siigo e IDC.
+  // Pago definitivo (art. 113-B LISR): si solo ganas por plataformas y el año anterior no pasaste de 300,000 pesos,
+  // puedes quedarte con las retenciones como pago definitivo, sin deducir gastos (Praxium y Siigo).
+  const PLATAFORMAS = {
+    actividades: {
+      transporte: { nombre: "Transporte de pasajeros o reparto (Uber, Didi, Rappi)", isr: 2.1 },
+      hospedaje: { nombre: "Hospedaje (Airbnb, Booking)", isr: 4 },
+      ventas: { nombre: "Venta de productos o servicios (Mercado Libre, Amazon)", isr: 2.5 }
+    },
+    sinRfcIsr: 20,
+    tasaIva: 0.16,
+    retencionIva: 0.5,
+    sinRfcIva: 1,
+    topeDefinitivo: 300000
+  };
+
+  // ingresos: lo que cobraste en el mes por la plataforma, sin IVA. ivaCero: lo que vendes paga IVA de 0%
+  // (por ejemplo, alimentos sin preparar), así que no hay IVA que cobrar ni retener.
+  function plataformasDigitales({ ingresos, actividad = "transporte", conRfc = true, ivaCero = false, soloPlataformas = true } = {}) {
+    const ing = r2(limpiar(ingresos));
+    const clave = PLATAFORMAS.actividades[actividad] ? actividad : "transporte";
+    const act = PLATAFORMAS.actividades[clave];
+    const rfc = conRfc !== false;
+    const tasaIsr = rfc ? act.isr : PLATAFORMAS.sinRfcIsr;
+    const isrRetenido = r2(ing * tasaIsr / 100);
+    const iva = ivaCero ? 0 : r2(ing * PLATAFORMAS.tasaIva);
+    const parteIva = rfc ? PLATAFORMAS.retencionIva : PLATAFORMAS.sinRfcIva;
+    const ivaRetenido = r2(iva * parteIva);
+    const deposito = r2(ing + iva - isrRetenido - ivaRetenido);
+    const anual = r2(ing * 12);
+    const puedeDefinitivo = rfc && soloPlataformas !== false && anual <= PLATAFORMAS.topeDefinitivo;
+    return {
+      ingresos: ing, actividad: clave, nombre: act.nombre, conRfc: rfc, ivaCero: !!ivaCero,
+      tasaIsr, isrRetenido, iva, tasaRetencionIva: parteIva * 100, ivaRetenido, ivaPendiente: r2(iva - ivaRetenido),
+      deposito, anual, isrAnual: r2(isrRetenido * 12), puedeDefinitivo,
+      pasaTope: anual > PLATAFORMAS.topeDefinitivo
+    };
+  }
+
+  // ---------- Deducciones personales (impuestos/deducciones-personales) ----------
+  // Art. 151 LISR. Revisado el 6 nov 2026 con Siempre al Día (28 oct 2026), Praxium (10 sep 2026) y el texto del
+  // artículo en SDV. Dentro del tope general (5 UMA anuales o 15% de tus ingresos, lo menor; topeDeducciones): gastos
+  // médicos y de hospital, lentes (hasta 2,500 por persona, art. 264 del Reglamento), seguro de gastos médicos,
+  // intereses reales del crédito hipotecario, gastos funerales (hasta 1 UMA anual, fr. II) y transporte escolar.
+  // Fuera del tope: colegiaturas (colegiaturasDeducibles), donativos (fr. III, hasta 7% de los ingresos acumulables
+  // del año anterior) y aportaciones voluntarias para el retiro (fr. V; sus límites salen de retiro.js).
+  // Que los donativos queden fuera del tope lo dicen el texto del artículo en SDV y Siempre al Día; Praxium dice que
+  // entran desde 2022. Usamos fuera del tope, como en DATOS.deducciones, y la página lo marca como dato en disputa.
+  const DEDUCCIONES = { lentesPorPersona: 2500, funeralesUma: 1, donativosPorcentaje: 7 };
+
+  // Límites de las aportaciones voluntarias deducibles (10% de los ingresos y 5 UMA anuales), de retiro.js.
+  // En el navegador la página carga ../../assets/retiro.js antes de usar esta función.
+  function limitesRetiro() {
+    const R = typeof module !== "undefined" && module.exports ? require("./retiro.js") : raiz.Retiro;
+    return R.DATOS.deducibleVoluntarias;
+  }
+
+  function deduccionesPersonales({ ingresosGravados, ingresosExentos = 0, isrRetenido, medicos = 0, lentes = 0, personasLentes = 1,
+    seguro = 0, hipoteca = 0, funerales = 0, transporte = 0, colegiaturas = 0, nivelColegiatura = "primaria", alumnos = 1,
+    donativos = 0, retiro = 0 } = {}) {
+    const grav = r2(limpiar(ingresosGravados));
+    const exe = r2(limpiar(ingresosExentos));
+    const D = DEDUCCIONES;
+    const personas = Math.min(DATOS.maxAlumnos, Math.max(1, Math.floor(limpiar(personasLentes))));
+    const lentesPag = r2(limpiar(lentes));
+    const funPag = r2(limpiar(funerales));
+    const dentro = [
+      { clave: "medicos", nombre: "Médicos, dentista, hospital y análisis", pagado: r2(limpiar(medicos)) },
+      { clave: "lentes", nombre: "Lentes graduados", pagado: lentesPag, deducible: Math.min(lentesPag, D.lentesPorPersona * personas) },
+      { clave: "seguro", nombre: "Seguro de gastos médicos", pagado: r2(limpiar(seguro)) },
+      { clave: "hipoteca", nombre: "Intereses reales del crédito hipotecario", pagado: r2(limpiar(hipoteca)) },
+      { clave: "funerales", nombre: "Gastos funerales", pagado: funPag, deducible: Math.min(funPag, r2(D.funeralesUma * umaAnual)) },
+      { clave: "transporte", nombre: "Transporte escolar obligatorio", pagado: r2(limpiar(transporte)) }
+    ].map(x => Object.assign({ deducible: x.pagado }, x));
+    const sumaDentro = r2(dentro.reduce((s, x) => s + x.deducible, 0));
+    const tope = topeDeducciones(grav + exe);
+    const dentroAplicado = Math.min(sumaDentro, tope.tope);
+    const sinUsar = r2(sumaDentro - dentroAplicado);
+
+    const cole = colegiaturasDeducibles({ pagado: colegiaturas, nivel: nivelColegiatura, alumnos });
+    // Donativos: 7% de los ingresos acumulables del año ANTERIOR; usamos los de este año como aproximación.
+    const donPag = r2(limpiar(donativos));
+    const donLimite = r2(grav * D.donativosPorcentaje / 100);
+    const donDed = Math.min(donPag, donLimite);
+    const LR = limitesRetiro();
+    const retPag = r2(limpiar(retiro));
+    const retLimite = Math.min(r2(grav * LR.porcentaje / 100), r2(LR.topeUma * umaAnual));
+    const retDed = Math.min(retPag, retLimite);
+    const fuera = r2(cole.deducible + donDed + retDed);
+
+    const total = r2(dentroAplicado + fuera);
+    const base = Math.max(0, r2(grav - total));
+    const sin = isrAnual(grav);
+    const con = isrAnual(base);
+    const ahorro = r2(sin.isr - con.isr);
+    const hayRetenido = isrRetenido !== undefined && isrRetenido !== null && String(isrRetenido).trim() !== "";
+    const retenido = hayRetenido ? r2(limpiar(isrRetenido)) : 0;
+    const diferencia = hayRetenido ? r2(retenido - con.isr) : 0;
+    const saldoFavor = hayRetenido ? Math.max(0, diferencia) : 0;
+    return {
+      ingresosGravados: grav, ingresosExentos: exe, dentro, sumaDentro, tope, dentroAplicado, sinUsar,
+      colegiaturas: cole, donativos: { pagado: donPag, limite: donLimite, deducible: donDed },
+      retiro: { pagado: retPag, limite: retLimite, deducible: retDed }, fuera, total, base,
+      isrSinDeducciones: sin.isr, isrConDeducciones: con.isr, tasaMarginal: con.porcentaje, ahorro,
+      hayRetenido, isrRetenido: retenido, saldoFavor, aCargo: hayRetenido ? Math.max(0, -diferencia) : 0,
+      devolucion: devolucion(hayRetenido ? saldoFavor : ahorro)
+    };
+  }
+
+  const api = { DATOS, MAXIMO, umaAnual, limpiar, tasaResico, resicoMensual, resicoAnual, isrAnual, topeDeducciones, colegiaturasDeducibles, devolucion, declaracionAnual, isrAguinaldo, calcularIva, TASAS_IVA, HONORARIOS, honorarios, PLATAFORMAS, plataformasDigitales, DEDUCCIONES, deduccionesPersonales };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else raiz.Impuestos = api;
 })(this);

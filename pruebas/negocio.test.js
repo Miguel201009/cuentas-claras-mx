@@ -295,4 +295,44 @@ assert.strictEqual(N.costoImssPatron({ sueldoMensual: 15000, prima: 99 }).acotad
     assert.ok(pag.includes(t), `cuotas IMSS: falta ${t}`);
 }
 
+// ---------- Tu primera factura (negocio/facturar-por-primera-vez) ----------
+{
+  const I = require("../assets/impuestos.js");
+  // Las tasas vienen de impuestos.js, no se repiten en negocio.js.
+  assert.strictEqual(I.DATOS.resico.retencionMorales, 1.25, "RESICO: 1.25% (art. 113-J LISR)");
+  assert.strictEqual(I.HONORARIOS.retencionIsr, 10, "honorarios: 10% de ISR (art. 106 LISR)");
+  // Ejemplo de la página: RESICO, servicio, $10,000 a una empresa.
+  let f = N.factura({ subtotal: "10000" });
+  assert.strictEqual(f.ivaTrasladado, 1600);
+  assert.strictEqual(f.total, 11600);
+  assert.strictEqual(f.isrRetenido, 125, "10,000 x 1.25%");
+  assert.strictEqual(f.ivaRetenido, 1066.67, "1,600 x 2/3");
+  assert.strictEqual(f.deposito, 10408.33, "11,600 - 125 - 1,066.67");
+  // Actividad profesional: 10% de ISR
+  f = N.factura({ subtotal: 10000, regimen: "general" });
+  assert.strictEqual(f.isrRetenido, 1000); assert.strictEqual(f.deposito, 9533.33);
+  // Ventas de productos: RESICO retiene 1.25%, sin retención de IVA; en el régimen general no retienen nada.
+  f = N.factura({ subtotal: 10000, actividad: "ventas" });
+  assert.strictEqual(f.isrRetenido, 125); assert.strictEqual(f.ivaRetenido, 0); assert.strictEqual(f.deposito, 11475);
+  f = N.factura({ subtotal: 10000, actividad: "ventas", regimen: "general" });
+  assert.strictEqual(f.conRetenciones, false); assert.strictEqual(f.deposito, 11600);
+  // A una persona física no se le retiene.
+  f = N.factura({ subtotal: 10000, clienteEmpresa: false });
+  assert.strictEqual(f.deposito, 11600); assert.strictEqual(f.isrRetenido, 0);
+  // Tasa 0% y exento: sin IVA y sin retención de IVA, pero sí de ISR.
+  for (const iva of ["cero", "exento"]) {
+    f = N.factura({ subtotal: 10000, iva });
+    assert.strictEqual(f.ivaTrasladado, 0); assert.strictEqual(f.ivaRetenido, 0); assert.strictEqual(f.deposito, 9875);
+  }
+  // Claves desconocidas, 8% fronterizo y raros
+  f = N.factura({ subtotal: 10000, regimen: "x", actividad: "renta", iva: "frontera" });
+  assert.strictEqual(f.regimen, "resico"); assert.strictEqual(f.actividad, "servicios"); assert.strictEqual(f.iva, "general");
+  assert.strictEqual(N.factura({}).deposito, 0);
+  assert.strictEqual(N.factura({ subtotal: 1e300 }).acotado, true);
+  [{ subtotal: -5 }, { subtotal: "x" }, { subtotal: Infinity }, { subtotal: NaN, regimen: null }].forEach((e, i) => finito(N.factura(e), "factura rara " + i));
+  const pag = require("fs").readFileSync(require("path").join(__dirname, "..", "negocio/facturar-por-primera-vez/index.html"), "utf8");
+  for (const t of ["$10,000", "$11,600", "$125", "$1,066.67", "$10,408.33", "$9,533.33", "XAXX010101000", "impuestos.js", "negocio.js", "value=\"10000\""])
+    assert.ok(pag.includes(t), `primera factura: falta ${t}`);
+}
+
 console.log("Pruebas de negocio: todo bien");

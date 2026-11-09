@@ -1,4 +1,4 @@
-// Cálculos de la sección Casa y servicios de Cuentas Claras MX: recibo de luz de CFE, consumo de aparatos y gas LP.
+// Cálculos de la sección Casa y servicios de Cuentas Claras MX: recibo de luz de CFE, consumo de aparatos, gas LP y recibo de agua.
 // Funciones puras, sin datos personales: todo se calcula en el navegador de la persona.
 // No usa la UMA ni el salario mínimo. En el navegador carga antes ../../assets/calc.js para tener mxn().
 (function (raiz) {
@@ -91,8 +91,24 @@
       kgMinutoCalentador: 0.025
     },
 
+    agua: {
+      // 1 metro cúbico (m³) = 1,000 litros. Los medidores y los recibos cuentan en m³.
+      litrosM3: 1000,
+      // La ONU considera que cada persona necesita de 50 a 100 litros de agua al día para beber, cocinar y asearse
+      // (folleto del Decenio "El agua, fuente de vida" sobre el derecho humano al agua, y Amnistía Internacional).
+      // Lo usamos solo para comparar, no es un límite ni una tarifa.
+      onuMin: 50, onuMax: 100,
+      // Profeco: una fuga en el inodoro puede tirar de 100 a 1,000 litros al día (La Razón, 1 sep 2026, y ADN40,
+      // 29 sep 2026, que citan a Profeco).
+      fugaInodoroMin: 100, fugaInodoroMax: 1000,
+      // Días de EJEMPLO de un periodo bimestral. Cada organismo de agua cobra por mes, por bimestre o con cuota fija:
+      // la persona escribe los días que trae su recibo.
+      diasEjemplo: 60
+    },
+
     // Límites para que una cifra absurda no rompa el resultado: lo que pase de aquí se recorta y se avisa.
     maximos: {
+      lectura: 9999999, m3: 100000, diasAgua: 400, personas: 50, totalAgua: 1000000,
       kwh: 100000, kwhAnual: 1200000, precioKwh: 50,
       cantidad: 100, watts: 20000, horas: 24, dias: 31,
       precioGas: 1000, kilos: 1000, litros: 100000, porcentaje: 100,
@@ -275,9 +291,38 @@
     };
   }
 
+  // ---------- Recibo de agua ----------
+
+  // Consumo del periodo con las dos lecturas del medidor (en m³), litros por persona al día y, si la persona escribe
+  // lo que pagó, cuánto le cuesta cada m³ y cada 1,000 litros. No guarda tarifas: cada ciudad tiene las suyas.
+  // m3Directo: si el recibo ya dice el consumo, se usa ese número en lugar de restar lecturas.
+  function reciboAgua({ lecturaAnterior, lecturaActual, m3Directo, dias = DATOS.agua.diasEjemplo, personas = 1, total } = {}) {
+    const ant = rango(lecturaAnterior, 0, MAX.lectura), act = rango(lecturaActual, 0, MAX.lectura);
+    const dir = rango(m3Directo, 0, MAX.m3);
+    const d = rango(dias, 0, MAX.diasAgua), p = rango(personas, 0, MAX.personas), t = rango(total, 0, MAX.totalAgua);
+    const usaDirecto = dir.valor > 0;
+    const lecturaAlReves = !usaDirecto && act.valor < ant.valor;
+    const m3 = usaDirecto ? dir.valor : Math.max(0, act.valor - ant.valor);
+    const litros = m3 * DATOS.agua.litrosM3;
+    const dias0 = Math.round(d.valor);
+    const personas0 = Math.floor(p.valor);
+    const litrosDia = dias0 > 0 ? litros / dias0 : 0;
+    const litrosPersonaDia = personas0 > 0 ? litrosDia / personas0 : 0;
+    const veces = litrosPersonaDia / DATOS.agua.onuMax;
+    let nivel = "sin-datos";
+    if (litrosPersonaDia > 0) nivel = litrosPersonaDia < DATOS.agua.onuMin ? "bajo" : litrosPersonaDia <= DATOS.agua.onuMax ? "onu" : veces <= 2 ? "arriba" : "muy-arriba";
+    const costoM3 = m3 > 0 && t.valor > 0 ? r2(t.valor / m3) : 0;
+    return {
+      lecturaAnterior: ant.valor, lecturaActual: act.valor, usaDirecto, lecturaAlReves, m3: Math.round(m3 * 1000) / 1000, litros: Math.round(litros),
+      dias: dias0, personas: personas0, litrosDia: Math.round(litrosDia), litrosPersonaDia: Math.round(litrosPersonaDia), veces: Math.round(veces * 10) / 10, nivel,
+      total: r2(t.valor), costoM3, costoMilLitros: costoM3, costoDia: dias0 > 0 && t.valor > 0 ? r2(t.valor / dias0) : 0,
+      recortado: ant.recortado || act.recortado || dir.recortado || d.recortado || p.recortado || t.recortado
+    };
+  }
+
   const api = {
     DATOS, rango, redondear: r2, bloquesLuz, reciboLuz, consumoAparato, consumoAparatos,
-    kilosALitros, litrosAKilos, densidadGas, gasLP
+    kilosALitros, litrosAKilos, densidadGas, gasLP, reciboAgua
   };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else raiz.Casa = api;

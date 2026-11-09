@@ -468,4 +468,29 @@ for (const [n, h] of [["adultos", pam], ["mujeres", pmu], ["benito", pbj], ["rit
   else assert.ok(/3 al (viernes )?27 de noviembre/.test(h) && /oficial/.test(h), `${n}: calendario oficial de noviembre`);
 }
 
+// Acta de nacimiento: dos fuentes por estado; si no coinciden, rango estimado
+{
+  const T = require("../assets/tramites.js");
+  const tabla = F.tablaActas();
+  assert.strictEqual(tabla.length, 32, "32 estados");
+  assert.deepStrictEqual(tabla.map(c => c.clave), T.estadosOrdenados().map(e => e.clave), "mismo orden y claves que tramites.js");
+  assert.deepStrictEqual(F.costoActa("mex"), { clave: "mex", nombre: "Estado de México", min: 74, max: 74, confirmado: true });
+  assert.deepStrictEqual(F.costoActa("nl"), { clave: "nl", nombre: "Nuevo León", min: 68, max: 70, confirmado: false });
+  assert.strictEqual(F.costoActa("cdmx").min, 98);
+  assert.strictEqual(F.costoActa("zzz"), null);
+  assert.strictEqual(tabla.filter(c => c.confirmado).length, 12);
+  const minimo = Math.min(...tabla.map(c => c.min)), maximo = Math.max(...tabla.map(c => c.max));
+  assert.strictEqual(minimo, 57, "Quintana Roo"); assert.strictEqual(maximo, 254, "Baja California");
+  let a = F.actasNacimiento({ estado: "mex", copias: "2" });
+  assert.strictEqual(a.totalMin, 148); assert.strictEqual(a.totalMax, 148);
+  a = F.actasNacimiento({ estado: "camp", copias: 3 });
+  assert.strictEqual(a.totalMin, 210); assert.strictEqual(a.totalMax, 357); assert.strictEqual(a.confirmado, false);
+  assert.strictEqual(F.actasNacimiento({ estado: "x" }).totalMin, 0);
+  assert.strictEqual(F.actasNacimiento({ copias: 500 }).acotado, true);
+  sinRaros(F.actasNacimiento({ estado: "cdmx", copias: NaN }), "acta rara");
+  const pac = leerPag("familia/acta-de-nacimiento/index.html");
+  for (const t of ["$57", "$254", "Llave MX", "miregistrocivil.gob.mx", "estimado", "tramites.js", "familia.js"]) assert.ok(pac.includes(t), `acta: falta ${t}`);
+  for (const c of tabla) assert.ok(pac.includes(`<tr><td>${c.nombre}</td>`), `acta: falta ${c.nombre} en la tabla`);
+}
+
 console.log("familia.test.js: todas las pruebas pasaron");

@@ -1,8 +1,9 @@
 // Cálculos de la sección Negocio propio de Cuentas Claras MX: precio de venta con margen, IVA y comisión
-// de terminal, punto de equilibrio y cuotas del IMSS que paga el patrón. Funciones puras, sin datos personales:
+// de terminal, punto de equilibrio, cuotas del IMSS que paga el patrón y el total de tu primera factura. Funciones puras, sin datos personales:
 // todo se calcula en el navegador.
 // En el navegador carga antes ../../assets/calc.js (de ahí salen el salario mínimo, el redondeo y mxn()). La página de
-// cuotas IMSS del patrón carga además ../../assets/retiro.js (retiro y cesantía) y ../../assets/vivienda.js (Infonavit).
+// cuotas IMSS del patrón carga además ../../assets/retiro.js (retiro y cesantía) y ../../assets/vivienda.js (Infonavit);
+// la de facturar por primera vez, ../../assets/impuestos.js (retenciones de ISR e IVA).
 (function (raiz) {
   const Calc = typeof module !== "undefined" && module.exports ? require("./calc.js") : raiz.Calc;
   const r2 = Calc.redondear;
@@ -266,7 +267,53 @@
     };
   }
 
-  const api = { DATOS, num, acotar, comisionEfectiva, margenAMarkup, markupAMargen, analizarPrecio, precioVenta, puntoEquilibrio, salarioMinimo, costoImssPatron };
+  // ---------- Tu primera factura (negocio/facturar-por-primera-vez) ----------
+  // Cuánto dice tu factura y cuánto te depositan, según tu régimen, lo que facturas y a quién.
+  // No repite tasas: el IVA sale de DATOS.iva; las retenciones, de impuestos.js (en el navegador, window.Impuestos):
+  //   RESICO: la persona moral te retiene 1.25% de ISR sobre el subtotal (art. 113-J LISR; Impuestos.DATOS.resico).
+  //   Servicios profesionales (honorarios) en el régimen general: 10% de ISR (art. 106 LISR; Impuestos.HONORARIOS).
+  //   Ventas de productos en el régimen general: sin retención de ISR.
+  //   IVA: la persona moral te retiene dos terceras partes del IVA de servicios profesionales (art. 1-A fr. II
+  //   inciso a) LIVA y art. 3 fr. I de su Reglamento; Impuestos.HONORARIOS). En venta de productos no hay retención.
+  // Rentas, fletes y comisiones tienen reglas propias y no se calculan aquí.
+  // A una persona física o al público en general no se le hacen retenciones. Solo tasas 16%, 0% y exento: con el 8% de la
+  // región fronteriza la retención de IVA tiene reglas propias y no la calculamos.
+  const FACTURA = { actividades: ["servicios", "ventas"], regimenes: ["resico", "general"], iva: ["general", "cero", "exento"], maximo: 1e10 };
+
+  function impuestos() {
+    const enNode = typeof module !== "undefined" && module.exports;
+    return enNode ? require("./impuestos.js") : raiz.Impuestos;
+  }
+
+  function factura({ subtotal, regimen = "resico", actividad = "servicios", iva = "general", clienteEmpresa = true } = {}) {
+    const I = impuestos();
+    const { valor: base, acotado } = acotar(subtotal, FACTURA.maximo);
+    const sub = r2(base);
+    regimen = FACTURA.regimenes.includes(regimen) ? regimen : "resico";
+    actividad = FACTURA.actividades.includes(actividad) ? actividad : "servicios";
+    const claveIva = FACTURA.iva.includes(iva) ? iva : "general";
+    const empresa = !!clienteEmpresa;
+    const tasaTraslado = DATOS.iva[claveIva];
+    const ivaTrasladado = r2(sub * tasaTraslado);
+
+    let tasaIsr = 0;
+    if (empresa) {
+      if (regimen === "resico") tasaIsr = I.DATOS.resico.retencionMorales;
+      else if (actividad !== "ventas") tasaIsr = I.HONORARIOS.retencionIsr;
+    }
+    const isrRetenido = r2(sub * tasaIsr / 100);
+    const retieneIva = empresa && actividad !== "ventas" && ivaTrasladado > 0;
+    const ivaRetenido = retieneIva ? r2(ivaTrasladado * I.HONORARIOS.retencionIva) : 0;
+    const total = r2(sub + ivaTrasladado);
+    const deposito = r2(total - isrRetenido - ivaRetenido);
+    return {
+      subtotal: sub, acotado, regimen, actividad, iva: claveIva, clienteEmpresa: empresa,
+      tasaIva: r2(tasaTraslado * 100), ivaTrasladado, tasaIsr, isrRetenido, retieneIva, ivaRetenido,
+      total, deposito, conRetenciones: isrRetenido + ivaRetenido > 0
+    };
+  }
+
+  const api = { DATOS, num, acotar, comisionEfectiva, margenAMarkup, markupAMargen, analizarPrecio, precioVenta, puntoEquilibrio, salarioMinimo, costoImssPatron, FACTURA, factura };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else raiz.Negocio = api;
 })(this);

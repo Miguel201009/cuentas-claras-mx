@@ -1,6 +1,7 @@
 // Familia y becas de Cuentas Claras MX: suma de los apoyos del Bienestar de un hogar, pago de la licencia
 // de maternidad (subsidio del IMSS) y del permiso de paternidad, y reparto de los gastos de los hijos para
-// hablar de pensión alimenticia. Funciones puras, sin datos personales: todo se calcula en el navegador.
+// hablar de pensión alimenticia, y costo del acta de nacimiento por estado. Funciones puras, sin datos personales:
+// todo se calcula en el navegador. La página del acta de nacimiento carga además ../../assets/tramites.js (estados).
 // En el navegador carga antes ../../assets/calc.js (UMA, salario mínimo y factor de integración vienen de
 // Calc.DATOS; de ahí sale también mxn()). En Node se lee con require.
 //
@@ -90,7 +91,23 @@
       { clave: "otros", nombre: "Diversión y otros" }
     ],
     maxGasto: 1e7,
-    maxIngreso: 1e8
+    maxIngreso: 1e8,
+
+    // Copia certificada del acta de nacimiento en 2026, por estado donde te registraron (familia/acta-de-nacimiento).
+    // Cada estado fija su cuota en su ley de ingresos o de derechos. Comparamos dos listas de la prensa que citan la
+    // Plataforma Nacional del Registro Civil: UnoTV (1 jul 2026) y TV Azteca (actualizada el 21 oct 2026).
+    // [cifra de UnoTV, cifra de TV Azteca]. Si coinciden, la cifra está confirmada; si no, la página muestra las dos
+    // como rango estimado. No pudimos abrir gob.mx ni las leyes de cada estado desde nuestra red.
+    // Las claves son las de Tramites.ESTADOS (tramites.js), de donde salen los nombres.
+    actas: {
+      ags: [110, 110], bc: [254, 243], bcs: [232, 232], camp: [70, 119], chis: [123, 123], chih: [133, 128],
+      cdmx: [98, 98], coah: [201, 209], col: [106, 102], dgo: [164, 158], gto: [130, 130], gro: [100, 100],
+      hgo: [152, 147], jal: [98, 98], mex: [74, 74], mich: [168, 168], mor: [117, 113], nay: [85, 82],
+      nl: [70, 68], oax: [136, 131], pue: [170, 170], qro: [147, 141], qroo: [59, 57], slp: [132, 127],
+      sin: [129, 124], son: [104, 104], tab: [117, 113], tamps: [118, 114], tlax: [176, 170], ver: [215, 199],
+      yuc: [237, 229], zac: [110, 110]
+    },
+    maxActas: 20
   };
 
   const r2 = Calc.redondear;
@@ -358,8 +375,39 @@
     };
   }
 
+  // ------------------------------------------------------------- Acta de nacimiento
+
+  // Los nombres y el orden de los estados vienen de tramites.js (en el navegador, window.Tramites).
+  function tramites() {
+    return enNode ? require("./tramites.js") : raiz.Tramites;
+  }
+
+  // Costo de una copia certificada en un estado: { min, max, confirmado } o null si la clave no existe.
+  function costoActa(clave) {
+    const par = Object.prototype.hasOwnProperty.call(DATOS.actas, clave) ? DATOS.actas[clave] : null;
+    const estado = tramites().ESTADOS.find(e => e.clave === clave);
+    if (!par || !estado) return null;
+    const min = Math.min(par[0], par[1]), max = Math.max(par[0], par[1]);
+    return { clave, nombre: estado.nombre, min, max, confirmado: min === max };
+  }
+
+  // Lista para la tabla y el selector, en el orden de Tramites.estadosOrdenados().
+  function tablaActas() {
+    return tramites().estadosOrdenados().map(e => costoActa(e.clave)).filter(Boolean);
+  }
+
+  // Cuánto pagas por varias copias. Sin estado conocido devuelve ceros.
+  function actasNacimiento({ estado = "cdmx", copias = 1 } = {}) {
+    const c = entero(copias, DATOS.maxActas);
+    const costo = costoActa(estado);
+    if (!costo) return { estado: null, copias: c.valor, min: 0, max: 0, totalMin: 0, totalMax: 0, confirmado: false, acotado: c.acotado };
+    return Object.assign({}, costo, {
+      estado: costo.clave, copias: c.valor, totalMin: r2(costo.min * c.valor), totalMax: r2(costo.max * c.valor), acotado: c.acotado
+    });
+  }
+
   const api = { DATOS, numero, cantidad, entero, sumaApoyos, maternidad, paternidad, gastosHijos,
-    pensionBienestar, mujeresHasta65, becaBenitoJuarez, becaRitaCetina };
+    pensionBienestar, mujeresHasta65, becaBenitoJuarez, becaRitaCetina, costoActa, tablaActas, actasNacimiento };
   if (enNode) module.exports = api;
   else raiz.Familia = api;
 })(this);

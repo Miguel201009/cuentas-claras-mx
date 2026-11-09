@@ -282,4 +282,34 @@ prueba("gas con entradas raras", () => {
   assert.strictEqual(r.costo, 0);
 });
 
+prueba("recibo de agua: ejemplo de la página", () => {
+  const A = K.DATOS.agua;
+  assert.strictEqual(A.litrosM3, 1000);
+  assert.strictEqual(A.onuMin, 50); assert.strictEqual(A.onuMax, 100);
+  const r = K.reciboAgua({ lecturaAnterior: "1250", lecturaActual: "1280", dias: "60", personas: "4", total: "480" });
+  assert.strictEqual(r.m3, 30); assert.strictEqual(r.litros, 30000);
+  assert.strictEqual(r.litrosDia, 500); assert.strictEqual(r.litrosPersonaDia, 125);
+  assert.strictEqual(r.costoM3, 16); assert.strictEqual(r.costoDia, 8);
+  assert.strictEqual(r.nivel, "arriba");
+  const pag = require("fs").readFileSync(require("path").join(__dirname, "..", "casa/tarifa-agua/index.html"), "utf8");
+  for (const t of ["30 m³", "30,000 litros", "500 litros", "125 litros por persona", "$16", "$480", "50 a 100 litros", "100 a 1,000 litros"])
+    assert.ok(pag.includes(t), `agua: falta ${t}`);
+});
+
+prueba("recibo de agua: consumo directo, niveles y casos raros", () => {
+  let r = K.reciboAgua({ lecturaAnterior: 100, lecturaActual: 90, m3Directo: 12, dias: 30, personas: 4 });
+  assert.strictEqual(r.usaDirecto, true); assert.strictEqual(r.lecturaAlReves, false); assert.strictEqual(r.m3, 12);
+  assert.strictEqual(r.litrosPersonaDia, 100); assert.strictEqual(r.nivel, "onu");
+  r = K.reciboAgua({ lecturaAnterior: 100, lecturaActual: 90, dias: 30, personas: 4 });
+  assert.strictEqual(r.lecturaAlReves, true); assert.strictEqual(r.m3, 0); assert.strictEqual(r.nivel, "sin-datos");
+  assert.strictEqual(K.reciboAgua({ m3Directo: 3, dias: 30, personas: 4 }).nivel, "bajo");
+  r = K.reciboAgua({ m3Directo: 60, dias: 60, personas: 2 });
+  assert.strictEqual(r.litrosPersonaDia, 500); assert.strictEqual(r.veces, 5); assert.strictEqual(r.nivel, "muy-arriba");
+  assert.strictEqual(r.costoM3, 0, "sin total no hay costo");
+  assert.strictEqual(K.reciboAgua({ m3Directo: 10, dias: 0, personas: 0 }).litrosPersonaDia, 0);
+  assert.strictEqual(K.reciboAgua({ lecturaActual: 1e12 }).recortado, true);
+  [{}, { lecturaAnterior: "x", lecturaActual: NaN }, { m3Directo: Infinity, dias: -3, personas: 1e9, total: 1e99 }]
+    .forEach((e, i) => finito(K.reciboAgua(e), "agua rara " + i));
+});
+
 console.log(`casa.test.js: ${n} grupos de pruebas pasaron.`);

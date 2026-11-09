@@ -5,11 +5,11 @@
 ## Secciones
 
 - [Auto 2026: tenencia, verificación y gasolina](https://miguel201009.github.io/cuentas-claras-mx/auto/): Guías y calculadoras para tu auto en México: tenencia y refrendo por estado, verificación y Hoy No Circula, y costo de gasolina por viaje. Gratis.
-- [Casa y servicios 2026: luz, aparatos y gas LP](https://miguel201009.github.io/cuentas-claras-mx/casa/): Guías y calculadoras de casa en México: cómo leer tu recibo de luz de CFE y evitar la DAC, consumo de cada aparato y gasto de gas LP. Gratis y sin registro.
+- [Casa y servicios 2026: luz, aparatos y gas LP](https://miguel201009.github.io/cuentas-claras-mx/casa/): Guías y calculadoras de casa en México: recibo de luz de CFE y la DAC, consumo de cada aparato, gas LP y recibo de agua. Gratis y sin registro.
 - [Dinero y ahorro 2026: CETES, interés compuesto y créditos](https://miguel201009.github.io/cuentas-claras-mx/dinero/): Calculadoras gratis de dinero y ahorro en México: CETES contra banco, interés compuesto, meses sin intereses y el pago mensual y CAT de un préstamo o crédito para auto.
-- [Familia y becas 2026: apoyos, licencias y pensión](https://miguel201009.github.io/cuentas-claras-mx/familia/): Guías y calculadoras gratis para tu familia en México: becas y pensiones del Bienestar, licencia de maternidad y paternidad, y pensión alimenticia.
+- [Familia y becas 2026: apoyos, licencias y pensión](https://miguel201009.github.io/cuentas-claras-mx/familia/): Guías y calculadoras gratis para tu familia en México: becas y pensiones del Bienestar, maternidad y paternidad, pensión alimenticia y acta de nacimiento.
 - [Impuestos y SAT 2026](https://miguel201009.github.io/cuentas-claras-mx/impuestos/): Guías y calculadoras de impuestos en México: RFC con CURP, RESICO, plataformas como Uber y Mercado Libre, deducciones personales, declaración anual, ISR del aguinaldo, IVA y sueldo neto con ISR. Gratis y sin registro.
-- [Negocio propio 2026: precio, equilibrio y SAT](https://miguel201009.github.io/cuentas-claras-mx/negocio/): Calculadoras y guías para tu negocio en México: precio de venta y margen con IVA, punto de equilibrio, cuotas del IMSS del patrón y alta en el SAT paso a paso. Gratis y sin registro.
+- [Negocio propio 2026: precio, equilibrio y SAT](https://miguel201009.github.io/cuentas-claras-mx/negocio/): Calculadoras y guías para tu negocio en México: precio de venta con IVA, punto de equilibrio, cuotas IMSS del patrón, alta en el SAT y tu primera factura.
 - [Retiro e IMSS 2026: Afore y pensión](https://miguel201009.github.io/cuentas-claras-mx/retiro/): Calculadoras y guías gratis de retiro en México: cuánto tendrás en tu Afore, semanas cotizadas del IMSS, pensión Ley 73 vs. Ley 97, Modalidad 40 y pensión de viudez.
 - [Calculadoras de trabajo 2026](https://miguel201009.github.io/cuentas-claras-mx/trabajo/): Calculadoras gratis de trabajo en México: aguinaldo (también de pensionados y del gobierno), finiquito, vacaciones, sueldo neto e ISR, prima de antigüedad, PTU y horas extra.
 - [Trámites 2026: CURP, INE, pasaporte y licencia](https://miguel201009.github.io/cuentas-claras-mx/tramites/): Guías gratis de trámites en México: tu CURP, credencial del INE, costo del pasaporte 2026 y el portal oficial de cada estado para tu licencia de manejo.
@@ -26,6 +26,7 @@
 - [Consumo de luz por aparato 2026: kWh y costo](https://miguel201009.github.io/cuentas-claras-mx/casa/consumo-de-aparatos/): Calcula cuántos kWh gasta cada aparato de tu casa y cuánto te cuesta al mes y en tu recibo bimestral de CFE. Watts y precio editables, gratis y sin registro.
 - [Calculadora de gas LP 2026: gasto y cuánto dura](https://miguel201009.github.io/cuentas-claras-mx/casa/gas-lp/): Calcula cuánto gastas en gas LP, cuánto te dura el cilindro o el tanque y pasa de litros a kilos. Precio editable y dónde ver el precio máximo oficial.
 - [Recibo de luz CFE 2026: tarifas, DAC y cómo leerlo](https://miguel201009.github.io/cuentas-claras-mx/casa/recibo-de-luz/): Cómo leer tu recibo de luz de CFE, tarifas 1 y 1A a 1F, consumo básico, intermedio y excedente, y cómo evitar la tarifa DAC. Con calculadora gratis.
+- [Recibo de agua 2026: cómo leerlo y cuánto gastas](https://miguel201009.github.io/cuentas-claras-mx/casa/tarifa-agua/): Cómo leer tu recibo de agua: lecturas, metros cúbicos, cargos, IVA y descuentos. Calcula los litros por persona, el costo de cada m³ y busca fugas.
 
 ## Dinero y ahorro
 
@@ -38,8 +39,9 @@
 
 ## Familia y becas
 
+- [Acta de nacimiento en línea 2026: costo por estado](https://miguel201009.github.io/cuentas-claras-mx/familia/acta-de-nacimiento/): Saca tu acta de nacimiento certificada en línea con Llave MX: costo 2026 en cada estado, qué hacer si no aparece y cómo evitar páginas que cobran de más.
 - [Beca Benito Juárez 2026: monto, pagos y estatus](https://miguel201009.github.io/cuentas-claras-mx/familia/beca-benito-juarez/): La Beca Benito Juárez de prepa pública es de $1,900 por bimestre en 2026, $9,500 por ciclo escolar. Calendario de pagos, registro y cómo consultar tu estatus con tu CURP.
-- [Beca Rita Cetina 2026: montos, registro y pagos](https://miguel201009.github.io/cuentas-claras-mx/familia/beca-rita-cetina/): Beca Rita Cetina 2026: $1,900 por bimestre por familia en secundaria, más $700 por cada hijo extra, y $2,500 al año en primaria. Registro del 26 de octubre al 6 de noviembre.
+- [Beca Rita Cetina 2026: montos, registro y pagos](https://miguel201009.github.io/cuentas-claras-mx/familia/beca-rita-cetina/): Beca Rita Cetina 2026: $1,900 por bimestre por familia en secundaria, $700 por hijo extra y $2,500 al año en primaria. Registro cerrado el 6 de noviembre.
 - [Becas y programas sociales 2026](https://miguel201009.github.io/cuentas-claras-mx/familia/becas/): Qué becas y pensiones del Bienestar hay en 2026, para quién son, cómo registrarte gratis y cómo evitar fraudes. Suma lo que recibe tu casa.
 - [Licencia de maternidad y paternidad 2026](https://miguel201009.github.io/cuentas-claras-mx/familia/maternidad-y-paternidad/): Cuántos días te tocan de licencia de maternidad y paternidad, cuánto te paga el IMSS por tu incapacidad y qué semanas necesitas. Calculadora gratis.
 - [Pensión alimenticia 2026: cómo se fija y cómo pedirla](https://miguel201009.github.io/cuentas-claras-mx/familia/pension-alimenticia/): Qué cubre la pensión alimenticia, cómo la fija un juez, cómo pedirla gratis con la defensoría pública o el DIF y una calculadora de gastos de tus hijos.
@@ -61,6 +63,7 @@
 
 - [Alta en el SAT como persona física con negocio 2026](https://miguel201009.github.io/cuentas-claras-mx/negocio/alta-en-el-sat/): Date de alta en el SAT para tu negocio paso a paso: RFC, e.firma, régimen (RESICO, actividad empresarial o plataformas), facturas y obligaciones.
 - [Cuotas IMSS del patrón 2026: cuánto cuesta un trabajador](https://miguel201009.github.io/cuentas-claras-mx/negocio/cuotas-imss-patron/): Calcula cuánto te cuesta dar de alta a un trabajador en el IMSS en 2026: cuotas del patrón por ramo, retiro y cesantía, Infonavit, prima de riesgo e impuesto sobre nómina. Gratis y sin registro.
+- [Cómo facturar por primera vez en el SAT 2026: paso a paso](https://miguel201009.github.io/cuentas-claras-mx/negocio/facturar-por-primera-vez/): Haz tu primera factura CFDI 4.0 gratis en el SAT: datos del cliente, PUE o PPD, factura global, cómo cancelar y cuánto te retienen en RESICO u honorarios.
 - [Calculadora de precio de venta y margen 2026](https://miguel201009.github.io/cuentas-claras-mx/negocio/precio-de-venta/): Calcula a cuánto vender con el margen que quieres, IVA de 16% u 8% y comisión de terminal. Diferencia entre margen y markup. Gratis y sin registro.
 - [Calculadora de punto de equilibrio 2026](https://miguel201009.github.io/cuentas-claras-mx/negocio/punto-de-equilibrio/): Cuánto tienes que vender al mes para no perder: punto de equilibrio en unidades y en pesos, ventas por día y ventas para la ganancia que quieres.
 

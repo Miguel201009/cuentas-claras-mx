@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cómo facturar por primera vez en el SAT 2026: paso a paso | Cuentas Claras MX</title>
+<meta name="description" content="Haz tu primera factura CFDI 4.0 gratis en el SAT: datos del cliente, PUE o PPD, factura global, cómo cancelar y cuánto te retienen en RESICO u honorarios.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/negocio/facturar-por-primera-vez/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Cómo facturar por primera vez en el SAT 2026: paso a paso">
+<meta property="og:description" content="Haz tu primera factura CFDI 4.0 gratis en el SAT: datos del cliente, PUE o PPD, factura global, cómo cancelar y cuánto te retienen en RESICO u honorarios.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/negocio/facturar-por-primera-vez/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/negocio-facturar-por-primera-vez.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Negocio propio","item":"https://miguel201009.github.io/cuentas-claras-mx/negocio/"},{"@type":"ListItem","position":3,"name":"Facturar por primera vez","item":"https://miguel201009.github.io/cuentas-claras-mx/negocio/facturar-por-primera-vez/"}]},{"@type":"WebApplication","name":"Tu primera factura, paso a paso","url":"https://miguel201009.github.io/cuentas-claras-mx/negocio/facturar-por-primera-vez/","description":"Haz tu primera factura CFDI 4.0 gratis en el SAT: datos del cliente, PUE o PPD, factura global, cómo cancelar y cuánto te retienen en RESICO u honorarios.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Negocio propio</a> › Facturar por primera vez</span></div>
+
+  <header>
+    <span class="tag">Negocio propio</span>
+    <h1>Tu primera factura, paso a paso</h1>
+    <p class="lede">Ya te diste de alta en el SAT y un cliente te pide factura. Aquí te decimos qué necesitas, qué datos le pides, qué claves poner y cómo cancelarla si te equivocas. Con la calculadora ves cuánto dice tu factura y cuánto te van a depositar si te retienen impuestos.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni del SAT. Aquí no se hacen facturas.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="sub">Lo que cobras, sin IVA (subtotal)
+        <input id="sub" type="number" min="0" max="10000000000" step="any" inputmode="decimal" value="10000"></label>
+      <label for="reg">Tu régimen en el SAT
+        <select id="reg"><option value="resico" selected>RESICO (Régimen Simplificado de Confianza)</option><option value="general">Actividad empresarial y profesional</option></select></label>
+      <label for="act">¿Qué facturas?
+        <select id="act"><option value="servicios" selected>Un servicio profesional (honorarios, diseño, asesoría, clases)</option><option value="ventas">Productos que vendes</option></select></label>
+      <label for="iva">IVA de lo que facturas
+        <select id="iva"><option value="general" selected>16%</option><option value="cero">0% (por ejemplo, alimentos sin preparar)</option><option value="exento">Exento</option></select></label>
+      <label class="check"><input id="emp" type="checkbox" checked> Mi cliente es una empresa (persona moral)</label>
+      <p class="nota">Las empresas te retienen impuestos y te depositan menos. Si tu cliente es una persona física o el público en general, no te retiene nada. No calculamos rentas, fletes, comisiones ni el 8% de la región fronteriza: tienen reglas propias.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Te depositan</span>
+      <div class="big" id="total">$0.00</div>
+      <div class="row"><span>Subtotal</span><b id="r-sub"></b></div>
+      <div class="row"><span>IVA trasladado</span><b id="r-iva"></b></div>
+      <div class="row"><span><strong>Total de la factura</strong></span><b id="r-tot"></b></div>
+      <div class="row sub"><span>ISR que te retienen</span><b id="r-isr"></b></div>
+      <div class="row sub"><span>IVA que te retienen</span><b id="r-ivar"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Lo que te retienen no se pierde: la empresa lo paga al SAT por ti y tú lo restas en tu declaración del mes.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Antes de tu primera factura necesitas</h2>
+    <ul>
+      <li><strong>Tu RFC con tu régimen y tu actividad.</strong> Si todavía no te das de alta, sigue la guía de <a href="../alta-en-el-sat/">alta en el SAT</a>.</li>
+      <li><strong>Tu e.firma vigente</strong> (archivos .cer y .key y su contraseña). Se saca con cita en una oficina del SAT. Cómo sacarla: <a href="../../impuestos/rfc/">RFC, contraseña y e.firma</a>.</li>
+      <li><strong>Tu certificado de sello digital (CSD)</strong>, que sirve para sellar tus facturas. Es gratis: se genera con tu e.firma en el programa Certifica del SAT.</li>
+      <li><strong>Los datos fiscales de tu cliente</strong>, tal como vienen en su constancia de situación fiscal (abajo te decimos cuáles).</li>
+    </ul>
+    <p>Puedes facturar <strong>gratis</strong> en el servicio de factura electrónica del portal del SAT. Si haces muchas facturas al día, un proveedor de facturación te puede ahorrar tiempo, pero cobra.</p>
+
+    <h2>Paso a paso en el portal del SAT</h2>
+    <ol>
+      <li>Entra al servicio de factura electrónica del portal del SAT (sat.gob.mx) con tu RFC y tu contraseña o tu e.firma.</li>
+      <li><strong>Datos del cliente (receptor):</strong> RFC, nombre o razón social, código postal de su domicilio fiscal, su régimen fiscal y el uso que le dará a la factura. El nombre y el código postal tienen que ser <strong>iguales</strong> a los de su constancia; si una empresa es «Ejemplo, S.A. de C.V.», en CFDI 4.0 se escribe sin el régimen de capital: «EJEMPLO».</li>
+      <li><strong>Uso del CFDI:</strong> te lo dice tu cliente. Los más comunes son <strong>G03</strong> (gastos en general) y <strong>G01</strong> (adquisición de mercancías).</li>
+      <li><strong>Conceptos:</strong> por cada cosa que cobras pones la clave de producto o servicio y la clave de unidad del catálogo del SAT (el portal tiene un buscador), la cantidad, la descripción y el precio sin IVA. En «objeto de impuesto» marca que sí lleva impuestos, salvo que no cause IVA.</li>
+      <li><strong>Impuestos:</strong> el IVA que trasladas (16% en general) y, si tu cliente es una empresa, las retenciones. Usa la calculadora de arriba para revisar los montos.</li>
+      <li><strong>Método y forma de pago</strong> (abajo te explicamos PUE y PPD).</li>
+      <li>Revisa la vista previa, <strong>sella</strong> la factura con tu CSD o tu e.firma y descarga el XML y el PDF. El XML es la factura; el PDF es solo su representación impresa. Mándale los dos a tu cliente.</li>
+    </ol>
+    <p class="nota">En operaciones normales dentro del país, el campo «exportación» va con la clave 01 (no aplica).</p>
+
+    <h2>¿PUE o PPD?</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Si te pagan</th><th>Método de pago</th><th>Forma de pago</th><th>Después</th></tr></thead>
+      <tbody>
+        <tr><td>Ya te pagaron, o te pagarán completo a más tardar el último día del mes en que haces la factura</td><td><strong>PUE</strong> (pago en una sola exhibición)</td><td>La que usó tu cliente: efectivo, transferencia, tarjeta, cheque</td><td>Nada más.</td></tr>
+        <tr><td>Te pagarán después de ese mes o en partes</td><td><strong>PPD</strong> (pago en parcialidades o diferido)</td><td><strong>99</strong>, por definir</td><td>Por cada pago que recibas haces un <strong>complemento de pago</strong>, a más tardar el <strong>día 5 del mes siguiente</strong>.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Si pusiste PUE y se acabó el mes sin que te pagaran, la factura se cancela y se hace de nuevo como PPD.</p>
+
+    <h2>Si le vendes al público en general</h2>
+    <p>A los clientes que no te piden factura los juntas en una <strong>factura global</strong>, por día, por semana o por mes. Va con estos datos:</p>
+    <ul>
+      <li>RFC genérico <strong>XAXX010101000</strong> y nombre <strong>PUBLICO EN GENERAL</strong>.</li>
+      <li>Régimen del receptor <strong>616</strong> (sin obligaciones fiscales) y uso del CFDI <strong>S01</strong> (sin efectos fiscales).</li>
+      <li>El código postal de tu negocio.</li>
+    </ul>
+    <p>Hazla en cuanto cierre el periodo: según Praxium, la Resolución Miscelánea Fiscal 2026 da 24 horas después del cierre (antes eran 72). No pudimos confirmar ese plazo con una segunda fuente; revísalo en el portal del SAT. Si un cliente te pide su factura después, quítalo de la global.</p>
+
+    <h2>Cómo cancelar una factura</h2>
+    <p>Se cancela en el mismo portal y tienes que elegir el motivo:</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Motivo</th><th>Cuándo se usa</th></tr></thead>
+      <tbody>
+        <tr><td><strong>01</strong></td><td>La factura tiene errores y haces otra que la sustituye (primero haces la nueva y la relacionas).</td></tr>
+        <tr><td><strong>02</strong></td><td>Tiene errores y no vas a hacer otra.</td></tr>
+        <tr><td><strong>03</strong></td><td>La venta o el servicio no se hizo.</td></tr>
+        <tr><td><strong>04</strong></td><td>Una venta que incluiste en la factura global y que el cliente quiere a su nombre.</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li>Si la factura es de <strong>hasta $1,000</strong>, se cancela sin que tu cliente tenga que aceptar (regla 2.7.1.35 de la Resolución Miscelánea Fiscal 2026).</li>
+      <li>Si es de más, a tu cliente le llega la solicitud a su buzón tributario. Si no contesta en <strong>3 días hábiles</strong>, se toma como aceptada.</li>
+      <li>Tienes como plazo el mes en que se presenta la declaración anual del año de la factura (artículo 29-A del Código Fiscal de la Federación): para una persona física, las facturas de 2026 se pueden cancelar hasta el <strong>30 de abril de 2027</strong>.</li>
+    </ul>
+
+    <h2>Ejemplo con los datos cargados</h2>
+    <ul>
+      <li>Estás en RESICO, das un servicio y le cobras <strong>$10,000</strong> sin IVA a una empresa.</li>
+      <li>IVA trasladado: 10,000 × 16% = $1,600. <strong>Total de la factura: $11,600</strong>.</li>
+      <li>La empresa te retiene 1.25% de ISR: <strong>$125</strong>. Y dos terceras partes del IVA: <strong>$1,066.67</strong>.</li>
+      <li>Te depositan 11,600 − 125 − 1,066.67 = <strong>$10,408.33</strong>.</li>
+      <li>Si estuvieras en actividad empresarial y profesional, la retención de ISR sería de 10% ($1,000) y te depositarían $9,533.33.</li>
+    </ul>
+
+    <h2>Errores comunes en la primera factura</h2>
+    <ul>
+      <li>Escribir el nombre de la empresa con «S.A. de C.V.» o un código postal que no es el de su constancia: el SAT la rechaza.</li>
+      <li>Poner PUE cuando te van a pagar el próximo mes.</li>
+      <li>Olvidar las retenciones cuando le facturas a una empresa: la factura no cuadra con lo que te depositan.</li>
+      <li>Dejar vencer tu e.firma o tu CSD: sin ellos no puedes sellar.</li>
+      <li>Pagarle a alguien por el CSD o por facturar en el portal del SAT: son gratis.</li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Puedo facturar desde el celular?</h3>
+    <p>El portal del SAT abre en el navegador del celular, pero con varios conceptos es más fácil en una computadora. Ten a la mano tu e.firma o tu CSD.</p>
+    <h3>¿Mi cliente me tiene que dar su constancia?</h3>
+    <p>No es obligatorio que te la entregue: basta con que te dé los datos (RFC, nombre, código postal y régimen) y el uso del CFDI.</p>
+    <h3>¿Qué hago con lo que me retuvieron?</h3>
+    <p>En tu declaración del mes restas el ISR y el IVA que te retuvieron. Haz la cuenta con la <a href="../../impuestos/resico/">calculadora de RESICO</a> o la de <a href="../../impuestos/honorarios/">honorarios</a>.</p>
+
+    <h2>Fuentes</h2>
+    <p class="nota">Información revisada el 9 de noviembre de 2026. Requisitos (RFC, e.firma, CSD con Certifica), datos del receptor iguales a su constancia, usos G01 y G03, PUE y PPD: <a href="https://praxiumconsultores.com/blog/como-facturar-en-mexico-guia-2026" rel="noopener">Praxium</a> (actualizada el 28 sep 2026) y <a href="https://www.pluxee.mx/blog/como-facturar-en-el-sat-guia-actualizada/" rel="noopener">Pluxee</a> (14 jul 2026). Nombre en mayúsculas y sin régimen de capital: <a href="https://www.elcontribuyente.mx/2022/03/en-la-factura-4-0-el-nombre-va-en-mayusculas-y-sin-regimen-societario-sat/" rel="noopener">El Contribuyente</a> y <a href="https://contadormx.com/solucion-al-error-nombre-o-razon-social-incorrecto-en-cfdi-4-0/" rel="noopener">ContadorMX</a>. PUE hasta el último día del mes, forma de pago 99 y complemento de pago a más tardar el día 5 del mes siguiente: <a href="https://praxiumconsultores.com/blog/cfdi-pue-vs-ppd-que-significa" rel="noopener">Praxium</a> (10 sep 2026) y <a href="https://siemprealdia.co/mexico/fiscal/complemento-de-pago-cfdi/" rel="noopener">Siempre al Día</a> (7 abr 2026). Factura global (RFC genérico, régimen 616, uso S01 y plazo de 24 horas): <a href="https://praxiumconsultores.com/blog/como-emitir-la-factura-global-al-publico-en-general" rel="noopener">Praxium</a> (10 sep 2026); periodo diario, semanal o mensual: también <a href="https://idconline.mx/fiscal-contable/2025/07/21/cfdi-global-en-el-resico-claves-para-cumplir-con-el-sat" rel="noopener">IDC</a>. Cancelación (motivos, hasta $1,000 sin aceptación, 3 días hábiles y plazo del artículo 29-A): <a href="https://siemprealdia.co/mexico/fiscal/cancelacion-de-cfdi-antes-de-la-declaracion-anual/" rel="noopener">Siempre al Día</a> (27 may 2026), <a href="https://siemprealdia.co/mexico/fiscal/cancelacion-del-cfdi-sin-autorizacion-del-receptor/" rel="noopener">Siempre al Día</a> y <a href="https://contadormx.com/cancelacion-de-cfdi-en-2026/" rel="noopener">ContadorMX</a> (13 ene 2026). Retenciones de 1.25% en RESICO, 10% de ISR por honorarios y dos terceras partes del IVA: las mismas de nuestras calculadoras de <a href="../../impuestos/resico/">RESICO</a> y <a href="../../impuestos/honorarios/">honorarios</a>, con sus fuentes; que la de RESICO aplica a todo pago de una persona moral: también <a href="https://siemprealdia.co/mexico/fiscal/guia-practica-para-la-emision-de-cfdi-en-el-resico/" rel="noopener">Siempre al Día</a>. No pudimos abrir el portal del SAT desde nuestra red: confirma ahí antes de facturar.</p>
+    <ul>
+      <li><a href="https://www.sat.gob.mx/" rel="noopener">Portal del SAT</a>: busca «factura electrónica», «certificado de sello digital» y «cancelación de facturas».</li>
+    </ul>
+    <p>También te puede servir: <a href="../alta-en-el-sat/">alta en el SAT con tu negocio</a>, <a href="../../impuestos/rfc/">RFC, contraseña y e.firma</a>, <a href="../../impuestos/calculadora-iva/">calculadora de IVA</a>, <a href="../precio-de-venta/">precio de venta con IVA</a> y <a href="../../impuestos/plataformas-digitales/">impuestos si vendes por apps</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni del SAT. Esta guía es orientativa y no sustituye la información del portal del SAT ni la asesoría de un contador.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/impuestos.js"></script>
+<script src="../../assets/negocio.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const r = Negocio.factura({ subtotal: $("sub").value, regimen: $("reg").value, actividad: $("act").value, iva: $("iva").value, clienteEmpresa: $("emp").checked });
+  $("total").textContent = mxn(r.deposito);
+  $("r-sub").textContent = mxn(r.subtotal);
+  $("r-iva").textContent = mxn(r.ivaTrasladado) + ` (${r.tasaIva}%)`;
+  $("r-tot").textContent = mxn(r.total);
+  $("r-isr").textContent = (r.isrRetenido ? "−" : "") + mxn(r.isrRetenido) + (r.tasaIsr ? ` (${r.tasaIsr}%)` : "");
+  $("r-ivar").textContent = (r.ivaRetenido ? "−" : "") + mxn(r.ivaRetenido) + (r.retieneIva ? " (2/3 del IVA)" : "");
+  const msg = [];
+  if (!r.subtotal) msg.push("Escribe lo que cobras sin IVA.");
+  if (r.acotado) msg.push("Revisa la cantidad: es demasiado grande.");
+  if (r.subtotal && !r.clienteEmpresa) msg.push("A una persona física o al público en general no le haces retenciones: te paga el total de la factura.");
+  if (r.subtotal && r.clienteEmpresa && r.regimen === "resico") msg.push("En RESICO, toda empresa que te paga te retiene 1.25% de ISR.");
+  if (r.subtotal && r.clienteEmpresa && r.regimen === "general" && r.actividad === "ventas") msg.push("Por vender productos en actividad empresarial no te retienen ISR.");
+  if (r.subtotal && r.clienteEmpresa && r.actividad === "ventas") msg.push("Por vender productos no te retienen IVA.");
+  if (r.subtotal && r.iva === "exento") msg.push("Exento: la factura no lleva IVA y tú no recuperas el IVA de tus gastos.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+$("f").addEventListener("change", calcular);
+calcular();
+</script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recibo de agua 2026: cómo leerlo y cuánto gastas | Cuentas Claras MX</title>
+<meta name="description" content="Cómo leer tu recibo de agua: lecturas, metros cúbicos, cargos, IVA y descuentos. Calcula los litros por persona, el costo de cada m³ y busca fugas.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/casa/tarifa-agua/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Recibo de agua 2026: cómo leerlo y cuánto gastas">
+<meta property="og:description" content="Cómo leer tu recibo de agua: lecturas, metros cúbicos, cargos, IVA y descuentos. Calcula los litros por persona, el costo de cada m³ y busca fugas.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/casa/tarifa-agua/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/casa-tarifa-agua.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Casa y servicios","item":"https://miguel201009.github.io/cuentas-claras-mx/casa/"},{"@type":"ListItem","position":3,"name":"Recibo de agua","item":"https://miguel201009.github.io/cuentas-claras-mx/casa/tarifa-agua/"}]},{"@type":"WebApplication","name":"Recibo de agua: cómo leerlo y saber si gastas de más","url":"https://miguel201009.github.io/cuentas-claras-mx/casa/tarifa-agua/","description":"Cómo leer tu recibo de agua: lecturas, metros cúbicos, cargos, IVA y descuentos. Calcula los litros por persona, el costo de cada m³ y busca fugas.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Casa y servicios</a> › Recibo de agua</span></div>
+
+  <header>
+    <span class="tag">Casa y servicios</span>
+    <h1>Recibo de agua: cómo leerlo y saber si gastas de más</h1>
+    <p class="lede">Tu recibo de agua dice cuántos metros cúbicos usaste y cuánto te cobran por ellos. Copia las dos lecturas del medidor y lo que pagaste: te decimos cuántos litros gasta cada persona de tu casa al día y cuánto te cuesta cada metro cúbico.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni de ningún organismo de agua.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <div class="par">
+        <label for="ant">Lectura anterior (m³)
+          <input id="ant" type="number" min="0" max="9999999" step="any" inputmode="decimal" value="1250"></label>
+        <label for="act">Lectura actual (m³)
+          <input id="act" type="number" min="0" max="9999999" step="any" inputmode="decimal" value="1280"></label>
+      </div>
+      <label for="m3">O el consumo que dice tu recibo, en m³ (si lo escribes, no restamos lecturas)
+        <input id="m3" type="number" min="0" max="100000" step="any" inputmode="decimal" value=""></label>
+      <div class="par">
+        <label for="dias">Días del periodo
+          <input id="dias" type="number" min="0" max="400" step="1" inputmode="numeric" value="60"></label>
+        <label for="per">Personas en tu casa
+          <input id="per" type="number" min="0" max="50" step="1" inputmode="numeric" value="4"></label>
+      </div>
+      <label for="tot">Total que pagas en ese recibo (opcional)
+        <input id="tot" type="number" min="0" max="1000000" step="any" inputmode="decimal" value="480"></label>
+      <p class="nota">Los datos cargados son un ejemplo de un recibo bimestral (60 días). Cada ciudad cobra distinto: usa los números de tu recibo.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Cada persona gasta al día</span>
+      <div class="big" id="total">0 litros</div>
+      <div class="row"><span>Consumo del periodo</span><b id="r-m3"></b></div>
+      <div class="row sub"><span>En litros</span><b id="r-l"></b></div>
+      <div class="row"><span>Tu casa gasta al día</span><b id="r-dia"></b></div>
+      <div class="row"><span>Te cuesta cada m³ (1,000 litros)</span><b id="r-cm3"></b></div>
+      <div class="row sub"><span>Te cuesta el agua al día</span><b id="r-cdia"></b></div>
+      <p class="nota" id="msg"></p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Qué dice tu recibo de agua</h2>
+    <p>Cada municipio tiene su propio organismo de agua (en la Ciudad de México es SACMEX), así que el formato cambia, pero casi todos traen lo mismo:</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Dato</th><th>Para qué te sirve</th></tr></thead>
+      <tbody>
+        <tr><td>Número de cuenta o de contrato</td><td>Lo necesitas para pagar en línea, pedir una aclaración o consultar adeudos.</td></tr>
+        <tr><td>Tipo de servicio o de uso</td><td>Doméstico (casa) o no doméstico (negocio). Cambia la tarifa y el IVA.</td></tr>
+        <tr><td>Periodo</td><td>Los días que cubre el recibo. Muchos son bimestrales (6 recibos al año).</td></tr>
+        <tr><td>Lectura anterior y lectura actual</td><td>Los números del medidor. La resta es tu consumo. Si dice «promedio» o «estimada», no leyeron tu medidor.</td></tr>
+        <tr><td>Consumo en m³</td><td>Un metro cúbico son <strong>1,000 litros</strong>.</td></tr>
+        <tr><td>Cargos</td><td>Agua, drenaje y saneamiento (tratar el agua que tiras). Algunos cobran una cuota fija aparte.</td></tr>
+        <tr><td>Adeudo y recargos</td><td>Lo que debes de recibos anteriores y lo que te cobran por pagar tarde.</td></tr>
+        <tr><td>Total y fecha límite</td><td>Paga antes para evitar recargos.</td></tr>
+      </tbody>
+    </table></div>
+    <h3>¿Por qué cada metro cúbico cuesta distinto?</h3>
+    <p>Las tarifas las fija cada estado o municipio, normalmente en su ley de ingresos o de derechos de cada año, y en muchas ciudades suben por escalones: entre más metros cúbicos usas en el periodo, más caro te sale cada uno. Por eso dos casas de la misma calle pueden pagar muy distinto. Si no tienes medidor, te cobran una <strong>cuota fija</strong> que no depende de lo que gastas. La calculadora no trae tarifas: con lo que pagaste te dice cuánto te cuesta en promedio cada m³.</p>
+    <h3>¿El recibo de agua lleva IVA?</h3>
+    <p>Si tu toma es de <strong>uso doméstico</strong>, el agua va con IVA de <strong>0%</strong> (artículo 2-A, fracción II, inciso h, de la Ley del IVA). Si es de uso no doméstico, como un negocio, se cobra 16%.</p>
+
+    <h2>¿Gastas mucho?</h2>
+    <p>La ONU considera que una persona necesita de <strong>50 a 100 litros al día</strong> para beber, cocinar y asearse. No es un límite ni algo que te cobren distinto: sirve para comparar. Con los datos de ejemplo: 1,280 − 1,250 = 30 m³, es decir, 30,000 litros en 60 días. Son 500 litros al día para la casa y <strong>125 litros por persona</strong>. Con $480 de recibo, cada m³ te cuesta $16.</p>
+    <p>Si tu consumo sube de un recibo a otro sin que haya más gente en tu casa, busca una fuga.</p>
+
+    <h2>Cómo saber si tienes una fuga</h2>
+    <ol>
+      <li><strong>Con el medidor:</strong> cierra todas las llaves y no uses agua (ni lavadora, ni inodoro, ni tinaco llenándose si lo puedes cerrar). Anota la lectura o fíjate en la carátula pequeña que gira. Espera una o dos horas sin usar agua y vuelve a ver. Si cambió, hay una fuga.</li>
+      <li><strong>En el inodoro:</strong> Profeco recomienda echar unas gotas de colorante vegetal en el tanque y no jalarle. Si en unos 30 minutos el agua de la taza se pinta, el tanque está tirando agua. Una fuga en el inodoro puede tirar de <strong>100 a 1,000 litros al día</strong>.</li>
+      <li>Revisa llaves que gotean, el flotador del tinaco y manchas de humedad en paredes y piso.</li>
+    </ol>
+
+    <h2>Si tu recibo llegó muy alto</h2>
+    <ul>
+      <li>Compara la lectura actual del recibo con la que ves en tu medidor. Si el recibo dice más de lo que marca el medidor, toma foto con fecha.</li>
+      <li>Revisa si te cobraron con una lectura «estimada» o «promedio».</li>
+      <li>Pide una aclaración o revisión en las oficinas o el portal de tu organismo de agua, con tu número de cuenta, tu identificación y tus fotos. Hazlo antes de la fecha límite.</li>
+      <li>Si tienes una fuga, arréglala y guarda el comprobante: algunos organismos lo toman en cuenta al revisar tu caso.</li>
+    </ul>
+
+    <h2>Descuentos</h2>
+    <ul>
+      <li><strong>Ciudad de México:</strong> las casas de personas en situación vulnerable (adultos mayores de 60 años, jubilados y pensionados, personas con discapacidad permanente, entre otras) tienen <strong>50% de descuento</strong> en su cuota bimestral. No es automático: se pide con identificación, comprobante de domicilio y un documento que acredite tu situación, como la credencial del INAPAM.</li>
+      <li>En otros estados y municipios suele haber descuento por pagar el año por adelantado o para adultos mayores. Pregunta en tu organismo de agua: cambia cada año.</li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Cuántos litros son un m³?</h3>
+    <p>1,000 litros. Un tinaco de 1,100 litros lleno es un poco más de un m³.</p>
+    <h3>¿Quién paga el agua si rento?</h3>
+    <p>Depende de tu contrato. Si la pagas tú, revisa que el recibo no traiga adeudos de antes de que llegaras.</p>
+    <h3>¿Por qué me cobran drenaje si no lo uso aparte?</h3>
+    <p>Porque el agua que usas se va al drenaje y se tiene que tratar. Muchos organismos cobran drenaje y saneamiento como un porcentaje de lo que pagas por el agua.</p>
+
+    <h2>Fuentes</h2>
+    <p class="nota">Información revisada el 9 de noviembre de 2026. Partes del recibo y 1 m³ = 1,000 litros: <a href="https://www.tramitaseguro.com/servicios-del-hogar/servicios-basicos/recibo-de-agua-en-mexico/" rel="noopener">Trámita Seguro</a>. IVA de 0% para el agua de uso doméstico: <a href="https://idconline.mx/fiscal/2016/11/15/suministro-de-agua-paga-iva" rel="noopener">IDC</a> y el <a href="https://sdv.com.mx/compendio/ley-iva/articulo-2-a/" rel="noopener">artículo 2-A de la Ley del IVA en SDV</a>. De 50 a 100 litros por persona al día: <a href="https://static.un.org/spanish/waterforlifedecade/pdf/human_right_to_water_and_sanitation_media_brief_spa.pdf" rel="noopener">ONU, Decenio «El agua, fuente de vida»</a> y <a href="https://www.es.amnesty.org/en-que-estamos/blog/historia/articulo/el-derecho-al-agua-la-urgencia-de-proteger-un-derecho-humano-fundamental/" rel="noopener">Amnistía Internacional</a>. Prueba del colorante y fuga de 100 a 1,000 litros al día (Profeco): <a href="https://www.adn40.mx/es-tendencia/2026-09-29/la-prueba-de-30-minutos-que-recomienda-profeco-para-saber-si-tu-inodoro-esta-tirando-agua-sin-que-lo-notes/" rel="noopener">ADN40</a> (29 sep 2026) y <a href="https://www.razon.com.mx/estilos/2026/09/01/pequenas-acciones-en-el-hogar-para-ahorrar-agua/" rel="noopener">La Razón</a> (1 sep 2026). Descuento de 50% en la Ciudad de México: <a href="https://www.adn40.mx/tramites/2026-01-14/pago-agua-cdmx-2026-como-consultar-adeudos-obtener-el-descuento-50-por-ciento/" rel="noopener">ADN40</a> (14 ene 2026) y <a href="https://www.posta.com.mx/cdmx/cuales-son-los-requisitos-para-obtener-50-de-descuento-en-agua-cdmx/vl2147907" rel="noopener">Posta</a> (8 ene 2026). Las tarifas cambian por ciudad y por año: confírmalas con tu organismo de agua.</p>
+    <p>También te puede servir: <a href="../recibo-de-luz/">cómo leer tu recibo de luz</a>, <a href="../gas-lp/">cuánto te dura el gas</a>, <a href="../consumo-de-aparatos/">consumo de luz por aparato</a> y <a href="../../vivienda/predial/">predial con descuentos</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni de ningún organismo de agua. Los cálculos son orientativos: tu recibo y tu organismo de agua tienen la última palabra.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/casa.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const litros = n => n.toLocaleString("es-MX") + " litros";
+function calcular() {
+  const r = Casa.reciboAgua({ lecturaAnterior: $("ant").value, lecturaActual: $("act").value, m3Directo: $("m3").value, dias: $("dias").value, personas: $("per").value, total: $("tot").value });
+  const A = Casa.DATOS.agua;
+  $("total").textContent = litros(r.litrosPersonaDia);
+  $("r-m3").textContent = r.m3.toLocaleString("es-MX") + " m³";
+  $("r-l").textContent = litros(r.litros);
+  $("r-dia").textContent = litros(r.litrosDia);
+  $("r-cm3").textContent = r.costoM3 ? mxn(r.costoM3) : "Escribe lo que pagas";
+  $("r-cdia").textContent = r.costoDia ? mxn(r.costoDia) : "";
+  const msg = [];
+  if (r.lecturaAlReves) msg.push("La lectura actual es menor que la anterior: revisa los números o escribe el consumo que dice tu recibo.");
+  else if (!r.m3) msg.push("Escribe las dos lecturas de tu medidor o el consumo de tu recibo.");
+  if (r.m3 && !r.dias) msg.push("Escribe cuántos días cubre tu recibo.");
+  if (r.m3 && r.dias && !r.personas) msg.push("Escribe cuántas personas viven en tu casa.");
+  if (r.nivel === "bajo") msg.push(`Menos de ${A.onuMin} litros por persona al día. Si en tu casa falta agua, pregunta a tu organismo por el servicio.`);
+  if (r.nivel === "onu") msg.push(`Dentro de lo que la ONU considera suficiente (${A.onuMin} a ${A.onuMax} litros por persona al día).`);
+  if (r.nivel === "arriba") msg.push(`Arriba de los ${A.onuMax} litros que la ONU considera suficientes, pero menos del doble.`);
+  if (r.nivel === "muy-arriba") msg.push(`Es ${r.veces.toLocaleString("es-MX")} veces lo que la ONU considera suficiente (${A.onuMax} litros). Revisa si tienes una fuga.`);
+  if (r.recortado) msg.push("Algún número era demasiado grande y lo ajustamos.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+$("f").addEventListener("change", calcular);
+calcular();
+</script>
+</body>
+</html>

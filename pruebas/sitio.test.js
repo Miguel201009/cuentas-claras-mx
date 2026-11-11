@@ -31,8 +31,9 @@ for (const p of ["trabajo/sueldo-neto/", "trabajo/prima-de-antiguedad/", "trabaj
   "retiro/aportaciones-voluntarias/", "retiro/pension-viudez-imss/", "retiro/modalidad-40/", "trabajo/incapacidad-imss/",
   "trabajo/liquidacion-despido-injustificado/", "trabajo/nomina-semanal-quincenal/", "impuestos/honorarios/",
   "impuestos/plataformas-digitales/", "impuestos/deducciones-personales/", "negocio/cuotas-imss-patron/",
-  "negocio/facturar-por-primera-vez/", "casa/tarifa-agua/", "familia/acta-de-nacimiento/"]) assert.ok(todas.includes(p), `falta ${p}`);
-assert.strictEqual(herramientas.length, 66, "66 calculadoras y guías");
+  "negocio/facturar-por-primera-vez/", "casa/tarifa-agua/", "familia/acta-de-nacimiento/", "tramites/cartilla-militar/",
+  "tramites/carta-de-no-antecedentes/", "tramites/e-firma-sat/"]) assert.ok(todas.includes(p), `falta ${p}`);
+assert.strictEqual(herramientas.length, 69, "69 calculadoras y guías");
 
 // ---------- Reglas para cada página ----------
 const titulos = new Map();
@@ -247,7 +248,18 @@ const casos = {
   "acta de nacimiento": "familia/acta-de-nacimiento/",
   "acta de nacimiento en línea": "familia/acta-de-nacimiento/",
   "costo acta": "familia/acta-de-nacimiento/",
-  "registro civil": "familia/acta-de-nacimiento/"
+  "registro civil": "familia/acta-de-nacimiento/",
+  "cartilla militar": "tramites/cartilla-militar/",
+  "servicio militar": "tramites/cartilla-militar/",
+  "remiso": "tramites/cartilla-militar/",
+  "cartilla clase 2009": "tramites/cartilla-militar/",
+  "carta de no antecedentes penales": "tramites/carta-de-no-antecedentes/",
+  "antecedentes no penales": "tramites/carta-de-no-antecedentes/",
+  "constancia de antecedentes federal": "tramites/carta-de-no-antecedentes/",
+  "e.firma": "tramites/e-firma-sat/",
+  "efirma": "tramites/e-firma-sat/",
+  "fiel sat": "tramites/e-firma-sat/",
+  "renovar firma electrónica": "tramites/e-firma-sat/"
 };
 for (const [q, esperado] of Object.entries(casos)) assert.ok(hrefs(q).includes(esperado), `buscar "${q}" debe dar ${esperado}: ${hrefs(q)}`);
 assert.ok(!hrefs("ine").some(h => h.startsWith("dinero/")), "ine no muestra la sección dinero");
@@ -294,6 +306,11 @@ assert.strictEqual(hrefs("primera factura")[0], "negocio/facturar-por-primera-ve
 assert.strictEqual(hrefs("cancelar factura")[0], "negocio/facturar-por-primera-vez/");
 assert.strictEqual(hrefs("recibo de agua")[0], "casa/tarifa-agua/");
 assert.strictEqual(hrefs("acta de nacimiento")[0], "familia/acta-de-nacimiento/");
+// Todo el año: cartilla militar, carta de no antecedentes y e.firma
+assert.strictEqual(hrefs("cartilla militar")[0], "tramites/cartilla-militar/");
+assert.strictEqual(hrefs("carta de no antecedentes penales")[0], "tramites/carta-de-no-antecedentes/");
+assert.strictEqual(hrefs("e.firma")[0], "tramites/e-firma-sat/");
+assert.strictEqual(hrefs("efirma")[0], "tramites/e-firma-sat/");
 assert.ok(hrefs("alta sat").includes("negocio/alta-en-el-sat/"), "alta en el SAT sigue encontrando su guía");
 assert.ok(hrefs("recibo de luz")[0] === "casa/recibo-de-luz/", "recibo de luz sigue llevando primero a su guía");
 assert.ok(hrefs("declaración anual").includes("impuestos/declaracion-anual/"), "declaración anual sigue encontrando su calculadora");

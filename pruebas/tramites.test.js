@@ -1,4 +1,4 @@
-// Pruebas de trámites (pasaporte, credencial del INE y licencias por estado): node pruebas/tramites.test.js
+// Pruebas de trámites (pasaporte, credencial del INE, licencias por estado, cartilla, e.firma y no antecedentes): node pruebas/tramites.test.js
 const assert = require("assert");
 const fs = require("fs");
 const path = require("path");
@@ -233,7 +233,8 @@ assert.strictEqual(T.ESTADOS.length, 32, "ordenar no cambia los datos originales
 // ---------- Páginas de la sección ----------
 const raiz = path.join(__dirname, "..");
 const paginas = ["tramites/index.html", "tramites/curp/index.html", "tramites/ine/index.html",
-  "tramites/pasaporte/index.html", "tramites/licencia-de-manejo/index.html"];
+  "tramites/pasaporte/index.html", "tramites/licencia-de-manejo/index.html", "tramites/cartilla-militar/index.html",
+  "tramites/carta-de-no-antecedentes/index.html", "tramites/e-firma-sat/index.html"];
 const titulos = new Set();
 for (const rel of paginas) {
   const html = fs.readFileSync(path.join(raiz, rel), "utf8");
@@ -278,5 +279,102 @@ const indice = fs.readFileSync(path.join(raiz, "tramites/index.html"), "utf8");
 assert.ok(!indice.includes("sitio oficial de licencias"), "índice: no promete páginas de licencias exactas");
 const curp = fs.readFileSync(path.join(raiz, "tramites/curp/index.html"), "utf8");
 assert.ok(!curp.includes("La ley pide tu"), "CURP: el consentimiento viene de notas de prensa");
+
+// ---------- Cartilla militar: ¿me toca? (clase = año de nacimiento; 18 años, remisos de 19 a 39) ----------
+{
+  const nov = new Date(2026, 10, 11), mar = new Date(2026, 2, 1), ene1 = new Date(2026, 0, 1), oct15 = new Date(2026, 9, 15);
+  assert.deepStrictEqual([T.CARTILLA.edadClase, T.CARTILLA.remisoHasta, T.CARTILLA.edadAnticipado], [18, 39, 16]);
+  let c = T.cartillaMeToca({ nacimiento: "2008", hoy: mar });
+  assert.ok(c.ok && c.situacion === "clase" && c.plazo === "abierto" && c.siguiente === 2026 && c.edad === 18);
+  c = T.cartillaMeToca({ nacimiento: 2008, hoy: oct15 });
+  assert.strictEqual(c.plazo, "abierto", "el 15 de octubre todavía se puede");
+  c = T.cartillaMeToca({ nacimiento: 2008, hoy: nov });
+  assert.ok(c.situacion === "clase" && c.plazo === "cerrado" && c.siguiente === 2027, "plazo cerrado: el próximo año como remiso");
+  assert.strictEqual(T.cartillaMeToca({ nacimiento: 2008, hoy: ene1 }).plazo, "antes");
+  c = T.cartillaMeToca({ nacimiento: 2009, hoy: nov });
+  assert.ok(c.situacion === "anticipado" && c.siguiente === 2027 && c.anticipadoPorConfirmar);
+  c = T.cartillaMeToca({ nacimiento: 2012, hoy: nov });
+  assert.ok(c.situacion === "aun-no" && c.siguiente === 2030 && c.anioClase === 2030);
+  c = T.cartillaMeToca({ nacimiento: 1995, hoy: mar });
+  assert.ok(c.situacion === "remiso" && c.siguiente === 2026 && !c.limiteEdad);
+  c = T.cartillaMeToca({ nacimiento: 1987, hoy: mar });
+  assert.ok(c.situacion === "remiso" && c.siguiente === 2026 && c.limiteEdad, "39 años: remiso, en el límite");
+  c = T.cartillaMeToca({ nacimiento: 1987, hoy: nov });
+  assert.ok(c.situacion === "remiso" && c.siguiente === null, "39 y plazo cerrado: el próximo año ya tendría 40");
+  c = T.cartillaMeToca({ nacimiento: 1986, hoy: nov });
+  assert.ok(c.situacion === "fuera" && c.siguiente === null && c.limiteEdad);
+  assert.strictEqual(T.cartillaMeToca({ nacimiento: 1960, hoy: nov }).limiteEdad, false);
+  for (const v of ["", "abc", "2008.5", "2030", "15", null, true]) {
+    const e = T.cartillaMeToca({ nacimiento: v, hoy: nov });
+    assert.ok(!e.ok && e.error, `cartilla: ${v} no es válido`);
+  }
+  sinRaros(T.cartillaMeToca({ nacimiento: 2008, hoy: nov }), "cartilla");
+}
+
+// ---------- e.firma: vigencia de 4 años; vencida hace menos de un año aún en línea (con fuentes que no coinciden) ----------
+{
+  const hoy = new Date(2026, 10, 11);
+  assert.strictEqual(T.EFIRMA.vigenciaAnios, 4);
+  let e = T.vigenciaEfirma({ fecha: "2024-05-10", hoy });
+  assert.ok(e.ok && e.estado === "vigente" && e.enLinea && !e.porConfirmar);
+  assert.strictEqual(e.vence.getFullYear(), 2028);
+  assert.strictEqual(e.vence.getMonth(), 4);
+  assert.strictEqual(e.vence.getDate(), 10);
+  e = T.vigenciaEfirma({ fecha: "2022-11-30", hoy });
+  assert.ok(e.estado === "por-vencer" && e.diasRestantes === 19 && e.tiempo === "19 días", "ejemplo de la página");
+  e = T.vigenciaEfirma({ fecha: "2022-11-11", hoy });
+  assert.ok(e.estado === "vencida-reciente" && e.diasVencida === 0 && e.tiempo === "Desde hoy", "vence hoy: ya no es vigente");
+  e = T.vigenciaEfirma({ fecha: "2025-12-01", tipo: "vencimiento", hoy });
+  assert.ok(e.estado === "vencida-reciente" && e.enLinea && e.porConfirmar && e.tiempo === "11 meses");
+  assert.strictEqual(e.emitida.getFullYear(), 2021);
+  e = T.vigenciaEfirma({ fecha: "2025-11-11", tipo: "vencimiento", hoy });
+  assert.ok(e.estado === "vencida" && !e.enLinea, "un año exacto después de vencer: en persona");
+  e = T.vigenciaEfirma({ fecha: "2020-02-29", hoy });
+  assert.strictEqual(e.vence.getMonth(), 1);
+  assert.strictEqual(e.vence.getDate(), 29, "29 de febrero de 2020 + 4 años: 2024 es bisiesto");
+  assert.strictEqual(T.sumarAnios(new Date(2024, 1, 29), 1).getDate(), 28);
+  assert.strictEqual(T.sumarAnios(new Date(2024, 1, 29), 1).getMonth(), 1);
+  assert.strictEqual(T.vigenciaEfirma({ fecha: "2030-11-10", tipo: "vencimiento", hoy }).estado, "vigente");
+  for (const [f, t] of [["", "emision"], ["no", "emision"], ["2027-01-01", "emision"], ["2031-01-01", "vencimiento"], [20220101, "emision"]]) {
+    const x = T.vigenciaEfirma({ fecha: f, tipo: t, hoy });
+    assert.ok(!x.ok && x.error, `e.firma: ${f} no es válida`);
+  }
+  sinRaros(T.vigenciaEfirma({ fecha: "2022-11-30", hoy }), "efirma");
+}
+
+// ---------- Constancia de no antecedentes penales: federal $240 y estados con su nivel de confianza ----------
+{
+  assert.strictEqual(T.ANTECEDENTES_FEDERAL.costo, 240);
+  const f = T.costoAntecedentes("fed");
+  assert.ok(f.federal && f.min === 240 && f.estado === "confirmado");
+  for (const k of Object.keys(T.ANTECEDENTES)) assert.ok(T.ESTADOS.some(e => e.clave === k), `antecedentes: ${k} es clave de ESTADOS`);
+  for (const [k, d] of Object.entries(T.ANTECEDENTES)) {
+    assert.ok(["confirmado", "estimado", "un-dato", "sin-dato"].includes(d.estado), k);
+    if (d.estado === "sin-dato") assert.ok(d.min === null && d.max === null, k);
+    else assert.ok(d.min <= d.max, k);
+    if (d.estado === "confirmado") assert.strictEqual(d.min, d.max, `${k}: confirmado es una sola cifra`);
+    if (d.estado === "estimado") assert.ok(d.min < d.max, `${k}: estimado es un rango`);
+  }
+  assert.deepStrictEqual([T.costoAntecedentes("cdmx").max, T.costoAntecedentes("pue").min, T.costoAntecedentes("gto").min], [0, 305, 172]);
+  assert.strictEqual(T.costoAntecedentes("ver").estado, "sin-dato");
+  assert.strictEqual(T.costoAntecedentes("xx"), null);
+  const tabla = T.tablaAntecedentes();
+  assert.strictEqual(tabla.length, 32);
+  assert.deepStrictEqual(tabla.map(c => c.clave), T.estadosOrdenados().map(e => e.clave), "mismo orden que el selector de licencias");
+  // La tabla escrita en la página (para quien no tiene JavaScript) coincide con los datos
+  const pag = fs.readFileSync(path.join(__dirname, "..", "tramites/carta-de-no-antecedentes/index.html"), "utf8");
+  const cuerpo = pag.split('<tbody id="tabla">')[1].split("</tbody>")[0];
+  const filas = [...cuerpo.matchAll(/<tr><td>([^<]+)<\/td><td>([^<]+)<\/td><td>([^<]*)<\/td><\/tr>/g)];
+  assert.strictEqual(filas.length, 32);
+  const pesos = n => "$" + n.toLocaleString("es-MX");
+  const texto = c => c.estado === "sin-dato" ? "Sin dato confirmado" : c.max === 0 ? "Gratis en línea"
+    : c.estado === "estimado" ? `${pesos(c.min)} a ${pesos(c.max)} (estimado)` : c.estado === "un-dato" ? `${pesos(c.min)} (una sola fuente, estimado)` : pesos(c.min);
+  tabla.forEach((c, i) => assert.deepStrictEqual(filas[i].slice(1), [c.nombre, texto(c), c.emisor], `tabla de antecedentes: ${c.nombre}`));
+  assert.ok(pag.includes("$240") && pag.includes("constancias.oadprs.gob.mx"));
+  const car = fs.readFileSync(path.join(__dirname, "..", "tramites/cartilla-militar/index.html"), "utf8");
+  assert.ok(car.includes('value="2008"') && car.includes("15 de octubre") && car.includes("39 años"));
+  const ef = fs.readFileSync(path.join(__dirname, "..", "tramites/e-firma-sat/index.html"), "utf8");
+  assert.ok(ef.includes('value="2022-11-30"') && ef.includes("4 años") && ef.includes("Dato que no coincide"));
+}
 
 console.log("tramites.test.js: todas las pruebas pasaron");

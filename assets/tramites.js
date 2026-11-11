@@ -1,5 +1,5 @@
-// Trámites de Cuentas Claras MX: costo del pasaporte, vigencia de la credencial para votar y portales
-// de licencias de manejo por estado. Funciones puras, sin datos personales: todo se calcula en el navegador.
+// Trámites de Cuentas Claras MX: costo del pasaporte, vigencia de la credencial para votar, portales
+// de licencias de manejo por estado, cartilla militar, e.firma del SAT y constancia de no antecedentes penales. Funciones puras, sin datos personales: todo se calcula en el navegador.
 // En el navegador carga antes ../../assets/calc.js (de ahí sale mxn() para el formato de pesos).
 (function (raiz) {
   const DIA = 864e5;
@@ -294,9 +294,153 @@
     return ESTADOS.slice().sort((a, b) => llave(a).localeCompare(llave(b), "es"));
   }
 
+  // ---------------------------------------------------------------- Cartilla del Servicio Militar Nacional
+
+  // Fuentes (no pudimos abrir gob.mx/defensa desde nuestra red; todo confirmado con al menos dos notas de prensa):
+  // - Clase = año de nacimiento; la clase que cumple 18 años se registra ese año (la clase 2008 en 2026):
+  //   Azteca Jalisco (29 jul 2026), El Cronista (27 jul 2026), Récord (5 oct 2026).
+  // - Plazo para entregar papeles en la Junta Municipal de Reclutamiento: del 2 de enero al 15 de octubre:
+  //   El Cronista (27 jul 2026), Tramitecadigital (act. 12 oct 2026); Azteca Jalisco da el mismo cierre.
+  // - Remisos: de 19 a 39 años: Récord (5 oct y 7 ago 2026), Tramitecadigital; N+ (3 dic 2025) y El Imparcial
+  //   (2 sep 2026) dan los 39 años como límite. A partir de los 40 se pide una constancia (Récord 7 ago 2026)
+  //   o se pasa a la reserva (Tramitecadigital). Medimos la edad como los años que cumples en el año, como en las juntas;
+  //   el caso de quien cumple 39 o 40 en el año se marca para confirmar con la junta.
+  // - Anticipados de 16 y 17 años, solo con una razón de estudio o trabajo: solo Tramitecadigital (no confirmado).
+  // - Sorteo en noviembre y 13 sesiones sabatinas: El Cronista (23 jul 2026), N+, Tramitecadigital.
+  const CARTILLA = {
+    edadClase: 18,
+    remisoHasta: 39,
+    edadAnticipado: 16,
+    abre: [0, 2],   // 2 de enero (mes base 0)
+    cierra: [9, 15] // 15 de octubre
+  };
+
+  // nacimiento: año en que naciste. hoy: Date. Dice si te toca registrarte este año y cómo.
+  function cartillaMeToca({ nacimiento, hoy = new Date() }) {
+    const n = numero(nacimiento);
+    const anio = hoy.getFullYear();
+    if (n === null) return { ok: false, error: "Escribe el año en que naciste, con cuatro números." };
+    if (!Number.isInteger(n) || n < 1900 || n > 9999) return { ok: false, error: "Escribe solo el año, con cuatro números. Por ejemplo: 2008." };
+    if (n > anio) return { ok: false, error: "Revisa el año: no puede ser posterior a este año." };
+    const edad = anio - n; // años que cumples este año
+    const hoy0 = new Date(anio, hoy.getMonth(), hoy.getDate());
+    const abre = new Date(anio, CARTILLA.abre[0], CARTILLA.abre[1]);
+    const cierra = new Date(anio, CARTILLA.cierra[0], CARTILLA.cierra[1]);
+    const plazo = hoy0 < abre ? "antes" : hoy0 <= cierra ? "abierto" : "cerrado";
+    const anioClase = n + CARTILLA.edadClase;
+    let situacion;
+    if (edad < CARTILLA.edadAnticipado) situacion = "aun-no";
+    else if (edad < CARTILLA.edadClase) situacion = "anticipado";
+    else if (edad === CARTILLA.edadClase) situacion = "clase";
+    else if (edad <= CARTILLA.remisoHasta) situacion = "remiso";
+    else situacion = "fuera";
+    // Si el plazo de este año ya cerró, ¿cuándo puedes ir?
+    // aun-no y anticipado: el año en que cumples 18. clase y remiso: este año si el plazo no ha cerrado; si ya
+    // cerró, el próximo (como remiso), salvo que ese año ya cumplas 40. fuera: null.
+    const proximoAnio = plazo === "cerrado" ? anio + 1 : anio;
+    let siguiente = null;
+    if (situacion === "aun-no" || situacion === "anticipado") siguiente = anioClase;
+    else if (situacion !== "fuera" && proximoAnio - n <= CARTILLA.remisoHasta) siguiente = proximoAnio;
+    const limiteEdad = edad === CARTILLA.remisoHasta || edad === CARTILLA.remisoHasta + 1;
+    return {
+      ok: true, nacimiento: n, clase: n, edad, anioClase, situacion, plazo, abre, cierra,
+      siguiente, limiteEdad, anticipadoPorConfirmar: situacion === "anticipado"
+    };
+  }
+
+  // ---------------------------------------------------------------- e.firma del SAT
+
+  // Fuentes (sat.gob.mx no abrió desde nuestra red):
+  // - Vigencia de 4 años desde que se emite o se renueva: El Imparcial (9 feb y 13 oct 2026), La Crónica
+  //   (10 mar 2026), UnoTV (14 oct 2026), Récord (23 jun 2026).
+  // - Vigente: se renueva en línea (Certifica y CertiSAT Web, o SAT ID) hasta 24 horas antes de vencer:
+  //   El Imparcial (9 feb y 13 oct 2026); La Crónica (10 mar 2026) y Récord (23 jun 2026) confirman CertiSAT Web.
+  // - Vencida hace menos de un año: todavía se puede renovar en línea con SAT ID: El Imparcial (9 feb, 10 mar y
+  //   13 oct 2026) y La Crónica (10 mar 2026). UnoTV (14 oct 2026) dice en cambio que en ese caso vas a la
+  //   oficina y te identificas con tu huella: lo marcamos como dato con fuentes que no coinciden.
+  // - Vencida hace más de un año: cita en una oficina del SAT, como la primera vez: El Imparcial (13 oct 2026),
+  //   SatFácil (jun 2026); El Imparcial (9 feb 2026) dice "posiblemente".
+  const EFIRMA = { vigenciaAnios: 4, renovarVencidaAnios: 1, avisoDias: 60 };
+
+  // Suma años a una fecha. Si cae en un 29 de febrero que no existe, se queda en el 28.
+  function sumarAnios(d, n) {
+    const r = new Date(d.getFullYear() + n, d.getMonth(), d.getDate());
+    if (r.getMonth() !== d.getMonth()) r.setDate(0);
+    return r;
+  }
+
+  // fecha: "AAAA-MM-DD". tipo: "emision" (la fecha en que la sacaste o renovaste) o "vencimiento".
+  function vigenciaEfirma({ fecha: texto, tipo = "emision", hoy = new Date() }) {
+    const d = typeof texto === "string" ? fecha(texto) : null;
+    if (!d) return { ok: false, error: "Escribe la fecha que viene en tu certificado." };
+    const hoy0 = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+    const vence = tipo === "vencimiento" ? d : sumarAnios(d, EFIRMA.vigenciaAnios);
+    const emitida = tipo === "vencimiento" ? sumarAnios(d, -EFIRMA.vigenciaAnios) : d;
+    if (emitida > hoy0) return { ok: false, error: tipo === "vencimiento"
+      ? `Revisa la fecha: una e.firma sacada hoy vence a más tardar en ${hoy0.getFullYear() + EFIRMA.vigenciaAnios}.`
+      : "Revisa la fecha: no puede ser posterior a hoy." };
+    if (vence.getFullYear() < 2000) return { ok: false, error: "Revisa el año de la fecha." };
+    const limiteEnLinea = sumarAnios(vence, EFIRMA.renovarVencidaAnios);
+    let estado;
+    if (hoy0 < vence) estado = (vence - hoy0) / DIA <= EFIRMA.avisoDias ? "por-vencer" : "vigente";
+    else if (hoy0 < limiteEnLinea) estado = "vencida-reciente";
+    else estado = "vencida";
+    const diasRestantes = hoy0 < vence ? Math.round((vence - hoy0) / DIA) : 0;
+    const diasVencida = hoy0 >= vence ? Math.round((hoy0 - vence) / DIA) : 0;
+    return {
+      ok: true, emitida, vence, limiteEnLinea, estado, diasRestantes, diasVencida,
+      tiempo: hoy0 < vence ? tiempoTexto(hoy0, vence) : tiempoTexto(vence, hoy0) || "Desde hoy",
+      enLinea: estado !== "vencida", porConfirmar: estado === "vencida-reciente"
+    };
+  }
+
+  // ---------------------------------------------------------------- Constancia de no antecedentes penales
+
+  // Federal (Prevención y Reinserción Social, SSPC): $240 en 2026 según UnoTV (21 may 2026) y Tramitecadigital
+  // (act. 13 oct 2026). Se pide en línea en constancias.oadprs.gob.mx y llega en PDF por correo.
+  const ANTECEDENTES_FEDERAL = { costo: 240, url: "https://constancias.oadprs.gob.mx/" };
+
+  // Por estado. Claves de ESTADOS. estado: "confirmado" (dos fuentes coinciden), "estimado" (no coinciden: rango),
+  // "un-dato" (una sola fuente). Los que no están aquí: no encontramos el costo 2026 en fuentes confiables.
+  // - CDMX: gratis en línea con la Fiscalía: UnoTV (21 may 2026) y Tramitaseguro (mar 2026).
+  // - Puebla: $305, Fiscalía: ADN40 (24 feb 2026, act. 6 jul) y Tramitecadigital (act. 13 oct 2026).
+  // - Guanajuato: $172, Fiscalía: Tramitecadigital (act. 13 oct 2026) y Tramitaseguro (2026).
+  // - Coahuila: $172 según Posta (20 abr 2026); Tramitaseguro da de $172 a $194. SSP del estado.
+  // - Jalisco: $95 según Tramitecadigital (13 oct 2026) y $92 según Tramitaseguro (mar 2026). Instituto Jalisciense
+  //   de Ciencias Forenses; la primera vez es en persona.
+  // - Estado de México: $153 según ADN40 (act. 7 jul 2026) y de $300 a $450 según Tramitaseguro (mar 2026). Fiscalía.
+  // - Chiapas: $389 solo según Tramitecadigital (13 oct 2026).
+  // - Nuevo León: la expide la Agencia de Administración Penitenciaria; ninguna fuente publica el costo 2026.
+  const ANTECEDENTES = {
+    cdmx: { min: 0, max: 0, estado: "confirmado", emisor: "Fiscalía General de Justicia de la CDMX", enLinea: "Sí, gratis en línea" },
+    pue: { min: 305, max: 305, estado: "confirmado", emisor: "Fiscalía General del Estado", enLinea: "Sí" },
+    gto: { min: 172, max: 172, estado: "confirmado", emisor: "Fiscalía General del Estado", enLinea: "Sí (ProcuraWeb)" },
+    coah: { min: 172, max: 194, estado: "estimado", emisor: "Secretaría de Seguridad Pública del estado", enLinea: "Sí" },
+    jal: { min: 92, max: 95, estado: "estimado", emisor: "Instituto Jalisciense de Ciencias Forenses", enLinea: "La primera vez, en persona" },
+    mex: { min: 153, max: 450, estado: "estimado", emisor: "Fiscalía General de Justicia del Estado de México", enLinea: "En parte (cita en línea)" },
+    chis: { min: 389, max: 389, estado: "un-dato", emisor: "Fiscalía General del Estado", enLinea: "" },
+    nl: { min: null, max: null, estado: "sin-dato", emisor: "Agencia de Administración Penitenciaria", enLinea: "En parte (se recoge en persona)" }
+  };
+
+  // Datos de un estado (o "fed" para la federal). null si la clave no existe.
+  function costoAntecedentes(clave) {
+    if (clave === "fed") return { clave, nombre: "Federal", min: ANTECEDENTES_FEDERAL.costo, max: ANTECEDENTES_FEDERAL.costo,
+      estado: "confirmado", emisor: "Prevención y Reinserción Social (SSPC)", enLinea: "Sí, en línea", federal: true };
+    const e = ESTADOS.find(x => x.clave === clave);
+    if (!e) return null;
+    const d = ANTECEDENTES[clave] || { min: null, max: null, estado: "sin-dato", emisor: "", enLinea: "" };
+    return Object.assign({ clave, nombre: e.nombre, federal: false }, d);
+  }
+
+  // Los 32 estados en orden alfabético, con su dato.
+  function tablaAntecedentes() {
+    return estadosOrdenados().map(e => costoAntecedentes(e.clave));
+  }
+
   const api = {
     DATOS, ESTADOS, TEXTO_TIPO, ETIQUETA_TIPO, leerEdad, vigenciasPasaporte, vigenciaPorConfirmar, ajustarVigencia,
-    razonDescuento, costoPasaporte, vigenciaCredencial, tiempoTexto, portalLicencia, estadosOrdenados
+    razonDescuento, costoPasaporte, vigenciaCredencial, tiempoTexto, portalLicencia, estadosOrdenados,
+    CARTILLA, cartillaMeToca, EFIRMA, sumarAnios, vigenciaEfirma, ANTECEDENTES_FEDERAL, ANTECEDENTES, costoAntecedentes, tablaAntecedentes
   };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else raiz.Tramites = api;

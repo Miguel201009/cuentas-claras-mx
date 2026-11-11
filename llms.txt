@@ -12,7 +12,7 @@
 - [Negocio propio 2026: precio, equilibrio y SAT](https://miguel201009.github.io/cuentas-claras-mx/negocio/): Calculadoras y guías para tu negocio en México: precio de venta con IVA, punto de equilibrio, cuotas IMSS del patrón, alta en el SAT y tu primera factura.
 - [Retiro e IMSS 2026: Afore y pensión](https://miguel201009.github.io/cuentas-claras-mx/retiro/): Calculadoras y guías gratis de retiro en México: cuánto tendrás en tu Afore, semanas cotizadas del IMSS, pensión Ley 73 vs. Ley 97, Modalidad 40 y pensión de viudez.
 - [Calculadoras de trabajo 2026](https://miguel201009.github.io/cuentas-claras-mx/trabajo/): Calculadoras gratis de trabajo en México: aguinaldo (también de pensionados y del gobierno), finiquito, vacaciones, sueldo neto e ISR, prima de antigüedad, PTU y horas extra.
-- [Trámites 2026: CURP, INE, pasaporte y licencia](https://miguel201009.github.io/cuentas-claras-mx/tramites/): Guías gratis de trámites en México: tu CURP, credencial del INE, costo del pasaporte 2026 y el portal oficial de cada estado para tu licencia de manejo.
+- [Trámites 2026: CURP, INE, pasaporte, cartilla y e.firma](https://miguel201009.github.io/cuentas-claras-mx/tramites/): Guías gratis de trámites en México: CURP, INE, pasaporte 2026, licencia de manejo, cartilla militar, carta de no antecedentes penales y e.firma del SAT.
 - [Vivienda 2026: Infonavit, hipoteca, rentar o comprar y predial](https://miguel201009.github.io/cuentas-claras-mx/vivienda/): Guías y calculadoras de vivienda en México: crédito Infonavit, crédito hipotecario de bancos, ¿rentar o comprar casa? y predial con descuentos. Gratis y sin registro.
 
 ## Auto
@@ -97,7 +97,10 @@
 
 ## Trámites
 
+- [Carta de no antecedentes penales 2026: costo y requisitos](https://miguel201009.github.io/cuentas-claras-mx/tramites/carta-de-no-antecedentes/): Carta de no antecedentes penales federal o de tu estado: costo 2026 ($240 la federal, gratis en línea en la CDMX), requisitos y cómo pedirla en línea.
+- [Cartilla militar 2026: ¿me toca?, requisitos y fechas](https://miguel201009.github.io/cuentas-claras-mx/tramites/cartilla-militar/): Revisa con tu año de nacimiento si te toca sacar la cartilla del Servicio Militar Nacional, hasta qué edad puedes como remiso, requisitos, fotos y fechas.
 - [Consultar e imprimir la CURP gratis 2026](https://miguel201009.github.io/cuentas-claras-mx/tramites/curp/): Cómo consultar, descargar e imprimir tu CURP gratis en gob.mx, qué hacer si tiene errores y qué es la CURP biométrica. Paso a paso y sin intermediarios.
+- [e.firma del SAT 2026: requisitos, cita y cuándo vence](https://miguel201009.github.io/cuentas-claras-mx/tramites/e-firma-sat/): Cómo sacar tu e.firma del SAT por primera vez, qué llevar a la cita y cómo renovarla en línea. Revisa cuándo vence la tuya y si aún la renuevas sin ir.
 - [Credencial para votar INE 2026: requisitos y vigencia](https://miguel201009.github.io/cuentas-claras-mx/tramites/ine/): Requisitos, cita, costo y reposición de la credencial del INE. Revisa si tu credencial sigue vigente y si te sirve para votar el 6 de junio de 2027.
 - [Licencia de manejo por estado 2026](https://miguel201009.github.io/cuentas-claras-mx/tramites/licencia-de-manejo/): Cómo sacar o renovar tu licencia de manejo en México: requisitos comunes, pasos y el portal oficial de cada estado para tramitar tu licencia.
 - [Costo del pasaporte 2026 y requisitos](https://miguel201009.github.io/cuentas-claras-mx/tramites/pasaporte/): Cuánto cuesta el pasaporte mexicano en 2026 según su vigencia, quién paga la mitad, requisitos y cómo sacar cita en la SRE. Calculadora gratis.

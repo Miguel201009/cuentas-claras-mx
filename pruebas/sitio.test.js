@@ -32,8 +32,9 @@ for (const p of ["trabajo/sueldo-neto/", "trabajo/prima-de-antiguedad/", "trabaj
   "trabajo/liquidacion-despido-injustificado/", "trabajo/nomina-semanal-quincenal/", "impuestos/honorarios/",
   "impuestos/plataformas-digitales/", "impuestos/deducciones-personales/", "negocio/cuotas-imss-patron/",
   "negocio/facturar-por-primera-vez/", "casa/tarifa-agua/", "familia/acta-de-nacimiento/", "tramites/cartilla-militar/",
-  "tramites/carta-de-no-antecedentes/", "tramites/e-firma-sat/"]) assert.ok(todas.includes(p), `falta ${p}`);
-assert.strictEqual(herramientas.length, 69, "69 calculadoras y guías");
+  "tramites/carta-de-no-antecedentes/", "tramites/e-firma-sat/", "dinero/tarjeta-de-credito-pago-minimo/",
+  "dinero/remesas/", "trabajo/salario-minimo-frontera/"]) assert.ok(todas.includes(p), `falta ${p}`);
+assert.strictEqual(herramientas.length, 72, "72 calculadoras y guías");
 
 // ---------- Reglas para cada página ----------
 const titulos = new Map();
@@ -259,11 +260,25 @@ const casos = {
   "e.firma": "tramites/e-firma-sat/",
   "efirma": "tramites/e-firma-sat/",
   "fiel sat": "tramites/e-firma-sat/",
-  "renovar firma electrónica": "tramites/e-firma-sat/"
+  "renovar firma electrónica": "tramites/e-firma-sat/",
+  "pago mínimo": "dinero/tarjeta-de-credito-pago-minimo/",
+  "pago mínimo tarjeta de crédito": "dinero/tarjeta-de-credito-pago-minimo/",
+  "intereses tarjeta de crédito": "dinero/tarjeta-de-credito-pago-minimo/",
+  "cuánto tardo en pagar mi tarjeta": "dinero/tarjeta-de-credito-pago-minimo/",
+  "remesas": "dinero/remesas/",
+  "envío de dinero estados unidos": "dinero/remesas/",
+  "cuánto llega si me mandan dólares": "dinero/remesas/",
+  "remesadora tipo de cambio": "dinero/remesas/",
+  "impuesto 1% remesas": "dinero/remesas/",
+  "salario mínimo frontera": "trabajo/salario-minimo-frontera/",
+  "zona libre de la frontera norte": "trabajo/salario-minimo-frontera/",
+  "salario mínimo tijuana": "trabajo/salario-minimo-frontera/",
+  "municipios frontera norte": "trabajo/salario-minimo-frontera/",
+  "salario mínimo ciudad juárez": "trabajo/salario-minimo-frontera/"
 };
 for (const [q, esperado] of Object.entries(casos)) assert.ok(hrefs(q).includes(esperado), `buscar "${q}" debe dar ${esperado}: ${hrefs(q)}`);
 assert.ok(!hrefs("ine").some(h => h.startsWith("dinero/")), "ine no muestra la sección dinero");
-assert.deepStrictEqual(hrefs("trabajo").filter(h => h.startsWith("trabajo/")).length, 16, "el nombre de la sección encuentra todas sus herramientas");
+assert.deepStrictEqual(hrefs("trabajo").filter(h => h.startsWith("trabajo/")).length, 17, "el nombre de la sección encuentra todas sus herramientas");
 // En temporada de aguinaldo, cada búsqueda lleva primero a su página
 assert.strictEqual(hrefs("aguinaldo pensionados")[0], "trabajo/aguinaldo-pensionados/");
 assert.strictEqual(hrefs("aguinaldo maestros")[0], "trabajo/aguinaldo-gobierno/");
@@ -311,6 +326,12 @@ assert.strictEqual(hrefs("cartilla militar")[0], "tramites/cartilla-militar/");
 assert.strictEqual(hrefs("carta de no antecedentes penales")[0], "tramites/carta-de-no-antecedentes/");
 assert.strictEqual(hrefs("e.firma")[0], "tramites/e-firma-sat/");
 assert.strictEqual(hrefs("efirma")[0], "tramites/e-firma-sat/");
+// Todo el año: pago mínimo de la tarjeta, remesas y salario mínimo de la frontera
+assert.strictEqual(hrefs("pago mínimo tarjeta de crédito")[0], "dinero/tarjeta-de-credito-pago-minimo/");
+assert.strictEqual(hrefs("remesas")[0], "dinero/remesas/");
+assert.strictEqual(hrefs("salario mínimo frontera")[0], "trabajo/salario-minimo-frontera/");
+assert.strictEqual(hrefs("zona libre de la frontera norte")[0], "trabajo/salario-minimo-frontera/");
+assert.ok(hrefs("meses sin intereses").includes("dinero/meses-sin-intereses/"), "meses sin intereses sigue encontrando su calculadora");
 assert.ok(hrefs("alta sat").includes("negocio/alta-en-el-sat/"), "alta en el SAT sigue encontrando su guía");
 assert.ok(hrefs("recibo de luz")[0] === "casa/recibo-de-luz/", "recibo de luz sigue llevando primero a su guía");
 assert.ok(hrefs("declaración anual").includes("impuestos/declaracion-anual/"), "declaración anual sigue encontrando su calculadora");

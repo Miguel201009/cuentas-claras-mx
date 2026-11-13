@@ -325,4 +325,92 @@ assert.ok(D.creditoAutomotriz({ precio: 0, enganche: 20, tasaAnual: 15, meses: 4
 assert.ok(D.creditoAutomotriz({ precio: 350000, enganche: 150, tasaAnual: 15, meses: 48 }).recortado);
 finito(D.creditoAutomotriz({ precio: "x", enganche: -3, tasaAnual: 1e6, meses: 1e6, comision: 1e3 }), "auto basura");
 
+// ---------- Tarjeta de crédito: pago mínimo ----------
+// Regla de Banxico (Circular 13/2011, numeral 2.1): el mayor entre 1.5% del saldo + intereses con IVA y 1.25% de la línea.
+assert.strictEqual(D.DATOS.tarjeta.pctSaldo, 0.015);
+assert.strictEqual(D.DATOS.tarjeta.pctLinea, 0.0125);
+// Ejemplo de la página: debes $30,000, línea de $50,000, 45% anual sin IVA, pago fijo de $2,000.
+// Mes 1: interés 30,000 x 0.45 / 12 = 1,125; IVA 180; mínimo = 450 + 1,305 = 1,755 (1.25% de 50,000 = 625 es menor).
+// Totales calculados aparte, mes por mes, con un script en Python.
+r = D.pagoMinimoTarjeta({ saldo: 30000, linea: 50000, tasaAnual: 45, pagoFijo: 2000 });
+cerca(r.primerMinimo, 1755, "primer pago mínimo");
+cerca(r.minimo.primerPago, 1755, "primer pago de la simulación");
+cerca(r.fijoMinimoUtil, 1305, "interés con IVA del primer mes");
+assert.strictEqual(r.minimo.meses, 101, "101 meses pagando el mínimo");
+cerca(r.minimo.costo, 65309.67, "intereses con IVA pagando el mínimo");
+cerca(r.minimo.totalPagado, 95309.67, "total pagado con el mínimo");
+assert.strictEqual(r.fijo.meses, 25, "25 meses con $2,000 fijos");
+cerca(r.fijo.costo, 19652.92, "intereses con IVA con pago fijo");
+cerca(r.fijo.totalPagado, 49652.92, "total pagado con pago fijo");
+cerca(r.ahorro, 45656.75, "ahorro con el pago fijo");
+assert.strictEqual(r.mesesMenos, 76);
+cerca(r.minimo.totalPagado - r.minimo.costo, 30000, "lo pagado menos intereses es la deuda");
+assert.strictEqual(r.minimo.porAnio[r.minimo.porAnio.length - 1].saldo, 0, "la tabla termina en cero");
+// Línea chica: manda el 1.25% de la línea. Debes 10,000 con línea de 100,000 al 0%: mínimo 1,250, 8 meses.
+r = D.pagoMinimoTarjeta({ saldo: 10000, linea: 100000, tasaAnual: 0 });
+cerca(r.primerMinimo, 1250, "1.25% de la línea");
+assert.strictEqual(r.minimo.meses, 8);
+cerca(r.minimo.costo, 0, "sin tasa no hay intereses");
+// Sin IVA: interés 1,125 y mínimo 1,575.
+cerca(D.pagoMinimoTarjeta({ saldo: 30000, linea: 50000, tasaAnual: 45, conIva: false }).primerMinimo, 1575, "sin IVA");
+// Pago fijo que no cubre los intereses: nunca terminas.
+r = D.pagoMinimoTarjeta({ saldo: 30000, linea: 50000, tasaAnual: 45, pagoFijo: 1000 });
+assert.ok(r.fijo.nunca, "1,000 no cubre 1,305 de intereses con IVA");
+assert.strictEqual(r.ahorro, 0);
+// Sin línea: se usa la deuda como línea y se avisa.
+r = D.pagoMinimoTarjeta({ saldo: 30000, tasaAnual: 45 });
+assert.ok(r.lineaAjustada);
+assert.strictEqual(r.linea, 30000);
+assert.strictEqual(r.fijo, null, "sin pago fijo no hay comparación");
+assert.ok(D.pagoMinimoTarjeta({ saldo: 0, tasaAnual: 45 }).sinSaldo);
+assert.ok(D.pagoMinimoTarjeta({ saldo: 1e12, tasaAnual: 45 }).recortado);
+finito(D.pagoMinimoTarjeta({ saldo: "x", linea: -5, tasaAnual: 1e9, pagoFijo: "abc" }), "tarjeta basura");
+finito(D.pagoMinimoTarjeta({ saldo: 1e9, linea: 1e9, tasaAnual: 300, pagoFijo: 1e9 }), "tarjeta máximos");
+
+// ---------- Remesas ----------
+assert.strictEqual(D.DATOS.remesas.impuestoEeuu, 0.01, "impuesto de 1% de EE. UU. a envíos en efectivo");
+// Ejemplo de la página: 400 dólares, referencia 18.00. A: comisión 2.99, paga 17.80. B: sin comisión, paga 17.50.
+// A: llega 400 x 17.80 = 7,120; margen 7,200 - 7,120 = 80 (1.11%); comisión 2.99 x 18 = 53.82; costo 133.82 (1.86%).
+// B: llega 7,000; margen 200 (2.78%); costo 200. A conviene por 66.18.
+const rc = D.compararRemesas({ dolares: 400, tipoReferencia: 18 }, { comision: 2.99, tipoOfrecido: 17.8 }, { comision: 0, tipoOfrecido: 17.5 });
+cerca(rc.a.recibe, 7120, "A: llegan");
+cerca(rc.a.margen, 80, "A: margen");
+cerca(rc.a.margenPct, 0.0111, "A: margen %", 0.0001);
+cerca(rc.a.comisionPesos, 53.82, "A: comisión en pesos");
+cerca(rc.a.costo, 133.82, "A: costo");
+cerca(rc.a.costoPct, 0.0186, "A: costo %", 0.0001);
+cerca(rc.b.recibe, 7000, "B: llegan");
+cerca(rc.b.costo, 200, "B: costo");
+cerca(rc.b.costoPct, 0.0278, "B: costo %", 0.0001);
+assert.strictEqual(rc.mejor, "a");
+cerca(rc.diferencia, 66.18, "diferencia");
+// En efectivo: 1% de 400 = 4 dólares (72 pesos); costo de A = 205.82 (2.86%); quien envía paga 406.99 dólares.
+r = D.remesa({ dolares: 400, comision: 2.99, tipoReferencia: 18, tipoOfrecido: 17.8, efectivo: true });
+cerca(r.impuesto, 4, "impuesto en dólares");
+cerca(r.impuestoPesos, 72, "impuesto en pesos");
+cerca(r.costo, 205.82, "costo con impuesto");
+cerca(r.costoPct, 0.0286, "costo % con impuesto", 0.0001);
+cerca(r.pagaUsd, 406.99, "paga quien envía");
+cerca(r.recibe, 7120, "el impuesto no cambia lo que llega");
+assert.strictEqual(D.remesa({ dolares: 400, tipoReferencia: 18, tipoOfrecido: 17.8, efectivo: "si" }).impuesto, 0, "solo true activa el impuesto");
+// Paga más que la referencia: margen negativo y aviso.
+r = D.remesa({ dolares: 100, tipoReferencia: 18, tipoOfrecido: 18.2 });
+cerca(r.margen, -20, "margen negativo");
+assert.ok(r.ofreceMasQueReferencia);
+assert.strictEqual(D.compararRemesas({ dolares: 0, tipoReferencia: 18 }, { tipoOfrecido: 17 }, { tipoOfrecido: 17 }).mejor, "faltan");
+assert.strictEqual(D.compararRemesas({ dolares: 100, tipoReferencia: 18 }, { tipoOfrecido: 17 }, { tipoOfrecido: 17 }).mejor, "igual");
+assert.ok(D.remesa({ dolares: 1e12, tipoReferencia: 18, tipoOfrecido: 17 }).recortado);
+finito(D.remesa({ dolares: "x", comision: -1, tipoReferencia: 0, tipoOfrecido: 1e9, efectivo: true }), "remesa basura");
+
+// Las páginas muestran los ejemplos calculados aquí.
+{
+  const fs = require("fs"), path = require("path");
+  const tar = fs.readFileSync(path.join(__dirname, "../dinero/tarjeta-de-credito-pago-minimo/index.html"), "utf8");
+  for (const t of ["$1,755", "101 meses", "$65,309.67", "$95,309.67", "25 meses", "$19,652.92", "$45,656.75", "1.25%", "13/2011"])
+    assert.ok(tar.includes(t), `tarjeta: falta ${t}`);
+  const rem = fs.readFileSync(path.join(__dirname, "../dinero/remesas/index.html"), "utf8");
+  for (const t of ["$7,120.00", "$133.82, 1.86%", "$7,000.00", "$200, 2.78%", "$66.18", "$205.82 (2.86%)", "qqed.profeco.gob.mx"])
+    assert.ok(rem.includes(t), `remesas: falta ${t}`);
+}
+
 console.log("Todas las pruebas de dinero pasaron");

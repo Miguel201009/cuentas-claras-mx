@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de remesas: cuánto llega si te mandan dólares | Cuentas Claras MX</title>
+<meta name="description" content="Calcula cuántos pesos llegan si te mandan dólares desde Estados Unidos: comisión, margen del tipo de cambio y el impuesto de 1% a envíos en efectivo. Compara dos remesadoras.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<style>
+  .tool fieldset { border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; margin: 0 0 12px; min-width: 0 }
+  .tool legend { font-weight: 600; padding: 0 6px }
+  .result h3 { margin: 14px 0 4px }
+</style>
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/dinero/remesas/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Calculadora de remesas: cuánto llega si te mandan dólares">
+<meta property="og:description" content="Calcula cuántos pesos llegan si te mandan dólares desde Estados Unidos: comisión, margen del tipo de cambio y el impuesto de 1% a envíos en efectivo. Compara dos remesadoras.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/dinero/remesas/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/dinero-remesas.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Dinero y ahorro","item":"https://miguel201009.github.io/cuentas-claras-mx/dinero/"},{"@type":"ListItem","position":3,"name":"Remesas","item":"https://miguel201009.github.io/cuentas-claras-mx/dinero/remesas/"}]},{"@type":"WebApplication","name":"Calculadora de remesas: cuánto llega si te mandan dólares","url":"https://miguel201009.github.io/cuentas-claras-mx/dinero/remesas/","description":"Calcula cuántos pesos llegan si te mandan dólares desde Estados Unidos: comisión, margen del tipo de cambio y el impuesto de 1% a envíos en efectivo. Compara dos remesadoras.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Dinero y ahorro</a> › Remesas</span></div>
+
+  <header>
+    <span class="tag">Dinero y ahorro</span>
+    <h1>Calculadora de remesas: cuánto llega si te mandan dólares</h1>
+    <p class="lede">Lo que llega a tu familia depende de dos cosas: la comisión que cobra la remesadora y el tipo de cambio que te paga. Escribe las dos de la empresa que usas (o de dos empresas, para compararlas) y te decimos cuántos pesos llegan y cuánto se queda en el camino.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni de ninguna remesadora.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="usd">¿Cuántos dólares te mandan?
+        <input id="usd" type="number" min="0" step="10" inputmode="decimal" value="400"></label>
+      <label for="ref">Tipo de cambio de referencia del día (pesos por dólar), ejemplo
+        <input id="ref" type="number" min="0" step="0.01" inputmode="decimal" value="18.00"></label>
+      <label class="check"><input id="efe" type="checkbox"> El envío se paga en efectivo, giro postal o cheque de caja en Estados Unidos (impuesto de 1%)</label>
+      <fieldset>
+        <legend>Remesadora A, ejemplo</legend>
+        <label for="comA">Comisión (dólares)
+          <input id="comA" type="number" min="0" step="0.01" inputmode="decimal" value="2.99"></label>
+        <label for="tcA">Tipo de cambio que paga (pesos por dólar)
+          <input id="tcA" type="number" min="0" step="0.01" inputmode="decimal" value="17.80"></label>
+      </fieldset>
+      <fieldset>
+        <legend>Remesadora B, ejemplo</legend>
+        <label for="comB">Comisión (dólares)
+          <input id="comB" type="number" min="0" step="0.01" inputmode="decimal" value="0"></label>
+        <label for="tcB">Tipo de cambio que paga (pesos por dólar)
+          <input id="tcB" type="number" min="0" step="0.01" inputmode="decimal" value="17.50"></label>
+      </fieldset>
+      <p class="nota">Los tipos de cambio y las comisiones cargadas son ejemplos, no los de hoy. Como referencia usa el tipo de cambio FIX del Banco de México del día; los de cada remesadora salen en su app o en el comparativo de Profeco.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota" id="titulo">Conviene</span>
+      <div class="big" id="mejor">-</div>
+      <h3>Remesadora A</h3>
+      <div class="row"><span>Llega a tu familia</span><b id="recA"></b></div>
+      <div class="row"><span>Se queda en el tipo de cambio</span><b id="marA"></b></div>
+      <div class="row"><span>Comisión en pesos</span><b id="cpA"></b></div>
+      <div class="row"><span>Costo total del envío</span><b id="costoA"></b></div>
+      <h3>Remesadora B</h3>
+      <div class="row"><span>Llega a tu familia</span><b id="recB"></b></div>
+      <div class="row"><span>Se queda en el tipo de cambio</span><b id="marB"></b></div>
+      <div class="row"><span>Comisión en pesos</span><b id="cpB"></b></div>
+      <div class="row"><span>Costo total del envío</span><b id="costoB"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">El costo total junta la comisión, lo que se queda en el tipo de cambio y, si aplica, el impuesto de 1%, todo en pesos al tipo de referencia y como porcentaje de lo enviado.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Dónde se va tu dinero en una remesa</h2>
+    <ul>
+      <li><strong>La comisión:</strong> lo que cobra la remesadora por el envío, en dólares. La paga quien envía, además de lo que manda. Algunas no cobran comisión.</li>
+      <li><strong>El margen del tipo de cambio:</strong> la remesadora te paga menos pesos por dólar que el tipo de cambio de referencia del día. Esa diferencia es su ganancia, aunque diga "sin comisión". Por eso importa más el tipo de cambio que la comisión.</li>
+      <li><strong>El impuesto de 1% de Estados Unidos</strong>, solo si el envío se paga en efectivo (lo explicamos abajo).</li>
+    </ul>
+    <p>La cuenta es sencilla: <strong>lo que llega = dólares × tipo de cambio que paga la remesadora</strong>. El margen es 1 − (tipo que pagan ÷ tipo de referencia).</p>
+
+    <h2>Ejemplo</h2>
+    <p>Te mandan 400 dólares y el tipo de cambio de referencia es de $18.00 (es un ejemplo).</p>
+    <ul>
+      <li><strong>Remesadora A</strong> cobra 2.99 dólares y paga $17.80 por dólar. Llegan <strong>$7,120.00</strong>. En el tipo de cambio se quedan $80 (1.11%) y la comisión vale $53.82: el envío cuesta <strong>$133.82, 1.86%</strong> de lo enviado.</li>
+      <li><strong>Remesadora B</strong> no cobra comisión, pero paga $17.50 por dólar. Llegan <strong>$7,000.00</strong>. Todo el costo está en el tipo de cambio: <strong>$200, 2.78%</strong>.</li>
+      <li>La que "no cobra comisión" sale <strong>$66.18 más cara</strong>.</li>
+      <li>Si el envío de A se paga en efectivo, quien envía paga además 4 dólares de impuesto ($72 al tipo de referencia), y el costo sube a $205.82 (2.86%).</li>
+    </ul>
+    <p>Son los datos que vienen cargados en la calculadora.</p>
+
+    <h2>El impuesto de 1% a las remesas desde 2026</h2>
+    <p>Desde el <strong>1 de enero de 2026</strong> Estados Unidos cobra un impuesto federal de <strong>1%</strong> a los envíos de dinero al extranjero que se pagan en <strong>efectivo, giro postal (money order), cheque de caja</strong> o algo parecido. Lo aprobó el Congreso en la ley conocida como "One Big Beautiful Bill", firmada el 4 de julio de 2025.</p>
+    <ul>
+      <li><strong>Quién lo paga:</strong> quien envía. La remesadora se lo cobra y lo entrega al IRS (el SAT de Estados Unidos).</li>
+      <li><strong>Cuándo no se paga:</strong> si el envío se paga desde una cuenta de banco o con una tarjeta de débito o de crédito emitida en Estados Unidos.</li>
+      <li><strong>Cuánto es:</strong> 1 dólar por cada 100 enviados. En 400 dólares, 4 dólares.</li>
+      <li>No lo cobra México y no lo paga quien recibe: a tu familia le llega lo mismo, pero a quien envía le cuesta más.</li>
+    </ul>
+
+    <h2>Cómo comparar remesadoras</h2>
+    <ul>
+      <li><strong>Profeco</strong> publica el comparativo <a href="https://qqed.profeco.gob.mx/" rel="noopener">Quién es Quién en el Envío de Dinero</a>: comisión, tipo de cambio y cuántos pesos llegan con cada empresa, desde varias ciudades de Estados Unidos. Banco de México manda a ese mismo comparativo para revisar costos de envío.</li>
+      <li>En el comparativo de Profeco de agosto de 2026, por un envío de 400 dólares a cuenta de banco, Finabien pagaba $17.38 por dólar con 2.99 dólares de comisión ($6,952) y la que menos pagaba daba $16.57 ($6,628): más de $300 de diferencia por el mismo envío. Son cifras de Profeco publicadas por Crónica; solo las encontramos en esa fuente.</li>
+      <li>Revisa el tipo de cambio <strong>el mismo día</strong> que envías: cambia todos los días y a veces durante el día.</li>
+      <li>Compara también <strong>cómo lo cobras</strong>: depósito a cuenta, retiro en efectivo en tienda o banco. El tipo de cambio puede ser distinto en cada forma.</li>
+      <li>El programa <strong>Directo a México</strong> de Banxico, para envíos de cuenta a cuenta, deja de operar el <strong>20 de noviembre de 2026</strong>.</li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Qué tipo de cambio de referencia escribo?</h3>
+    <p>El tipo de cambio FIX que publica el Banco de México cada día hábil, o el que veas en un banco o en las noticias ese día. Sirve para medir cuánto se queda la remesadora en el cambio.</p>
+    <h3>¿Por qué me sale un margen negativo?</h3>
+    <p>Porque la remesadora paga más pesos por dólar que tu referencia. Pasa con promociones o si tu referencia es de otro día. Revisa el tipo de cambio del mismo momento.</p>
+    <h3>¿Me conviene más recibir en efectivo o en mi cuenta?</h3>
+    <p>Depende de la empresa. En la cuenta no tienes que ir a cobrar ni cargar efectivo. Compara cuántos pesos llegan en cada forma.</p>
+
+    <h2>Fuentes</h2>
+    <p class="nota">Revisadas el 13 de noviembre de 2026. Impuesto de 1%: BBVA Research, "Impuesto a las remesas 2026" (enero de 2026), y La Nación (9 de diciembre de 2025), con la guía del IRS (Notice 2025-55). Comparativo de Profeco de agosto de 2026: Crónica (29 de agosto de 2026). Comisión de 2.99 dólares de Finabien: Crónica y El Imparcial (8 de octubre de 2026). Fin de Directo a México: Banco de México y Expansión (8 de octubre de 2026). No pudimos abrir profeco.gob.mx ni banxico.org.mx desde nuestra red: revisa las cifras del día en el sitio oficial.</p>
+    <p>Fuentes oficiales: <a href="https://qqed.profeco.gob.mx/" rel="noopener">Profeco, Quién es Quién en el Envío de Dinero</a>, <a href="https://www.banxico.org.mx/" rel="noopener">Banco de México</a> (tipo de cambio FIX y aviso de Directo a México) y el <a href="https://www.irs.gov/" rel="noopener">IRS</a> de Estados Unidos.</p>
+    <p>También te puede servir: <a href="../cetes-vs-bancos/">CETES vs. banco</a> (si quieres ahorrar parte de lo que te mandan), <a href="../interes-compuesto/">calculadora de interés compuesto</a> y <a href="../tarjeta-de-credito-pago-minimo/">pago mínimo de la tarjeta de crédito</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno, de ningún banco ni de ninguna remesadora. Los cálculos son orientativos y no son asesoría financiera.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/dinero.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function calcular() {
+  const base = { dolares: $("usd").value, tipoReferencia: $("ref").value, efectivo: $("efe").checked };
+  const c = Dinero.compararRemesas(base, { comision: $("comA").value, tipoOfrecido: $("tcA").value }, { comision: $("comB").value, tipoOfrecido: $("tcB").value });
+  for (const [k, r] of [["A", c.a], ["B", c.b]]) {
+    $("rec" + k).textContent = mxn(r.recibe);
+    $("mar" + k).textContent = r.sinReferencia ? "Escribe la referencia" : `${mxn(r.margen)} (${Dinero.porcentaje(r.margenPct)})`;
+    $("cp" + k).textContent = mxn(r.comisionPesos) + (r.impuesto > 0 ? ` + ${mxn(r.impuestoPesos)} de impuesto` : "");
+    $("costo" + k).textContent = r.sinReferencia ? "-" : `${mxn(r.costo)} (${Dinero.porcentaje(r.costoPct)})`;
+  }
+  const textos = { a: "Remesadora A", b: "Remesadora B", igual: "Cuestan lo mismo", faltan: "Faltan datos" };
+  $("mejor").textContent = textos[c.mejor];
+  $("titulo").textContent = c.mejor === "a" || c.mejor === "b" ? `Conviene, por ${mxn(c.diferencia)} menos de costo` : "Conviene";
+  const msg = [];
+  if (c.mejor === "faltan") msg.push("Escribe los dólares, el tipo de cambio de referencia y el que paga cada remesadora.");
+  if (c.a.ofreceMasQueReferencia || c.b.ofreceMasQueReferencia) msg.push("Una remesadora paga más que tu referencia: revisa que el tipo de cambio sea del mismo día.");
+  if (base.efectivo && c.a.dolares > 0) msg.push(`Quien envía paga además ${c.a.impuesto.toLocaleString("es-MX", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} dólares de impuesto en Estados Unidos.`);
+  if (c.a.recortado || c.b.recortado) msg.push("Alguna cantidad es demasiado grande. Usamos como máximo 1,000,000,000 dólares y 1,000 pesos por dólar.");
+  $("msg").textContent = msg.join(" ");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

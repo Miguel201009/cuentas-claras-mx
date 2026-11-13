@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Salario mínimo de la frontera norte: municipios de la zona libre | Cuentas Claras MX</title>
+<meta name="description" content="Los 45 municipios de la zona libre de la frontera norte, donde el salario mínimo 2026 es de $440.87 diarios. Revisa si tu municipio está y cuánto ganas por semana, quincena y mes.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/trabajo/salario-minimo-frontera/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Salario mínimo de la frontera norte: municipios de la zona libre">
+<meta property="og:description" content="Los 45 municipios de la zona libre de la frontera norte, donde el salario mínimo 2026 es de $440.87 diarios. Revisa si tu municipio está y cuánto ganas por semana, quincena y mes.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/trabajo/salario-minimo-frontera/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/trabajo-salario-minimo-frontera.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Trabajo","item":"https://miguel201009.github.io/cuentas-claras-mx/trabajo/"},{"@type":"ListItem","position":3,"name":"Salario mínimo de la frontera","item":"https://miguel201009.github.io/cuentas-claras-mx/trabajo/salario-minimo-frontera/"}]},{"@type":"WebApplication","name":"Salario mínimo de la frontera norte: municipios de la zona libre","url":"https://miguel201009.github.io/cuentas-claras-mx/trabajo/salario-minimo-frontera/","description":"Los 45 municipios de la zona libre de la frontera norte, donde el salario mínimo 2026 es de $440.87 diarios. Revisa si tu municipio está y cuánto ganas por semana, quincena y mes.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Trabajo</a> › Salario mínimo de la frontera</span></div>
+
+  <header>
+    <span class="tag">Trabajo</span>
+    <h1>Salario mínimo de la frontera norte: municipios de la zona libre</h1>
+    <p class="lede">En 45 municipios de seis estados del norte el salario mínimo es más alto: <strong>$440.87 diarios en 2026</strong>, contra $315.04 en el resto del país. Revisa si el municipio donde trabajas está en la lista y cuánto ganas por semana, quincena y mes.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <h3>¿Tu municipio está en la zona libre?</h3>
+      <label for="est">Estado donde trabajas
+        <select id="est">
+          <option value="Baja California" selected>Baja California</option>
+          <option value="Sonora">Sonora</option>
+          <option value="Chihuahua">Chihuahua</option>
+          <option value="Coahuila">Coahuila</option>
+          <option value="Nuevo León">Nuevo León</option>
+          <option value="Tamaulipas">Tamaulipas</option>
+          <option value="otro">Otro estado</option>
+        </select></label>
+      <label for="mun">Municipio donde trabajas
+        <input id="mun" type="text" list="municipios" autocomplete="off" value="Tijuana"></label>
+      <datalist id="municipios"></datalist>
+      <p class="nota">Cuenta el municipio donde trabajas, no donde vives ni donde está la oficina de tu empresa. Puedes escribir el nombre de la ciudad, por ejemplo Ciudad Juárez o Rosarito.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota" id="zona">Zona</span>
+      <div class="big" id="dia">$0</div>
+      <div class="row"><span>Por semana (7 días, con tu día de descanso)</span><b id="sem"></b></div>
+      <div class="row"><span>Por quincena (15 días)</span><b id="qui"></b></div>
+      <div class="row"><span>Por mes de 30 días</span><b id="m30"></b></div>
+      <div class="row"><span>Al mes (promedio, 365 ÷ 12 días)</span><b id="mes"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Salario mínimo 2026, vigente desde el 1 de enero de 2026. Montos brutos: si ganas el mínimo no te pueden descontar ISR ni tus cuotas del IMSS.</p>
+    </div>
+  </section>
+
+  <section class="prosa">
+    <h2>Los 45 municipios de la zona libre de la frontera norte</h2>
+    <p>Son los que lista la resolución de la Comisión Nacional de los Salarios Mínimos (CONASAMI) para 2026, publicada en el Diario Oficial de la Federación el 9 de diciembre de 2025:</p>
+    <div class="tabla"><table>
+      <thead><tr><th>Estado</th><th>Municipios</th><th>Cuáles</th></tr></thead>
+      <tbody>
+        <tr><td>Baja California</td><td>7</td><td>Ensenada, Playas de Rosarito, Mexicali, Tecate, Tijuana, San Quintín, San Felipe</td></tr>
+        <tr><td>Sonora</td><td>11</td><td>San Luis Río Colorado, Puerto Peñasco, General Plutarco Elías Calles, Caborca, Altar, Sáric, Nogales, Santa Cruz, Cananea, Naco, Agua Prieta</td></tr>
+        <tr><td>Chihuahua</td><td>8</td><td>Janos, Ascensión, Juárez, Práxedis G. Guerrero, Guadalupe, Coyame del Sotol, Ojinaga, Manuel Benavides</td></tr>
+        <tr><td>Coahuila</td><td>8</td><td>Ocampo, Acuña, Zaragoza, Jiménez, Piedras Negras, Nava, Guerrero, Hidalgo</td></tr>
+        <tr><td>Nuevo León</td><td>1</td><td>Anáhuac</td></tr>
+        <tr><td>Tamaulipas</td><td>10</td><td>Nuevo Laredo, Guerrero, Mier, Miguel Alemán, Camargo, Gustavo Díaz Ordaz, Reynosa, Río Bravo, Valle Hermoso, Matamoros</td></tr>
+      </tbody>
+    </table></div>
+    <p>Algunas notas dicen que son <strong>43 municipios</strong>: no cuentan San Quintín ni San Felipe, dos municipios nuevos de Baja California que se formaron con territorio que antes era de Ensenada y de Mexicali. La resolución de 2026 sí los nombra.</p>
+
+    <h2>Lo que no está en la zona libre</h2>
+    <ul>
+      <li><strong>Capitales y ciudades grandes del norte</strong> que no están en la lista, como Monterrey, Saltillo, Hermosillo, Chihuahua, Torreón o Ciudad Victoria: ahí rige el salario mínimo general de $315.04.</li>
+      <li><strong>Municipios con el mismo nombre en otro estado.</strong> Juárez y Guadalupe de Nuevo León no son zona libre; los que sí lo son están en Chihuahua. Hay municipios llamados Hidalgo, Guerrero o Jiménez en varios estados: solo cuentan los de la tabla.</li>
+      <li><strong>La frontera sur.</strong> No tiene un salario mínimo especial.</li>
+    </ul>
+
+    <h2>Cuánto es el salario mínimo de la frontera</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Año</th><th>Zona libre de la frontera norte (por día)</th><th>Resto del país (por día)</th></tr></thead>
+      <tbody>
+        <tr><td>2023</td><td>$312.41</td><td>$207.44</td></tr>
+        <tr><td>2024</td><td>$374.89</td><td>$248.93</td></tr>
+        <tr><td>2025</td><td>$419.88</td><td>$278.80</td></tr>
+        <tr><td>2026</td><td><strong>$440.87</strong> (subió 5%)</td><td><strong>$315.04</strong> (subió 13%)</td></tr>
+        <tr><td>2027</td><td>Se anuncia en diciembre de 2026</td><td>Se anuncia en diciembre de 2026</td></tr>
+      </tbody>
+    </table></div>
+    <p>En 2026 la frontera subió menos que el resto del país (5% contra 13%) porque no recibió el monto independiente de recuperación, la parte fija del aumento. Con 30.42 días por mes (365 ÷ 12), el mínimo de la frontera da <strong>$13,409.80 al mes</strong>. Lo que pase en 2027 lo explicamos en <a href="../salario-minimo-2027/">salario mínimo 2027</a>.</p>
+
+    <h2>¿Qué salario me toca?</h2>
+    <ul>
+      <li><strong>Cuenta dónde trabajas.</strong> Si una empresa de la Ciudad de México te contrata para trabajar en Tijuana, te toca el mínimo de la frontera.</li>
+      <li><strong>Es un piso, no un tope.</strong> Nadie puede ganar menos por una jornada completa en esos municipios. Si trabajas menos horas, te pueden pagar en proporción.</li>
+      <li><strong>Se usa en otras cuentas.</strong> El salario mínimo de tu zona sirve para el tope de la <a href="../prima-de-antiguedad/">prima de antigüedad</a> y para saber si te deben retener ISR. La calculadora de <a href="../sueldo-neto/">sueldo neto</a> te deja elegir la zona.</li>
+      <li><strong>El IVA de 8% es otra cosa.</strong> La tasa reducida de IVA de la región fronteriza viene de un decreto distinto, con sus propias reglas: lo explicamos en la <a href="../../impuestos/calculadora-iva/">calculadora de IVA</a>.</li>
+      <li>Si ganas menos del mínimo de tu zona, pide asesoría gratuita en la PROFEDET: 800 911 7877.</li>
+    </ul>
+
+    <h2>Fuentes</h2>
+    <p class="nota">Revisadas el 13 de noviembre de 2026. Lista de municipios y montos de 2026: resolución de la CONASAMI publicada en el DOF el 9 de diciembre de 2025 (leída en la copia que publica el Supremo Tribunal de Justicia de Sonora); coinciden IDC (9 de diciembre de 2025) y Bloomberg Línea (3 de diciembre de 2025). N+ (3 de diciembre de 2025) da 43 municipios porque no cuenta San Quintín ni San Felipe. Salario que corresponde al lugar donde trabajas: Expansión (19 de febrero de 2025). Historial: las mismas fuentes que la página de <a href="../salario-minimo-2027/">salario mínimo 2027</a>. No pudimos abrir las páginas de la CONASAMI ni del DOF desde nuestra red.</p>
+    <p>Fuente oficial: <a href="https://www.gob.mx/conasami" rel="noopener">CONASAMI</a> y el <a href="https://www.dof.gob.mx/" rel="noopener">Diario Oficial de la Federación</a>.</p>
+    <p>También te puede servir: <a href="../salario-minimo-2027/">salario mínimo 2027</a>, <a href="../sueldo-neto/">calculadora de sueldo neto e ISR</a>, <a href="../nomina-semanal-quincenal/">nómina semanal y quincenal</a> y <a href="../aguinaldo/">calculadora de aguinaldo</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno. Los cálculos son orientativos. Consulta la <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LFT.pdf" rel="noopener">Ley Federal del Trabajo</a>.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/trabajo.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function listar() {
+  const est = $("est").value;
+  const lista = est === "otro" ? [] : Trabajo.DATOS.salarioMinimo.zonaLibre[est] || [];
+  $("municipios").innerHTML = lista.map(m => `<option value="${m}">`).join("");
+}
+function calcular() {
+  const z = Trabajo.zonaSalarioMinimo({ estado: $("est").value, municipio: $("mun").value });
+  const r = Trabajo.salarioMinimoPeriodos({ zona: z.zona });
+  $("zona").textContent = z.zona === "frontera" ? `${z.municipio}, ${z.estado}: zona libre de la frontera norte, por día` : "Resto del país (salario mínimo general), por día";
+  $("dia").textContent = mxn(r.diario);
+  $("sem").textContent = mxn(r.semana);
+  $("qui").textContent = mxn(r.quincena);
+  $("m30").textContent = mxn(r.mes30);
+  $("mes").textContent = mxn(r.mesPromedio);
+  const msg = [];
+  if (z.sinMunicipio) msg.push(`Escribe tu municipio. En ${z.estado} son zona libre: ${z.municipiosDelEstado.join(", ")}.`);
+  else if (z.zona === "general" && z.estadoFronterizo) msg.push(`${z.buscado} no está en la lista de la zona libre de ${z.estado}. Los que sí están: ${z.municipiosDelEstado.join(", ")}.`);
+  else if (z.zona === "general" && !z.buscado) msg.push("Fuera de Baja California, Sonora, Chihuahua, Coahuila, Nuevo León y Tamaulipas rige el salario mínimo general.");
+  if (z.enOtroEstado.length) msg.push(`Ojo: hay un municipio con ese nombre en la zona libre de ${z.enOtroEstado.join(" y ")}. Si trabajas ahí, elige ese estado.`);
+  $("msg").textContent = msg.join(" ");
+}
+$("est").addEventListener("change", () => { listar(); calcular(); });
+$("f").addEventListener("input", calcular);
+listar();
+calcular();
+</script>
+</body>
+</html>

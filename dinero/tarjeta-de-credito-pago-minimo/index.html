@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pago mínimo de la tarjeta de crédito: cuánto pagas de intereses | Cuentas Claras MX</title>
+<meta name="description" content="Calcula cuántos meses tardas en pagar tu tarjeta de crédito y cuánto pagas de intereses si solo das el pago mínimo, contra un pago fijo cada mes. Con la regla de Banxico.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../../assets/estilo.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f5c4c'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23f3a33a'/%3E%3C/svg%3E">
+<style>
+  .tool .pagos { grid-column: 1 / -1 }
+  .pagos summary { cursor: pointer; font: 600 1.1rem var(--display); color: var(--brand); margin-bottom: 10px }
+  .pagos td.n, .pagos th.n { text-align: right; white-space: nowrap }
+  .result h3 { margin: 14px 0 4px }
+</style>
+<!-- seo -->
+<link rel="canonical" href="https://miguel201009.github.io/cuentas-claras-mx/dinero/tarjeta-de-credito-pago-minimo/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cuentas Claras MX">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="Pago mínimo de la tarjeta de crédito: cuánto pagas de intereses">
+<meta property="og:description" content="Calcula cuántos meses tardas en pagar tu tarjeta de crédito y cuánto pagas de intereses si solo das el pago mínimo, contra un pago fijo cada mes. Con la regla de Banxico.">
+<meta property="og:url" content="https://miguel201009.github.io/cuentas-claras-mx/dinero/tarjeta-de-credito-pago-minimo/">
+<meta property="og:image" content="https://miguel201009.github.io/cuentas-claras-mx/assets/compartir/dinero-tarjeta-de-credito-pago-minimo.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://miguel201009.github.io/cuentas-claras-mx/"},{"@type":"ListItem","position":2,"name":"Dinero y ahorro","item":"https://miguel201009.github.io/cuentas-claras-mx/dinero/"},{"@type":"ListItem","position":3,"name":"Pago mínimo de la tarjeta","item":"https://miguel201009.github.io/cuentas-claras-mx/dinero/tarjeta-de-credito-pago-minimo/"}]},{"@type":"WebApplication","name":"Pago mínimo de la tarjeta de crédito: cuánto pagas de intereses","url":"https://miguel201009.github.io/cuentas-claras-mx/dinero/tarjeta-de-credito-pago-minimo/","description":"Calcula cuántos meses tardas en pagar tu tarjeta de crédito y cuánto pagas de intereses si solo das el pago mínimo, contra un pago fijo cada mes. Con la regla de Banxico.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"es-MX","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"MXN"}}]}</script>
+<script src="../../assets/compartir.js" defer></script>
+<!-- /seo -->
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="logo" href="../../">Cuentas Claras <span>MX</span></a><span class="migas"><a href="../../">Inicio</a> › <a href="../">Dinero y ahorro</a> › Pago mínimo de la tarjeta</span></div>
+
+  <header>
+    <span class="tag">Dinero y ahorro</span>
+    <h1>Pago mínimo de la tarjeta de crédito: cuánto pagas de intereses</h1>
+    <p class="lede">Escribe lo que debes, tu límite de crédito y la tasa de tu tarjeta. Te decimos cuántos meses tardas en terminar y cuánto pagas de intereses si solo das el mínimo, y cuánto te ahorras con un pago fijo cada mes.</p>
+    <p class="nota indep">Sitio independiente: no es una página del gobierno ni de ningún banco.</p>
+  </header>
+
+  <section class="tool">
+    <form id="f" onsubmit="return false">
+      <label for="saldo">¿Cuánto debes en la tarjeta?
+        <input id="saldo" type="number" min="0" step="100" inputmode="decimal" value="30000"></label>
+      <label for="linea">Tu límite de crédito
+        <input id="linea" type="number" min="0" step="1000" inputmode="decimal" value="50000"></label>
+      <label for="tasa">Tasa de interés anual sin IVA (%), ejemplo
+        <input id="tasa" type="number" min="0" max="300" step="0.1" inputmode="decimal" value="45"></label>
+      <label for="fijo">Pago fijo que podrías hacer cada mes
+        <input id="fijo" type="number" min="0" step="100" inputmode="decimal" value="2000"></label>
+      <label class="check"><input id="iva" type="checkbox" checked> Sumar 16% de IVA a los intereses</label>
+      <p class="nota">La tasa cargada es un ejemplo, no el promedio oficial. Busca la tasa de interés ordinaria anual en tu estado de cuenta o en tu contrato (no el CAT). Suponemos que ya no usas la tarjeta mientras la pagas.</p>
+    </form>
+    <div class="result" aria-live="polite">
+      <span class="nota">Si solo pagas el mínimo, terminas en</span>
+      <div class="big" id="tMin">0</div>
+      <div class="row"><span>Primer pago mínimo</span><b id="pMin"></b></div>
+      <div class="row"><span>Intereses con IVA</span><b id="iMin"></b></div>
+      <div class="row"><span>Pagas en total</span><b id="totMin"></b></div>
+      <h3>Con tu pago fijo</h3>
+      <div class="row"><span>Terminas en</span><b id="tFijo"></b></div>
+      <div class="row"><span>Intereses con IVA</span><b id="iFijo"></b></div>
+      <div class="row"><span>Pagas en total</span><b id="totFijo"></b></div>
+      <div class="row"><span>Te ahorras</span><b id="ahorro"></b></div>
+      <p class="nota" id="msg"></p>
+      <p class="nota">Cálculo orientativo con tasa fija y sin compras nuevas, comisiones ni seguros. El IVA se calcula sobre todo el interés, como estimación alta: la ley lo cobra solo sobre la parte que pasa de la inflación.</p>
+    </div>
+    <details class="pagos">
+      <summary>Cómo baja tu deuda con el pago mínimo, año por año</summary>
+      <div class="tabla"><table>
+        <thead><tr><th>Año</th><th class="n">Llevas pagado</th><th class="n">Intereses con IVA</th><th class="n">Todavía debes</th></tr></thead>
+        <tbody id="tabla"></tbody>
+      </table></div>
+    </details>
+  </section>
+
+  <section class="prosa">
+    <h2>Cómo se calcula el pago mínimo</h2>
+    <p>El Banco de México (Banxico) fija cómo se calcula el pago mínimo de las tarjetas de crédito de los bancos. Es la cantidad <strong>mayor</strong> entre estas dos:</p>
+    <ul>
+      <li><strong>1.5% de lo que debes</strong> al corte (sin contar los intereses del mes), <strong>más los intereses del mes con su IVA</strong>.</li>
+      <li><strong>1.25% de tu límite de crédito.</strong></li>
+    </ul>
+    <p>Si esa cantidad es mayor que tu deuda, solo pagas lo que debes. Cada banco puede pedir un mínimo más alto, pero no uno más bajo. La regla está en la Circular 13/2011 de Banxico y rige con estos porcentajes desde enero de 2013.</p>
+    <p>Fíjate en lo que eso significa: casi todo tu pago mínimo se va en intereses e IVA, y solo 1.5% de lo que debes baja tu deuda. Como el mínimo se recalcula cada mes sobre una deuda un poco menor, también baja cada mes, y la deuda tarda años en terminarse.</p>
+
+    <h2>Ejemplo</h2>
+    <p>Debes $30,000 en una tarjeta con límite de $50,000 y una tasa de 45% anual sin IVA (es un ejemplo). Ya no la usas.</p>
+    <ul>
+      <li>El primer mes te cobran $1,125 de intereses y $180 de IVA. Tu pago mínimo es 1.5% de $30,000 ($450) más esos $1,305: <strong>$1,755</strong>. El 1.25% de tu límite ($625) es menor, así que manda el primero.</li>
+      <li>Si siempre pagas solo el mínimo, terminas en <strong>101 meses (8 años y 5 meses)</strong> y pagas <strong>$65,309.67 de intereses con IVA</strong>: más del doble de lo que debías. En total pagas $95,309.67.</li>
+      <li>Si pagas <strong>$2,000 fijos cada mes</strong>, terminas en <strong>25 meses</strong> y pagas $19,652.92 de intereses con IVA. Te ahorras <strong>$45,656.75</strong> y 6 años y 4 meses de pagos.</li>
+    </ul>
+    <p>Son los datos que vienen cargados en la calculadora. El pago fijo de $2,000 es apenas $245 más que el primer pago mínimo.</p>
+
+    <h2>¿Qué tasa tiene mi tarjeta?</h2>
+    <p>Las tasas de las tarjetas son de las más altas del crédito en México y cambian mucho de una tarjeta a otra. Algunos ejemplos públicos (no son promedios oficiales):</p>
+    <ul>
+      <li>En el comparativo de tarjetas clásicas que publica Banxico (datos a junio de 2026), el CAT va de 31.2% a 217.1%.</li>
+      <li>Una tarjeta de un banco grande anuncia una tasa promedio ponderada de 61.81% anual y un CAT promedio de 87.6% sin IVA (calculado en mayo de 2026).</li>
+      <li>N+ (noviembre de 2026) reporta un CAT promedio de 52.44% para quienes no pagan el total de su tarjeta (junio de 2025) y tasas de alrededor de 38%.</li>
+    </ul>
+    <p>Por eso usamos 45% como ejemplo. Para tu cálculo, usa la <strong>tasa de interés ordinaria anual</strong> de tu estado de cuenta. El CAT sirve para comparar tarjetas, pero ya incluye la anualidad y otros cobros, así que no lo escribas como tasa.</p>
+
+    <h2>Cómo salir más rápido</h2>
+    <ul>
+      <li><strong>Paga un monto fijo</strong>, aunque sea un poco más que el mínimo. Lo que cuenta es que no baje cuando baja tu deuda.</li>
+      <li><strong>Deja de usar la tarjeta</strong> mientras la pagas. Cada compra nueva vuelve a empezar la cuenta.</li>
+      <li><strong>Paga primero la tarjeta con la tasa más alta</strong> si tienes varias, y el mínimo en las demás.</li>
+      <li><strong>Ojo con los meses sin intereses:</strong> la mensualidad se paga además del mínimo. Lo explicamos en <a href="../meses-sin-intereses/">¿conviene comprar a meses sin intereses?</a></li>
+      <li><strong>Un préstamo personal más barato</strong> puede servir para pagar la tarjeta de una vez, si su tasa y su CAT son menores. Compáralo con la <a href="../prestamo/">calculadora de préstamo</a>, y no vuelvas a llenar la tarjeta.</li>
+      <li><strong>Si ya no puedes pagar</strong>, habla con tu banco antes de atrasarte y pide una reestructura por escrito. La Condusef te orienta gratis.</li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    <h3>¿Qué pasa si no doy ni el pago mínimo?</h3>
+    <p>Te cobran comisión por pago tardío e intereses moratorios, tu atraso aparece en el Buró de Crédito y el banco puede cancelar tu línea. Si te atrasas, cualquier cálculo de esta página se queda corto.</p>
+    <h3>¿Qué es el pago para no generar intereses?</h3>
+    <p>Es lo que tienes que pagar en el mes para que no te cobren intereses: lo que gastaste en el periodo más las mensualidades de tus compras a meses. Si lo pagas completo cada mes (ser "totalero"), la tarjeta no te cobra intereses.</p>
+    <h3>¿Por qué mi pago mínimo es distinto al de la calculadora?</h3>
+    <p>Porque tu banco puede pedir un mínimo mayor, suma las mensualidades de tus compras a meses y cobra anualidad, seguros u otras comisiones. La calculadora solo usa la regla de Banxico con tu deuda y tu tasa.</p>
+
+    <h2>Fuentes</h2>
+    <p class="nota">Revisadas el 13 de noviembre de 2026. Regla del pago mínimo: Banxico, Circular 13/2011 (1 de junio de 2011), numeral 2.1 y transitorio segundo, en la copia que publica la Asociación de Bancos de México; coincide El Financiero (7 de mayo de 2023). Comparativo de tarjetas clásicas: Banxico (datos a junio de 2026). Tasa y CAT promedio de una tarjeta: hoja de tarifas y comisiones de Banamex LineUp (cálculo del 27 de mayo de 2026). CAT promedio y tasas de alrededor de 38%: N+ (5 de noviembre de 2026). No pudimos abrir banxico.org.mx ni gob.mx desde nuestra red: lo que viene de ahí queda pendiente de cotejar en el sitio oficial. El IVA de 16% sobre los intereses viene del artículo 1 de la Ley del IVA; el artículo 18-A lo cobra solo sobre el interés real.</p>
+    <p>Fuentes oficiales: <a href="https://www.banxico.org.mx/" rel="noopener">Banco de México</a> (regla del pago mínimo y comparativos de tarjetas) y los <a href="https://www.gob.mx/condusef/acciones-y-programas/simuladores-y-calculadoras-23921" rel="noopener">simuladores de la Condusef</a>, que incluyen uno de pagos mínimos.</p>
+    <p>También te puede servir: <a href="../meses-sin-intereses/">¿conviene comprar a meses sin intereses?</a>, <a href="../prestamo/">calculadora de préstamo</a>, <a href="../interes-compuesto/">calculadora de interés compuesto</a> (el mismo efecto, pero a tu favor) y <a href="../buen-fin/">Buen Fin 2026</a>.</p>
+  </section>
+
+  <footer>
+    <span>Cuentas Claras MX es un sitio independiente, no es una página del gobierno ni de ningún banco. Los cálculos son orientativos y no son asesoría financiera.</span>
+    <span>No guardamos tus datos: todo se calcula en tu celular o computadora. <a href="../../aviso-legal/">Aviso legal</a></span>
+  </footer>
+</div>
+<script src="../../assets/calc.js"></script>
+<script src="../../assets/dinero.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+function plazo(meses) {
+  const a = Math.floor(meses / 12), m = meses % 12;
+  const partes = [];
+  if (a) partes.push(a + (a === 1 ? " año" : " años"));
+  if (m || !a) partes.push(m + (m === 1 ? " mes" : " meses"));
+  return partes.join(" y ");
+}
+function calcular() {
+  const r = Dinero.pagoMinimoTarjeta({
+    saldo: $("saldo").value, linea: $("linea").value, tasaAnual: $("tasa").value, pagoFijo: $("fijo").value, conIva: $("iva").checked
+  });
+  const mn = r.minimo, fj = r.fijo;
+  const msg = [];
+  $("tMin").textContent = r.sinSaldo ? "Sin deuda" : mn.sinTerminar ? "Más de 100 años" : plazo(mn.meses);
+  $("pMin").textContent = mxn(r.primerMinimo);
+  $("iMin").textContent = mxn(mn.costo);
+  $("totMin").textContent = mxn(mn.totalPagado);
+  if (!fj) {
+    ["tFijo", "iFijo", "totFijo", "ahorro"].forEach(id => { $(id).textContent = "Escribe un pago fijo"; });
+  } else if (fj.nunca) {
+    ["tFijo", "iFijo", "totFijo", "ahorro"].forEach(id => { $(id).textContent = "Nunca terminas"; });
+    msg.push(`Tu pago fijo no alcanza ni para los intereses con IVA del mes (${mxn(r.fijoMinimoUtil)}): la deuda no baja.`);
+  } else {
+    $("tFijo").textContent = plazo(fj.meses);
+    $("iFijo").textContent = mxn(fj.costo);
+    $("totFijo").textContent = mxn(fj.totalPagado);
+    $("ahorro").textContent = r.ahorro > 0 ? `${mxn(r.ahorro)} y ${plazo(Math.max(r.mesesMenos, 0))}` : mxn(0);
+    if (r.pagoFijo < r.primerMinimo) msg.push("Tu pago fijo es menor que el primer pago mínimo: el banco te pediría por lo menos el mínimo.");
+  }
+  if (r.lineaAjustada) msg.push("Tu límite de crédito es menor que tu deuda o no lo escribiste: usamos tu deuda como límite.");
+  if (r.recortado) msg.push("Alguna cantidad es demasiado grande. Usamos como máximo $1,000,000,000 y una tasa de 300%.");
+  $("msg").textContent = msg.join(" ");
+  $("tabla").innerHTML = mn.porAnio.map(f =>
+    `<tr><td>${plazo(f.mes)}</td><td class="n">${mxn(f.pagado)}</td><td class="n">${mxn(f.intereses)}</td><td class="n">${mxn(f.saldo)}</td></tr>`
+  ).join("");
+}
+$("f").addEventListener("input", calcular);
+calcular();
+</script>
+</body>
+</html>

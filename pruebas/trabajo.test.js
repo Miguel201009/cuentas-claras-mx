@@ -342,4 +342,53 @@ assert.strictEqual(T.nominaPeriodos({ monto: 440.87, periodo: "diario", zona: "f
     assert.ok(nom.includes(t), `nómina: falta ${t}`);
 }
 
-console.log("OK: pruebas de trabajo (PTU, horas extra, incapacidad, liquidación y nómina) pasaron");
+// ---------- Salario mínimo de la frontera norte ----------
+// 45 municipios según la resolución de la CONASAMI (DOF 9 dic 2025): 7 + 11 + 8 + 8 + 1 + 10.
+{
+  const lista = T.municipiosZonaLibre();
+  assert.strictEqual(lista.length, 45, "45 municipios");
+  const z = T.DATOS.salarioMinimo.zonaLibre;
+  assert.deepStrictEqual(Object.keys(z).map(e => z[e].length), [7, 11, 8, 8, 1, 10]);
+  assert.strictEqual(C.DATOS.salarioMinimo.frontera, 440.87, "reusa el dato de calc.js");
+  const zona = (estado, municipio) => T.zonaSalarioMinimo({ estado, municipio });
+  assert.strictEqual(zona("Baja California", "Tijuana").zona, "frontera");
+  assert.strictEqual(zona("Baja California", "Tijuana").diario, 440.87);
+  assert.strictEqual(zona("baja california", "  TIJUANA ").municipio, "Tijuana", "sin importar mayúsculas");
+  assert.strictEqual(zona("Chihuahua", "Ciudad Juárez").municipio, "Juárez", "nombre de la ciudad");
+  assert.strictEqual(zona("Chihuahua", "cd. juarez").municipio, "Juárez", "abreviatura cd.");
+  assert.strictEqual(zona("Coahuila", "Ciudad Acuña").municipio, "Acuña");
+  assert.strictEqual(zona("Baja California", "Rosarito").municipio, "Playas de Rosarito");
+  assert.strictEqual(zona("Baja California", "San Quintin").zona, "frontera", "San Quintín sí está");
+  assert.strictEqual(zona("Tamaulipas", "Guerrero").zona, "frontera");
+  assert.strictEqual(zona("Coahuila", "Guerrero").zona, "frontera");
+  // Mismo nombre en otro estado: no es zona libre.
+  const gpe = zona("Nuevo León", "Guadalupe");
+  assert.strictEqual(gpe.zona, "general");
+  assert.strictEqual(gpe.diario, 315.04);
+  assert.deepStrictEqual(gpe.enOtroEstado, ["Chihuahua"], "avisa que hay un Guadalupe en Chihuahua");
+  assert.strictEqual(zona("Nuevo León", "Juárez").zona, "general");
+  assert.strictEqual(zona("Nuevo León", "Anáhuac").zona, "frontera");
+  assert.strictEqual(zona("Nuevo León", "Monterrey").zona, "general");
+  assert.strictEqual(zona("Sonora", "Hermosillo").zona, "general");
+  assert.strictEqual(zona("otro", "Tijuana").zona, "general");
+  assert.ok(zona("Chihuahua", "").sinMunicipio);
+  assert.strictEqual(zona(undefined, undefined).zona, "general");
+  // Pago con el mínimo de la frontera: 440.87 x 7 = 3,086.09; x 15 = 6,613.05; x 30 = 13,226.10; x 365 / 12 = 13,409.80.
+  const f = T.salarioMinimoPeriodos({ zona: "frontera" });
+  cerca(f.semana, 3086.09, "semana frontera");
+  cerca(f.quincena, 6613.05, "quincena frontera");
+  cerca(f.mes30, 13226.10, "mes de 30 días frontera");
+  cerca(f.mesPromedio, 13409.80, "mes promedio frontera");
+  const fs = require("fs"), path = require("path");
+  const html = fs.readFileSync(path.join(__dirname, "../trabajo/salario-minimo-frontera/index.html"), "utf8");
+  for (const e of Object.keys(z)) {
+    const fila = html.match(new RegExp(`<tr><td>${e}</td><td>(\\d+)</td><td>([^<]+)</td></tr>`));
+    assert.ok(fila, `frontera: falta la fila de ${e}`);
+    assert.strictEqual(+fila[1], z[e].length, `frontera: número de municipios de ${e}`);
+    assert.deepStrictEqual(fila[2].split(", "), z[e], `frontera: municipios de ${e}`);
+  }
+  for (const t of ["$440.87", "$315.04", "$13,409.80", "45 municipios", "43 municipios", "9 de diciembre de 2025"])
+    assert.ok(html.includes(t), `frontera: falta ${t}`);
+}
+
+console.log("OK: pruebas de trabajo (PTU, horas extra, incapacidad, liquidación, nómina y salario mínimo de la frontera) pasaron");

@@ -1,5 +1,5 @@
 // Cálculos de la sección Dinero y ahorro de Cuentas Claras MX: CETES contra banco, meses sin intereses, préstamos,
-// interés compuesto y crédito automotriz.
+// interés compuesto, crédito automotriz, pago mínimo de la tarjeta de crédito y remesas.
 // Funciones puras, sin datos personales: todo se calcula en el navegador de la persona.
 // En el navegador carga antes ../../assets/calc.js (ahí está mxn() para el formato de pesos y la UMA en Calc.DATOS).
 (function (raiz) {
@@ -66,6 +66,26 @@
     // Registro de comercios hasta el 12 nov 2026 en elbuenfin.org. Sorteo del SAT: compras con tarjeta desde $250
     // (Bloomberg Línea y N+); las bases de 2026 las publica el SAT. Revisado el 21 oct 2026.
     buenFin: { anio: 2026, inicio: "2026-11-13", fin: "2026-11-17", dias: 5, sorteoMinimo: 250 },
+
+    // Tarjeta de crédito: pago mínimo. Banxico, Circular 13/2011 (1 jun 2011), numeral 2.1: el mayor entre 1.5% del
+    // saldo revolvente al corte (sin los intereses ni el IVA del periodo) más los intereses del periodo con su IVA, y
+    // 1.25% del límite de crédito; si sale más que el saldo, se cobra el saldo. Esos porcentajes rigen desde el
+    // 4 ene 2013 (transitorio segundo). Texto de la circular leído en la copia de la ABM (abm.org.mx); coincide El
+    // Financiero (7 may 2023). banxico.org.mx no abrió desde esta red. Cada banco puede pedir un mínimo mayor.
+    // Tasas de ejemplo, NO promedio oficial: N+ (5 nov 2026) cita un CAT promedio de 52.44% para clientes que no pagan
+    // el total (jun 2025) y tasas "alrededor de 38%"; Banamex LineUp anuncia tasa promedio ponderada de 61.81% y CAT
+    // promedio de 87.6% sin IVA (cálculo 27 may 2026); el comparativo de Banxico de tarjetas clásicas (jun 2026) va de
+    // 31.2% a 217.1% de CAT. Por eso la página usa 45% anual sin IVA como ejemplo y pide la tasa del estado de cuenta.
+    tarjeta: { pctSaldo: 0.015, pctLinea: 0.0125, tasaEjemplo: 45, tasaMaxima: 300, maxMeses: 1200 },
+
+    // Remesas. Impuesto federal de EE. UU. de 1% a envíos pagados en efectivo, giro postal, cheque de caja o similar,
+    // desde el 1 ene 2026 (ley H.R. 1, Public Law 119-21, "One Big Beautiful Bill", 4 jul 2025). Exentos: los que se
+    // pagan desde una cuenta de banco o con tarjeta de débito o crédito emitida en EE. UU. Lo cobra la remesadora a
+    // quien envía. Fuentes: BBVA Research ("Impuesto a las remesas 2026", ene 2026) y La Nación (9 dic 2025, con la
+    // guía del IRS, Notice 2025-55). Para comparar remesadoras: Profeco, "Quién es Quién en el Envío de Dinero"
+    // (qqed.profeco.gob.mx), al que también manda la página de Banxico del programa Directo a México, que deja de
+    // operar el 20 nov 2026 (Banxico y Expansión, 8 oct 2026). Tipos de cambio y comisiones de la página: ejemplos.
+    remesas: { impuestoEeuu: 0.01, tipoMaximo: 1000 },
 
     // Límites para que una cifra absurda no rompa el resultado: lo que pase de aquí se recorta y se avisa.
     maximos: { monto: 1e9, tasaAhorro: 100, tasaCredito: 1000, inflacion: 100, meses: 480, dias: 3650, comision: 50, anios: 60 },
@@ -384,7 +404,108 @@
     });
   }
 
-  const api = { DATOS, interesCompuesto, creditoAutomotriz, num, porcentaje, descuentoReal, rendimiento, perdidaInflacion, limiteExento, compararAhorro, mesesSinIntereses, tirMensual, prestamo };
+  // ---------- Tarjeta de crédito: pagar solo el mínimo ----------
+
+  // Mes a mes, sin compras nuevas ni comisiones: interés = saldo x tasa / 12; IVA = interés x 16% (estimación alta, ver
+  // DATOS.iva); el pago se resta de saldo + interés + IVA. pagoDe(saldo, cargos) dice cuánto pagas ese mes.
+  // Si el pago no alcanza a cubrir el interés y su IVA, la deuda nunca baja: nunca = true.
+  function simularTarjeta(saldo, i, ivaTasa, pagoDe, maxMeses) {
+    let s = saldo, meses = 0, intereses = 0, iva = 0, pagado = 0, nunca = false, primerPago = 0;
+    const porAnio = [];
+    while (s > 0.005 && meses < maxMeses) {
+      const interes = s * i, ivaMes = interes * ivaTasa, adeudo = s + interes + ivaMes;
+      const pago = Math.min(pagoDe(s, interes + ivaMes), adeudo);
+      if (pago <= interes + ivaMes + 1e-9 && pago < adeudo - 0.005) { nunca = true; break; }
+      if (!meses) primerPago = pago;
+      meses++;
+      intereses += interes; iva += ivaMes; pagado += pago;
+      s = adeudo - pago;
+      if (s <= 0.005) s = 0;
+      if (meses % 12 === 0 || s === 0) porAnio.push({ mes: meses, saldo: s, pagado, intereses: intereses + iva });
+    }
+    return {
+      meses, anios: meses / 12, primerPago, intereses, iva, costo: intereses + iva, totalPagado: pagado,
+      nunca, sinTerminar: !nunca && s > 0.005, saldoFinal: s, porAnio
+    };
+  }
+
+  // Pago mínimo de una tarjeta de crédito (Banxico, Circular 13/2011, numeral 2.1; vigente desde el 4 ene 2013):
+  // el mayor entre a) 1.5% del saldo revolvente al corte (sin intereses ni IVA del periodo) más los intereses del
+  // periodo con su IVA, y b) 1.25% del límite de crédito. Si sale más que lo que debes, pagas lo que debes.
+  // Compara pagar solo el mínimo contra un pago fijo cada mes. tasaAnual en % sin IVA (tasa ordinaria, no el CAT).
+  // linea: límite de crédito; si es menor que el saldo (o vacío) se usa el saldo, y se avisa.
+  function pagoMinimoTarjeta({ saldo, tasaAnual, linea = 0, pagoFijo = 0, conIva = true }) {
+    const max = DATOS.maximos, t = DATOS.tarjeta;
+    const recortado = pasaMaximo([[saldo, max.monto], [linea, max.monto], [pagoFijo, max.monto], [tasaAnual, t.tasaMaxima]]);
+    const s = hasta(saldo, max.monto);
+    const tasa = hasta(tasaAnual, t.tasaMaxima) / 100;
+    const lineaCapturada = hasta(linea, max.monto);
+    const l = Math.max(lineaCapturada, s);
+    const fijo = hasta(pagoFijo, max.monto);
+    const i = tasa / 12, ivaTasa = conIva ? DATOS.iva : 0;
+    const minimoDe = (saldoMes, cargos) => Math.max(t.pctSaldo * saldoMes + cargos, t.pctLinea * l);
+    const minimo = simularTarjeta(s, i, ivaTasa, minimoDe, t.maxMeses);
+    const conFijo = fijo > 0 ? simularTarjeta(s, i, ivaTasa, () => fijo, t.maxMeses) : null;
+    // Pago fijo con el que terminas en el mismo plazo que con el mínimo no tiene sentido; mejor: lo que ahorras.
+    const ahorro = conFijo && !conFijo.nunca && !minimo.nunca ? minimo.costo - conFijo.costo : 0;
+    return {
+      saldo: s, tasa, tasaConIva: tasa * (1 + ivaTasa), linea: l, lineaAjustada: s > 0 && lineaCapturada < s, pagoFijo: fijo,
+      recortado, sinSaldo: s === 0, minimo, fijo: conFijo, ahorro,
+      mesesMenos: conFijo && !conFijo.nunca ? minimo.meses - conFijo.meses : 0,
+      // Pago fijo mínimo para que la deuda baje desde el primer mes: más que el interés con IVA del primer mes.
+      fijoMinimoUtil: s * i * (1 + ivaTasa),
+      primerMinimo: s > 0 ? Math.min(minimoDe(s, s * i * (1 + ivaTasa)), s * (1 + i * (1 + ivaTasa))) : 0
+    };
+  }
+
+  // ---------- Remesas: cuánto llega si te mandan dólares ----------
+
+  // Lo que recibe tu familia en pesos y lo que cuesta el envío.
+  // dolares: lo que se manda; comision: lo que cobra la remesadora, en dólares; tipoReferencia: pesos por dólar de
+  // referencia (por ejemplo el FIX de Banxico del día); tipoOfrecido: los pesos por dólar que paga la remesadora.
+  // Margen del tipo de cambio = 1 - ofrecido / referencia (lo que la remesadora gana en el cambio).
+  // efectivo = true: el envío se paga en efectivo, giro postal o cheque de caja en EE. UU. y lleva el impuesto federal
+  // de 1% (desde el 1 ene 2026; exentas las que se pagan desde una cuenta de banco o con tarjeta de débito o crédito
+  // emitida en EE. UU.). Lo paga quien envía, además de la comisión.
+  function remesa({ dolares, comision = 0, tipoReferencia, tipoOfrecido, efectivo = false }) {
+    const max = DATOS.maximos, cfg = DATOS.remesas;
+    const recortado = pasaMaximo([[dolares, max.monto], [comision, max.monto], [tipoReferencia, cfg.tipoMaximo], [tipoOfrecido, cfg.tipoMaximo]]);
+    const usd = hasta(dolares, max.monto);
+    const com = hasta(comision, max.monto);
+    const ref = hasta(tipoReferencia, cfg.tipoMaximo);
+    const ofr = hasta(tipoOfrecido, cfg.tipoMaximo);
+    const impuesto = efectivo === true ? usd * cfg.impuestoEeuu : 0;
+    const recibe = usd * ofr;
+    const valorReferencia = usd * ref;
+    const margen = valorReferencia - recibe; // pesos que se quedan en el tipo de cambio (negativo si pagan más que la referencia)
+    const comisionPesos = com * ref, impuestoPesos = impuesto * ref;
+    const costo = comisionPesos + margen + impuestoPesos;
+    const pagaUsd = usd + com + impuesto;
+    return {
+      dolares: usd, comision: com, tipoReferencia: ref, tipoOfrecido: ofr, efectivo: efectivo === true, recortado,
+      sinDatos: usd === 0 || ofr === 0, sinReferencia: ref === 0,
+      recibe, valorReferencia, margen, margenPct: ref > 0 ? 1 - ofr / ref : 0,
+      comisionPesos, impuesto, impuestoPesos, pagaUsd, costo,
+      costoPct: valorReferencia > 0 ? costo / valorReferencia : 0, // costo total como % de lo enviado (como el Banco Mundial)
+      pesosPorDolarPagado: pagaUsd > 0 ? recibe / pagaUsd : 0, // pesos que llegan por cada dólar que sale de la bolsa
+      ofreceMasQueReferencia: ref > 0 && ofr > ref
+    };
+  }
+
+  // Compara dos remesadoras con el mismo envío. Gana la de menor costo total en pesos (comisión + margen del tipo de
+  // cambio + impuesto, todo al tipo de referencia): con los mismos dólares enviados, es la que deja más a tu familia
+  // por lo que paga quien envía. diferencia: pesos de diferencia en el costo.
+  function compararRemesas(base, a, b) {
+    const ra = remesa(Object.assign({}, base, a)), rb = remesa(Object.assign({}, base, b));
+    const dif = ra.costo - rb.costo;
+    let mejor = "igual";
+    if (ra.sinDatos || rb.sinDatos || ra.sinReferencia) mejor = "faltan";
+    else if (dif < -0.005) mejor = "a";
+    else if (dif > 0.005) mejor = "b";
+    return { a: ra, b: rb, mejor, diferencia: Math.abs(dif) };
+  }
+
+  const api = { DATOS, pagoMinimoTarjeta, simularTarjeta, remesa, compararRemesas, interesCompuesto, creditoAutomotriz, num, porcentaje, descuentoReal, rendimiento, perdidaInflacion, limiteExento, compararAhorro, mesesSinIntereses, tirMensual, prestamo };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else raiz.Dinero = api;
 })(this);

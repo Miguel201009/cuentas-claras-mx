@@ -104,6 +104,34 @@
       historialGeneral: { 2019: 102.68, 2020: 123.22, 2021: 141.70, 2022: 172.87, 2023: 207.44, 2024: 248.93, 2025: 278.80, 2026: 315.04 },
       // Zona libre de la frontera norte: Expansión y N+ (2023 y 2024), ADN40 y Por Esto (2025), EY (2026).
       historialFrontera: { 2023: 312.41, 2024: 374.89, 2025: 419.88, 2026: 440.87 },
+      // Municipios de la zona libre de la frontera norte (ZLFN), donde rige el salario mínimo de la frontera.
+      // Resolución de la CONASAMI publicada en el DOF el 9 dic 2025 (resolutivo primero), leída en la copia del Supremo
+      // Tribunal de Justicia de Sonora (stjsonora.gob.mx); coinciden IDC (9 dic 2025) y Bloomberg Línea (3 dic 2025):
+      // 45 municipios. N+ (3 dic 2025) dice 43 porque no cuenta San Quintín ni San Felipe, municipios de Baja
+      // California creados hace poco en territorio que antes era de Ensenada y Mexicali.
+      // Ojo: hay municipios con el mismo nombre en otros estados (Juárez y Guadalupe en Nuevo León, Hidalgo en varios
+      // estados) que NO son zona libre: por eso se busca por estado y municipio.
+      zonaLibre: {
+        "Baja California": ["Ensenada", "Playas de Rosarito", "Mexicali", "Tecate", "Tijuana", "San Quintín", "San Felipe"],
+        "Sonora": ["San Luis Río Colorado", "Puerto Peñasco", "General Plutarco Elías Calles", "Caborca", "Altar", "Sáric",
+          "Nogales", "Santa Cruz", "Cananea", "Naco", "Agua Prieta"],
+        "Chihuahua": ["Janos", "Ascensión", "Juárez", "Práxedis G. Guerrero", "Guadalupe", "Coyame del Sotol", "Ojinaga",
+          "Manuel Benavides"],
+        "Coahuila": ["Ocampo", "Acuña", "Zaragoza", "Jiménez", "Piedras Negras", "Nava", "Guerrero", "Hidalgo"],
+        "Nuevo León": ["Anáhuac"],
+        "Tamaulipas": ["Nuevo Laredo", "Guerrero", "Mier", "Miguel Alemán", "Camargo", "Gustavo Díaz Ordaz", "Reynosa",
+          "Río Bravo", "Valle Hermoso", "Matamoros"]
+      },
+      // Otros nombres con que la gente busca su municipio (nombre de la ciudad cabecera o nombre corto).
+      alias: {
+        "ciudad juarez": "Juárez", "rosarito": "Playas de Rosarito", "ciudad acuna": "Acuña", "sonoyta": "General Plutarco Elías Calles",
+        "plutarco elias calles": "General Plutarco Elías Calles", "praxedis": "Práxedis G. Guerrero", "praxedis g guerrero": "Práxedis G. Guerrero",
+        "coyame": "Coyame del Sotol", "san luis rio colorado": "San Luis Río Colorado", "san luis": "San Luis Río Colorado",
+        "heroica caborca": "Caborca", "heroica nogales": "Nogales", "ciudad miguel aleman": "Miguel Alemán",
+        "ciudad camargo": "Camargo", "ciudad mier": "Mier", "ciudad rio bravo": "Río Bravo", "heroica matamoros": "Matamoros",
+        "ciudad anahuac": "Anáhuac", "ciudad guerrero": "Guerrero", "el porvenir": "Práxedis G. Guerrero",
+        "puerto penasco": "Puerto Peñasco", "rocky point": "Puerto Peñasco"
+      },
       // Para pasar de diario a semana, quincena y mes: art. 89 LFT (semana entre 7, mes entre 30). El mes promedio
       // (365 / 12 = 30.4167 días) es el que usan EY y la prensa: 315.04 x 365 / 12 = 9,582.47.
       diasSemana: 7, diasQuincena: 15, diasMes: 30, diasAnio: 365
@@ -415,6 +443,36 @@
     return anios.map((a, i) => ({ anio: a, diario: tabla[a], aumento: i ? tabla[a] / tabla[anios[i - 1]] - 1 : 0 }));
   }
 
+  // ¿Tu municipio está en la zona libre de la frontera norte? Busca por estado y municipio, sin importar acentos ni
+  // mayúsculas. Regresa la zona ("frontera" o "general"), el nombre oficial y el salario mínimo diario que te toca.
+  // estado: uno de los de DATOS.salarioMinimo.zonaLibre u "otro". estado "otro" o municipio fuera de la lista: "general".
+  const sinAcentos = t => String(t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+    .replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
+  function zonaSalarioMinimo({ estado, municipio } = {}) {
+    const cfg = DATOS.salarioMinimo;
+    const est = Object.keys(cfg.zonaLibre).find(e => sinAcentos(e) === sinAcentos(estado)) || "";
+    let q = sinAcentos(municipio).replace(/^(municipio de|mpio de|ciudad de|cd )\s*/, "");
+    if (q.startsWith("cd ")) q = "ciudad " + q.slice(3);
+    const lista = est ? cfg.zonaLibre[est] : [];
+    let oficial = lista.find(m => sinAcentos(m) === q) || "";
+    if (!oficial && cfg.alias[q] && lista.includes(cfg.alias[q])) oficial = cfg.alias[q];
+    // Si escribió el nombre de un municipio de la zona que está en otro estado, se avisa (no se cambia de estado).
+    const enOtroEstado = !oficial && q ? Object.keys(cfg.zonaLibre).filter(e => e !== est &&
+      cfg.zonaLibre[e].some(m => sinAcentos(m) === q || cfg.alias[q] === m)) : [];
+    const zona = oficial ? "frontera" : "general";
+    return {
+      estado: est || "otro", municipio: oficial, buscado: String(municipio || "").trim(), zona,
+      sinMunicipio: !q && !!est, estadoFronterizo: !!est, enOtroEstado,
+      diario: Calc.salarioMinimoZona(zona), municipiosDelEstado: lista.slice()
+    };
+  }
+
+  // Lista de todos los municipios de la zona libre: [{ estado, municipio }], en el orden de la resolución.
+  function municipiosZonaLibre() {
+    const z = DATOS.salarioMinimo.zonaLibre;
+    return Object.keys(z).flatMap(e => z[e].map(m => ({ estado: e, municipio: m })));
+  }
+
   // ---------- Días de descanso obligatorio ----------
 
   const MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
@@ -649,7 +707,7 @@
   const api = {
     DATOS, ptu, horasExtra, limiteDobles, jornadaSemanal, liquidacionDespido, isrTarifa, nominaPeriodos,
     aguinaldoPension, aguinaldoGobierno, aguinaldoSalida, calendarioAguinaldo,
-    salarioMinimoPeriodos, historialSalarioMinimo, diasDescanso, diasDescansoPendientes, pagoDiaFestivo,
+    salarioMinimoPeriodos, historialSalarioMinimo, zonaSalarioMinimo, municipiosZonaLibre, diasDescanso, diasDescansoPendientes, pagoDiaFestivo,
     UMA, valoresUma, convertirUma, umaEstimada, incapacidadImss
   };
   if (typeof module !== "undefined" && module.exports) module.exports = api;

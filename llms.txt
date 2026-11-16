@@ -4,7 +4,7 @@
 
 ## Secciones
 
-- [Auto 2026: tenencia, verificación y gasolina](https://miguel201009.github.io/cuentas-claras-mx/auto/): Guías y calculadoras para tu auto en México: tenencia y refrendo por estado, verificación y Hoy No Circula, y costo de gasolina por viaje. Gratis.
+- [Auto 2026: tenencia, verificación y gasolina](https://miguel201009.github.io/cuentas-claras-mx/auto/): Guías y calculadoras para tu auto en México: tenencia y refrendo por estado (Edomex, CDMX y Jalisco), verificación y Hoy No Circula, y costo de gasolina por viaje. Gratis.
 - [Casa y servicios 2026: luz, aparatos y gas LP](https://miguel201009.github.io/cuentas-claras-mx/casa/): Guías y calculadoras de casa en México: recibo de luz de CFE y la DAC, consumo de cada aparato, gas LP y recibo de agua. Gratis y sin registro.
 - [Dinero y ahorro 2026: CETES, interés compuesto y créditos](https://miguel201009.github.io/cuentas-claras-mx/dinero/): Calculadoras gratis de dinero y ahorro en México: CETES contra banco, interés compuesto, meses sin intereses y el pago mensual y CAT de un préstamo o crédito para auto.
 - [Familia y becas 2026: apoyos, licencias y pensión](https://miguel201009.github.io/cuentas-claras-mx/familia/): Guías y calculadoras gratis para tu familia en México: becas y pensiones del Bienestar, maternidad y paternidad, pensión alimenticia y acta de nacimiento.
@@ -19,6 +19,10 @@
 
 - [Calculadora de gasolina por viaje 2026](https://miguel201009.github.io/cuentas-claras-mx/auto/gasolina-por-viaje/): Calcula cuánta gasolina gastas en un viaje y cuánto le toca a cada quien: kilómetros, rendimiento, precio por litro, ida y vuelta y casetas.
 - [Tenencia y refrendo 2026 por estado](https://miguel201009.github.io/cuentas-claras-mx/auto/tenencia-y-refrendo/): Qué es la tenencia, qué es el refrendo o control vehicular, en qué se diferencian y dónde revisar y pagar en el portal oficial de tu estado.
+- [Tenencia y refrendo 2026 por estado: los 32 estados](https://miguel201009.github.io/cuentas-claras-mx/auto/tenencia/): Tenencia y refrendo 2026 en cada estado de México: cuánto cuesta, subsidios, fechas límite y cómo pagar. Empezamos por Edomex, CDMX y Jalisco.
+- [Tenencia y refrendo 2026 en la CDMX](https://miguel201009.github.io/cuentas-claras-mx/auto/tenencia/ciudad-de-mexico/): Tenencia CDMX 2026: subsidio de 100% para autos de hasta $638,000, refrendo de $760, plazo al 30 de junio, requisitos y cómo pagar. Calculadora gratis.
+- [Tenencia y refrendo 2026 en el Estado de México](https://miguel201009.github.io/cuentas-claras-mx/auto/tenencia/estado-de-mexico/): Tenencia Edomex 2026: subsidio de 100% para autos de hasta $638,000, refrendo de $990 (motos $731), fecha límite, placas y cómo pagar. Calculadora gratis.
+- [Refrendo 2026 en Jalisco: costo y fecha límite](https://miguel201009.github.io/cuentas-claras-mx/auto/tenencia/jalisco/): Refrendo vehicular Jalisco 2026: $1,000 autos y $600 motos, más $100 de donativos. Fecha límite, descuento de 5% en línea y cómo pagar. Sin tenencia.
 - [Verificación vehicular 2026: calendario y hologramas](https://miguel201009.github.io/cuentas-claras-mx/auto/verificacion/): Cuándo te toca verificar según tu placa, qué significan los hologramas 00, 0, 1 y 2, qué días no circulas y cuánto es la multa por verificar tarde.
 
 ## Casa y servicios
@@ -30,7 +34,7 @@
 
 ## Dinero y ahorro
 
-- [Buen Fin 2026: fechas y cómo saber si es oferta real](https://miguel201009.github.io/cuentas-claras-mx/dinero/buen-fin/): El Buen Fin 2026 es del 13 al 17 de noviembre. Calcula el descuento real de una oferta, decide entre contado y meses sin intereses y sabe cómo quejarte en Profeco.
+- [Buen Fin 2026: fechas y cómo saber si es oferta real](https://miguel201009.github.io/cuentas-claras-mx/dinero/buen-fin/): El Buen Fin 2026 terminó: fue del 13 al 17 de noviembre. Sorteo del SAT el 4 de diciembre. Calcula el descuento real de una oferta, decide entre contado y meses sin intereses y sabe cómo quejarte en Profeco.
 - [CETES vs. banco 2026: cuánto rinde tu dinero](https://miguel201009.github.io/cuentas-claras-mx/dinero/cetes-vs-bancos/): Compara cuánto te dejan los CETES y el banco en 2026: intereses, retención de ISR de 0.90%, inflación, qué es la GAT y el seguro del IPAB.
 - [Calculadora de crédito automotriz 2026: pago mensual y CAT](https://miguel201009.github.io/cuentas-claras-mx/dinero/credito-automotriz/): Calcula el pago mensual de tu crédito para auto: precio, enganche, tasa y plazo. Ve los intereses con IVA, la comisión por apertura, un CAT estimado y el costo total.
 - [Calculadora de interés compuesto: cuánto crece tu ahorro](https://miguel201009.github.io/cuentas-claras-mx/dinero/interes-compuesto/): Calcula cuánto crece tu ahorro con interés compuesto: monto inicial, ahorro de cada mes, tasa anual, años y capitalización. Con tabla por año y pesos de hoy.

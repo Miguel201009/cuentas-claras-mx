@@ -329,9 +329,137 @@
     return ESTADOS.slice().sort((a, b) => a.nombre.localeCompare(b.nombre, "es"));
   }
 
+  // ---------------------------------------------------------------- Tenencia y refrendo 2026: una página por estado
+  // Una entrada por cada estado que ya tiene su página en auto/tenencia/<slug>/ (la lista de los 32 está en
+  // auto/tenencia/). Para agregar un estado: copia una entrada, pon sus cifras con 2 fuentes cada una, crea la
+  // página copiando la de un estado parecido y quítale el "próximamente" en auto/tenencia/index.html.
+  // Revisado el 16 de noviembre de 2026. Ningún portal oficial se pudo abrir desde nuestra red (403): cada cifra
+  // se confirmó con al menos 2 fuentes secundarias y queda pendiente de cotejar en el portal del estado.
+  // refrendo: lo que cuesta el pago anual de placas y tarjeta (null = no encontramos el monto).
+  // tope: valor del vehículo con IVA hasta el que aplica el subsidio de 100% a la tenencia (null = no hay tenencia).
+  // plazo: último día para pagar a tiempo (con subsidio o sin recargos). placas: año de las placas que da el
+  // subsidio completo y el de la mitad. extras: cobros que se suman al refrendo. descuentoEnLinea: pronto pago.
+  const PAGINAS_TENENCIA = {
+    mex: {
+      slug: "estado-de-mexico", corto: "Edomex", cobraTenencia: true,
+      // Refrendo 2026: $990 autos y $731 motos (en 2025 fueron $917 y $677). El Imparcial (7 ene 2026),
+      // Expansión (28 ene 2026) y adn40 (16 mar 2026).
+      refrendo: { auto: 990, moto: 731 },
+      // Subsidio de 100% para valor con IVA de hasta $638,000 (autos) y $250,000 (motos): las mismas tres fuentes.
+      tope: { auto: 638000, moto: 250000 },
+      // Plazo del subsidio: lunes 6 de abril de 2026 (Expansión, 28 ene 2026; adn40, 16 mar 2026).
+      plazo: "2026-04-06",
+      // Placas expedidas en 2021 o después: 100%; placas de 2020: 50% (adn40, 16 mar 2026; Crónica, 6 ene 2026,
+      // y Uno TV con el acuerdo de la Gaceta del Gobierno del 19 dic 2025). Placas más viejas: sin dato confirmado.
+      placas: { completo: 2021, mitad: 2020 },
+      extras: [], descuentoEnLinea: null
+    },
+    cdmx: {
+      slug: "ciudad-de-mexico", corto: "CDMX", cobraTenencia: true,
+      // Refrendo (renovación anual de la tarjeta de circulación, art. 219 del Código Fiscal de la CDMX): $760.
+      // Uno TV (5 ene 2026), El Financiero (31 dic 2025) y adn40 (25 jun 2026). De motos no encontramos el monto.
+      refrendo: { auto: 760, moto: null },
+      // Tope del subsidio con IVA: $638,000 autos y $250,000 motos (Uno TV, 5 ene 2026; El Financiero, 31 dic 2025).
+      tope: { auto: 638000, moto: 250000 },
+      // Plazo: 31 de marzo de 2026, ampliado al 30 de junio de 2026 (El Imparcial, 29 abr 2026; adn40, 25 jun 2026).
+      plazo: "2026-06-30", plazoOriginal: "2026-03-31",
+      placas: null, extras: [], descuentoEnLinea: null
+    },
+    jal: {
+      slug: "jalisco", corto: "Jalisco", cobraTenencia: false,
+      // Refrendo 2026: $1,000 autos y camionetas y $600 motos, más $40 para la Cruz Roja y $60 para el Hogar
+      // Cabañas: $1,100 y $700 en total. Uno TV (6 ene 2026) y TV Azteca (ene 2026); los $1,000, también adn40.
+      refrendo: { auto: 1000, moto: 600 },
+      extras: [{ nombre: "Cruz Roja", monto: 40 }, { nombre: "Hogar Cabañas", monto: 60 }],
+      tope: null, placas: null,
+      // Ese precio vale del 2 de enero al último día hábil de marzo (martes 31 de marzo de 2026); después hay
+      // recargos. Uno TV (6 ene 2026) y adn40 ("antes de concluir marzo", mar 2026).
+      plazo: "2026-03-31",
+      // 5% de descuento por pagar en línea en enero y febrero: TV Azteca y adn40. No dicen si se aplica también
+      // a los $100 de donativos: lo aplicamos solo a los $1,000 (o $600) del refrendo, como estimación.
+      descuentoEnLinea: { porcentaje: 5, hasta: "2026-02-28" }
+    }
+  };
+  const TIPOS_VEHICULO = ["auto", "moto"];
+  const MAX_VALOR = 1e8, MAX_ATRASO = 20;
+
+  // "Estado de México" -> "estado-de-mexico". Sirve para la dirección de la página de cada estado.
+  function slugEstado(nombre) {
+    return String(nombre).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  }
+
+  // Los 32 estados para la lista de auto/tenencia/, en orden alfabético, con su dirección y si ya tiene página.
+  function estadosTenencia() {
+    return estadosOrdenados().map(e => {
+      const p = PAGINAS_TENENCIA[e.clave];
+      return { clave: e.clave, nombre: e.nombre, slug: p ? p.slug : slugEstado(e.nombre), lista: !!p };
+    });
+  }
+
+  // Datos de la página de un estado (con su nombre), o null si todavía no tiene página.
+  function paginaTenencia(clave) {
+    const p = PAGINAS_TENENCIA[clave];
+    const e = ESTADOS.find(x => x.clave === clave);
+    if (!p || !e) return null;
+    return Object.assign({ clave, nombre: e.nombre, nombreFrase: conArticulo(e), url: e.url }, p);
+  }
+
+  // Cuánto pagas en 2026 por tu auto o moto en un estado con página.
+  // momento: "aTiempo" (antes del plazo), "tarde" (después del plazo) o "descuento" (en línea en enero o febrero,
+  // solo donde hay descuento por pronto pago). valor: valor del vehículo con IVA (el de la factura).
+  // alCorriente: sin adeudos de años anteriores. anioPlacas: año en que te dieron las placas (solo Edomex).
+  // aniosAtrasados: refrendos de años anteriores que no pagaste (se estiman al costo de 2026, sin recargos).
+  function pagoTenencia2026(clave, { tipo = "auto", valor, alCorriente = true, momento = "aTiempo", anioPlacas, aniosAtrasados = 0 } = {}) {
+    const p = paginaTenencia(clave);
+    if (!p) return null;
+    const t = TIPOS_VEHICULO.includes(tipo) ? tipo : "auto";
+    const refrendo = p.refrendo[t];
+    const sinRefrendo = refrendo === null || refrendo === undefined;
+    const v = acotar(valor, MAX_VALOR);
+    const at = acotar(aniosAtrasados, MAX_ATRASO);
+    const atrasados = Math.floor(at.valor);
+    const tarde = momento === "tarde";
+    const hayDescuento = !!p.descuentoEnLinea && momento === "descuento";
+
+    const extras = p.extras.reduce((s, x) => s + x.monto, 0);
+    const descuento = hayDescuento && !sinRefrendo ? Calc.redondear(refrendo * p.descuentoEnLinea.porcentaje / 100) : 0;
+
+    // Subsidio a la tenencia: "noAplica" (el estado no cobra tenencia), "completo" (100%), "mitad" (50%),
+    // "no" (lo pierdes) o "faltaValor" (falta escribir el valor). motivos: por qué no te toca completo.
+    let subsidio = "noAplica";
+    const motivos = [];
+    if (p.cobraTenencia) {
+      if (v.valor === 0) subsidio = "faltaValor";
+      else {
+        if (v.valor > p.tope[t]) motivos.push("valor");
+        if (!alCorriente || atrasados > 0) motivos.push("adeudos");
+        if (tarde) motivos.push("plazo");
+        let pct = 100;
+        if (p.placas && anioPlacas !== undefined && anioPlacas !== "") {
+          const a = +anioPlacas;
+          if (a < p.placas.mitad) { motivos.push("placas"); pct = 0; }
+          else if (a < p.placas.completo) pct = 50;
+        }
+        subsidio = motivos.length ? "no" : pct === 50 ? "mitad" : "completo";
+      }
+    }
+    // Si no tienes el subsidio completo, además pagas la tenencia (o la mitad): el monto lo da el portal del estado.
+    const pagasTenencia = subsidio === "no" || subsidio === "mitad";
+    const refrendoNeto = sinRefrendo ? 0 : refrendo - descuento;
+    const adeudoEstimado = sinRefrendo ? 0 : atrasados * (refrendo + extras);
+    const total = sinRefrendo ? 0 : refrendoNeto + extras + adeudoEstimado;
+    return {
+      clave, nombre: p.nombre, tipo: t, valor: v.valor, refrendo: sinRefrendo ? null : refrendo, sinRefrendo, extras, descuento,
+      refrendoNeto, subsidio, motivos, pagasTenencia, tope: p.tope ? p.tope[t] : null, plazo: p.plazo,
+      recargos: tarde, atrasados, adeudoEstimado, total, recortado: v.recortado || at.recortado
+    };
+  }
+
   const api = {
     DATOS, MESES, ESTADOS, HOLOGRAMAS, num, acotar, gasolinaViaje, digitoValido, engomado, turnoVerificacion,
-    sabadosDelMes, hoyNoCircula, sabadosSinCircular, multaExtemporaneaCdmx, listaDias, tenenciaEstado, estadosOrdenados
+    sabadosDelMes, hoyNoCircula, sabadosSinCircular, multaExtemporaneaCdmx, listaDias, tenenciaEstado, estadosOrdenados,
+    PAGINAS_TENENCIA, slugEstado, estadosTenencia, paginaTenencia, pagoTenencia2026
   };
   if (enNode) module.exports = api;
   else raiz.Auto = api;

@@ -20,9 +20,9 @@
       mensual: [[25000, 1.00], [50000, 1.10], [83333.33, 1.50], [208333.33, 2.00], [3500000, 2.50]],
       // Art. 113-F LISR: tabla anual (misma lógica, con montos del año).
       anual: [[300000, 1.00], [600000, 1.10], [1000000, 1.50], [2500000, 2.00], [3500000, 2.50]],
-      // Art. 113-E LISR: tope de ingresos del año, vigente en octubre de 2026. En octubre de 2026 la prensa
-      // informó de una reforma para subirlo a 5 millones desde 2027; no la pudimos confirmar con una fuente
-      // oficial (DOF ni Gaceta Parlamentaria). Mientras no se publique en el DOF, el tope es 3.5 millones.
+      // Art. 113-E LISR: tope de ingresos de 2026. La reforma a la LISR publicada en el DOF el 13 nov 2026 lo sube
+      // a 5 millones desde el 1 ene 2027, con las mismas tasas de 1% a 2.5% (Merca2.0 y Sermex, 13 nov 2026).
+      // Cambiar topeAnual y los límites de la última fila de las tablas el 1 ene 2027 (confirmar en el texto de la LISR).
       topeAnual: 3500000,
       // Art. 113-E LISR: quien se dedica SOLO a actividades agrícolas, ganaderas, silvícolas o pesqueras no paga
       // ISR por lo que cobre en el año hasta 900,000 pesos; paga solo por lo que pase de esa cantidad.
@@ -352,7 +352,7 @@
   //   venta de bienes y prestación de servicios (Mercado Libre, Amazon): 2.5% en 2026. La ley dice 1% (fr. III), pero
   //   el art. 25 fr. VI de la Ley de Ingresos de la Federación 2026 la subió a 2.5%. Fuentes que coinciden: Praxium
   //   (12 sep 2026), Siigo e IDC (17 abr 2026). La iniciativa del Paquete Económico 2027 la mantiene en 2.5% (EY,
-  //   10 sep 2026); revisar en enero de 2027 con la Ley de Ingresos 2027 publicada.
+  //   10 sep 2026); la LIF 2027 publicada en el DOF el 13 nov 2026 la mantiene en 2.5% y la extiende a personas morales (IDC, 13 nov 2026).
   // Sin RFC: 20% de ISR (art. 113-C fr. IV LISR) y 100% del IVA. Con RFC, la plataforma retiene 50% del IVA, es decir
   // 8% de lo cobrado (art. 18-J fr. II inciso a) LIVA). Fuentes: Praxium, Siigo e IDC.
   // Pago definitivo (art. 113-B LISR): si solo ganas por plataformas y el año anterior no pasaste de 300,000 pesos,

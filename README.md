@@ -32,7 +32,7 @@ pruebas/                   Una prueba por archivo de assets, más sitio.test.js 
 | Retiro e IMSS | `retiro/` | afore, semanas-cotizadas, ley-73-vs-ley-97 |
 | Vivienda | `vivienda/` | credito-infonavit, rentar-o-comprar, predial |
 | Trámites | `tramites/` | curp, ine, pasaporte, licencia-de-manejo, cartilla-militar, carta-de-no-antecedentes, e-firma-sat |
-| Auto | `auto/` | tenencia-y-refrendo, verificacion, gasolina-por-viaje |
+| Auto | `auto/` | tenencia-y-refrendo, tenencia (lista de los 32 estados) y tenencia/estado-de-mexico, tenencia/ciudad-de-mexico, tenencia/jalisco, verificacion, gasolina-por-viaje |
 | Casa y servicios | `casa/` | recibo-de-luz, consumo-de-aparatos, gas-lp |
 | Familia y becas | `familia/` | becas, maternidad-y-paternidad, pension-alimenticia |
 | Negocio propio | `negocio/` | precio-de-venta, punto-de-equilibrio, alta-en-el-sat |
@@ -77,7 +77,7 @@ Al cambiar una cifra en `assets/*.js`, búscala también en las páginas (`grep 
 | Diciembre o enero | Tarifa anual del ISR (art. 152 LISR) | `assets/impuestos.js` (`tarifaAnual`) | Anexo 8 de la RMF, DOF |
 | Enero y febrero | Subsidio para el empleo ($535.65 al mes; tope $11,492.66) | `assets/calc.js` (`subsidioEmpleo`); `trabajo/sueldo-neto/` | Decreto del subsidio para el empleo en el DOF (modificado el 31 dic 2025) |
 | Cada año | Cuotas obreras del IMSS y tope de 25 UMA | `assets/calc.js` (`imss`) | Ley del Seguro Social, Cámara de Diputados |
-| Cada año | RESICO: tablas mensual y anual, tope de $3,500,000, retención de 1.25% | `assets/impuestos.js` (`resico`) | Ley del ISR, arts. 113-E a 113-J. Revisar si se publica en el DOF la reforma que la prensa anunció para 2027 |
+| Cada año | RESICO: tablas mensual y anual, tope de $3,500,000, retención de 1.25% | `assets/impuestos.js` (`resico`) | Ley del ISR, arts. 113-E a 113-J. La reforma publicada en el DOF el 13 nov 2026 sube el tope a $5,000,000 desde el 1 ene 2027: cambiar `topeAnual` y la última fila de las tablas ese día |
 | Cada año | Topes de colegiaturas y de deducciones personales; reglas de devolución del saldo a favor | `assets/impuestos.js` (`colegiaturas`, `deducciones`, `devolucion`) | Decreto DOF 26 dic 2013 y página de deducciones del SAT; RMF del año |
 | Enero | Retención de ISR sobre intereses (0.90% en 2026; para 2027 se propuso 0.68%) | `assets/dinero.js` (`retencionIsr`); `dinero/` | Ley de Ingresos de la Federación del año, DOF |
 | Cuando se cite | Valor de la UDI (seguro del IPAB de 400,000 UDIS) | `assets/dinero.js` (`udi`) | Banxico, serie SIE CP150 |
@@ -115,3 +115,7 @@ node scripts/seo.js https://cuentasclarasmexico.com/ --imagenes   # cuando el do
 ```
 
 `--imagenes` rehace las imágenes de `assets/compartir/` (necesita Playwright).
+
+### Páginas por estado
+
+Las páginas de tenencia y refrendo por estado viven en `auto/tenencia/<estado>/` y sus cifras en `assets/auto.js` (`PAGINAS_TENENCIA`). Para agregar un estado: agrega su entrada con dos fuentes por cifra, copia la página de un estado parecido, cambia `const CLAVE`, quita su "próximamente" en `auto/tenencia/index.html` y agrégalo a la portada, a `auto/index.html` y a los casos de búsqueda de `pruebas/sitio.test.js`. `pruebas/auto.test.js` revisa que la lista y las páginas coincidan con los datos.

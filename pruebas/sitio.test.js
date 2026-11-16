@@ -19,7 +19,7 @@ function paginas(dir = "") {
   return lista;
 }
 const todas = paginas().sort();
-const herramientas = todas.filter(p => p.split("/").length === 3); // seccion/herramienta/
+const herramientas = todas.filter(p => p.split("/").length >= 3); // seccion/herramienta/ y seccion/tema/estado/
 assert.ok(todas.includes("") && todas.includes("aviso-legal/"), "portada y aviso legal");
 for (const s of SECCIONES) assert.ok(todas.includes(s + "/"), `falta el índice de ${s}`);
 for (const p of ["trabajo/sueldo-neto/", "trabajo/prima-de-antiguedad/", "trabajo/aguinaldo-pensionados/",
@@ -33,8 +33,9 @@ for (const p of ["trabajo/sueldo-neto/", "trabajo/prima-de-antiguedad/", "trabaj
   "impuestos/plataformas-digitales/", "impuestos/deducciones-personales/", "negocio/cuotas-imss-patron/",
   "negocio/facturar-por-primera-vez/", "casa/tarifa-agua/", "familia/acta-de-nacimiento/", "tramites/cartilla-militar/",
   "tramites/carta-de-no-antecedentes/", "tramites/e-firma-sat/", "dinero/tarjeta-de-credito-pago-minimo/",
-  "dinero/remesas/", "trabajo/salario-minimo-frontera/"]) assert.ok(todas.includes(p), `falta ${p}`);
-assert.strictEqual(herramientas.length, 72, "72 calculadoras y guías");
+  "dinero/remesas/", "trabajo/salario-minimo-frontera/", "auto/tenencia/", "auto/tenencia/estado-de-mexico/",
+  "auto/tenencia/ciudad-de-mexico/", "auto/tenencia/jalisco/"]) assert.ok(todas.includes(p), `falta ${p}`);
+assert.strictEqual(herramientas.length, 76, "76 calculadoras y guías");
 
 // ---------- Reglas para cada página ----------
 const titulos = new Map();
@@ -274,7 +275,16 @@ const casos = {
   "zona libre de la frontera norte": "trabajo/salario-minimo-frontera/",
   "salario mínimo tijuana": "trabajo/salario-minimo-frontera/",
   "municipios frontera norte": "trabajo/salario-minimo-frontera/",
-  "salario mínimo ciudad juárez": "trabajo/salario-minimo-frontera/"
+  "salario mínimo ciudad juárez": "trabajo/salario-minimo-frontera/",
+  "tenencia por estado": "auto/tenencia/",
+  "tenencia edomex": "auto/tenencia/estado-de-mexico/",
+  "tenencia estado de méxico 2026": "auto/tenencia/estado-de-mexico/",
+  "refrendo edomex": "auto/tenencia/estado-de-mexico/",
+  "tenencia cdmx": "auto/tenencia/ciudad-de-mexico/",
+  "refrendo ciudad de méxico": "auto/tenencia/ciudad-de-mexico/",
+  "refrendo jalisco": "auto/tenencia/jalisco/",
+  "placas guadalajara": "auto/tenencia/jalisco/",
+  "tenencia jalisco": "auto/tenencia/jalisco/"
 };
 for (const [q, esperado] of Object.entries(casos)) assert.ok(hrefs(q).includes(esperado), `buscar "${q}" debe dar ${esperado}: ${hrefs(q)}`);
 assert.ok(!hrefs("ine").some(h => h.startsWith("dinero/")), "ine no muestra la sección dinero");
@@ -331,6 +341,11 @@ assert.strictEqual(hrefs("pago mínimo tarjeta de crédito")[0], "dinero/tarjeta
 assert.strictEqual(hrefs("remesas")[0], "dinero/remesas/");
 assert.strictEqual(hrefs("salario mínimo frontera")[0], "trabajo/salario-minimo-frontera/");
 assert.strictEqual(hrefs("zona libre de la frontera norte")[0], "trabajo/salario-minimo-frontera/");
+// Por estado: tenencia y refrendo
+assert.strictEqual(hrefs("tenencia edomex")[0], "auto/tenencia/estado-de-mexico/");
+assert.strictEqual(hrefs("tenencia cdmx")[0], "auto/tenencia/ciudad-de-mexico/");
+assert.strictEqual(hrefs("refrendo jalisco")[0], "auto/tenencia/jalisco/");
+assert.ok(hrefs("tenencia").includes("auto/tenencia-y-refrendo/"), "tenencia sigue encontrando la guía general");
 assert.ok(hrefs("meses sin intereses").includes("dinero/meses-sin-intereses/"), "meses sin intereses sigue encontrando su calculadora");
 assert.ok(hrefs("alta sat").includes("negocio/alta-en-el-sat/"), "alta en el SAT sigue encontrando su guía");
 assert.ok(hrefs("recibo de luz")[0] === "casa/recibo-de-luz/", "recibo de luz sigue llevando primero a su guía");

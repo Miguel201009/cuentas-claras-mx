@@ -286,4 +286,93 @@ prueba("datos de tenencia por estado", () => {
   assert.deepStrictEqual(lista, ordenada, "orden alfabético por el nombre visible");
 });
 
+// ---------- Tenencia y refrendo 2026: páginas por estado ----------
+const fs = require("fs");
+const path = require("path");
+prueba("cifras 2026 de Edomex, CDMX y Jalisco", () => {
+  const mex = A.paginaTenencia("mex"), cdmx = A.paginaTenencia("cdmx"), jal = A.paginaTenencia("jal");
+  assert.deepStrictEqual(mex.refrendo, { auto: 990, moto: 731 });
+  assert.deepStrictEqual(mex.tope, { auto: 638000, moto: 250000 });
+  assert.strictEqual(mex.plazo, "2026-04-06");
+  assert.deepStrictEqual(cdmx.refrendo, { auto: 760, moto: null });
+  assert.deepStrictEqual(cdmx.tope, { auto: 638000, moto: 250000 });
+  assert.strictEqual(cdmx.plazo, "2026-06-30");
+  assert.deepStrictEqual(jal.refrendo, { auto: 1000, moto: 600 });
+  assert.strictEqual(jal.extras.reduce((s, x) => s + x.monto, 0), 100, "Cruz Roja $40 + Hogar Cabañas $60");
+  assert.strictEqual(jal.cobraTenencia, false);
+  assert.strictEqual(jal.plazo, "2026-03-31");
+  assert.strictEqual(new Date(2026, 2, 31).getDay(), 2, "31 de marzo de 2026 es martes (día hábil)");
+  assert.strictEqual(new Date(2026, 3, 6).getDay(), 1, "6 de abril de 2026 es lunes");
+  assert.strictEqual(A.paginaTenencia("nl"), null, "Nuevo León todavía no tiene página");
+  // Cada página por estado coincide con las cifras de auto.js.
+  for (const [clave, p] of Object.entries(A.PAGINAS_TENENCIA)) {
+    const html = fs.readFileSync(path.join(__dirname, "..", "auto", "tenencia", p.slug, "index.html"), "utf8");
+    assert.ok(html.includes('const CLAVE = "' + clave + '"'), p.slug);
+    const r = "$" + p.refrendo.auto.toLocaleString("en-US");
+    assert.ok(html.includes(r), p.slug + ": refrendo " + r);
+    if (p.tope) assert.ok(html.includes("$638,000"), p.slug + ": tope");
+  }
+});
+
+prueba("subsidio y total a pagar", () => {
+  // Edomex, auto de $350,000 con placas 2021, al corriente y a tiempo: subsidio completo, paga $990.
+  let r = A.pagoTenencia2026("mex", { valor: 350000, anioPlacas: 2021 });
+  assert.strictEqual(r.subsidio, "completo"); assert.strictEqual(r.total, 990); assert.strictEqual(r.pagasTenencia, false);
+  // Placas 2020: subsidio de 50%, paga el refrendo más la mitad de la tenencia (monto en el portal).
+  r = A.pagoTenencia2026("mex", { valor: 350000, anioPlacas: "2020" });
+  assert.strictEqual(r.subsidio, "mitad"); assert.strictEqual(r.pagasTenencia, true); assert.strictEqual(r.total, 990);
+  r = A.pagoTenencia2026("mex", { valor: 350000, anioPlacas: 2019 });
+  assert.strictEqual(r.subsidio, "no"); assert.deepStrictEqual(r.motivos, ["placas"]);
+  // Justo en el tope sí aplica; un peso arriba, no.
+  assert.strictEqual(A.pagoTenencia2026("cdmx", { valor: 638000 }).subsidio, "completo");
+  r = A.pagoTenencia2026("cdmx", { valor: 638001 });
+  assert.strictEqual(r.subsidio, "no"); assert.deepStrictEqual(r.motivos, ["valor"]); assert.strictEqual(r.total, 760);
+  // Moto en Edomex: tope de $250,000 y refrendo de $731.
+  r = A.pagoTenencia2026("mex", { tipo: "moto", valor: 260000 });
+  assert.strictEqual(r.refrendo, 731); assert.strictEqual(r.subsidio, "no");
+  assert.strictEqual(A.pagoTenencia2026("mex", { tipo: "moto", valor: 250000 }).subsidio, "completo");
+  // Moto en la CDMX: no tenemos el refrendo.
+  r = A.pagoTenencia2026("cdmx", { tipo: "moto", valor: 100000 });
+  assert.strictEqual(r.sinRefrendo, true); assert.strictEqual(r.total, 0); assert.strictEqual(r.subsidio, "completo");
+  // Tarde y con adeudos: pierde el subsidio por las dos razones; 2 refrendos atrasados estimados a $760.
+  r = A.pagoTenencia2026("cdmx", { valor: 200000, momento: "tarde", alCorriente: false, aniosAtrasados: 2 });
+  assert.deepStrictEqual(r.motivos, ["adeudos", "plazo"]); assert.strictEqual(r.recargos, true);
+  assert.strictEqual(r.adeudoEstimado, 1520); assert.strictEqual(r.total, 2280);
+  // Sin valor no decimos si toca el subsidio.
+  assert.strictEqual(A.pagoTenencia2026("mex", {}).subsidio, "faltaValor");
+  // Jalisco: sin tenencia; $1,000 + $100; en línea en enero o febrero, 5% de $1,000 = $50 de descuento.
+  r = A.pagoTenencia2026("jal", {});
+  assert.strictEqual(r.subsidio, "noAplica"); assert.strictEqual(r.total, 1100);
+  r = A.pagoTenencia2026("jal", { momento: "descuento" });
+  assert.strictEqual(r.descuento, 50); assert.strictEqual(r.total, 1050);
+  r = A.pagoTenencia2026("jal", { tipo: "moto", momento: "descuento" });
+  assert.strictEqual(r.descuento, 30); assert.strictEqual(r.total, 670);
+  // El descuento solo existe donde el estado lo da.
+  assert.strictEqual(A.pagoTenencia2026("mex", { valor: 1, momento: "descuento" }).descuento, 0);
+  // Moto en Jalisco con 3 refrendos atrasados: 700 + 3 x 700 = 2,800.
+  assert.strictEqual(A.pagoTenencia2026("jal", { tipo: "moto", aniosAtrasados: 3 }).total, 2800);
+  // Datos absurdos: sin NaN ni Infinity, y se recortan.
+  for (const e of [{ valor: "x" }, { valor: -5, aniosAtrasados: "abc" }, { valor: 1e30, aniosAtrasados: 1e9 }, { tipo: "barco", valor: Infinity }]) {
+    for (const c of ["mex", "cdmx", "jal"]) finito(A.pagoTenencia2026(c, e), c + " " + JSON.stringify(e));
+  }
+  assert.strictEqual(A.pagoTenencia2026("jal", { aniosAtrasados: 1e9 }).atrasados, 20);
+  assert.strictEqual(A.pagoTenencia2026("jal", { aniosAtrasados: 1e9 }).recortado, true);
+  assert.strictEqual(A.pagoTenencia2026("xx", {}), null);
+});
+
+prueba("lista de los 32 estados en auto/tenencia/", () => {
+  const lista = A.estadosTenencia();
+  assert.strictEqual(lista.length, 32);
+  assert.strictEqual(new Set(lista.map(e => e.slug)).size, 32, "direcciones únicas");
+  assert.strictEqual(A.slugEstado("Estado de México"), "estado-de-mexico");
+  assert.strictEqual(A.slugEstado("San Luis Potosí"), "san-luis-potosi");
+  assert.deepStrictEqual(lista.filter(e => e.lista).map(e => e.clave).sort(), Object.keys(A.PAGINAS_TENENCIA).sort());
+  const hub = fs.readFileSync(path.join(__dirname, "..", "auto", "tenencia", "index.html"), "utf8");
+  for (const e of lista) {
+    assert.ok(hub.includes(e.nombre), "la lista nombra " + e.nombre);
+    if (e.lista) assert.ok(hub.includes('<a href="' + e.slug + '/">' + e.nombre + "</a>"), "enlace a " + e.slug);
+    else assert.ok(hub.includes("<li>" + e.nombre + ' <span class="nota">(próximamente)</span></li>'), e.nombre + " próximamente");
+  }
+});
+
 console.log(`auto.test.js: ${pruebas} pruebas pasaron`);

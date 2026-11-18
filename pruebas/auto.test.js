@@ -268,6 +268,12 @@ prueba("datos de tenencia por estado", () => {
   assert.strictEqual(A.tenenciaEstado("gto").tenencia, "algunos");
   assert.strictEqual(A.tenenciaEstado("gto").corto, "Solo a algunos autos");
   assert.strictEqual(A.tenenciaEstado("nl").tenencia, "revisar");
+  for (const c of ["ver", "pue"]) assert.strictEqual(A.tenenciaEstado(c).tenencia, "si", c);
+  assert.ok(A.tenenciaEstado("ver").detalle.startsWith("Veracruz sí cobra tenencia en 2026"));
+  assert.ok(A.tenenciaEstado("ver").detalle.includes("31 de marzo de 2026"));
+  assert.ok(A.tenenciaEstado("pue").detalle.includes("30 de abril de 2026"));
+  assert.ok(A.tenenciaEstado("gto").detalle.includes("$522,000"));
+  assert.strictEqual(A.tenenciaEstado("ver").dominio, "www.ovh.gob.mx");
   assert.ok(cdmx.detalle.startsWith("La Ciudad de México sí cobra tenencia en 2026"), cdmx.detalle);
   assert.ok(cdmx.detalle.includes("$638,000") && cdmx.detalle.includes("30 de junio de 2026"), cdmx.detalle);
   assert.ok(A.tenenciaEstado("mex").detalle.includes("6 de abril de 2026"));
@@ -304,13 +310,66 @@ prueba("cifras 2026 de Edomex, CDMX y Jalisco", () => {
   assert.strictEqual(new Date(2026, 2, 31).getDay(), 2, "31 de marzo de 2026 es martes (día hábil)");
   assert.strictEqual(new Date(2026, 3, 6).getDay(), 1, "6 de abril de 2026 es lunes");
   assert.strictEqual(A.paginaTenencia("nl"), null, "Nuevo León todavía no tiene página");
+  assert.strictEqual(new Date(2026, 3, 30).getDay(), 4, "30 de abril de 2026 es jueves");
+  assert.strictEqual(new Date(2026, 3, 9).getDay(), 4, "9 de abril de 2026 es jueves");
   // Cada página por estado coincide con las cifras de auto.js.
   for (const [clave, p] of Object.entries(A.PAGINAS_TENENCIA)) {
     const html = fs.readFileSync(path.join(__dirname, "..", "auto", "tenencia", p.slug, "index.html"), "utf8");
     assert.ok(html.includes('const CLAVE = "' + clave + '"'), p.slug);
     const r = "$" + p.refrendo.auto.toLocaleString("en-US");
     assert.ok(html.includes(r), p.slug + ": refrendo " + r);
-    if (p.tope) assert.ok(html.includes("$638,000"), p.slug + ": tope");
+    if (p.tope) assert.ok(html.includes("$" + p.tope.auto.toLocaleString("en-US")), p.slug + ": tope");
+    if (p.refrendo.moto) assert.ok(html.includes("$" + p.refrendo.moto.toLocaleString("en-US")), p.slug + ": moto");
+    // La página enlaza al portal oficial del estado.
+    assert.ok(html.includes('href="' + A.paginaTenencia(clave).url + '"'), p.slug + ": portal");
+  }
+});
+
+prueba("cifras 2026 de Veracruz, Puebla y Guanajuato", () => {
+  const ver = A.paginaTenencia("ver"), pue = A.paginaTenencia("pue"), gto = A.paginaTenencia("gto");
+  assert.deepStrictEqual(ver.refrendo, { auto: 1239, moto: 690 });
+  assert.strictEqual(ver.tope, null, "sin tope de valor publicado");
+  assert.strictEqual(ver.plazo, "2026-03-31");
+  assert.deepStrictEqual(ver.descuentosPorMes, { enero: 15, febrero: 8, marzo: 7 });
+  assert.deepStrictEqual(pue.refrendo, { auto: 700, moto: 700 });
+  assert.strictEqual(pue.tope, null);
+  assert.strictEqual(pue.plazo, "2026-04-30"); assert.strictEqual(pue.plazoOriginal, "2026-03-31");
+  assert.deepStrictEqual(gto.refrendo, { auto: 940, moto: 200 });
+  assert.strictEqual(gto.tope.auto, 522000);
+  assert.strictEqual(Math.round(450000 * 1.16), 522000, "$450,000 sin IVA son $522,000 con IVA");
+  assert.strictEqual(gto.plazo, "2026-04-09");
+  for (const c of ["ver", "pue", "gto"]) assert.strictEqual(A.paginaTenencia(c).cobraTenencia, true, c);
+});
+
+prueba("Veracruz, Puebla y Guanajuato: subsidio y total", () => {
+  // Veracruz: en enero, 15% de $1,239 = $185.85; paga $1,053.15. Sin pedir el valor (no hay tope).
+  let r = A.pagoTenencia2026("ver", { momento: "enero" });
+  assert.strictEqual(r.subsidio, "completo"); assert.strictEqual(r.descuento, 185.85); cerca(r.total, 1053.15, "enero");
+  cerca(A.pagoTenencia2026("ver", { momento: "febrero" }).total, 1139.88, "febrero 8%");
+  cerca(A.pagoTenencia2026("ver", { momento: "marzo" }).total, 1152.27, "marzo 7%");
+  cerca(A.pagoTenencia2026("ver", { tipo: "moto", momento: "enero" }).total, 586.5, "moto en enero");
+  // Después del 31 de marzo: sin descuento y sin estímulo.
+  r = A.pagoTenencia2026("ver", { momento: "tarde" });
+  assert.strictEqual(r.descuento, 0); assert.strictEqual(r.total, 1239); assert.deepStrictEqual(r.motivos, ["plazo"]);
+  // Sin verificación pierde el estímulo; el valor no importa.
+  r = A.pagoTenencia2026("ver", { momento: "enero", verificado: false, valor: 5e6 });
+  assert.deepStrictEqual(r.motivos, ["verificacion"]); assert.strictEqual(r.pagasTenencia, true);
+  // La verificación solo cuenta donde el subsidio la pide.
+  assert.strictEqual(A.pagoTenencia2026("pue", { verificado: false }).subsidio, "completo");
+  // Puebla: $700 a tiempo y al corriente, sin tope; tarde o con adeudos pierde el subsidio.
+  r = A.pagoTenencia2026("pue", { valor: 2e6 });
+  assert.strictEqual(r.subsidio, "completo"); assert.strictEqual(r.total, 700);
+  r = A.pagoTenencia2026("pue", { alCorriente: false, momento: "tarde", aniosAtrasados: 1 });
+  assert.deepStrictEqual(r.motivos, ["adeudos", "plazo"]); assert.strictEqual(r.total, 1400);
+  assert.strictEqual(A.pagoTenencia2026("pue", { momento: "descuento" }).descuento, 0, "Puebla no tiene descuento");
+  // Guanajuato: solo cuenta el valor; $522,000 justo no paga, un peso más sí. Pagar tarde no quita nada.
+  assert.strictEqual(A.pagoTenencia2026("gto", { valor: 522000, momento: "tarde" }).subsidio, "completo");
+  r = A.pagoTenencia2026("gto", { valor: 522001 });
+  assert.strictEqual(r.subsidio, "no"); assert.deepStrictEqual(r.motivos, ["valor"]); assert.strictEqual(r.total, 940);
+  assert.strictEqual(A.pagoTenencia2026("gto", {}).subsidio, "faltaValor");
+  assert.strictEqual(A.pagoTenencia2026("gto", { tipo: "moto", valor: 50000, aniosAtrasados: 2 }).total, 600);
+  for (const e of [{ valor: "x", momento: "enero" }, { valor: -5, aniosAtrasados: "abc", momento: "zzz" }, { valor: 1e30, aniosAtrasados: 1e9 }, { tipo: "barco", valor: Infinity }]) {
+    for (const c of ["ver", "pue", "gto"]) finito(A.pagoTenencia2026(c, e), c + " " + JSON.stringify(e));
   }
 });
 

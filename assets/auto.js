@@ -204,7 +204,8 @@
   //           "algunos" = la cobra solo a algunos autos (los de mayor valor);
   //           "no" = no cobra tenencia, solo el pago anual de placas (refrendo, control vehicular o revalidación);
   //           "revisar" = no lo revisamos a fondo para 2026.
-  // Solo 5 estados tienen dato propio (TENENCIA_2026, abajo), revisado el 20 oct 2026 con al menos 2 fuentes.
+  // Solo 7 estados tienen dato propio (TENENCIA_2026, abajo), revisado el 20 oct 2026 (Veracruz y Puebla, el
+  // 18 nov 2026) con al menos 2 fuentes.
   // Ninguno se pudo cotejar abriendo el portal oficial (403 desde nuestra red): queda pendiente.
   // portal: "pago" = página oficial de pago o consulta de adeudo vehicular; "finanzas" = secretaría de finanzas
   //         o de hacienda del estado; "catalogo" = catálogo oficial de trámites; "estatal" = portal general
@@ -233,7 +234,7 @@
     { clave: "nay", nombre: "Nayarit", tenencia: "revisar", portal: "finanzas", url: "https://hacienda.minayarit.gob.mx/tramites" },
     { clave: "nl", nombre: "Nuevo León", tenencia: "revisar", portal: "pago", url: "https://www.nl.gob.mx/refrendo" },
     { clave: "oax", nombre: "Oaxaca", tenencia: "revisar", portal: "finanzas", url: "https://www.finanzasoaxaca.gob.mx/" },
-    { clave: "pue", nombre: "Puebla", tenencia: "revisar", portal: "pago", url: "https://rl.puebla.gob.mx/tenencia" },
+    { clave: "pue", nombre: "Puebla", tenencia: "si", portal: "pago", url: "https://rl.puebla.gob.mx/adeudovehicular" },
     { clave: "qro", nombre: "Querétaro", tenencia: "revisar", portal: "pago", url: "https://tenencia.queretaro.gob.mx/" },
     { clave: "qroo", nombre: "Quintana Roo", tenencia: "revisar", portal: "finanzas", url: "https://satq.qroo.gob.mx/" },
     { clave: "slp", nombre: "San Luis Potosí", tenencia: "revisar", portal: "pago", url: "https://enlacesipel.slp.gob.mx/ControlVehicular_Liquidacion" },
@@ -242,7 +243,8 @@
     { clave: "tab", nombre: "Tabasco", tenencia: "revisar", portal: "finanzas", url: "https://tabasco.gob.mx/finanzas" },
     { clave: "tamps", nombre: "Tamaulipas", tenencia: "revisar", portal: "finanzas", url: "https://finanzas.tamaulipas.gob.mx/" },
     { clave: "tlax", nombre: "Tlaxcala", tenencia: "revisar", portal: "estatal", url: "https://www.tlaxcala.gob.mx/" },
-    { clave: "ver", nombre: "Veracruz", tenencia: "revisar", portal: "finanzas", url: "https://www.veracruz.gob.mx/finanzas/" },
+    { clave: "ver", nombre: "Veracruz", tenencia: "si", portal: "pago", url: "https://www.ovh.gob.mx/",
+      textoPortal: "Oficina Virtual de Hacienda (OVH) de Veracruz: escribe tu placa para ver cuánto debes." },
     { clave: "yuc", nombre: "Yucatán", tenencia: "revisar", portal: "estatal", url: "https://www.yucatan.gob.mx/" },
     { clave: "zac", nombre: "Zacatecas", tenencia: "revisar", portal: "finanzas", url: "https://sefin.zacatecas.gob.mx/" }
   ];
@@ -274,8 +276,22 @@
     // 2026 de la Secretaría de Finanzas de Guanajuato (vista en el buscador) dice que la pagan los autos con
     // valor factura con IVA de más de $522,000; no ponemos la cifra en la página porque no la pudimos abrir.
     gto: {
-      detalle: "Guanajuato volvió a cobrar tenencia en 2025, pero solo a los autos de mayor valor. La mayoría de los autos paga solo el refrendo cada año. En el portal oficial puedes ver si a tu auto le toca.",
-      fuente: "Secretaría de Finanzas de Guanajuato (calculadora de 2026), Motorpasión y Líder Empresarial (notas de 2024 y 2025)."
+      detalle: "Guanajuato volvió a cobrar tenencia en 2025, pero solo a los autos de mayor valor: en 2026, a los que valen más de $522,000 con IVA. La mayoría de los autos paga solo el refrendo cada año. En el portal oficial puedes ver si a tu auto le toca.",
+      fuente: "Secretaría de Finanzas de Guanajuato (calculadora de 2026), Todo Sobre Autos (2026), Motorpasión y Líder Empresarial (notas de 2024 y 2025)."
+    },
+    // Estímulo de 100% a la tenencia para quien pagó el control vehicular del 1 de enero al 31 de marzo de 2026,
+    // al corriente y con la verificación hecha; sin tope de valor publicado. Decreto anunciado por la gobernadora
+    // (Al Calor Político, 31 dic 2025), adn40 (24 mar 2026) y La Silla Rota (3 ene 2026).
+    ver: {
+      detalle: "Veracruz sí cobra tenencia en 2026, pero con un estímulo de 100% para quien pagó el control vehicular entre el 1 de enero y el 31 de marzo de 2026, sin adeudos y con la verificación vehicular hecha. No encontramos un tope de valor. Si se te pasó la fecha, revisa en el portal cuánto debes.",
+      fuente: "Gobierno de Veracruz (decreto de estímulo, citado por Al Calor Político el 31 de diciembre de 2025), adn40 (24 de marzo de 2026) y La Silla Rota (3 de enero de 2026)."
+    },
+    // Subsidio de 100% para quien pagó el control vehicular de $700 a tiempo y sin adeudos ni fotomultas; plazo
+    // del 31 de marzo ampliado al 30 de abril de 2026 (adn40, 6 abr 2026; N+, 1 abr 2026). Sin tope de valor
+    // (Todo Sobre Autos; adn40, N+ y TV Azteca no mencionan ninguno).
+    pue: {
+      detalle: "Puebla sí cobra tenencia en 2026, pero con un subsidio de 100% para quien pagó el control vehicular a más tardar el 30 de abril de 2026 (el plazo original era el 31 de marzo), sin adeudos ni fotomultas. No encontramos un tope de valor. Si se te pasó la fecha, revisa en el portal cuánto debes.",
+      fuente: "adn40 (6 de abril de 2026), N+ (1 de abril de 2026), TV Azteca (30 de marzo de 2026) y Todo Sobre Autos (2026)."
     },
     // Hacienda de Jalisco anunció el refrendo 2026 ($1,000 autos) sin tenencia; Récord (ene 2026) y adn40 (2025)
     // lo listan entre los estados sin tenencia. Su Ley de Ingresos dejó de contemplarla en 2012 (AMDA).
@@ -333,7 +349,7 @@
   // Una entrada por cada estado que ya tiene su página en auto/tenencia/<slug>/ (la lista de los 32 está en
   // auto/tenencia/). Para agregar un estado: copia una entrada, pon sus cifras con 2 fuentes cada una, crea la
   // página copiando la de un estado parecido y quítale el "próximamente" en auto/tenencia/index.html.
-  // Revisado el 16 de noviembre de 2026. Ningún portal oficial se pudo abrir desde nuestra red (403): cada cifra
+  // Revisado el 16 de noviembre de 2026 (Veracruz, Puebla y Guanajuato, el 18 de noviembre). Ningún portal oficial se pudo abrir desde nuestra red (403): cada cifra
   // se confirmó con al menos 2 fuentes secundarias y queda pendiente de cotejar en el portal del estado.
   // refrendo: lo que cuesta el pago anual de placas y tarjeta (null = no encontramos el monto).
   // tope: valor del vehículo con IVA hasta el que aplica el subsidio de 100% a la tenencia (null = no hay tenencia).
@@ -378,6 +394,52 @@
       // 5% de descuento por pagar en línea en enero y febrero: TV Azteca y adn40. No dicen si se aplica también
       // a los $100 de donativos: lo aplicamos solo a los $1,000 (o $600) del refrendo, como estimación.
       descuentoEnLinea: { porcentaje: 5, hasta: "2026-02-28" }
+    },
+    ver: {
+      slug: "veracruz", corto: "Veracruz", cobraTenencia: true,
+      // Control vehicular 2026, con el 15% de fomento a la educación: $1,239 autos (Uno TV, 7 ene 2026; La Silla
+      // Rota, 3 ene 2026, con el precio de la Oficina Virtual de Hacienda) y $690 motos (Uno TV). Es el precio de
+      // enero: se calcula en UMA y Todo Sobre Autos da $1,287 y $715 después de la UMA de febrero (una sola
+      // fuente; la diferencia cuadra con la subida de la UMA de $113.14 a $117.31).
+      refrendo: { auto: 1239, moto: 690 },
+      // Sin tope de valor publicado para el estímulo de 100% (Al Calor Político, adn40, La Silla Rota).
+      tope: null,
+      // Estímulo del 1 de enero al 31 de marzo de 2026 (Al Calor Político, 31 dic 2025; adn40, 24 mar 2026).
+      // Todo Sobre Autos dice hasta el 30 de abril: no lo usamos porque las otras dos fuentes dicen 31 de marzo.
+      plazo: "2026-03-31",
+      // Pide la verificación vehicular hecha (Al Calor Político y adn40).
+      pideVerificacion: true,
+      placas: null, extras: [], descuentoEnLinea: null,
+      // Descuento al control vehicular por pagar antes: 15% en enero, 8% en febrero y 7% en marzo (La Silla
+      // Rota, 3 ene 2026, y Todo Sobre Autos, con el art. 16 B del Código de Derechos). Lo aplicamos al precio de
+      // enero como estimación.
+      descuentosPorMes: { enero: 15, febrero: 8, marzo: 7 }
+    },
+    pue: {
+      slug: "puebla", corto: "Puebla", cobraTenencia: true,
+      // Control vehicular 2026: $700, igual para autos y motos (en 2025, $670). N+ (7 ene 2026), adn40 (2 mar y
+      // 6 abr 2026), TV Azteca (30 mar 2026) y Todo Sobre Autos (autos y motos, art. 31 A de la Ley de Ingresos).
+      // Uno TV (7 ene 2026) da $235 a $890 para motos según los cilindros, pero TV Azteca dice que esos montos
+      // son de la tenencia completa: usamos $700, que dan adn40 y Todo Sobre Autos para motos.
+      refrendo: { auto: 700, moto: 700 },
+      tope: null,
+      // Plazo del 31 de marzo ampliado al jueves 30 de abril de 2026 (N+, 1 abr 2026; adn40, 6 abr 2026).
+      plazo: "2026-04-30", plazoOriginal: "2026-03-31",
+      placas: null, extras: [], descuentoEnLinea: null
+    },
+    gto: {
+      slug: "guanajuato", corto: "Guanajuato", cobraTenencia: true,
+      // Refrendo 2026: $940 autos (en 2025, $672; el Congreso bajó la propuesta de $1,180). Uno TV (7 ene 2026),
+      // Tus Buenas Noticias (18 dic 2025) y El Universal. Motos: $200 según Todo Sobre Autos y Eje Central
+      // (propuesta, 11 dic 2025) y $198 según Uno TV: usamos $200 como estimación.
+      refrendo: { auto: 940, moto: 200 },
+      // Tenencia (impuesto a vehículos de mayor valor) solo si el vehículo vale más de $522,000 con IVA
+      // ($450,000 sin IVA): calculadora 2026 de la Secretaría de Finanzas (vista en el buscador) y Todo Sobre Autos.
+      // No hay subsidio que dependa del plazo: solo cuenta el valor.
+      tope: { auto: 522000, moto: 522000 }, soloPorValor: true,
+      // Plazo sin multa: 31 de marzo, ampliado al jueves 9 de abril de 2026 (Uno TV, 3 abr 2026; Todo Sobre Autos).
+      plazo: "2026-04-09", plazoOriginal: "2026-03-31",
+      placas: null, extras: [], descuentoEnLinea: null
     }
   };
   const TIPOS_VEHICULO = ["auto", "moto"];
@@ -410,7 +472,9 @@
   // solo donde hay descuento por pronto pago). valor: valor del vehículo con IVA (el de la factura).
   // alCorriente: sin adeudos de años anteriores. anioPlacas: año en que te dieron las placas (solo Edomex).
   // aniosAtrasados: refrendos de años anteriores que no pagaste (se estiman al costo de 2026, sin recargos).
-  function pagoTenencia2026(clave, { tipo = "auto", valor, alCorriente = true, momento = "aTiempo", anioPlacas, aniosAtrasados = 0 } = {}) {
+  // verificado: ya hiciste la verificación vehicular (solo cuenta donde el subsidio la pide, como Veracruz).
+  // En Veracruz, momento también puede ser "enero", "febrero" o "marzo" (descuento por mes de pago).
+  function pagoTenencia2026(clave, { tipo = "auto", valor, alCorriente = true, momento = "aTiempo", anioPlacas, aniosAtrasados = 0, verificado = true } = {}) {
     const p = paginaTenencia(clave);
     if (!p) return null;
     const t = TIPOS_VEHICULO.includes(tipo) ? tipo : "auto";
@@ -420,21 +484,28 @@
     const at = acotar(aniosAtrasados, MAX_ATRASO);
     const atrasados = Math.floor(at.valor);
     const tarde = momento === "tarde";
-    const hayDescuento = !!p.descuentoEnLinea && momento === "descuento";
+    let pctDescuento = 0;
+    if (p.descuentosPorMes && p.descuentosPorMes[momento] !== undefined) pctDescuento = p.descuentosPorMes[momento];
+    else if (p.descuentoEnLinea && momento === "descuento") pctDescuento = p.descuentoEnLinea.porcentaje;
 
     const extras = p.extras.reduce((s, x) => s + x.monto, 0);
-    const descuento = hayDescuento && !sinRefrendo ? Calc.redondear(refrendo * p.descuentoEnLinea.porcentaje / 100) : 0;
+    const descuento = pctDescuento && !sinRefrendo ? Calc.redondear(refrendo * pctDescuento / 100) : 0;
 
     // Subsidio a la tenencia: "noAplica" (el estado no cobra tenencia), "completo" (100%), "mitad" (50%),
     // "no" (lo pierdes) o "faltaValor" (falta escribir el valor). motivos: por qué no te toca completo.
     let subsidio = "noAplica";
     const motivos = [];
+    // Sin tope (Veracruz, Puebla) no hace falta el valor. Con soloPorValor (Guanajuato) solo cuenta el valor.
+    const tope = p.tope && p.tope[t] !== null && p.tope[t] !== undefined ? p.tope[t] : null;
     if (p.cobraTenencia) {
-      if (v.valor === 0) subsidio = "faltaValor";
+      if (tope !== null && v.valor === 0) subsidio = "faltaValor";
       else {
-        if (v.valor > p.tope[t]) motivos.push("valor");
-        if (!alCorriente || atrasados > 0) motivos.push("adeudos");
-        if (tarde) motivos.push("plazo");
+        if (tope !== null && v.valor > tope) motivos.push("valor");
+        if (!p.soloPorValor) {
+          if (!alCorriente || atrasados > 0) motivos.push("adeudos");
+          if (p.pideVerificacion && !verificado) motivos.push("verificacion");
+          if (tarde) motivos.push("plazo");
+        }
         let pct = 100;
         if (p.placas && anioPlacas !== undefined && anioPlacas !== "") {
           const a = +anioPlacas;
@@ -451,7 +522,7 @@
     const total = sinRefrendo ? 0 : refrendoNeto + extras + adeudoEstimado;
     return {
       clave, nombre: p.nombre, tipo: t, valor: v.valor, refrendo: sinRefrendo ? null : refrendo, sinRefrendo, extras, descuento,
-      refrendoNeto, subsidio, motivos, pagasTenencia, tope: p.tope ? p.tope[t] : null, plazo: p.plazo,
+      refrendoNeto, subsidio, motivos, pagasTenencia, tope, plazo: p.plazo,
       recargos: tarde, atrasados, adeudoEstimado, total, recortado: v.recortado || at.recortado
     };
   }

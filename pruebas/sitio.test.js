@@ -34,8 +34,9 @@ for (const p of ["trabajo/sueldo-neto/", "trabajo/prima-de-antiguedad/", "trabaj
   "negocio/facturar-por-primera-vez/", "casa/tarifa-agua/", "familia/acta-de-nacimiento/", "tramites/cartilla-militar/",
   "tramites/carta-de-no-antecedentes/", "tramites/e-firma-sat/", "dinero/tarjeta-de-credito-pago-minimo/",
   "dinero/remesas/", "trabajo/salario-minimo-frontera/", "auto/tenencia/", "auto/tenencia/estado-de-mexico/",
-  "auto/tenencia/ciudad-de-mexico/", "auto/tenencia/jalisco/"]) assert.ok(todas.includes(p), `falta ${p}`);
-assert.strictEqual(herramientas.length, 76, "76 calculadoras y guías");
+  "auto/tenencia/ciudad-de-mexico/", "auto/tenencia/jalisco/", "auto/tenencia/veracruz/", "auto/tenencia/puebla/",
+  "auto/tenencia/guanajuato/"]) assert.ok(todas.includes(p), `falta ${p}`);
+assert.strictEqual(herramientas.length, 79, "79 calculadoras y guías");
 
 // ---------- Reglas para cada página ----------
 const titulos = new Map();
@@ -284,7 +285,13 @@ const casos = {
   "refrendo ciudad de méxico": "auto/tenencia/ciudad-de-mexico/",
   "refrendo jalisco": "auto/tenencia/jalisco/",
   "placas guadalajara": "auto/tenencia/jalisco/",
-  "tenencia jalisco": "auto/tenencia/jalisco/"
+  "tenencia jalisco": "auto/tenencia/jalisco/",
+  "tenencia veracruz": "auto/tenencia/veracruz/",
+  "control vehicular veracruz": "auto/tenencia/veracruz/",
+  "tenencia puebla": "auto/tenencia/puebla/",
+  "control vehicular puebla": "auto/tenencia/puebla/",
+  "refrendo guanajuato": "auto/tenencia/guanajuato/",
+  "placas leon": "auto/tenencia/guanajuato/"
 };
 for (const [q, esperado] of Object.entries(casos)) assert.ok(hrefs(q).includes(esperado), `buscar "${q}" debe dar ${esperado}: ${hrefs(q)}`);
 assert.ok(!hrefs("ine").some(h => h.startsWith("dinero/")), "ine no muestra la sección dinero");
@@ -345,6 +352,9 @@ assert.strictEqual(hrefs("zona libre de la frontera norte")[0], "trabajo/salario
 assert.strictEqual(hrefs("tenencia edomex")[0], "auto/tenencia/estado-de-mexico/");
 assert.strictEqual(hrefs("tenencia cdmx")[0], "auto/tenencia/ciudad-de-mexico/");
 assert.strictEqual(hrefs("refrendo jalisco")[0], "auto/tenencia/jalisco/");
+assert.strictEqual(hrefs("tenencia veracruz")[0], "auto/tenencia/veracruz/");
+assert.strictEqual(hrefs("control vehicular puebla")[0], "auto/tenencia/puebla/");
+assert.strictEqual(hrefs("refrendo guanajuato")[0], "auto/tenencia/guanajuato/");
 assert.ok(hrefs("tenencia").includes("auto/tenencia-y-refrendo/"), "tenencia sigue encontrando la guía general");
 assert.ok(hrefs("meses sin intereses").includes("dinero/meses-sin-intereses/"), "meses sin intereses sigue encontrando su calculadora");
 assert.ok(hrefs("alta sat").includes("negocio/alta-en-el-sat/"), "alta en el SAT sigue encontrando su guía");

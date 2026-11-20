@@ -27,7 +27,7 @@ h1 { font: 800 clamp(1.9rem, 5vw, 2.9rem)/1.08 var(--display); margin: 0; text-w
 h2 { font: 600 1.4rem var(--display); margin: 0 0 12px }
 h3 { font: 600 1.1rem var(--display); margin: 0 }
 .lede { margin: 8px 0 0; color: var(--muted); max-width: 62ch }
-.prosa { max-width: 68ch }
+.prosa { max-width: 68ch; overflow-wrap: break-word }
 .prosa p, .prosa li { margin: 0 0 10px }
 .tag { display: inline-block; font: 500 .72rem var(--mono); background: var(--flor-soft); color: var(--flor); padding: 3px 8px; border-radius: 99px; letter-spacing: .05em; text-transform: uppercase }
 .tool { background: var(--surface); border: 1.5px solid var(--brand); border-radius: 16px; padding: 22px; display: grid; gap: 20px; grid-template-columns: 1fr 1fr }

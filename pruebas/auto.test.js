@@ -267,7 +267,7 @@ prueba("datos de tenencia por estado", () => {
   // Guanajuato volvió a cobrar tenencia en 2025 a los autos de mayor valor.
   assert.strictEqual(A.tenenciaEstado("gto").tenencia, "algunos");
   assert.strictEqual(A.tenenciaEstado("gto").corto, "Solo a algunos autos");
-  assert.strictEqual(A.tenenciaEstado("nl").tenencia, "revisar");
+  assert.strictEqual(A.tenenciaEstado("oax").tenencia, "revisar");
   for (const c of ["ver", "pue"]) assert.strictEqual(A.tenenciaEstado(c).tenencia, "si", c);
   assert.ok(A.tenenciaEstado("ver").detalle.startsWith("Veracruz sí cobra tenencia en 2026"));
   assert.ok(A.tenenciaEstado("ver").detalle.includes("31 de marzo de 2026"));
@@ -279,7 +279,7 @@ prueba("datos de tenencia por estado", () => {
   assert.ok(A.tenenciaEstado("mex").detalle.includes("6 de abril de 2026"));
   assert.ok(A.tenenciaEstado("jal").detalle.startsWith("Jalisco no cobra tenencia en 2026"));
   assert.ok(A.tenenciaEstado("chih").detalle.startsWith("Chihuahua no cobra tenencia desde 2011"));
-  assert.ok(A.tenenciaEstado("nl").detalle.startsWith("No revisamos a fondo si Nuevo León cobra tenencia en 2026"));
+  assert.ok(A.tenenciaEstado("oax").detalle.startsWith("No revisamos a fondo si Oaxaca cobra tenencia en 2026"));
   assert.strictEqual(A.tenenciaEstado("xx"), null);
   assert.strictEqual(A.tenenciaEstado(""), null);
   // Orden por el nombre que se ve: "Estado de México" va en la E, entre Durango y Guanajuato.
@@ -309,7 +309,7 @@ prueba("cifras 2026 de Edomex, CDMX y Jalisco", () => {
   assert.strictEqual(jal.plazo, "2026-03-31");
   assert.strictEqual(new Date(2026, 2, 31).getDay(), 2, "31 de marzo de 2026 es martes (día hábil)");
   assert.strictEqual(new Date(2026, 3, 6).getDay(), 1, "6 de abril de 2026 es lunes");
-  assert.strictEqual(A.paginaTenencia("nl"), null, "Nuevo León todavía no tiene página");
+  assert.strictEqual(A.paginaTenencia("oax"), null, "Oaxaca todavía no tiene página");
   assert.strictEqual(new Date(2026, 3, 30).getDay(), 4, "30 de abril de 2026 es jueves");
   assert.strictEqual(new Date(2026, 3, 9).getDay(), 4, "9 de abril de 2026 es jueves");
   // Cada página por estado coincide con las cifras de auto.js.
@@ -370,6 +370,88 @@ prueba("Veracruz, Puebla y Guanajuato: subsidio y total", () => {
   assert.strictEqual(A.pagoTenencia2026("gto", { tipo: "moto", valor: 50000, aniosAtrasados: 2 }).total, 600);
   for (const e of [{ valor: "x", momento: "enero" }, { valor: -5, aniosAtrasados: "abc", momento: "zzz" }, { valor: 1e30, aniosAtrasados: 1e9 }, { tipo: "barco", valor: Infinity }]) {
     for (const c of ["ver", "pue", "gto"]) finito(A.pagoTenencia2026(c, e), c + " " + JSON.stringify(e));
+  }
+});
+
+prueba("cifras 2026 de Nuevo León, Chiapas y Michoacán", () => {
+  const nl = A.paginaTenencia("nl"), chis = A.paginaTenencia("chis"), mich = A.paginaTenencia("mich");
+  for (const c of ["nl", "chis", "mich"]) {
+    assert.strictEqual(A.paginaTenencia(c).cobraTenencia, false, c);
+    assert.strictEqual(A.tenenciaEstado(c).tenencia, "no", c);
+    assert.strictEqual(A.tenenciaEstado(c).corto, "No se cobra", c);
+    assert.ok(A.tenenciaEstado(c).fuente.length > 0, c + ": fuente");
+  }
+  assert.ok(A.tenenciaEstado("nl").detalle.startsWith("Nuevo León no cobra tenencia desde 2018"));
+  assert.ok(A.tenenciaEstado("chis").detalle.startsWith("Chiapas no cobra tenencia en 2026"));
+  assert.ok(A.tenenciaEstado("mich").detalle.startsWith("Michoacán no cobra tenencia en 2026"));
+  // Nuevo León: refrendo por modelo en UMA de enero ($113.14): 35, 25 y 19.5 UMA; motos 7 y eléctricos 17.5.
+  assert.deepStrictEqual(nl.refrendo, { auto: 3960, moto: 792, electrico: 1980 });
+  for (const [uma, monto] of [[35, 3960], [25, 2829], [19.5, 2206], [7, 792], [17.5, 1980]]) {
+    assert.strictEqual(Math.round(uma * 113.14), monto, uma + " UMA");
+  }
+  assert.deepStrictEqual(nl.tarifas.auto.map(t => [t.hasta, t.monto, t.enero]), [[2011, 2206, 1075], [2016, 2829, 1698], [undefined, 3960, 3762]]);
+  assert.strictEqual(nl.plazo, "2026-03-31");
+  // Chiapas: $1,150 y $984 más el 6% del Código Fiscal dan $1,219 y $1,043.
+  assert.deepStrictEqual(chis.refrendo, { auto: 1219, moto: 1043 });
+  assert.strictEqual(Math.round(1150 * 1.06), 1219); assert.strictEqual(Math.round(984 * 1.06), 1043);
+  assert.deepStrictEqual(chis.descuentosPorMes, { enero: 15, febrero: 10, marzo: 5 });
+  assert.strictEqual(chis.plazo, "2026-03-31");
+  // Michoacán: $1,256 y $401, 10% en enero, plazo al jueves 30 de abril.
+  assert.deepStrictEqual(mich.refrendo, { auto: 1256, moto: 401 });
+  assert.deepStrictEqual(mich.descuentosPorMes, { enero: 10 });
+  assert.strictEqual(mich.plazo, "2026-04-30");
+  // Las tres páginas muestran las cifras de cada tarifa.
+  const html = s => fs.readFileSync(path.join(__dirname, "..", "auto", "tenencia", s, "index.html"), "utf8");
+  for (const t of [...nl.tarifas.auto, ...nl.tarifas.moto, ...nl.tarifas.electrico]) {
+    for (const m of [t.monto, t.enero]) assert.ok(html("nuevo-leon").includes("$" + m.toLocaleString("en-US")), "Nuevo León: $" + m);
+  }
+  for (const m of ["$1,036", "$1,097", "$1,158", "$887", "$939", "$991"]) assert.ok(html("chiapas").includes(m), "Chiapas: " + m);
+  assert.ok(html("michoacan").includes("$1,130"), "Michoacán: $1,130 en enero");
+});
+
+prueba("Nuevo León, Chiapas y Michoacán: total a pagar", () => {
+  // Nuevo León: sin modelo, la tarifa de 2017 o más nuevo. En enero, precio de pronto pago en pesos.
+  let r = A.pagoTenencia2026("nl", {});
+  assert.strictEqual(r.subsidio, "noAplica"); assert.strictEqual(r.refrendo, 3960); assert.strictEqual(r.total, 3960);
+  r = A.pagoTenencia2026("nl", { modelo: 2020, momento: "enero" });
+  assert.strictEqual(r.descuento, 198); assert.strictEqual(r.total, 3762);
+  // Los límites de cada rango: 2011 y 2012, 2016 y 2017.
+  assert.strictEqual(A.pagoTenencia2026("nl", { modelo: 2011 }).refrendo, 2206);
+  assert.strictEqual(A.pagoTenencia2026("nl", { modelo: "2012" }).refrendo, 2829);
+  assert.strictEqual(A.pagoTenencia2026("nl", { modelo: 2016, momento: "enero" }).total, 1698);
+  assert.strictEqual(A.pagoTenencia2026("nl", { modelo: 2017 }).refrendo, 3960);
+  assert.strictEqual(A.pagoTenencia2026("nl", { modelo: 1995, momento: "enero" }).total, 1075);
+  // Motos y eléctricos no dependen del modelo.
+  assert.strictEqual(A.pagoTenencia2026("nl", { tipo: "moto", modelo: 2000, momento: "enero" }).total, 752);
+  r = A.pagoTenencia2026("nl", { tipo: "electrico", momento: "enero" });
+  assert.strictEqual(r.tipo, "electrico"); assert.strictEqual(r.total, 1881);
+  // "electrico" solo existe en Nuevo León; en otro estado se toma como auto.
+  assert.strictEqual(A.pagoTenencia2026("jal", { tipo: "electrico" }).tipo, "auto");
+  assert.strictEqual(A.pagoTenencia2026("nl", { tipo: "constructor" }).tipo, "auto");
+  // Febrero o marzo: precio normal; tarde: precio normal y recargos aparte. Atrasados al costo de 2026.
+  assert.strictEqual(A.pagoTenencia2026("nl", { modelo: 2014, momento: "aTiempo" }).total, 2829);
+  r = A.pagoTenencia2026("nl", { modelo: 2014, momento: "tarde", aniosAtrasados: 2 });
+  assert.strictEqual(r.recargos, true); assert.strictEqual(r.descuento, 0); assert.strictEqual(r.total, 2829 * 3);
+  // Chiapas: 15%, 10% y 5% sobre $1,219; con adeudos no hay descuento.
+  cerca(A.pagoTenencia2026("chis", { momento: "enero" }).total, 1036.15, "enero 15%");
+  cerca(A.pagoTenencia2026("chis", { momento: "febrero" }).total, 1097.1, "febrero 10%");
+  cerca(A.pagoTenencia2026("chis", { momento: "marzo" }).total, 1158.05, "marzo 5%");
+  cerca(A.pagoTenencia2026("chis", { tipo: "moto", momento: "enero" }).total, 886.55, "moto en enero");
+  r = A.pagoTenencia2026("chis", { momento: "enero", alCorriente: false });
+  assert.strictEqual(r.descuento, 0); assert.strictEqual(r.sinDescuentoPorAdeudo, true); assert.strictEqual(r.total, 1219);
+  r = A.pagoTenencia2026("chis", { momento: "febrero", aniosAtrasados: 1 });
+  assert.strictEqual(r.descuento, 0); assert.strictEqual(r.total, 2438);
+  assert.strictEqual(A.pagoTenencia2026("chis", { momento: "tarde" }).sinDescuentoPorAdeudo, false);
+  // En Veracruz el descuento por mes no pide estar al corriente (el estímulo a la tenencia sí).
+  assert.strictEqual(A.pagoTenencia2026("ver", { momento: "enero", alCorriente: false }).descuento, 185.85);
+  // Michoacán: 10% solo en enero.
+  r = A.pagoTenencia2026("mich", { momento: "enero" });
+  assert.strictEqual(r.descuento, 125.6); cerca(r.total, 1130.4, "Michoacán en enero");
+  assert.strictEqual(A.pagoTenencia2026("mich", { momento: "febrero" }).descuento, 0);
+  assert.strictEqual(A.pagoTenencia2026("mich", { tipo: "moto", momento: "aTiempo" }).total, 401);
+  cerca(A.pagoTenencia2026("mich", { tipo: "moto", momento: "enero" }).total, 360.9, "moto en enero");
+  for (const e of [{ modelo: "x", momento: "enero" }, { modelo: -5, aniosAtrasados: "abc", momento: "zzz" }, { modelo: 1e30, aniosAtrasados: 1e9 }, { tipo: "barco", modelo: Infinity }, { tipo: "electrico", modelo: null }]) {
+    for (const c of ["nl", "chis", "mich"]) finito(A.pagoTenencia2026(c, e), c + " " + JSON.stringify(e));
   }
 });
 

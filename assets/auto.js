@@ -204,8 +204,8 @@
   //           "algunos" = la cobra solo a algunos autos (los de mayor valor);
   //           "no" = no cobra tenencia, solo el pago anual de placas (refrendo, control vehicular o revalidación);
   //           "revisar" = no lo revisamos a fondo para 2026.
-  // Solo 7 estados tienen dato propio (TENENCIA_2026, abajo), revisado el 20 oct 2026 (Veracruz y Puebla, el
-  // 18 nov 2026) con al menos 2 fuentes.
+  // Solo 10 estados tienen dato propio (TENENCIA_2026, abajo), revisado el 20 oct 2026 (Veracruz y Puebla, el
+  // 18 nov 2026; Nuevo León, Chiapas y Michoacán, el 20 nov 2026) con al menos 2 fuentes.
   // Ninguno se pudo cotejar abriendo el portal oficial (403 desde nuestra red): queda pendiente.
   // portal: "pago" = página oficial de pago o consulta de adeudo vehicular; "finanzas" = secretaría de finanzas
   //         o de hacienda del estado; "catalogo" = catálogo oficial de trámites; "estatal" = portal general
@@ -217,7 +217,7 @@
     { clave: "bc", nombre: "Baja California", tenencia: "revisar", portal: "pago", url: "https://refrendo.bajacalifornia.gob.mx/" },
     { clave: "bcs", nombre: "Baja California Sur", tenencia: "revisar", portal: "finanzas", url: "https://finanzas.bcs.gob.mx/" },
     { clave: "camp", nombre: "Campeche", tenencia: "revisar", portal: "finanzas", url: "https://seafi.campeche.gob.mx/" },
-    { clave: "chis", nombre: "Chiapas", tenencia: "revisar", portal: "pago", url: "https://soluciones.finanzaschiapas.gob.mx/liquidacion_vehicular/default.aspx" },
+    { clave: "chis", nombre: "Chiapas", tenencia: "no", portal: "pago", url: "https://soluciones.finanzaschiapas.gob.mx/liquidacion_vehicular/default.aspx" },
     { clave: "chih", nombre: "Chihuahua", tenencia: "no", portal: "pago", url: "https://ipagos.chihuahua.gob.mx/" },
     { clave: "cdmx", nombre: "Ciudad de México", tenencia: "si", portal: "finanzas", url: "https://www.finanzas.cdmx.gob.mx/servicios/servicios-de-control-vehicular",
       textoPortal: "Secretaría de Administración y Finanzas de la Ciudad de México: busca “tenencia” o “refrendo”." },
@@ -229,10 +229,11 @@
     { clave: "hgo", nombre: "Hidalgo", tenencia: "revisar", portal: "finanzas", url: "https://portaltributario.hidalgo.gob.mx/" },
     { clave: "jal", nombre: "Jalisco", tenencia: "no", portal: "pago", url: "https://refrendo.jalisco.gob.mx/" },
     { clave: "mex", nombre: "Estado de México", tenencia: "si", portal: "pago", url: "https://tenencia.edomex.gob.mx/" },
-    { clave: "mich", nombre: "Michoacán", tenencia: "revisar", portal: "pago", url: "https://refrendodigital.michoacan.gob.mx/" },
+    { clave: "mich", nombre: "Michoacán", tenencia: "no", portal: "pago", url: "https://refrendodigital.michoacan.gob.mx/" },
     { clave: "mor", nombre: "Morelos", tenencia: "revisar", portal: "pago", url: "https://digital.morelos.gob.mx/" },
     { clave: "nay", nombre: "Nayarit", tenencia: "revisar", portal: "finanzas", url: "https://hacienda.minayarit.gob.mx/tramites" },
-    { clave: "nl", nombre: "Nuevo León", tenencia: "revisar", portal: "pago", url: "https://www.nl.gob.mx/refrendo" },
+    { clave: "nl", nombre: "Nuevo León", tenencia: "no", portal: "pago", url: "https://www.nl.gob.mx/refrendo",
+      textoPortal: "Página oficial del refrendo de Nuevo León; el estado de cuenta con tu placa está en el portal del Instituto de Control Vehicular (ICV)." },
     { clave: "oax", nombre: "Oaxaca", tenencia: "revisar", portal: "finanzas", url: "https://www.finanzasoaxaca.gob.mx/" },
     { clave: "pue", nombre: "Puebla", tenencia: "si", portal: "pago", url: "https://rl.puebla.gob.mx/adeudovehicular" },
     { clave: "qro", nombre: "Querétaro", tenencia: "revisar", portal: "pago", url: "https://tenencia.queretaro.gob.mx/" },
@@ -305,6 +306,25 @@
     chih: {
       detalle: "Chihuahua no cobra tenencia desde 2011. Lo que pagas cada año es la revalidación vehicular, que incluye el control vehicular, la tarjeta de circulación, la aportación a la Cruz Roja y el impuesto universitario.",
       fuente: "Gobierno de Chihuahua (comunicado de la revalidación 2026), N+ y La Razón (2026); La Jornada (2011)."
+    },
+    // Nuevo León quitó la tenencia estatal desde 2018 (Congreso de Nuevo León, boletín del 8 nov 2017; Todo Sobre
+    // Autos, 2026; Posta, 2 feb 2025). Récord (ene 2026) la pone entre los estados que sí cobran: no lo usamos
+    // porque ninguna otra fuente lo dice y el refrendo 2026 del ICV no la incluye (N+, adn40).
+    nl: {
+      detalle: "Nuevo León no cobra tenencia desde 2018. Lo que pagas cada año es el refrendo de tus placas al Instituto de Control Vehicular, que en 2026 dependió del modelo de tu auto.",
+      fuente: "Congreso de Nuevo León (2017), Todo Sobre Autos (2026) y Posta (2025); refrendo 2026: N+ y adn40."
+    },
+    // La Ley de Ingresos de Chiapas 2026 no trae impuesto de tenencia (solo el de adquisición de vehículos usados),
+    // y Todo Sobre Autos (2026) dice que no hay tenencia estatal. Lo que se paga es el refrendo.
+    chis: {
+      detalle: "Chiapas no cobra tenencia en 2026: su Ley de Ingresos no la incluye. Lo que pagas cada año es el refrendo de tu tarjeta de circulación, con descuento si pagas en enero, febrero o marzo.",
+      fuente: "Ley de Ingresos del Estado de Chiapas 2026, Todo Sobre Autos (2026) y TV Azteca (2026)."
+    },
+    // Michoacán no cobra tenencia estatal (Todo Sobre Autos, 2026: la Ley de Hacienda no la contempla; TramitaSeguro,
+    // desde 2012; Récord, ene 2026, lo lista entre los estados sin tenencia).
+    mich: {
+      detalle: "Michoacán no cobra tenencia en 2026. Lo que pagas cada año es el refrendo de tus placas, con 10% de descuento si pagas en enero.",
+      fuente: "Todo Sobre Autos (2026), Récord (enero de 2026) y TramitaSeguro (2026); refrendo 2026: Tus Buenas Noticias y adn40."
     }
   };
 
@@ -349,7 +369,8 @@
   // Una entrada por cada estado que ya tiene su página en auto/tenencia/<slug>/ (la lista de los 32 está en
   // auto/tenencia/). Para agregar un estado: copia una entrada, pon sus cifras con 2 fuentes cada una, crea la
   // página copiando la de un estado parecido y quítale el "próximamente" en auto/tenencia/index.html.
-  // Revisado el 16 de noviembre de 2026 (Veracruz, Puebla y Guanajuato, el 18 de noviembre). Ningún portal oficial se pudo abrir desde nuestra red (403): cada cifra
+  // Revisado el 16 de noviembre de 2026 (Veracruz, Puebla y Guanajuato, el 18 de noviembre; Nuevo León, Chiapas y
+  // Michoacán, el 20 de noviembre). Ningún portal oficial se pudo abrir desde nuestra red (403): cada cifra
   // se confirmó con al menos 2 fuentes secundarias y queda pendiente de cotejar en el portal del estado.
   // refrendo: lo que cuesta el pago anual de placas y tarjeta (null = no encontramos el monto).
   // tope: valor del vehículo con IVA hasta el que aplica el subsidio de 100% a la tenencia (null = no hay tenencia).
@@ -440,6 +461,53 @@
       // Plazo sin multa: 31 de marzo, ampliado al jueves 9 de abril de 2026 (Uno TV, 3 abr 2026; Todo Sobre Autos).
       plazo: "2026-04-09", plazoOriginal: "2026-03-31",
       placas: null, extras: [], descuentoEnLinea: null
+    },
+    nl: {
+      slug: "nuevo-leon", corto: "Nuevo León", cobraTenencia: false,
+      // Refrendo 2026 del Instituto de Control Vehicular, en UMA (con la UMA de enero, $113.14). Precio normal y
+      // precio de enero (pronto pago), por modelo: 2011 o anterior $2,206 y $1,075; 2012 a 2016 $2,829 y $1,698;
+      // 2017 o más nuevo $3,960 y $3,762; motos, remolques y todoterreno $792 y $752; eléctricos $1,980 y $1,881.
+      // N+ (2 ene 2026), Tus Buenas Noticias (14 ene 2026), Posta y El Congresista (ene 2026); los de enero,
+      // también adn40 (5 mar 2026). Todo Sobre Autos da $4,106, $2,933, $2,288, $821 y $2,053 con la UMA de
+      // febrero ($117.31): una sola fuente, así que usamos los de enero. Uno TV (7 ene 2026) trae $3,368, $1,657 y
+      // $1,030, que no coinciden con ninguna otra fuente de 2026: no los usamos.
+      refrendo: { auto: 3960, moto: 792, electrico: 1980 },
+      // Tarifa según el modelo (hasta = último año del rango). enero: lo que costaba pagando en enero.
+      tarifas: {
+        auto: [{ hasta: 2011, monto: 2206, enero: 1075 }, { hasta: 2016, monto: 2829, enero: 1698 }, { monto: 3960, enero: 3762 }],
+        moto: [{ monto: 792, enero: 752 }],
+        electrico: [{ monto: 1980, enero: 1881 }]
+      },
+      tope: null, placas: null, extras: [], descuentoEnLinea: null,
+      // Sin recargos hasta el último día hábil de marzo: martes 31 de marzo de 2026 (adn40, 5 mar 2026, con el ICV;
+      // Uno TV, 20 mar 2026; Todo Sobre Autos).
+      plazo: "2026-03-31"
+    },
+    chis: {
+      slug: "chiapas", corto: "Chiapas", cobraTenencia: false,
+      // Refrendo 2026, servicio particular: $1,219 autos y $1,043 motos, ya con el 6% del art. 261 D del Código
+      // Fiscal (Todo Sobre Autos y TV Azteca, 17 jun 2026). Uno TV (7 ene 2026) da $1,150 y $984, que son los mismos
+      // montos sin ese 6% ($1,150 x 1.06 = $1,219). En 2025 eran $872 y $714 en la Ley de Derechos.
+      refrendo: { auto: 1219, moto: 1043 },
+      tope: null, placas: null, extras: [], descuentoEnLinea: null,
+      // Se paga en los tres primeros meses del año (art. 6 de la Ley de Derechos; Uno TV, 20 mar 2026; Todo Sobre Autos).
+      plazo: "2026-03-31",
+      // Descuento por pronto pago: 15% en enero, 10% en febrero y 5% en marzo (art. 4 A, fr. III, de la Ley de
+      // Ingresos 2026 y Todo Sobre Autos). Solo para quien no tiene adeudos (TV Azteca y Uno TV).
+      descuentosPorMes: { enero: 15, febrero: 10, marzo: 5 }, descuentoPideAlCorriente: true
+    },
+    mich: {
+      slug: "michoacan", corto: "Michoacán", cobraTenencia: false,
+      // Refrendo 2026: $1,256 autos y camionetas y $401 motos (Uno TV, 7 ene 2026; adn40, 27 abr 2026; Todo Sobre
+      // Autos, con el art. 20 de la Ley de Ingresos 2026). Los $1,256 también en Tus Buenas Noticias (6 ene 2026).
+      refrendo: { auto: 1256, moto: 401 },
+      tope: null, placas: null, extras: [], descuentoEnLinea: null,
+      // Sin recargos hasta el jueves 30 de abril de 2026 (adn40, con la Secretaría de Finanzas; Tus Buenas Noticias;
+      // Todo Sobre Autos).
+      plazo: "2026-04-30",
+      // 10% de descuento pagando en enero, en línea o en ventanilla: Tus Buenas Noticias, El Congresista (5 ene
+      // 2026), Sobrecontexto (8 ene 2026) y Todo Sobre Autos.
+      descuentosPorMes: { enero: 10 }
     }
   };
   const TIPOS_VEHICULO = ["auto", "moto"];
@@ -473,12 +541,22 @@
   // alCorriente: sin adeudos de años anteriores. anioPlacas: año en que te dieron las placas (solo Edomex).
   // aniosAtrasados: refrendos de años anteriores que no pagaste (se estiman al costo de 2026, sin recargos).
   // verificado: ya hiciste la verificación vehicular (solo cuenta donde el subsidio la pide, como Veracruz).
-  // En Veracruz, momento también puede ser "enero", "febrero" o "marzo" (descuento por mes de pago).
-  function pagoTenencia2026(clave, { tipo = "auto", valor, alCorriente = true, momento = "aTiempo", anioPlacas, aniosAtrasados = 0, verificado = true } = {}) {
+  // En Veracruz, Chiapas y Michoacán, momento también puede ser "enero", "febrero" o "marzo" (descuento por mes de
+  // pago). modelo: año del modelo del vehículo (solo donde el refrendo depende de él, como Nuevo León; sin modelo
+  // se usa la tarifa de los más nuevos). tipo también puede ser "electrico" donde el estado tiene tarifa propia.
+  function pagoTenencia2026(clave, { tipo = "auto", valor, alCorriente = true, momento = "aTiempo", anioPlacas, aniosAtrasados = 0, verificado = true, modelo } = {}) {
     const p = paginaTenencia(clave);
     if (!p) return null;
-    const t = TIPOS_VEHICULO.includes(tipo) ? tipo : "auto";
-    const refrendo = p.refrendo[t];
+    const t = TIPOS_VEHICULO.includes(tipo) || (typeof tipo === "string" && Object.prototype.hasOwnProperty.call(p.refrendo, tipo)) ? tipo : "auto";
+    let refrendo = p.refrendo[t];
+    // Tarifa por modelo (Nuevo León): la primera cuyo rango incluye el modelo; sin modelo válido, la última.
+    let tarifa = null;
+    if (p.tarifas && p.tarifas[t]) {
+      const lista = p.tarifas[t];
+      const m = modelo === undefined || modelo === null || modelo === "" ? NaN : Math.floor(+modelo);
+      tarifa = Number.isFinite(m) ? lista.find(x => x.hasta === undefined || m <= x.hasta) : lista[lista.length - 1];
+      refrendo = tarifa.monto;
+    }
     const sinRefrendo = refrendo === null || refrendo === undefined;
     const v = acotar(valor, MAX_VALOR);
     const at = acotar(aniosAtrasados, MAX_ATRASO);
@@ -487,9 +565,14 @@
     let pctDescuento = 0;
     if (p.descuentosPorMes && p.descuentosPorMes[momento] !== undefined) pctDescuento = p.descuentosPorMes[momento];
     else if (p.descuentoEnLinea && momento === "descuento") pctDescuento = p.descuentoEnLinea.porcentaje;
+    // Donde el descuento pide estar al corriente (Chiapas), con adeudos no hay descuento.
+    const sinDescuentoPorAdeudo = !!(p.descuentoPideAlCorriente && pctDescuento && (!alCorriente || atrasados > 0));
+    if (sinDescuentoPorAdeudo) pctDescuento = 0;
 
     const extras = p.extras.reduce((s, x) => s + x.monto, 0);
-    const descuento = pctDescuento && !sinRefrendo ? Calc.redondear(refrendo * pctDescuento / 100) : 0;
+    let descuento = pctDescuento && !sinRefrendo ? Calc.redondear(refrendo * pctDescuento / 100) : 0;
+    // Con tarifa por modelo, el precio de enero viene en pesos (no es un porcentaje parejo).
+    if (tarifa && momento === "enero" && tarifa.enero !== undefined) descuento = Calc.redondear(tarifa.monto - tarifa.enero);
 
     // Subsidio a la tenencia: "noAplica" (el estado no cobra tenencia), "completo" (100%), "mitad" (50%),
     // "no" (lo pierdes) o "faltaValor" (falta escribir el valor). motivos: por qué no te toca completo.
@@ -522,7 +605,7 @@
     const total = sinRefrendo ? 0 : refrendoNeto + extras + adeudoEstimado;
     return {
       clave, nombre: p.nombre, tipo: t, valor: v.valor, refrendo: sinRefrendo ? null : refrendo, sinRefrendo, extras, descuento,
-      refrendoNeto, subsidio, motivos, pagasTenencia, tope, plazo: p.plazo,
+      refrendoNeto, subsidio, motivos, pagasTenencia, tope, plazo: p.plazo, sinDescuentoPorAdeudo,
       recargos: tarde, atrasados, adeudoEstimado, total, recortado: v.recortado || at.recortado
     };
   }

@@ -63,7 +63,8 @@
       diasLey: 15,
       // Gobierno federal: al menos 40 días "sin deducción alguna"; 50% antes del 15 de diciembre y 50% a más tardar
       // el 15 de enero (art. 42 Bis LFTSE). El decreto anual del DOF (el de 2025 salió el 4 nov 2025) dio 40 días y
-      // permitió pagar desde el 10 de noviembre. El decreto de 2026 aún no se publica (21 oct 2026).
+      // permitió pagar desde el 10 de noviembre. El de 2026 salió en el DOF el 23 oct 2026 con lo mismo (Diario de Yucatán
+      // 10 nov 2026; Expansión 9 nov 2026). Revisado el 23 nov 2026.
       gobiernoDias: 40,
       gobiernoPrimeraParte: 0.5,
       // Multa al patrón que no paga: de 50 a 5,000 UMA (art. 1002 LFT), por cada trabajador afectado (art. 992 LFT).
@@ -76,8 +77,10 @@
         // asignaciones familiares ni ayudas asistenciales (art. 167 LSS 1973; preguntas frecuentes del IMSS). En noviembre.
         imss73: { dias: 30, partes: [{ cuando: "noviembre de 2026, con tu pensión", parte: 1 }] },
         // ISSSTE (pensiones del régimen anterior, décimo transitorio): hasta 40 días de la cuota de la pensión
-        // (decreto de aguinaldo, DOF 4 nov 2025, art. quinto). 20 días en la primera quincena de noviembre y 20 en enero.
-        issste: { dias: 40, partes: [{ cuando: "primera quincena de noviembre de 2026", parte: 0.5 }, { cuando: "enero de 2027", parte: 0.5 }] },
+        // (decreto de aguinaldo, DOF 4 nov 2025, art. quinto). 20 días en la primera quincena de noviembre; la segunda
+        // parte se adelanta al viernes 27 nov 2026, con la pensión de diciembre (Expansión 16 nov, Informador 9 nov e
+        // Infobae 10 nov 2026; sin comunicado propio del ISSSTE que pudiéramos ver).
+        issste: { dias: 40, partes: [{ cuando: "primera quincena de noviembre de 2026", parte: 0.5 }, { cuando: "viernes 27 de noviembre de 2026, con la pensión de diciembre (según la prensa)", parte: 0.5 }] },
         // IMSS, invalidez (LSS 1997): no menos de 30 días de la pensión (art. 142 LSS).
         imssInvalidez: { dias: 30, minimo: true, partes: [{ cuando: "pregunta a quien te paga la pensión", parte: 1 }] },
         // IMSS, riesgo de trabajo: incapacidad permanente total, o parcial de más de 50%: 15 días (art. 58 fr. IV LSS).

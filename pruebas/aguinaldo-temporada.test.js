@@ -27,8 +27,9 @@ cerca(p.diaria, 333.33, "pensión diaria");
 cerca(p.total, 13333.33, "ISSSTE: 40 días");
 assert.strictEqual(p.partes.length, 2);
 cerca(p.partes[0].monto, 6666.67, "ISSSTE primera parte (noviembre)");
-cerca(p.partes[1].monto, 6666.67, "ISSSTE segunda parte (enero)");
-assert.ok(/noviembre/.test(p.partes[0].cuando) && /enero/.test(p.partes[1].cuando));
+cerca(p.partes[1].monto, 6666.67, "ISSSTE segunda parte (27 de noviembre)");
+// La segunda parte de 2026 se adelanta al 27 de noviembre (Expansión, Informador e Infobae, nov 2026).
+assert.ok(/noviembre/.test(p.partes[0].cuando) && /27 de noviembre/.test(p.partes[1].cuando));
 // Invalidez: al menos 30 días (art. 142 LSS). Riesgo de trabajo: 15 días (art. 58 fr. IV LSS).
 p = T.aguinaldoPension({ pensionMensual: 10000, tipo: "imssInvalidez" });
 cerca(p.total, 10000, "invalidez");

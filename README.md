@@ -32,7 +32,7 @@ pruebas/                   Una prueba por archivo de assets, más sitio.test.js 
 | Retiro e IMSS | `retiro/` | afore, semanas-cotizadas, ley-73-vs-ley-97 |
 | Vivienda | `vivienda/` | credito-infonavit, rentar-o-comprar, predial |
 | Trámites | `tramites/` | curp, ine, pasaporte, licencia-de-manejo, cartilla-militar, carta-de-no-antecedentes, e-firma-sat |
-| Auto | `auto/` | tenencia-y-refrendo, tenencia (lista de los 32 estados) y tenencia/estado-de-mexico, tenencia/ciudad-de-mexico, tenencia/jalisco, tenencia/veracruz, tenencia/puebla, tenencia/guanajuato, tenencia/nuevo-leon, tenencia/chiapas, tenencia/michoacan, verificacion, gasolina-por-viaje |
+| Auto | `auto/` | tenencia-y-refrendo, tenencia (lista de los 32 estados) y tenencia/estado-de-mexico, tenencia/ciudad-de-mexico, tenencia/jalisco, tenencia/veracruz, tenencia/puebla, tenencia/guanajuato, tenencia/nuevo-leon, tenencia/chiapas, tenencia/michoacan, tenencia/oaxaca, tenencia/chihuahua, tenencia/guerrero, verificacion, gasolina-por-viaje |
 | Casa y servicios | `casa/` | recibo-de-luz, consumo-de-aparatos, gas-lp |
 | Familia y becas | `familia/` | becas, maternidad-y-paternidad, pension-alimenticia |
 | Negocio propio | `negocio/` | precio-de-venta, punto-de-equilibrio, alta-en-el-sat |

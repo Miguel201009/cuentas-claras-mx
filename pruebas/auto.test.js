@@ -267,7 +267,7 @@ prueba("datos de tenencia por estado", () => {
   // Guanajuato volvió a cobrar tenencia en 2025 a los autos de mayor valor.
   assert.strictEqual(A.tenenciaEstado("gto").tenencia, "algunos");
   assert.strictEqual(A.tenenciaEstado("gto").corto, "Solo a algunos autos");
-  assert.strictEqual(A.tenenciaEstado("oax").tenencia, "revisar");
+  assert.strictEqual(A.tenenciaEstado("hgo").tenencia, "revisar");
   for (const c of ["ver", "pue"]) assert.strictEqual(A.tenenciaEstado(c).tenencia, "si", c);
   assert.ok(A.tenenciaEstado("ver").detalle.startsWith("Veracruz sí cobra tenencia en 2026"));
   assert.ok(A.tenenciaEstado("ver").detalle.includes("31 de marzo de 2026"));
@@ -279,7 +279,7 @@ prueba("datos de tenencia por estado", () => {
   assert.ok(A.tenenciaEstado("mex").detalle.includes("6 de abril de 2026"));
   assert.ok(A.tenenciaEstado("jal").detalle.startsWith("Jalisco no cobra tenencia en 2026"));
   assert.ok(A.tenenciaEstado("chih").detalle.startsWith("Chihuahua no cobra tenencia desde 2011"));
-  assert.ok(A.tenenciaEstado("oax").detalle.startsWith("No revisamos a fondo si Oaxaca cobra tenencia en 2026"));
+  assert.ok(A.tenenciaEstado("hgo").detalle.startsWith("No revisamos a fondo si Hidalgo cobra tenencia en 2026"));
   assert.strictEqual(A.tenenciaEstado("xx"), null);
   assert.strictEqual(A.tenenciaEstado(""), null);
   // Orden por el nombre que se ve: "Estado de México" va en la E, entre Durango y Guanajuato.
@@ -309,15 +309,18 @@ prueba("cifras 2026 de Edomex, CDMX y Jalisco", () => {
   assert.strictEqual(jal.plazo, "2026-03-31");
   assert.strictEqual(new Date(2026, 2, 31).getDay(), 2, "31 de marzo de 2026 es martes (día hábil)");
   assert.strictEqual(new Date(2026, 3, 6).getDay(), 1, "6 de abril de 2026 es lunes");
-  assert.strictEqual(A.paginaTenencia("oax"), null, "Oaxaca todavía no tiene página");
+  assert.strictEqual(A.paginaTenencia("hgo"), null, "Hidalgo todavía no tiene página");
   assert.strictEqual(new Date(2026, 3, 30).getDay(), 4, "30 de abril de 2026 es jueves");
   assert.strictEqual(new Date(2026, 3, 9).getDay(), 4, "9 de abril de 2026 es jueves");
   // Cada página por estado coincide con las cifras de auto.js.
   for (const [clave, p] of Object.entries(A.PAGINAS_TENENCIA)) {
     const html = fs.readFileSync(path.join(__dirname, "..", "auto", "tenencia", p.slug, "index.html"), "utf8");
     assert.ok(html.includes('const CLAVE = "' + clave + '"'), p.slug);
-    const r = "$" + p.refrendo.auto.toLocaleString("en-US");
-    assert.ok(html.includes(r), p.slug + ": refrendo " + r);
+    // Guerrero no tiene monto de refrendo confirmado (null): su página lo dice.
+    if (p.refrendo.auto !== null) {
+      const r = "$" + p.refrendo.auto.toLocaleString("en-US");
+      assert.ok(html.includes(r), p.slug + ": refrendo " + r);
+    }
     if (p.tope) assert.ok(html.includes("$" + p.tope.auto.toLocaleString("en-US")), p.slug + ": tope");
     if (p.refrendo.moto) assert.ok(html.includes("$" + p.refrendo.moto.toLocaleString("en-US")), p.slug + ": moto");
     // La página enlaza al portal oficial del estado.
@@ -453,6 +456,89 @@ prueba("Nuevo León, Chiapas y Michoacán: total a pagar", () => {
   for (const e of [{ modelo: "x", momento: "enero" }, { modelo: -5, aniosAtrasados: "abc", momento: "zzz" }, { modelo: 1e30, aniosAtrasados: 1e9 }, { tipo: "barco", modelo: Infinity }, { tipo: "electrico", modelo: null }]) {
     for (const c of ["nl", "chis", "mich"]) finito(A.pagoTenencia2026(c, e), c + " " + JSON.stringify(e));
   }
+});
+
+prueba("cifras 2026 de Oaxaca, Chihuahua y Guerrero", () => {
+  const oax = A.paginaTenencia("oax"), chih = A.paginaTenencia("chih"), gro = A.paginaTenencia("gro");
+  for (const c of ["oax", "chih", "gro"]) assert.ok(A.tenenciaEstado(c).fuente.length > 20, c + ": fuente");
+  // Oaxaca: tenencia con estímulo de 100%; paquete de derechos de $2,299 en enero; plazo estimado al 30 de junio.
+  assert.strictEqual(A.tenenciaEstado("oax").tenencia, "si");
+  assert.strictEqual(A.tenenciaEstado("oax").corto, "Sí, con subsidio");
+  assert.ok(A.tenenciaEstado("oax").detalle.startsWith("Oaxaca sí cobra tenencia"));
+  assert.deepStrictEqual(oax.refrendo, { auto: 2299, moto: 723 });
+  assert.strictEqual(oax.tope, null); assert.strictEqual(oax.plazo, "2026-06-30"); assert.strictEqual(oax.plazoEstimado, true);
+  assert.strictEqual(Math.round(2299 * 117.31 / 113.14), oax.precioDesdeFebreroEstimado, "estimado con la UMA de febrero");
+  assert.strictEqual(new Date(2026, 11, 19).getDay(), 6, "19 de diciembre de 2026 es sábado");
+  assert.strictEqual(A.tenenciaEstado("oax").dominio, "siox.finanzasoaxaca.gob.mx");
+  // Chihuahua: sin tenencia; revalidación por modelo y mes; $2,749 desde el 1 de mayo.
+  assert.strictEqual(chih.cobraTenencia, false);
+  assert.strictEqual(A.tenenciaEstado("chih").tenencia, "no");
+  assert.strictEqual(chih.tarifas.auto.length, 7);
+  for (const t of chih.tarifas.auto) {
+    assert.strictEqual(t.monto, 2749);
+    assert.ok(t.febrero < t.marzo && t.marzo < t.abril && t.abril < t.monto, "sube cada mes: " + JSON.stringify(t));
+  }
+  assert.strictEqual(chih.plazo, "2026-04-30");
+  // Guerrero: tenencia sin subsidio confirmado, con 10/8/5% por pronto pago; sin monto de refrendo.
+  assert.strictEqual(A.tenenciaEstado("gro").tenencia, "si");
+  assert.strictEqual(A.tenenciaEstado("gro").corto, "Sí, con descuento por pronto pago");
+  assert.ok(A.tenenciaEstado("gro").detalle.startsWith("Guerrero sí cobra tenencia en 2026"));
+  assert.deepStrictEqual(gro.refrendo, { auto: null, moto: null });
+  assert.deepStrictEqual(gro.descuentosPorMes, { enero: 10, febrero: 8, marzo: 5 });
+  assert.strictEqual(gro.plazo, "2026-03-31");
+  // Las páginas muestran las cifras.
+  const html = s => fs.readFileSync(path.join(__dirname, "..", "auto", "tenencia", s, "index.html"), "utf8");
+  for (const t of chih.tarifas.auto) for (const m of [t.monto, t.febrero, t.marzo, t.abril]) {
+    assert.ok(html("chihuahua").includes("$" + m.toLocaleString("en-US")), "Chihuahua: $" + m);
+  }
+  for (const m of ["$2,299", "$723", "$2,384", "30 de junio", "19 de diciembre"]) assert.ok(html("oaxaca").includes(m), "Oaxaca: " + m);
+  for (const m of ["10%", "8%", "5%", "31 de marzo"]) assert.ok(html("guerrero").includes(m), "Guerrero: " + m);
+});
+
+prueba("Oaxaca, Chihuahua y Guerrero: total a pagar", () => {
+  // Oaxaca: al corriente y a tiempo, estímulo completo y solo el paquete de derechos.
+  let r = A.pagoTenencia2026("oax", { momento: "enero" });
+  assert.strictEqual(r.subsidio, "completo"); assert.strictEqual(r.total, 2299); assert.strictEqual(r.descuento, 0);
+  assert.strictEqual(A.pagoTenencia2026("oax", { tipo: "moto" }).total, 723);
+  r = A.pagoTenencia2026("oax", { alCorriente: false, aniosAtrasados: 1 });
+  assert.deepStrictEqual(r.motivos, ["adeudos"]); assert.strictEqual(r.pagasTenencia, true); assert.strictEqual(r.total, 4598);
+  assert.deepStrictEqual(A.pagoTenencia2026("oax", { momento: "tarde" }).motivos, ["plazo"]);
+  // Chihuahua: precio por modelo y mes; desde mayo, $2,749 parejo.
+  r = A.pagoTenencia2026("chih", { modelo: 2022, momento: "febrero" });
+  assert.strictEqual(r.subsidio, "noAplica"); assert.strictEqual(r.refrendo, 2749); assert.strictEqual(r.descuento, 424); assert.strictEqual(r.total, 2325);
+  assert.strictEqual(A.pagoTenencia2026("chih", { modelo: 2018, momento: "marzo" }).total, 2374);
+  assert.strictEqual(A.pagoTenencia2026("chih", { modelo: 1990, momento: "abril" }).total, 1609);
+  assert.strictEqual(A.pagoTenencia2026("chih", { modelo: 1995, momento: "febrero" }).total, 1507);
+  assert.strictEqual(A.pagoTenencia2026("chih", { modelo: 1996, momento: "febrero" }).total, 1660);
+  assert.strictEqual(A.pagoTenencia2026("chih", { modelo: "2010", momento: "abril" }).total, 2119);
+  assert.strictEqual(A.pagoTenencia2026("chih", { modelo: 2011, momento: "abril" }).total, 2272);
+  assert.strictEqual(A.pagoTenencia2026("chih", { modelo: 2021, momento: "abril" }).total, 2529);
+  r = A.pagoTenencia2026("chih", { modelo: 2005, momento: "tarde", aniosAtrasados: 1 });
+  assert.strictEqual(r.descuento, 0); assert.strictEqual(r.recargos, true); assert.strictEqual(r.total, 2749 * 2);
+  // Sin modelo: la tarifa de los más nuevos. Enero no tiene precio propio en Chihuahua.
+  assert.strictEqual(A.pagoTenencia2026("chih", { momento: "febrero" }).total, 2325);
+  assert.strictEqual(A.pagoTenencia2026("chih", { momento: "enero" }).descuento, 0);
+  // Moto: sin dato.
+  assert.strictEqual(A.pagoTenencia2026("chih", { tipo: "moto" }).sinRefrendo, true);
+  // Nuevo León sigue igual con la regla por mes: en febrero no hay precio propio.
+  assert.strictEqual(A.pagoTenencia2026("nl", { modelo: 2020, momento: "febrero" }).total, 3960);
+  // Guerrero: tenencia que escribe la persona, con 10/8/5% por mes; sin refrendo confirmado.
+  r = A.pagoTenencia2026("gro", { momento: "enero", montoTenencia: 3000 });
+  assert.strictEqual(r.subsidio, "sinSubsidio"); assert.strictEqual(r.pagasTenencia, true); assert.strictEqual(r.sinRefrendo, true);
+  assert.strictEqual(r.descuentoTenencia, 300); assert.strictEqual(r.tenenciaNeta, 2700); assert.strictEqual(r.total, 2700);
+  assert.strictEqual(r.descuento, 0, "el descuento no se aplica al refrendo");
+  assert.strictEqual(A.pagoTenencia2026("gro", { momento: "febrero", montoTenencia: 3000 }).total, 2760);
+  assert.strictEqual(A.pagoTenencia2026("gro", { momento: "marzo", montoTenencia: 3000 }).total, 2850);
+  r = A.pagoTenencia2026("gro", { momento: "tarde", montoTenencia: 3000 });
+  assert.strictEqual(r.descuentoTenencia, 0); assert.strictEqual(r.total, 3000); assert.strictEqual(r.recargos, true);
+  assert.strictEqual(A.pagoTenencia2026("gro", {}).total, 0);
+  // La tenencia escrita solo cuenta donde se paga completa.
+  assert.strictEqual(A.pagoTenencia2026("pue", { montoTenencia: 5000 }).total, 700);
+  assert.strictEqual(A.pagoTenencia2026("mex", { valor: 900000, montoTenencia: 5000 }).tenencia, 0);
+  for (const e of [{ modelo: "x", momento: "febrero" }, { modelo: -5, aniosAtrasados: "abc", momento: "zzz", montoTenencia: "x" }, { modelo: 1e30, aniosAtrasados: 1e9, montoTenencia: 1e30 }, { tipo: "barco", modelo: Infinity, montoTenencia: -3 }]) {
+    for (const c of ["oax", "chih", "gro"]) finito(A.pagoTenencia2026(c, e), c + " " + JSON.stringify(e));
+  }
+  assert.strictEqual(A.pagoTenencia2026("gro", { montoTenencia: 1e30 }).recortado, true);
 });
 
 prueba("subsidio y total a pagar", () => {

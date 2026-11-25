@@ -541,6 +541,87 @@ prueba("Oaxaca, Chihuahua y Guerrero: total a pagar", () => {
   assert.strictEqual(A.pagoTenencia2026("gro", { montoTenencia: 1e30 }).recortado, true);
 });
 
+prueba("cifras 2026 de Baja California, Tamaulipas y Coahuila", () => {
+  const bc = A.paginaTenencia("bc"), tamps = A.paginaTenencia("tamps"), coah = A.paginaTenencia("coah");
+  for (const c of ["bc", "tamps", "coah"]) assert.ok(A.tenenciaEstado(c).fuente.length > 20, c + ": fuente");
+  // Baja California: tenencia solo a vehículos de mayor valor (tope disputado); refrendo de $1,167 para autos y motos.
+  assert.strictEqual(A.tenenciaEstado("bc").tenencia, "algunos");
+  assert.strictEqual(A.tenenciaEstado("bc").corto, "Solo a algunos autos");
+  assert.ok(A.tenenciaEstado("bc").detalle.startsWith("Baja California cobra tenencia solo"));
+  assert.strictEqual(A.tenenciaEstado("bc").dominio, "refrendo.bajacalifornia.gob.mx");
+  assert.deepStrictEqual(bc.refrendo, { auto: 1167, moto: 1167 });
+  assert.strictEqual(bc.tope, null); assert.strictEqual(bc.soloPorValor, true);
+  assert.deepStrictEqual(bc.descuentosPorMes, { enero: 12, febrero: 8.5, marzo: 5 });
+  assert.deepStrictEqual(bc.plazosPorModelo.map(x => x.plazo), ["2026-06-30", "2026-03-31"]);
+  assert.strictEqual(bc.regularizarHasta, "2026-12-30");
+  assert.strictEqual(new Date(2026, 5, 30).getDay(), 2, "30 de junio de 2026 es martes");
+  assert.strictEqual(new Date(2026, 11, 30).getDay(), 3, "30 de diciembre de 2026 es miércoles");
+  // Tamaulipas: sin tenencia; 20 UMA = $2,346; 30% para quien está al corriente hasta el 31 de diciembre.
+  assert.strictEqual(A.tenenciaEstado("tamps").tenencia, "no");
+  assert.ok(A.tenenciaEstado("tamps").detalle.startsWith("Tamaulipas no cobra tenencia en 2026"));
+  assert.strictEqual(A.tenenciaEstado("tamps").portal, "pago");
+  assert.strictEqual(A.tenenciaEstado("tamps").dominio, "finanzas.tamaulipas.gob.mx");
+  assert.strictEqual(Math.round(20 * 117.31), tamps.refrendo.auto, "20 UMA de 2026");
+  assert.strictEqual(tamps.refrendo.moto, null);
+  assert.deepStrictEqual(tamps.descuentoCumplido, { porcentaje: 30, hasta: "2026-12-31" });
+  assert.strictEqual(tamps.plazoEstimado, true);
+  assert.deepStrictEqual(tamps.cuotasRegularizacion, [{ hasta: 2011, monto: 3990 }, { hasta: 2017, monto: 5990 }]);
+  // Coahuila: sin tenencia; $2,441 + $549 (22.5%) + $10 + $75 = $3,075; plazo al 31 de marzo.
+  assert.strictEqual(A.tenenciaEstado("coah").tenencia, "no");
+  assert.ok(A.tenenciaEstado("coah").detalle.startsWith("Coahuila no cobra tenencia en 2026"));
+  assert.deepStrictEqual(coah.refrendo, { auto: 2441, moto: 2441 });
+  assert.strictEqual(Math.round(2441 * 0.225), 549, "22.5% de $2,441");
+  assert.strictEqual(coah.refrendo.auto + coah.extras.reduce((s, x) => s + x.monto, 0), 3075);
+  assert.strictEqual(coah.plazo, "2026-03-31"); assert.strictEqual(coah.regularizarHasta, "2026-11-30");
+  // Las páginas muestran las cifras.
+  const html = s => fs.readFileSync(path.join(__dirname, "..", "auto", "tenencia", s, "index.html"), "utf8");
+  for (const m of ["$1,167", "$1,027", "$1,068", "$1,109", "12%", "8.5%", "31 de marzo", "30 de junio", "$685,000", "$500,000", "30 de diciembre"]) assert.ok(html("baja-california").includes(m), "Baja California: " + m);
+  for (const m of ["$2,346", "$1,642", "30%", "31 de diciembre", "$3,990", "$5,990", "$870"]) assert.ok(html("tamaulipas").includes(m), "Tamaulipas: " + m);
+  for (const m of ["$2,441", "$549", "$3,075", "$3,076", "31 de marzo", "30 de noviembre"]) assert.ok(html("coahuila").includes(m), "Coahuila: " + m);
+});
+
+prueba("Baja California, Tamaulipas y Coahuila: total a pagar", () => {
+  // Baja California: descuento por mes sobre $1,167; sin tenencia salvo que sea de alto valor.
+  let r = A.pagoTenencia2026("bc", { modelo: 2020, momento: "enero" });
+  assert.strictEqual(r.subsidio, "completo"); assert.strictEqual(r.pagasTenencia, false);
+  assert.strictEqual(r.descuento, 140.04); cerca(r.total, 1026.96, "enero 12%");
+  cerca(A.pagoTenencia2026("bc", { momento: "febrero" }).total, 1067.81, "febrero 8.5%");
+  cerca(A.pagoTenencia2026("bc", { tipo: "moto", momento: "marzo" }).total, 1108.65, "moto en marzo 5%");
+  // Plazo según el modelo: de abril a junio solo es a tiempo para los 2016 y anteriores.
+  r = A.pagoTenencia2026("bc", { modelo: 2016, momento: "abrilJunio" });
+  assert.strictEqual(r.plazo, "2026-06-30"); assert.strictEqual(r.recargos, false); assert.strictEqual(r.total, 1167);
+  r = A.pagoTenencia2026("bc", { modelo: 2017, momento: "abrilJunio" });
+  assert.strictEqual(r.plazo, "2026-03-31"); assert.strictEqual(r.recargos, true);
+  assert.strictEqual(A.pagoTenencia2026("bc", { momento: "abrilJunio" }).recargos, true, "sin modelo: plazo de los más nuevos");
+  assert.strictEqual(A.pagoTenencia2026("bc", { modelo: 2010, momento: "tarde" }).recargos, true);
+  // Alto valor: paga tenencia (monto en el portal), además del refrendo.
+  r = A.pagoTenencia2026("bc", { modelo: 2025, momento: "enero", altoValor: true });
+  assert.strictEqual(r.subsidio, "no"); assert.deepStrictEqual(r.motivos, ["valor"]); assert.strictEqual(r.pagasTenencia, true);
+  cerca(r.total, 1026.96, "la tenencia no se suma: la da el portal");
+  // Tamaulipas: 30% si estás al corriente; con adeudos, sin descuento.
+  r = A.pagoTenencia2026("tamps", {});
+  assert.strictEqual(r.subsidio, "noAplica"); assert.strictEqual(r.descuento, 703.8); cerca(r.total, 1642.2, "30% de $2,346");
+  r = A.pagoTenencia2026("tamps", { alCorriente: false });
+  assert.strictEqual(r.descuento, 0); assert.strictEqual(r.sinDescuentoPorAdeudo, true); assert.strictEqual(r.total, 2346);
+  r = A.pagoTenencia2026("tamps", { aniosAtrasados: 2 });
+  assert.strictEqual(r.descuento, 0); assert.strictEqual(r.total, 2346 * 3);
+  r = A.pagoTenencia2026("tamps", { momento: "tarde" });
+  assert.strictEqual(r.descuento, 0); assert.strictEqual(r.sinDescuentoPorAdeudo, false); assert.strictEqual(r.total, 2346);
+  assert.strictEqual(A.pagoTenencia2026("tamps", { tipo: "moto" }).sinRefrendo, true);
+  // El descuento para cumplidos no se cuela en otros estados.
+  assert.strictEqual(A.pagoTenencia2026("pue", {}).descuento, 0);
+  assert.strictEqual(A.pagoTenencia2026("nl", { modelo: 2020 }).total, 3960);
+  // Coahuila: $2,441 + $634 = $3,075, igual para motos; atrasados al costo de 2026.
+  r = A.pagoTenencia2026("coah", {});
+  assert.strictEqual(r.subsidio, "noAplica"); assert.strictEqual(r.extras, 634); assert.strictEqual(r.total, 3075);
+  assert.strictEqual(A.pagoTenencia2026("coah", { tipo: "moto" }).total, 3075);
+  r = A.pagoTenencia2026("coah", { momento: "tarde", aniosAtrasados: 1 });
+  assert.strictEqual(r.recargos, true); assert.strictEqual(r.descuento, 0); assert.strictEqual(r.total, 6150);
+  for (const e of [{ modelo: "x", momento: "abrilJunio" }, { modelo: -5, aniosAtrasados: "abc", momento: "zzz", altoValor: "si" }, { modelo: 1e30, aniosAtrasados: 1e9 }, { tipo: "barco", modelo: Infinity }]) {
+    for (const c of ["bc", "tamps", "coah"]) finito(A.pagoTenencia2026(c, e), c + " " + JSON.stringify(e));
+  }
+});
+
 prueba("subsidio y total a pagar", () => {
   // Edomex, auto de $350,000 con placas 2021, al corriente y a tiempo: subsidio completo, paga $990.
   let r = A.pagoTenencia2026("mex", { valor: 350000, anioPlacas: 2021 });

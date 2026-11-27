@@ -267,7 +267,7 @@ prueba("datos de tenencia por estado", () => {
   // Guanajuato volvió a cobrar tenencia en 2025 a los autos de mayor valor.
   assert.strictEqual(A.tenenciaEstado("gto").tenencia, "algunos");
   assert.strictEqual(A.tenenciaEstado("gto").corto, "Solo a algunos autos");
-  assert.strictEqual(A.tenenciaEstado("hgo").tenencia, "revisar");
+  assert.strictEqual(A.tenenciaEstado("yuc").tenencia, "revisar");
   for (const c of ["ver", "pue"]) assert.strictEqual(A.tenenciaEstado(c).tenencia, "si", c);
   assert.ok(A.tenenciaEstado("ver").detalle.startsWith("Veracruz sí cobra tenencia en 2026"));
   assert.ok(A.tenenciaEstado("ver").detalle.includes("31 de marzo de 2026"));
@@ -279,7 +279,7 @@ prueba("datos de tenencia por estado", () => {
   assert.ok(A.tenenciaEstado("mex").detalle.includes("6 de abril de 2026"));
   assert.ok(A.tenenciaEstado("jal").detalle.startsWith("Jalisco no cobra tenencia en 2026"));
   assert.ok(A.tenenciaEstado("chih").detalle.startsWith("Chihuahua no cobra tenencia desde 2011"));
-  assert.ok(A.tenenciaEstado("hgo").detalle.startsWith("No revisamos a fondo si Hidalgo cobra tenencia en 2026"));
+  assert.ok(A.tenenciaEstado("yuc").detalle.startsWith("No revisamos a fondo si Yucatán cobra tenencia en 2026"));
   assert.strictEqual(A.tenenciaEstado("xx"), null);
   assert.strictEqual(A.tenenciaEstado(""), null);
   // Orden por el nombre que se ve: "Estado de México" va en la E, entre Durango y Guanajuato.
@@ -309,7 +309,7 @@ prueba("cifras 2026 de Edomex, CDMX y Jalisco", () => {
   assert.strictEqual(jal.plazo, "2026-03-31");
   assert.strictEqual(new Date(2026, 2, 31).getDay(), 2, "31 de marzo de 2026 es martes (día hábil)");
   assert.strictEqual(new Date(2026, 3, 6).getDay(), 1, "6 de abril de 2026 es lunes");
-  assert.strictEqual(A.paginaTenencia("hgo"), null, "Hidalgo todavía no tiene página");
+  assert.strictEqual(A.paginaTenencia("zac"), null, "Zacatecas todavía no tiene página");
   assert.strictEqual(new Date(2026, 3, 30).getDay(), 4, "30 de abril de 2026 es jueves");
   assert.strictEqual(new Date(2026, 3, 9).getDay(), 4, "9 de abril de 2026 es jueves");
   // Cada página por estado coincide con las cifras de auto.js.
@@ -619,6 +619,105 @@ prueba("Baja California, Tamaulipas y Coahuila: total a pagar", () => {
   assert.strictEqual(r.recargos, true); assert.strictEqual(r.descuento, 0); assert.strictEqual(r.total, 6150);
   for (const e of [{ modelo: "x", momento: "abrilJunio" }, { modelo: -5, aniosAtrasados: "abc", momento: "zzz", altoValor: "si" }, { modelo: 1e30, aniosAtrasados: 1e9 }, { tipo: "barco", modelo: Infinity }]) {
     for (const c of ["bc", "tamps", "coah"]) finito(A.pagoTenencia2026(c, e), c + " " + JSON.stringify(e));
+  }
+});
+
+prueba("cifras 2026 de Hidalgo, Sinaloa y Sonora", () => {
+  const hgo = A.paginaTenencia("hgo"), sin = A.paginaTenencia("sin"), son = A.paginaTenencia("son");
+  for (const c of ["hgo", "sin", "son"]) assert.ok(A.tenenciaEstado(c).fuente.length > 20, c + ": fuente");
+  for (const c of ["hgo", "sin", "son"]) assert.strictEqual(A.tenenciaEstado(c).portal, "pago", c);
+  // Hidalgo: tenencia con exención (Circula Seguro) hasta el 30 de junio; refrendo $1,177, $1,050 con verificación, $821 motos.
+  assert.strictEqual(A.tenenciaEstado("hgo").tenencia, "si");
+  assert.ok(A.tenenciaEstado("hgo").detalle.startsWith("Hidalgo sí cobra tenencia"));
+  assert.ok(A.tenenciaEstado("hgo").detalle.includes("30 de junio de 2026"));
+  assert.strictEqual(A.tenenciaEstado("hgo").dominio, "portaltributario.hidalgo.gob.mx");
+  assert.deepStrictEqual(hgo.refrendo, { auto: 1177, moto: 821 });
+  assert.deepStrictEqual(hgo.precioVerificado, { auto: 1050 });
+  assert.deepStrictEqual(hgo.precioTarde, { auto: 1220, moto: 852 }); assert.strictEqual(hgo.precioTardeEstimado, true);
+  assert.strictEqual(Math.round(10.4 * 117.31), 1220, "10.4 UMA de 2026");
+  assert.strictEqual(Math.round(7.26 * 117.31), 852, "7.26 UMA de 2026");
+  assert.strictEqual(hgo.tope, null); assert.strictEqual(hgo.exentoHasta, 200000);
+  assert.strictEqual(hgo.plazo, "2026-06-30");
+  assert.deepStrictEqual(hgo.placasConAdeudo, { auto: 1177, moto: 821 });
+  // Sinaloa: sin tenencia; calcomanía estimada en $2,065 y $774 (16 y 6 UMA más 10%); 55% y 33% a modelos 2011 o anteriores.
+  assert.strictEqual(A.tenenciaEstado("sin").tenencia, "no");
+  assert.ok(A.tenenciaEstado("sin").detalle.startsWith("Sinaloa no cobra tenencia en 2026"));
+  assert.strictEqual(A.tenenciaEstado("sin").dominio, "ciudadano.sinaloa.gob.mx");
+  assert.deepStrictEqual(sin.refrendo, { auto: 2065, moto: 774 }); assert.strictEqual(sin.refrendoEstimado, true);
+  assert.strictEqual(Math.round(16 * 117.31 * 1.1), 2065, "16 UMA más 10%");
+  assert.strictEqual(Math.round(6 * 117.31 * 1.1), 774, "6 UMA más 10%");
+  assert.deepStrictEqual(sin.descuentoPorModelo, { hasta: 2011, auto: 55, moto: 33 });
+  assert.strictEqual(sin.plazo, "2026-04-15"); assert.strictEqual(sin.plazoOriginal, "2026-03-31");
+  assert.strictEqual(new Date(2026, 3, 15).getDay(), 3, "15 de abril de 2026 es miércoles");
+  assert.deepStrictEqual(sin.cuotaRegularizacion, { monto: 6000, hastaModelo: 2018, adeudoMaximo: 40000 });
+  // Sonora: sin tenencia; revalidación $1,909 con precios publicados por mes y forma de pago; solo los últimos 5 años.
+  assert.strictEqual(A.tenenciaEstado("son").tenencia, "no");
+  assert.ok(A.tenenciaEstado("son").detalle.startsWith("Sonora no cobra tenencia en 2026"));
+  assert.strictEqual(A.tenenciaEstado("son").dominio, "hacienda.sonora.gob.mx");
+  assert.deepStrictEqual(son.refrendo, { auto: 1909, moto: 928 });
+  assert.deepStrictEqual(son.preciosPorMomento.auto, { eneroLinea: 1749, eneroVentanilla: 1858, febreroLinea: 1803, febreroVentanilla: 1856, marzoLinea: 1856 });
+  assert.strictEqual(son.plazo, "2026-03-31"); assert.strictEqual(son.maxAtrasados, 5); assert.strictEqual(son.regularizarHasta, "2026-12-31");
+  assert.strictEqual(new Date(2026, 11, 31).getDay(), 4, "31 de diciembre de 2026 es jueves");
+  // Las páginas muestran las cifras.
+  const html = s => fs.readFileSync(path.join(__dirname, "..", "auto", "tenencia", s, "index.html"), "utf8");
+  for (const m of ["$1,177", "$1,050", "$821", "$1,220", "$852", "$200,000", "$588", "30 de junio", "Circula Seguro", "estimado"]) assert.ok(html("hidalgo").includes(m), "Hidalgo: " + m);
+  for (const m of ["$2,065", "$774", "$929", "$519", "55%", "33%", "15 de abril", "$6,000", "$1,529", "$2,098", "estimado"]) assert.ok(html("sinaloa").includes(m), "Sinaloa: " + m);
+  for (const m of ["$1,909", "$1,749", "$1,858", "$1,803", "$1,856", "$928", "$1,914", "$2,233", "31 de marzo", "31 de diciembre", "estimado"]) assert.ok(html("sonora").includes(m), "Sonora: " + m);
+});
+
+prueba("Hidalgo, Sinaloa y Sonora: total a pagar", () => {
+  // Hidalgo: a tiempo, exento de tenencia sin importar el valor; $1,050 con verificación y $1,177 sin ella.
+  let r = A.pagoTenencia2026("hgo", { valor: 900000 });
+  assert.strictEqual(r.subsidio, "completo"); assert.strictEqual(r.pagasTenencia, false); assert.strictEqual(r.total, 1050);
+  assert.strictEqual(A.pagoTenencia2026("hgo", { verificado: false }).total, 1177);
+  assert.strictEqual(A.pagoTenencia2026("hgo", { tipo: "moto" }).total, 821, "motos: mismo precio con o sin verificación");
+  // Después del 30 de junio: precio estimado de julio; tenencia solo si la factura pasa de $200,000 sin IVA.
+  r = A.pagoTenencia2026("hgo", { momento: "tarde" });
+  assert.strictEqual(r.refrendo, 1220); assert.strictEqual(r.recargos, true); assert.strictEqual(r.subsidio, "faltaValor");
+  r = A.pagoTenencia2026("hgo", { momento: "tarde", valor: 180000 });
+  assert.strictEqual(r.subsidio, "completo"); assert.strictEqual(r.exentoPorValor, true); assert.strictEqual(r.pagasTenencia, false);
+  r = A.pagoTenencia2026("hgo", { momento: "tarde", valor: 200000 });
+  assert.strictEqual(r.exentoPorValor, true, "justo en $200,000 no causa");
+  r = A.pagoTenencia2026("hgo", { momento: "tarde", valor: 350000, tipo: "moto" });
+  assert.strictEqual(r.subsidio, "no"); assert.deepStrictEqual(r.motivos, ["plazo"]); assert.strictEqual(r.pagasTenencia, true); assert.strictEqual(r.total, 852);
+  // Con adeudos: se suma el canje de placas y se pierde la exención (salvo que la factura no cause tenencia).
+  r = A.pagoTenencia2026("hgo", { aniosAtrasados: 2, valor: 300000 });
+  assert.strictEqual(r.canjePlacas, 1177); assert.strictEqual(r.adeudoEstimado, 2100); assert.strictEqual(r.total, 1050 + 2100 + 1177);
+  assert.strictEqual(r.subsidio, "no"); assert.deepStrictEqual(r.motivos, ["adeudos"]);
+  assert.strictEqual(A.pagoTenencia2026("hgo", { alCorriente: false, tipo: "moto", valor: 50000 }).canjePlacas, 821);
+  assert.strictEqual(A.pagoTenencia2026("hgo", {}).canjePlacas, 0);
+  // El canje y los precios nuevos no se cuelan en otros estados.
+  assert.strictEqual(A.pagoTenencia2026("mex", { valor: 350000, anioPlacas: 2021, aniosAtrasados: 1 }).canjePlacas, 0);
+  assert.strictEqual(A.pagoTenencia2026("ver", { verificado: true }).refrendo, 1239);
+  assert.strictEqual(A.pagoTenencia2026("cdmx", { momento: "tarde", valor: 100000 }).subsidio, "no");
+  // Sinaloa: descuento solo a modelos 2011 o anteriores y solo a tiempo.
+  r = A.pagoTenencia2026("sin", { modelo: 2018 });
+  assert.strictEqual(r.subsidio, "noAplica"); assert.strictEqual(r.descuento, 0); assert.strictEqual(r.total, 2065);
+  r = A.pagoTenencia2026("sin", { modelo: 2011 });
+  assert.strictEqual(r.descuento, 1135.75); cerca(r.total, 929.25, "55% de $2,065");
+  cerca(A.pagoTenencia2026("sin", { modelo: 2005, tipo: "moto" }).total, 518.58, "33% de $774");
+  assert.strictEqual(A.pagoTenencia2026("sin", { modelo: 2012 }).descuento, 0);
+  assert.strictEqual(A.pagoTenencia2026("sin", {}).descuento, 0, "sin modelo, sin descuento");
+  r = A.pagoTenencia2026("sin", { modelo: 2005, momento: "tarde", aniosAtrasados: 1 });
+  assert.strictEqual(r.descuento, 0); assert.strictEqual(r.recargos, true); assert.strictEqual(r.total, 4130);
+  // Sonora: precio publicado por mes y forma de pago; los atrasados cuentan hasta 5 años.
+  assert.strictEqual(A.pagoTenencia2026("son", {}).total, 1909);
+  r = A.pagoTenencia2026("son", { momento: "eneroLinea" });
+  assert.strictEqual(r.subsidio, "noAplica"); assert.strictEqual(r.descuento, 160); assert.strictEqual(r.total, 1749);
+  assert.strictEqual(A.pagoTenencia2026("son", { momento: "eneroVentanilla" }).total, 1858);
+  assert.strictEqual(A.pagoTenencia2026("son", { momento: "febreroLinea" }).total, 1803);
+  assert.strictEqual(A.pagoTenencia2026("son", { momento: "febreroVentanilla" }).total, 1856);
+  assert.strictEqual(A.pagoTenencia2026("son", { momento: "marzoLinea" }).total, 1856);
+  assert.strictEqual(A.pagoTenencia2026("son", { tipo: "moto", momento: "eneroLinea" }).total, 928, "motos sin precio con descuento");
+  r = A.pagoTenencia2026("son", { momento: "tarde", aniosAtrasados: 8 });
+  assert.strictEqual(r.recargos, true); assert.strictEqual(r.atrasados, 8); assert.strictEqual(r.aniosACobrar, 5);
+  assert.strictEqual(r.adeudoEstimado, 5 * 1909); assert.strictEqual(r.total, 6 * 1909);
+  assert.strictEqual(A.pagoTenencia2026("son", { aniosAtrasados: 3 }).adeudoEstimado, 3 * 1909);
+  // El tope de años no se cuela en otros estados.
+  assert.strictEqual(A.pagoTenencia2026("coah", { aniosAtrasados: 8 }).adeudoEstimado, 8 * 3075);
+  assert.strictEqual(A.pagoTenencia2026("chih", { modelo: 2020, momento: "eneroLinea" }).descuento, 0);
+  for (const e of [{ modelo: "x", momento: "eneroLinea" }, { modelo: -5, aniosAtrasados: "abc", momento: "zzz", valor: "abc", verificado: "no" }, { modelo: 1e30, aniosAtrasados: 1e9, valor: 1e30 }, { tipo: "barco", modelo: Infinity, momento: "tarde", valor: -1 }, { momento: "hasOwnProperty" }, { tipo: "__proto__", momento: "constructor" }]) {
+    for (const c of ["hgo", "sin", "son"]) finito(A.pagoTenencia2026(c, e), c + " " + JSON.stringify(e));
   }
 });
 

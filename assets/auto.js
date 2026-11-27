@@ -204,9 +204,9 @@
   //           "algunos" = la cobra solo a algunos autos (los de mayor valor);
   //           "no" = no cobra tenencia, solo el pago anual de placas (refrendo, control vehicular o revalidación);
   //           "revisar" = no lo revisamos a fondo para 2026.
-  // Solo 15 estados tienen dato propio (TENENCIA_2026, abajo), revisado el 20 oct 2026 (Veracruz y Puebla, el
+  // Solo 18 estados tienen dato propio (TENENCIA_2026, abajo), revisado el 20 oct 2026 (Veracruz y Puebla, el
   // 18 nov 2026; Nuevo León, Chiapas y Michoacán, el 20 nov 2026; Oaxaca, Chihuahua y Guerrero, el 23 nov 2026;
-  // Baja California, Tamaulipas y Coahuila, el 25 nov 2026) con al menos 2 fuentes.
+  // Baja California, Tamaulipas y Coahuila, el 25 nov 2026; Hidalgo, Sinaloa y Sonora, el 27 nov 2026) con al menos 2 fuentes.
   // corto: título propio del resultado cuando el de su categoría no le queda (Guerrero cobra tenencia sin subsidio).
   // Ninguno se pudo cotejar abriendo el portal oficial (403 desde nuestra red): queda pendiente.
   // portal: "pago" = página oficial de pago o consulta de adeudo vehicular; "finanzas" = secretaría de finanzas
@@ -232,7 +232,8 @@
     { clave: "gro", nombre: "Guerrero", tenencia: "si", portal: "pago", url: "https://esefina.ingresos-guerrero.gob.mx/Tenencia/ModuloExterno/",
       corto: "Sí, con descuento por pronto pago",
       textoPortal: "Módulo de pago de tenencia de la Secretaría de Finanzas y Administración de Guerrero: escribe tu placa para ver cuánto debes." },
-    { clave: "hgo", nombre: "Hidalgo", tenencia: "revisar", portal: "finanzas", url: "https://portaltributario.hidalgo.gob.mx/" },
+    { clave: "hgo", nombre: "Hidalgo", tenencia: "si", portal: "pago", url: "https://portaltributario.hidalgo.gob.mx/",
+      textoPortal: "Portal Tributario de Hidalgo: entra a Refrendo Vehicular 2026 y escribe tu placa y los últimos cinco dígitos de tu número de serie." },
     { clave: "jal", nombre: "Jalisco", tenencia: "no", portal: "pago", url: "https://refrendo.jalisco.gob.mx/" },
     { clave: "mex", nombre: "Estado de México", tenencia: "si", portal: "pago", url: "https://tenencia.edomex.gob.mx/" },
     { clave: "mich", nombre: "Michoacán", tenencia: "no", portal: "pago", url: "https://refrendodigital.michoacan.gob.mx/" },
@@ -246,8 +247,10 @@
     { clave: "qro", nombre: "Querétaro", tenencia: "revisar", portal: "pago", url: "https://tenencia.queretaro.gob.mx/" },
     { clave: "qroo", nombre: "Quintana Roo", tenencia: "revisar", portal: "finanzas", url: "https://satq.qroo.gob.mx/" },
     { clave: "slp", nombre: "San Luis Potosí", tenencia: "revisar", portal: "pago", url: "https://enlacesipel.slp.gob.mx/ControlVehicular_Liquidacion" },
-    { clave: "sin", nombre: "Sinaloa", tenencia: "revisar", portal: "finanzas", url: "https://portalfiscal.sinaloa.gob.mx/" },
-    { clave: "son", nombre: "Sonora", tenencia: "revisar", portal: "finanzas", url: "https://hacienda.sonora.gob.mx/revalidacion-placas" },
+    { clave: "sin", nombre: "Sinaloa", tenencia: "no", portal: "pago", url: "https://ciudadano.sinaloa.gob.mx/",
+      textoPortal: "Ciudadano Digital, portal de pagos del Gobierno de Sinaloa: entra a Contribuciones Vehiculares y escribe tu placa para ver cuánto debes." },
+    { clave: "son", nombre: "Sonora", tenencia: "no", portal: "pago", url: "https://hacienda.sonora.gob.mx/revalidacion-placas",
+      textoPortal: "Revalidación de placas de la Secretaría de Hacienda de Sonora: escribe tu placa para ver cuánto debes." },
     { clave: "tab", nombre: "Tabasco", tenencia: "revisar", portal: "finanzas", url: "https://tabasco.gob.mx/finanzas" },
     { clave: "tamps", nombre: "Tamaulipas", tenencia: "no", portal: "pago", url: "https://finanzas.tamaulipas.gob.mx/pago-de-contribuciones/control-vehicular/iniciar-tramite.php",
       textoPortal: "Pago de derechos de control vehicular de la Secretaría de Finanzas de Tamaulipas: escribe tu placa y tu número de serie para ver cuánto debes." },
@@ -364,6 +367,27 @@
       detalle: "Coahuila no cobra tenencia en 2026. Lo que pagas cada año es el control vehicular, más los impuestos y aportaciones que se suman en el mismo pago.",
       fuente: "Posta (24 de abril de 2026) y Todo Sobre Autos (Ley de Hacienda de Coahuila, 2026); control vehicular: Vanguardia y Uno TV (enero de 2026)."
     },
+    // Hidalgo cobra tenencia, pero con el programa Circula Seguro quedó exento de la de 2026 quien estaba al corriente y
+    // pagó el refrendo del 2 de enero al 30 de junio (Portal Tributario de Hidalgo, página de tenencia y refrendo 2026,
+    // abierta el 27 nov 2026; Criterio Hidalgo, 8 ene 2026; Todo Sobre Autos). Además, desde la factura de menos de $200,000
+    // (subtotal, sin IVA) ya no se causa tenencia, y arriba de eso solo se paga sobre lo que excede (Portal Tributario;
+    // Todo Sobre Autos, arts. 37 y 41 de la Ley de Hacienda).
+    hgo: {
+      detalle: "Hidalgo sí cobra tenencia, pero en 2026 quedó exento de ella quien estaba al corriente y pagó el refrendo a más tardar el 30 de junio de 2026 (programa Circula Seguro). Además, los autos con factura de menos de $200,000 sin IVA ya no pagan tenencia. Si se te pasó la fecha, revisa en el portal cuánto debes.",
+      fuente: "Portal Tributario del Gobierno de Hidalgo (tenencia y refrendo 2026), Criterio Hidalgo (8 de enero y 1 de julio de 2026) y Todo Sobre Autos (2026)."
+    },
+    // Sinaloa no cobra tenencia estatal en 2026: la Ley de Hacienda solo la conserva para adeudos (Todo Sobre Autos, 2026;
+    // TramitaSeguro, 2026; calcu.mx). Récord (ene 2026) pone a Sinaloa en las dos listas: no lo usamos.
+    sin: {
+      detalle: "Sinaloa no cobra tenencia en 2026. Lo que pagas cada año es la calcomanía vehicular (el refrendo de tus placas), con 55% de descuento para autos modelo 2011 o anteriores si pagas a tiempo.",
+      fuente: "Todo Sobre Autos (2026), TramitaSeguro (2026) y calcu.mx; descuento de 55%: adn40, Luz Noticias y Noro (2026)."
+    },
+    // Sonora no cobra tenencia estatal: los artículos del impuesto en su Ley de Hacienda están derogados (Todo Sobre Autos,
+    // 2026, arts. 212-A a 212-G 11). Récord (ene 2026) lo pone entre los estados sin tenencia.
+    son: {
+      detalle: "Sonora no cobra tenencia en 2026. Lo que pagas cada año es la revalidación de tus placas, con descuento si pagas de enero a marzo, sobre todo en línea.",
+      fuente: "Todo Sobre Autos (Ley de Hacienda de Sonora, 2026) y Récord (enero de 2026); revalidación 2026: N+ y El Imparcial (enero de 2026)."
+    },
     mich: {
       detalle: "Michoacán no cobra tenencia en 2026. Lo que pagas cada año es el refrendo de tus placas, con 10% de descuento si pagas en enero.",
       fuente: "Todo Sobre Autos (2026), Récord (enero de 2026) y TramitaSeguro (2026); refrendo 2026: Tus Buenas Noticias y adn40."
@@ -413,8 +437,9 @@
   // página copiando la de un estado parecido y quítale el "próximamente" en auto/tenencia/index.html.
   // Revisado el 16 de noviembre de 2026 (Veracruz, Puebla y Guanajuato, el 18 de noviembre; Nuevo León, Chiapas y
   // Michoacán, el 20 de noviembre; Oaxaca, Chihuahua y Guerrero, el 23 de noviembre; Baja California, Tamaulipas y Coahuila,
-  // el 25 de noviembre). Ningún portal oficial dio las cifras (403 desde nuestra red, o se abrió sin montos): cada cifra
-  // se confirmó con al menos 2 fuentes secundarias y queda pendiente de cotejar en el portal del estado.
+  // el 25 de noviembre; Hidalgo, Sinaloa y Sonora, el 27 de noviembre). Casi ningún portal oficial dio las cifras (403 desde
+  // nuestra red, o se abrió sin montos): cada cifra se confirmó con al menos 2 fuentes secundarias y queda pendiente de
+  // cotejar en el portal del estado. La excepción es Hidalgo: su Portal Tributario se abrió el 27 nov 2026 con los montos.
   // refrendo: lo que cuesta el pago anual de placas y tarjeta (null = no encontramos el monto).
   // tope: valor del vehículo con IVA hasta el que aplica el subsidio de 100% a la tenencia (null = no hay tenencia).
   // plazo: último día para pagar a tiempo (con subsidio o sin recargos). placas: año de las placas que da el
@@ -661,6 +686,64 @@
       // Campaña de regularización del 13 al 17 de noviembre; los formatos se pagan hasta el 30 de noviembre de 2026
       // (Posta, 14 nov 2026; Players of Life, 17 nov 2026).
       regularizarHasta: "2026-11-30"
+    },
+    hgo: {
+      slug: "hidalgo", corto: "Hidalgo", cobraTenencia: true,
+      // Refrendo 2026 con el programa Circula Seguro, del 2 de enero al 30 de junio: $1,177 autos y camionetas (sin la
+      // verificación del primer semestre), $1,050 con ella, y $821 motos y remolques. Portal Tributario de Hidalgo (abierto
+      // el 27 nov 2026), Criterio Hidalgo (8 ene 2026), Tus Buenas Noticias (6 y 19 ene 2026), Uno TV (7 ene 2026) y Todo
+      // Sobre Autos; los $1,050, también adn40 (3 mar 2026).
+      refrendo: { auto: 1177, moto: 821 },
+      precioVerificado: { auto: 1050 },
+      // Desde el 1 de julio: $1,220 autos (10.4 UMA) y $852 motos (7.26 UMA), más recargos. Solo Todo Sobre Autos (art. 33 de
+      // la Ley Estatal de Derechos): estimado. El portal dice que sus costos valen del 2 de enero al 30 de junio.
+      precioTarde: { auto: 1220, moto: 852 }, precioTardeEstimado: true,
+      // Exento de la tenencia 2026 quien estaba al corriente y pagó a tiempo (ver TENENCIA_2026.hgo), sin tope de valor.
+      tope: null,
+      // Sin el beneficio, no causa tenencia la factura de menos de $200,000 sin IVA (Portal Tributario; Todo Sobre Autos).
+      exentoHasta: 200000,
+      // Plazo del programa: martes 30 de junio de 2026 (Portal Tributario; Tus Buenas Noticias, 19 ene 2026; adn40, 3 mar
+      // 2026; Criterio Hidalgo, 1 jul 2026: terminó sin prórroga).
+      plazo: "2026-06-30",
+      // Con adeudos, además del refrendo y lo que debes, pagas el canje de placas: $1,177 autos y $821 motos (Portal Tributario).
+      placasConAdeudo: { auto: 1177, moto: 821 },
+      placas: null, extras: [], descuentoEnLinea: null
+    },
+    sin: {
+      slug: "sinaloa", corto: "Sinaloa", cobraTenencia: false,
+      // Calcomanía 2026: no encontramos el monto con dos fuentes. Todo Sobre Autos da $2,065 autos y $774 motos (16 y 6 UMA
+      // más 10%, art. 48 de la Ley de Hacienda, con la UMA de $117.31): lo usamos como estimado. Uno TV (7 ene 2026) y
+      // calcu.mx dan $1,529 y $688 (Uno TV dice que son precios de 2025); TramitaSeguro, unos $789. En 2025 fueron $2,098
+      // (Luz Noticias, 21 feb 2025) o $2,180 (Tus Buenas Noticias, 5 feb 2025).
+      refrendo: { auto: 2065, moto: 774 }, refrendoEstimado: true,
+      // Descuento a modelos 2011 y anteriores: 55% autos y 33% motos, sobre la calcomanía (adn40, 3 y 7 abr 2026; Luz
+      // Noticias, 31 mar y 15 abr 2026; Noro, 16 ene 2026; Todo Sobre Autos da 33.33% para motos).
+      descuentoPorModelo: { hasta: 2011, auto: 55, moto: 33 },
+      // Plazo del 31 de marzo ampliado al miércoles 15 de abril de 2026; desde el 16, multas y recargos (adn40, 3 abr 2026;
+      // Luz Noticias, 31 mar y 15 abr 2026; Todo Sobre Autos).
+      plazo: "2026-04-15", plazoOriginal: "2026-03-31",
+      // "Ponte al Corriente": pago único de $6,000 (calcomanía y canje de placas) para modelos 2018 y anteriores con adeudos
+      // de hasta $40,000 (Uno TV, 27 ene 2026; Noro, 16 ene 2026; adn40, 7 abr 2026; Crónica, 27 may 2026, hasta el 29 de mayo).
+      cuotaRegularizacion: { monto: 6000, hastaModelo: 2018, adeudoMaximo: 40000 },
+      tope: null, placas: null, extras: [], descuentoEnLinea: null
+    },
+    son: {
+      slug: "sonora", corto: "Sonora", cobraTenencia: false,
+      // Revalidación 2026: $1,909, 3.8% más que en 2025 (N+, 6 ene 2026, y El Imparcial, 7 ene 2026, con la Subsecretaría de
+      // Ingresos). Todo Sobre Autos da $1,914 y Uno TV (7 ene 2026), $2,233: no los usamos. Motos: $928, solo Todo Sobre
+      // Autos (estimado).
+      refrendo: { auto: 1909, moto: 928 },
+      // Precio con descuento que publicaron, en pesos (el porcentaje se aplica a una parte del pago, no a los $1,909):
+      // enero en línea 15% = $1,749 y en ventanilla 5% = $1,858 (N+, 6 ene 2026; El Imparcial, 7 ene 2026); febrero en línea
+      // 10% = $1,803 y en ventanilla 5% = $1,856 (N+, 2 feb 2026; El Imparcial). Marzo, 5% solo en línea (N+ y El Imparcial):
+      // sin monto publicado, estimamos $1,856 como el 5% de febrero. Sin descuento para motos publicado.
+      preciosPorMomento: { auto: { eneroLinea: 1749, eneroVentanilla: 1858, febreroLinea: 1803, febreroVentanilla: 1856, marzoLinea: 1856 } },
+      // Plazo: del 1 de enero al 31 de marzo de 2026 (El Imparcial, 7 ene 2026; Uno TV, 6 ene 2026; Todo Sobre Autos, art. 312).
+      plazo: "2026-03-31",
+      // Estímulo: 100% de recargos, multas y derechos de 2021 y anteriores; solo pagas los últimos cinco años, hasta el 31 de
+      // diciembre de 2026, con licencia de Sonora vigente (El Imparcial, 16 abr 2026; El Congresista, 20 may 2026).
+      maxAtrasados: 5, regularizarHasta: "2026-12-31",
+      tope: null, placas: null, extras: [], descuentoEnLinea: null
     }
   };
   // Meses en los que una tarifa por modelo puede traer su propio precio de pronto pago (Nuevo León, Chihuahua).
@@ -706,6 +789,11 @@
   // los modelos con plazo al 30 de junio. altoValor: la persona dice que su auto es de los que pagan tenencia (solo donde
   // hay tenencia por valor sin un tope confirmado, como Baja California).
   // En Tamaulipas (descuentoCumplido) el descuento se da a quien está al corriente, salvo con momento "tarde".
+  // En Hidalgo el refrendo baja con la verificación hecha (precioVerificado) y sube después del plazo (precioTarde); sin el
+  // beneficio, valor es el de la factura SIN IVA y no hay tenencia hasta exentoHasta; con adeudos se suma el canje de placas.
+  // En Sinaloa (descuentoPorModelo) el descuento depende del modelo. En Sonora (preciosPorMomento) momento puede ser
+  // "eneroLinea", "eneroVentanilla", "febreroLinea", "febreroVentanilla" o "marzoLinea", y los atrasados se cuentan hasta
+  // maxAtrasados.
   function pagoTenencia2026(clave, { tipo = "auto", valor, alCorriente = true, momento = "aTiempo", anioPlacas, aniosAtrasados = 0, verificado = true, modelo, montoTenencia, altoValor = false } = {}) {
     const p = paginaTenencia(clave);
     if (!p) return null;
@@ -722,15 +810,19 @@
     }
     // Plazo por modelo (Baja California); sin modelo, el de los más nuevos.
     const plazo = p.plazosPorModelo ? porModelo(p.plazosPorModelo).plazo : p.plazo;
+    const tarde = momento === "tarde" || (momento === "abrilJunio" && plazo < "2026-04-01");
+    // Precio después del plazo (Hidalgo) o con la verificación hecha a tiempo.
+    if (tarde && p.precioTarde && p.precioTarde[t] !== undefined) refrendo = p.precioTarde[t];
+    else if (!tarde && verificado && p.precioVerificado && p.precioVerificado[t] !== undefined) refrendo = p.precioVerificado[t];
     const sinRefrendo = refrendo === null || refrendo === undefined;
     const v = acotar(valor, MAX_VALOR);
     const at = acotar(aniosAtrasados, MAX_ATRASO);
     const atrasados = Math.floor(at.valor);
-    const tarde = momento === "tarde" || (momento === "abrilJunio" && plazo < "2026-04-01");
     let pctDescuento = 0;
     if (p.descuentosPorMes && p.descuentosPorMes[momento] !== undefined) pctDescuento = p.descuentosPorMes[momento];
     else if (p.descuentoEnLinea && momento === "descuento") pctDescuento = p.descuentoEnLinea.porcentaje;
     else if (p.descuentoCumplido && !tarde) pctDescuento = p.descuentoCumplido.porcentaje;
+    else if (p.descuentoPorModelo && !tarde && Number.isFinite(m) && m <= p.descuentoPorModelo.hasta) pctDescuento = p.descuentoPorModelo[t] || 0;
     // Donde el descuento pide estar al corriente (Chiapas), con adeudos no hay descuento.
     const sinDescuentoPorAdeudo = !!(p.descuentoPideAlCorriente && pctDescuento && (!alCorriente || atrasados > 0));
     if (sinDescuentoPorAdeudo) pctDescuento = 0;
@@ -740,10 +832,13 @@
     let descuento = pctDescuento && !sinRefrendo && !sobreTenencia ? Calc.redondear(refrendo * pctDescuento / 100) : 0;
     // Con tarifa por modelo, el precio de pronto pago de cada mes viene en pesos (no es un porcentaje parejo).
     if (tarifa && MESES_PRONTO_PAGO.includes(momento) && tarifa[momento] !== undefined) descuento = Calc.redondear(tarifa.monto - tarifa[momento]);
+    // Precio publicado por mes y forma de pago (Sonora).
+    const precios = p.preciosPorMomento && p.preciosPorMomento[t];
+    if (precios && !sinRefrendo && Object.prototype.hasOwnProperty.call(precios, momento)) descuento = Calc.redondear(refrendo - precios[momento]);
 
     // Subsidio a la tenencia: "noAplica" (el estado no cobra tenencia), "completo" (100%), "mitad" (50%),
     // "no" (lo pierdes) o "faltaValor" (falta escribir el valor). motivos: por qué no te toca completo.
-    let subsidio = "noAplica";
+    let subsidio = "noAplica", exentoPorValor = false;
     const motivos = [];
     // Sin tope (Veracruz, Puebla) no hace falta el valor. Con soloPorValor (Guanajuato) solo cuenta el valor.
     const tope = p.tope && p.tope[t] !== null && p.tope[t] !== undefined ? p.tope[t] : null;
@@ -768,22 +863,30 @@
           else if (a < p.placas.completo) pct = 50;
         }
         subsidio = motivos.length ? "no" : pct === 50 ? "mitad" : "completo";
+        // Sin el beneficio, la tenencia solo se causa arriba de un valor (Hidalgo, factura sin IVA).
+        if (subsidio === "no" && p.exentoHasta) {
+          if (v.valor === 0) subsidio = "faltaValor";
+          else if (v.valor <= p.exentoHasta) { subsidio = "completo"; exentoPorValor = true; }
+        }
       }
     }
     // Si no tienes el subsidio completo, además pagas la tenencia (o la mitad): el monto lo da el portal del estado.
     // "sinSubsidio" (Guerrero): la tenencia se paga completa, con el descuento del mes si lo hay.
     const pagasTenencia = subsidio === "no" || subsidio === "mitad" || subsidio === "sinSubsidio";
     const refrendoNeto = sinRefrendo ? 0 : refrendo - descuento;
-    const adeudoEstimado = sinRefrendo ? 0 : atrasados * (refrendo + extras);
+    const aniosACobrar = p.maxAtrasados ? Math.min(atrasados, p.maxAtrasados) : atrasados;
+    const adeudoEstimado = sinRefrendo ? 0 : aniosACobrar * (refrendo + extras);
+    // Canje de placas para quien debe años anteriores (Hidalgo).
+    const canjePlacas = p.placasConAdeudo && p.placasConAdeudo[t] !== undefined && (!alCorriente || atrasados > 0) ? p.placasConAdeudo[t] : 0;
     const mt = acotar(montoTenencia, MAX_VALOR);
     const tenencia = subsidio === "sinSubsidio" ? mt.valor : 0;
     const descuentoTenencia = sobreTenencia && pctDescuento ? Calc.redondear(tenencia * pctDescuento / 100) : 0;
     const tenenciaNeta = tenencia - descuentoTenencia;
-    const total = (sinRefrendo ? 0 : refrendoNeto + extras + adeudoEstimado) + tenenciaNeta;
+    const total = (sinRefrendo ? 0 : refrendoNeto + extras + adeudoEstimado + canjePlacas) + tenenciaNeta;
     return {
       clave, nombre: p.nombre, tipo: t, valor: v.valor, refrendo: sinRefrendo ? null : refrendo, sinRefrendo, extras, descuento,
-      refrendoNeto, subsidio, motivos, pagasTenencia, tope, plazo, sinDescuentoPorAdeudo,
-      recargos: tarde, atrasados, adeudoEstimado, tenencia, descuentoTenencia, tenenciaNeta, total,
+      refrendoNeto, subsidio, motivos, pagasTenencia, tope, plazo, sinDescuentoPorAdeudo, exentoPorValor,
+      recargos: tarde, atrasados, aniosACobrar, adeudoEstimado, canjePlacas, tenencia, descuentoTenencia, tenenciaNeta, total,
       recortado: v.recortado || at.recortado || mt.recortado
     };
   }
